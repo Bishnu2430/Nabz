@@ -1,0 +1,11 @@
+code,name_en,name_hi,name_or,mesh_ids
+blood,Blood,रक्त,ରକ୍ତ,blood_vessels|bone_marrow
+heart,Heart and blood vessels,हृदय और रक्त वाहिकाएँ,ହୃଦୟ ଓ ରକ୍ତନଳୀ,heart|aorta
+liver,Liver,यकृत (लिवर),ଯକୃତ,liver|gallbladder
+kidney,Kidneys,गुर्दे,ବୃକକ,kidney_left|kidney_right
+urinary,Urinary tract,मूत्र मार्ग,ମୂତ୍ରପଥ,bladder|ureters
+pancreas,Pancreas and blood sugar,अग्न्याशय और रक्त शर्करा,ଅଗ୍ନ୍ୟାଶୟ ଓ ରକ୍ତ ଶର୍କରା,pancreas
+thyroid,Thyroid,थायरॉइड,ଥାଇରଏଡ୍,thyroid
+bone,Bones and minerals,हड्डियाँ और खनिज,ହାଡ଼ ଓ ଖଣିଜ,skeleton
+immune,Immune system and inflammation,प्रतिरक्षा तंत्र और सूजन,ରୋଗପ୍ରତିରୋଧ ଓ ପ୍ରଦାହ,spleen|lymph_nodes
+prostate,Prostate,प्रोस्टेट,ପ୍ରୋଷ୍ଟେଟ୍,prostate

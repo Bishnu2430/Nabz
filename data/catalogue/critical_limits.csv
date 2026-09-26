@@ -1,0 +1,15 @@
+test_code,low,high,message_key
+hb,7.0,20.0,critical.contact_doctor_today
+hct,20,60,critical.contact_doctor_today
+wbc,2.0,30.0,critical.contact_doctor_today
+plt,20,1000,critical.contact_doctor_today
+glucose_fasting,50,400,critical.contact_doctor_today
+glucose_pp,50,400,critical.contact_doctor_today
+glucose_random,50,400,critical.contact_doctor_today
+sodium,120,160,critical.contact_doctor_today
+potassium,2.8,6.2,critical.contact_doctor_today
+calcium,6.5,13.0,critical.contact_doctor_today
+magnesium,1.0,4.9,critical.contact_doctor_today
+phosphorus,1.0,,critical.contact_doctor_today
+bicarbonate,10,40,critical.contact_doctor_today
+bili_total,,15,critical.contact_doctor_today
