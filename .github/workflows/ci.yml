@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend · lint and tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: nabz
+          POSTGRES_PASSWORD: nabz
+          POSTGRES_DB: nabz
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U nabz -d nabz"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: postgresql+psycopg://nabz:nabz@localhost:5432/nabz
+      DATA_DIR: ${{ github.workspace }}/data
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.23"
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run alembic upgrade head
+      - run: uv run alembic check   # models and migrations must agree
+      - run: uv run pytest -q
+
+  docs:
+    name: Docs · diagrams are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python docs/diagrams/src/build.py && python docs/diagrams/src/report.py
+      - name: Fail if the committed SVGs differ from their source
+        run: git diff --exit-code -- docs/diagrams
