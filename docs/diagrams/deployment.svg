@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1050" viewBox="0 0 1480 1050" role="img">
+<defs><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker><marker id="m-arrow-C06B47" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C06B47"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="1050" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — deployment topology</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Physical view of the development and demo environment: one Compose project on one machine.</text>
+<rect x="30.0" y="90.0" width="1180.0" height="730.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<rect x="30.0" y="90.0" width="28.0" height="28.0" rx="0" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(35.0,95.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10.5" rx="1.2"/><path d="M2 19h20"/></g>
+<text x="68.0" y="108.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Developer laptop</text>
+<text x="185.6" y="108.5" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">Windows 11 · Intel i5-1235U · 16 GB RAM · integrated GPU (no CUDA)</text>
+<rect x="50.0" y="130.0" width="1140.0" height="670.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="50.0" y="130.0" width="28.0" height="28.0" rx="0" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(55.0,135.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></g>
+<text x="88.0" y="148.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Docker Desktop</text>
+<text x="198.9" y="148.5" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">WSL 2 VM · memory limit 10 GB (.wslconfig)</text>
+<rect x="70.0" y="170.0" width="1100.0" height="460.0" rx="4" fill="#5E81AC" fill-opacity="0.06" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="70.0" y="170.0" width="28.0" height="28.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(75.0,175.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5.3M12 12l6 5.3"/></g>
+<text x="108.0" y="188.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Compose project  nabz</text>
+<text x="263.1" y="188.5" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">bridge network nabz_default · service DNS: db, api, worker, web, ollama</text>
+<rect x="90.0" y="215.0" width="250.0" height="180.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="91.5" y="225.0" width="3.5" height="160.0" rx="1.75" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<rect x="104.0" y="227.0" width="26.0" height="26.0" rx="5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<g transform="translate(108.0,231.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6 6.5h.01M8.5 6.5h.01"/></g>
+<text x="140.0" y="245.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">web</text>
+<text x="106.0" y="279.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">image</text>
+<text x="166.0" y="279.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">node:22-alpine</text>
+<text x="106.0" y="300.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">cmd</text>
+<text x="166.0" y="300.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">vite dev server</text>
+<text x="106.0" y="321.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">port</text>
+<text x="166.0" y="321.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">127.0.0.1:5173</text>
+<text x="106.0" y="342.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mounts</text>
+<text x="166.0" y="342.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">./frontend (hot reload)</text>
+<text x="106.0" y="363.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">build</text>
+<text x="166.0" y="363.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">static files in production</text>
+<rect x="274.6" y="230.0" width="55.4" height="20.0" rx="10" fill="#88C0D0" fill-opacity="0.25" stroke="none" stroke-width="1.2"/>
+<text x="302.3" y="244.0" font-size="10" font-weight="600" fill="#4F97AE" text-anchor="middle">Sprint 3</text>
+<rect x="360.0" y="215.0" width="250.0" height="180.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="361.5" y="225.0" width="3.5" height="160.0" rx="1.75" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<rect x="374.0" y="227.0" width="26.0" height="26.0" rx="5" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(378.0,231.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></g>
+<text x="410.0" y="245.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">api</text>
+<text x="376.0" y="279.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">image</text>
+<text x="436.0" y="279.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">./backend · python:3.12 + uv</text>
+<text x="376.0" y="300.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">cmd</text>
+<text x="436.0" y="300.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">uvicorn app.main:app</text>
+<text x="376.0" y="321.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">port</text>
+<text x="436.0" y="321.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">127.0.0.1:8000</text>
+<text x="376.0" y="342.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mounts</text>
+<text x="436.0" y="342.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">uploads, ./backend/app</text>
+<text x="376.0" y="363.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">health</text>
+<text x="436.0" y="363.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">GET /health/ready</text>
+<rect x="547.3" y="230.0" width="52.7" height="20.0" rx="10" fill="#5E81AC" fill-opacity="0.25" stroke="none" stroke-width="1.2"/>
+<text x="573.6" y="244.0" font-size="10" font-weight="600" fill="#5E81AC" text-anchor="middle">running</text>
+<rect x="630.0" y="215.0" width="250.0" height="180.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="631.5" y="225.0" width="3.5" height="160.0" rx="1.75" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<rect x="644.0" y="227.0" width="26.0" height="26.0" rx="5" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(648.0,231.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g>
+<text x="680.0" y="245.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">worker</text>
+<text x="646.0" y="279.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">image</text>
+<text x="706.0" y="279.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">same image as api</text>
+<text x="646.0" y="300.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">cmd</text>
+<text x="706.0" y="300.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">python -m app.worker</text>
+<text x="646.0" y="321.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">port</text>
+<text x="706.0" y="321.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">none (internal only)</text>
+<text x="646.0" y="342.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mounts</text>
+<text x="706.0" y="342.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">uploads, model-cache</text>
+<text x="646.0" y="363.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">queue</text>
+<text x="706.0" y="363.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Postgres SKIP LOCKED</text>
+<rect x="814.6" y="230.0" width="55.4" height="20.0" rx="10" fill="#5E81AC" fill-opacity="0.25" stroke="none" stroke-width="1.2"/>
+<text x="842.3" y="244.0" font-size="10" font-weight="600" fill="#5E81AC" text-anchor="middle">Sprint 2</text>
+<rect x="900.0" y="215.0" width="250.0" height="180.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="901.5" y="225.0" width="3.5" height="160.0" rx="1.75" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="914.0" y="227.0" width="26.0" height="26.0" rx="5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(918.0,231.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="950.0" y="245.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">ollama</text>
+<text x="916.0" y="279.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">image</text>
+<text x="976.0" y="279.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">ollama/ollama</text>
+<text x="916.0" y="300.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">model</text>
+<text x="976.0" y="300.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">qwen3:4b · Q4 · ~2.5 GB</text>
+<text x="916.0" y="321.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">port</text>
+<text x="976.0" y="321.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">127.0.0.1:11434</text>
+<text x="916.0" y="342.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mounts</text>
+<text x="976.0" y="342.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">ollama</text>
+<text x="916.0" y="363.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">profile</text>
+<text x="976.0" y="363.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">local-llm (opt-in)</text>
+<rect x="1084.6" y="230.0" width="55.4" height="20.0" rx="10" fill="#B48EAD" fill-opacity="0.25" stroke="none" stroke-width="1.2"/>
+<text x="1112.3" y="244.0" font-size="10" font-weight="600" fill="#8E6D95" text-anchor="middle">optional</text>
+<rect x="360.0" y="430.0" width="250.0" height="180.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="361.5" y="440.0" width="3.5" height="160.0" rx="1.75" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="374.0" y="442.0" width="26.0" height="26.0" rx="5" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(378.0,446.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></g>
+<text x="410.0" y="460.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">db</text>
+<text x="376.0" y="494.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">image</text>
+<text x="436.0" y="494.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">pgvector/pgvector:pg17</text>
+<text x="376.0" y="515.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">ext</text>
+<text x="436.0" y="515.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">vector · pg_trgm · pgcrypto</text>
+<text x="376.0" y="536.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">port</text>
+<text x="436.0" y="536.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">127.0.0.1:5433 → 5432</text>
+<text x="376.0" y="557.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mounts</text>
+<text x="436.0" y="557.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">pgdata, infra/db/init</text>
+<text x="376.0" y="578.0" font-size="10.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">health</text>
+<text x="436.0" y="578.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">pg_isready</text>
+<rect x="547.3" y="445.0" width="52.7" height="20.0" rx="10" fill="#A3BE8C" fill-opacity="0.25" stroke="none" stroke-width="1.2"/>
+<text x="573.6" y="459.0" font-size="10" font-weight="600" fill="#6E9A5B" text-anchor="middle">running</text>
+<path d="M340.0,305.0 L360.0,305.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="332.2" y="278.0" width="35.5" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="350.0" y="290.7" font-size="10.5" font-weight="500" fill="#4C566A" text-anchor="middle">REST</text>
+<path d="M485.0,395.0 L485.0,430.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M755.0,395.0 L755.0,405.0 Q755.0,412.0 748.0,412.0 L597.0,412.0 Q590.0,412.0 590.0,419.0 L590.0,430.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="626.8" y="403.0" width="90.5" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="672.0" y="415.7" font-size="10.5" font-weight="500" fill="#4C566A" text-anchor="middle">SQL + job queue</text>
+<rect x="678.0" y="498.0" width="44.0" height="44.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(687.2,507.2) scale(1.0633)" fill="none" stroke="#FFFFFF" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18"/><path d="M16.5 16h.01M13.5 16h.01"/></g>
+<text x="700.0" y="559.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">pgdata</text>
+<text x="700.0" y="574.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">← db</text>
+<rect x="798.0" y="498.0" width="44.0" height="44.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(807.2,507.2) scale(1.0633)" fill="none" stroke="#FFFFFF" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18"/><path d="M16.5 16h.01M13.5 16h.01"/></g>
+<text x="820.0" y="559.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">uploads</text>
+<text x="820.0" y="574.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">← api, worker</text>
+<rect x="918.0" y="498.0" width="44.0" height="44.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(927.2,507.2) scale(1.0633)" fill="none" stroke="#FFFFFF" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18"/><path d="M16.5 16h.01M13.5 16h.01"/></g>
+<text x="940.0" y="559.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">model-cache</text>
+<text x="940.0" y="574.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">← worker</text>
+<rect x="1038.0" y="498.0" width="44.0" height="44.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1047.2,507.2) scale(1.0633)" fill="none" stroke="#FFFFFF" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18"/><path d="M16.5 16h.01M13.5 16h.01"/></g>
+<text x="1060.0" y="559.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">ollama</text>
+<text x="1060.0" y="574.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">← ollama</text>
+<text x="640.0" y="470.0" font-size="11.5" font-weight="650" fill="#4C566A" text-anchor="start">Named volumes</text>
+<text x="90.0" y="668.0" font-size="11.5" font-weight="650" fill="#4C566A" text-anchor="start">Published ports (bound to 127.0.0.1 only — not reachable from the LAN)</text>
+<rect x="90.0" y="684.0" width="250.0" height="34.0" rx="17" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="108.0" y="706.0" font-size="12" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">:5173</text>
+<text x="170.0" y="706.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">web app</text>
+<rect x="360.0" y="684.0" width="250.0" height="34.0" rx="17" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="378.0" y="706.0" font-size="12" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">:8000</text>
+<text x="440.0" y="706.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">API + OpenAPI docs</text>
+<rect x="630.0" y="684.0" width="250.0" height="34.0" rx="17" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="648.0" y="706.0" font-size="12" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">:5433</text>
+<text x="710.0" y="706.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Postgres for DB tools</text>
+<rect x="900.0" y="684.0" width="250.0" height="34.0" rx="17" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="918.0" y="706.0" font-size="12" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">:11434</text>
+<text x="980.0" y="706.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Ollama (optional)</text>
+<rect x="115.0" y="747.0" width="30.0" height="30.0" rx="8" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(121.3,753.3) scale(0.7250)" fill="none" stroke="#FFFFFF" stroke-width="2.34" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6 6.5h.01M8.5 6.5h.01"/></g>
+<text x="130.0" y="794.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle"></text>
+<text x="156.0" y="767.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">Browser on the same laptop</text>
+<path d="M130.0,747.0 L130.0,721.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="1240.0" y="170.0" width="215.0" height="460.0" rx="4" fill="#D08770" fill-opacity="0.06" stroke="#D08770" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="1240.0" y="170.0" width="28.0" height="28.0" rx="0" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1245.0,175.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></g>
+<text x="1278.0" y="188.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Egress · HTTPS 443</text>
+<rect x="1321.0" y="244.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1331.9,254.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="1347.0" y="313.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">LLM API</text>
+<text x="1347.0" y="328.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">api.anthropic.com</text>
+<rect x="1321.0" y="374.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1331.9,384.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></g>
+<text x="1347.0" y="443.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">TTS provider</text>
+<text x="1347.0" y="458.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">optional</text>
+<rect x="1321.0" y="504.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1331.9,514.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.5h10.5a4 4 0 0 0 .3-8A6 6 0 0 0 6.2 11 3.8 3.8 0 0 0 7 18.5z"/></g>
+<text x="1347.0" y="573.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Model registries</text>
+<text x="1347.0" y="588.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">first-run downloads</text>
+<path d="M880.0,380.0 L885.0,380.0 Q890.0,380.0 890.0,385.0 L890.0,405.0 Q890.0,412.0 897.0,412.0 L1298.0,412.0 Q1305.0,412.0 1305.0,405.0 L1305.0,277.0 Q1305.0,270.0 1312.0,270.0 L1321.0,270.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-C06B47)"/>
+<path d="M1305.0,412.0 L1305.0,406.0 Q1305.0,400.0 1311.0,400.0 L1321.0,400.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-C06B47)"/>
+<path d="M1150.0,330.0 L1278.0,330.0 Q1285.0,330.0 1285.0,337.0 L1285.0,523.0 Q1285.0,530.0 1292.0,530.0 L1321.0,530.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-C06B47)"/>
+<rect x="1015.8" y="403.0" width="128.4" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="1080.0" y="415.7" font-size="10.5" font-weight="500" fill="#C06B47" text-anchor="middle">worker → external APIs</text>
+<rect x="30.0" y="845.0" width="1425.0" height="170.0" rx="6" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="50.0" y="871.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">Memory budget (estimated, steady state)</text>
+<text x="50.0" y="897.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Service</text>
+<text x="230.0" y="897.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Main consumers</text>
+<text x="520.0" y="897.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">RAM</text>
+<text x="650.0" y="897.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">CPU</text>
+<text x="800.0" y="897.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Notes</text>
+<text x="50.0" y="919.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">db</text>
+<text x="230.0" y="919.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">shared buffers, pgvector index</text>
+<text x="520.0" y="919.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">0.3–0.5 GB</text>
+<text x="650.0" y="919.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">low</text>
+<text x="800.0" y="919.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">tune shared_buffers=256MB</text>
+<text x="50.0" y="937.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">api</text>
+<text x="230.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">FastAPI workers</text>
+<text x="520.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">0.2–0.3 GB</text>
+<text x="650.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">low</text>
+<text x="800.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">2 uvicorn workers in demo mode</text>
+<text x="50.0" y="955.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">worker</text>
+<text x="230.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">PaddleOCR + e5-small + pandas</text>
+<text x="520.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">1.2–1.8 GB</text>
+<text x="650.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">burst 100%</text>
+<text x="800.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">one job at a time on a 10-core laptop CPU</text>
+<text x="50.0" y="973.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">ollama</text>
+<text x="230.0" y="973.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Qwen3-4B Q4_K_M weights + KV cache</text>
+<text x="520.0" y="973.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">3.0–3.5 GB</text>
+<text x="650.0" y="973.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">burst 100%</text>
+<text x="800.0" y="973.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">only with --profile local-llm</text>
+<text x="50.0" y="991.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">web</text>
+<text x="230.0" y="991.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Vite dev server</text>
+<text x="520.0" y="991.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">0.3–0.5 GB</text>
+<text x="650.0" y="991.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">low</text>
+<text x="800.0" y="991.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">production build is static files</text>
+<text x="1100.0" y="919.0" font-size="13" font-weight="700" fill="#2E3440" text-anchor="start">Total ≈ 5–6.5 GB</text>
+<text x="1100.0" y="941.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">fits inside a 10 GB WSL 2 limit,</text>
+<text x="1100.0" y="955.9" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">leaving ~6 GB for Windows,</text>
+<text x="1100.0" y="970.7" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">the browser and the IDE.</text>
+<text x="32.0" y="1034.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/deployment.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>

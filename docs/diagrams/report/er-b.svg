@@ -1,0 +1,349 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.93cm" height="18.52cm" viewBox="0 0 602 700" role="img">
+
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="602" height="700" fill="#FFFFFF"/>
+<rect x="20.0" y="6.0" width="164.0" height="154.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="20.0" y="6.0" width="164.0" height="22.0" rx="4" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="20.0" y="24.0" width="164.0" height="4.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="28.0" y="21.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">explanation</text>
+<text x="26.0" y="41.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="46.0" y="41.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="178.0" y="41.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="55.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="46.0" y="55.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">report_id</text>
+<text x="178.0" y="55.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="69.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="69.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">language</text>
+<text x="178.0" y="69.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">lang</text>
+<text x="26.0" y="83.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="83.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">model_id</text>
+<text x="178.0" y="83.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="26.0" y="97.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="97.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">prompt_version</text>
+<text x="178.0" y="97.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="26.0" y="111.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="111.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">content</text>
+<text x="178.0" y="111.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">jsonb</text>
+<text x="26.0" y="125.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="125.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">safety_status</text>
+<text x="178.0" y="125.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">safety_status</text>
+<text x="26.0" y="139.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="139.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">audio_key</text>
+<text x="178.0" y="139.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="26.0" y="153.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="153.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">input_tokens</text>
+<text x="178.0" y="153.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<rect x="20.0" y="196.0" width="164.0" height="70.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="20.0" y="196.0" width="164.0" height="22.0" rx="4" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="20.0" y="214.0" width="164.0" height="4.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="28.0" y="211.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">explanation_citation</text>
+<text x="26.0" y="231.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="46.0" y="231.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">explanation_id</text>
+<text x="178.0" y="231.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="245.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="46.0" y="245.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">kb_chunk_id</text>
+<text x="178.0" y="245.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="259.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="259.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">rank</text>
+<text x="178.0" y="259.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<rect x="20.0" y="296.0" width="164.0" height="112.0" rx="4" fill="#FFFFFF" stroke="#D08770" stroke-width="1.3"/>
+<rect x="20.0" y="296.0" width="164.0" height="22.0" rx="4" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<rect x="20.0" y="314.0" width="164.0" height="4.0" rx="0" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<text x="28.0" y="311.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">feedback</text>
+<text x="26.0" y="331.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="46.0" y="331.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="178.0" y="331.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="345.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="46.0" y="345.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">explanation_id</text>
+<text x="178.0" y="345.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="359.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="46.0" y="359.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">user_id</text>
+<text x="178.0" y="359.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="373.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="373.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">rating</text>
+<text x="178.0" y="373.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="26.0" y="387.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="387.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">comment</text>
+<text x="178.0" y="387.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="26.0" y="401.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="401.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">created_at</text>
+<text x="178.0" y="401.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">timestamptz</text>
+<rect x="20.0" y="440.0" width="164.0" height="154.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="20.0" y="440.0" width="164.0" height="22.0" rx="4" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="20.0" y="458.0" width="164.0" height="4.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="28.0" y="455.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">trend_insight</text>
+<text x="26.0" y="475.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="46.0" y="475.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="178.0" y="475.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="489.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="46.0" y="489.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">profile_id</text>
+<text x="178.0" y="489.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="26.0" y="503.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="46.0" y="503.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="178.0" y="503.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="26.0" y="517.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="517.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">n_points</text>
+<text x="178.0" y="517.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="26.0" y="531.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="531.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">slope_per_year</text>
+<text x="178.0" y="531.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="26.0" y="545.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="545.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">rcv_significant</text>
+<text x="178.0" y="545.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">boolean</text>
+<text x="26.0" y="559.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="559.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">projected_crossing</text>
+<text x="178.0" y="559.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">date</text>
+<text x="26.0" y="573.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="573.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">percentile</text>
+<text x="178.0" y="573.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">real</text>
+<text x="26.0" y="587.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="46.0" y="587.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">computed_at</text>
+<text x="178.0" y="587.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">timestamptz</text>
+<rect x="226.0" y="6.0" width="164.0" height="112.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="226.0" y="6.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="226.0" y="24.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="234.0" y="21.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">organ_system</text>
+<text x="232.0" y="41.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="252.0" y="41.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="384.0" y="41.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="232.0" y="55.5" font-size="8" font-weight="700" fill="#6E9A5B" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">UQ</text>
+<text x="252.0" y="55.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">code</text>
+<text x="384.0" y="55.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="69.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="69.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">name_en</text>
+<text x="384.0" y="69.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="83.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="83.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">name_hi</text>
+<text x="384.0" y="83.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="97.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="97.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">name_or</text>
+<text x="384.0" y="97.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="111.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="111.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">mesh_ids</text>
+<text x="384.0" y="111.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text[]</text>
+<rect x="226.0" y="146.0" width="164.0" height="168.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="226.0" y="146.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="226.0" y="164.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="234.0" y="161.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">lab_test</text>
+<text x="232.0" y="181.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="252.0" y="181.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="384.0" y="181.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="232.0" y="195.5" font-size="8" font-weight="700" fill="#6E9A5B" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">UQ</text>
+<text x="252.0" y="195.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">loinc_code</text>
+<text x="384.0" y="195.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="209.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="209.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">canonical_name</text>
+<text x="384.0" y="209.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="223.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="223.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">aliases</text>
+<text x="384.0" y="223.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text[]</text>
+<text x="232.0" y="237.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="252.0" y="237.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">organ_system_id</text>
+<text x="384.0" y="237.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="232.0" y="251.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="251.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">canonical_unit</text>
+<text x="384.0" y="251.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="265.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="265.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">plausible_min</text>
+<text x="384.0" y="265.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="232.0" y="279.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="279.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">plausible_max</text>
+<text x="384.0" y="279.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="232.0" y="293.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="293.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">cv_within_subject</text>
+<text x="384.0" y="293.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">real</text>
+<text x="232.0" y="307.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="307.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">cv_analytical</text>
+<text x="384.0" y="307.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">real</text>
+<rect x="226.0" y="356.0" width="164.0" height="126.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="226.0" y="356.0" width="164.0" height="22.0" rx="4" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="226.0" y="374.0" width="164.0" height="4.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="234.0" y="371.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">kb_chunk</text>
+<text x="232.0" y="391.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="252.0" y="391.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="384.0" y="391.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="232.0" y="405.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="252.0" y="405.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">document_id</text>
+<text x="384.0" y="405.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="232.0" y="419.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="252.0" y="419.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="384.0" y="419.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="232.0" y="433.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="433.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">chunk_index</text>
+<text x="384.0" y="433.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="232.0" y="447.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="447.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">content</text>
+<text x="384.0" y="447.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="461.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="461.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">language</text>
+<text x="384.0" y="461.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">lang</text>
+<text x="232.0" y="475.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="475.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">embedding</text>
+<text x="384.0" y="475.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">vector(384)</text>
+<rect x="226.0" y="520.0" width="164.0" height="126.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="226.0" y="520.0" width="164.0" height="22.0" rx="4" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="226.0" y="538.0" width="164.0" height="4.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="234.0" y="535.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">kb_document</text>
+<text x="232.0" y="555.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="252.0" y="555.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="384.0" y="555.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">uuid</text>
+<text x="232.0" y="569.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="569.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">title</text>
+<text x="384.0" y="569.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="583.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="583.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">source_org</text>
+<text x="384.0" y="583.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="597.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="597.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">url</text>
+<text x="384.0" y="597.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="611.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="611.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">license</text>
+<text x="384.0" y="611.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="232.0" y="625.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="625.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">language</text>
+<text x="384.0" y="625.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">lang</text>
+<text x="232.0" y="639.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="252.0" y="639.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">checksum</text>
+<text x="384.0" y="639.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<rect x="432.0" y="6.0" width="164.0" height="112.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="432.0" y="6.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="432.0" y="24.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="440.0" y="21.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">unit_conversion</text>
+<text x="438.0" y="41.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="458.0" y="41.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="590.0" y="41.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="55.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="458.0" y="55.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="590.0" y="55.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="69.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="69.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">from_unit</text>
+<text x="590.0" y="69.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="438.0" y="83.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="83.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">to_unit</text>
+<text x="590.0" y="83.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="438.0" y="97.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="97.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">factor</text>
+<text x="590.0" y="97.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="111.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="111.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">offset</text>
+<text x="590.0" y="111.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<rect x="432.0" y="146.0" width="164.0" height="140.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="432.0" y="146.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="432.0" y="164.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="440.0" y="161.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">reference_range</text>
+<text x="438.0" y="181.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="458.0" y="181.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="590.0" y="181.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="195.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="458.0" y="195.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="590.0" y="195.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="209.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="209.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">sex</text>
+<text x="590.0" y="209.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">sex</text>
+<text x="438.0" y="223.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="223.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">age_min</text>
+<text x="590.0" y="223.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="438.0" y="237.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="237.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">age_max</text>
+<text x="590.0" y="237.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">smallint</text>
+<text x="438.0" y="251.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="251.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">low</text>
+<text x="590.0" y="251.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="265.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="265.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">high</text>
+<text x="590.0" y="265.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="279.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="279.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">source</text>
+<text x="590.0" y="279.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<rect x="432.0" y="318.0" width="164.0" height="112.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="432.0" y="318.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="432.0" y="336.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="440.0" y="333.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">critical_limit</text>
+<text x="438.0" y="353.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="458.0" y="353.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="590.0" y="353.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="367.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="458.0" y="367.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="590.0" y="367.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="381.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="381.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">low</text>
+<text x="590.0" y="381.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="395.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="395.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">high</text>
+<text x="590.0" y="395.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="409.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="409.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">message_key</text>
+<text x="590.0" y="409.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<text x="438.0" y="423.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="423.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">reviewed_at</text>
+<text x="590.0" y="423.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">date</text>
+<rect x="432.0" y="462.0" width="164.0" height="112.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.3"/>
+<rect x="432.0" y="462.0" width="164.0" height="22.0" rx="4" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="432.0" y="480.0" width="164.0" height="4.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="440.0" y="477.5" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">population_percentile</text>
+<text x="438.0" y="497.5" font-size="8" font-weight="700" fill="#C06B47" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PK</text>
+<text x="458.0" y="497.5" font-size="9.5" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">id</text>
+<text x="590.0" y="497.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="511.5" font-size="8" font-weight="700" fill="#5E81AC" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FK</text>
+<text x="458.0" y="511.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">test_id</text>
+<text x="590.0" y="511.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int</text>
+<text x="438.0" y="525.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="525.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">sex</text>
+<text x="590.0" y="525.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">sex</text>
+<text x="438.0" y="539.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="539.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">age_band</text>
+<text x="590.0" y="539.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">int4range</text>
+<text x="438.0" y="553.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="553.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">p05 … p95</text>
+<text x="590.0" y="553.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">numeric</text>
+<text x="438.0" y="567.5" font-size="8" font-weight="700" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<text x="458.0" y="567.5" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">source</text>
+<text x="590.0" y="567.5" font-size="8.5" font-weight="400" fill="#6B7385" text-anchor="end" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">text</text>
+<path d="M308.0,118.0 L308.0,146.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M303.0,128.0 L313.0,128.0 M303.0,132.0 L313.0,132.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M314.0,146.0 L308.0,137.0 L302.0,146.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="308.0" cy="129.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M390.0,178.0 L404.0,178.0 Q411.0,178.0 411.0,171.0 L411.0,59.0 Q411.0,52.0 418.0,52.0 L432.0,52.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M400.0,183.0 L400.0,173.0 M404.0,183.0 L404.0,173.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M432.0,46.0 L423.0,52.0 L432.0,58.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="415.0" cy="52.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M390.0,178.0 L404.0,178.0 Q411.0,178.0 411.0,185.0 L411.0,185.0 Q411.0,192.0 418.0,192.0 L432.0,192.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M400.0,183.0 L400.0,173.0 M404.0,183.0 L404.0,173.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M432.0,186.0 L423.0,192.0 L432.0,198.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="415.0" cy="192.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M390.0,178.0 L404.0,178.0 Q411.0,178.0 411.0,185.0 L411.0,357.0 Q411.0,364.0 418.0,364.0 L432.0,364.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M400.0,183.0 L400.0,173.0 M404.0,183.0 L404.0,173.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M432.0,358.0 L423.0,364.0 L432.0,370.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="415.0" cy="364.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M390.0,178.0 L404.0,178.0 Q411.0,178.0 411.0,185.0 L411.0,501.0 Q411.0,508.0 418.0,508.0 L432.0,508.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M400.0,183.0 L400.0,173.0 M404.0,183.0 L404.0,173.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M432.0,502.0 L423.0,508.0 L432.0,514.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="415.0" cy="508.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M308.0,314.0 L308.0,356.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M303.0,323.0 L313.0,323.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="308.0" cy="330.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M314.0,356.0 L308.0,347.0 L302.0,356.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="308.0" cy="339.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M308.0,520.0 L308.0,482.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M313.0,510.0 L303.0,510.0 M313.0,506.0 L303.0,506.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M303.0,492.0 L313.0,492.0 M302.0,482.0 L308.0,491.0 L314.0,482.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M102.0,160.0 L102.0,196.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M97.0,170.0 L107.0,170.0 M97.0,174.0 L107.0,174.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M108.0,196.0 L102.0,187.0 L96.0,196.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="102.0" cy="179.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M226.0,388.0 L212.0,388.0 Q205.0,388.0 205.0,381.0 L205.0,249.0 Q205.0,242.0 198.0,242.0 L184.0,242.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M216.0,383.0 L216.0,393.0 M212.0,383.0 L212.0,393.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M184.0,248.0 L193.0,242.0 L184.0,236.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="201.0" cy="242.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M184.0,66.0 L190.0,66.0 Q196.0,66.0 196.0,72.0 L196.0,336.0 Q196.0,342.0 190.0,342.0 L184.0,342.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M194.0,71.0 L194.0,61.0 M198.0,71.0 L198.0,61.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M184.0,348.0 L193.0,342.0 L184.0,336.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="201.0" cy="342.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<path d="M226.0,178.0 L219.5,178.0 Q213.0,178.0 213.0,184.5 L213.0,493.0 Q213.0,500.0 206.0,500.0 L184.0,500.0" fill="none" stroke="#4C566A" stroke-width="1.15" stroke-linejoin="round"/>
+<path d="M216.0,173.0 L216.0,183.0 M212.0,173.0 L212.0,183.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<path d="M184.0,506.0 L193.0,500.0 L184.0,494.0" stroke="#4C566A" stroke-width="1.2" fill="none"/>
+<circle cx="201.0" cy="500.0" r="3.6" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.2"/>
+<text x="20.0" y="674.0" font-size="9.5" font-weight="400" fill="#6B7385" text-anchor="start">explanation.report_id → report, trend_insight.profile_id → profile and feedback.user_id → app_user</text>
+<text x="20.0" y="688.0" font-size="9.5" font-weight="400" fill="#6B7385" text-anchor="start">are shown in part (a). Legend: PK primary key · FK foreign key · UQ unique.</text>
+</g>
+</svg>

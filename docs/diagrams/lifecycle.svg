@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="820" viewBox="0 0 1480 820" role="img">
+<defs><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="820" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — project life cycle</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Iterative-incremental model: RUP-style phases with one-week Scrum-style sprints and a quality gate at the end of each phase.</text>
+<polygon points="40,110 380,110 402,142.0 380,174 40,174" fill="#4C566A"/>
+<text x="62.0" y="139.0" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="start">Inception</text>
+<text x="62.0" y="158.0" font-size="11.5" font-weight="500" fill="#FFFFFF" text-anchor="start">1 – 9 Aug</text>
+<rect x="40.0" y="198.0" width="340.0" height="190.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="58.0" y="226.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Key activities</text>
+<circle cx="64.0" cy="248.0" r="3.5" fill="#4C566A" stroke="none" stroke-width="1"/>
+<text x="76.0" y="252.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Problem &amp; persona validation</text>
+<circle cx="64.0" cy="274.0" r="3.5" fill="#4C566A" stroke="none" stroke-width="1"/>
+<text x="76.0" y="278.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Charter, SRS, architecture</text>
+<circle cx="64.0" cy="300.0" r="3.5" fill="#4C566A" stroke="none" stroke-width="1"/>
+<text x="76.0" y="304.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Risk register, test plan</text>
+<circle cx="64.0" cy="326.0" r="3.5" fill="#4C566A" stroke="none" stroke-width="1"/>
+<text x="76.0" y="330.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Repo + Docker scaffold</text>
+<path d="M64,401 l11,11 -11,11 -11,-11 z" fill="#C06B47"/>
+<text x="84.0" y="416.0" font-size="12" font-weight="650" fill="#2E3440" text-anchor="start">M0 · docs baseline</text>
+<polygon points="390,110 730,110 752,142.0 730,174 390,174 412,142.0" fill="#4F97AE"/>
+<text x="430.0" y="139.0" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="start">Elaboration</text>
+<text x="430.0" y="158.0" font-size="11.5" font-weight="500" fill="#FFFFFF" text-anchor="start">10 – 16 Aug</text>
+<rect x="390.0" y="198.0" width="340.0" height="190.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="408.0" y="226.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Key activities</text>
+<circle cx="414.0" cy="248.0" r="3.5" fill="#4F97AE" stroke="none" stroke-width="1"/>
+<text x="426.0" y="252.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Test catalogue (60 tests)</text>
+<circle cx="414.0" cy="274.0" r="3.5" fill="#4F97AE" stroke="none" stroke-width="1"/>
+<text x="426.0" y="278.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Synthetic report generator</text>
+<circle cx="414.0" cy="300.0" r="3.5" fill="#4F97AE" stroke="none" stroke-width="1"/>
+<text x="426.0" y="304.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">3D anatomy spike</text>
+<circle cx="414.0" cy="326.0" r="3.5" fill="#4F97AE" stroke="none" stroke-width="1"/>
+<text x="426.0" y="330.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Knowledge sources + licences</text>
+<path d="M414,401 l11,11 -11,11 -11,-11 z" fill="#C06B47"/>
+<text x="434.0" y="416.0" font-size="12" font-weight="650" fill="#2E3440" text-anchor="start">risks retired</text>
+<polygon points="740,110 1080,110 1102,142.0 1080,174 740,174 762,142.0" fill="#5E81AC"/>
+<text x="780.0" y="139.0" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="start">Construction</text>
+<text x="780.0" y="158.0" font-size="11.5" font-weight="500" fill="#FFFFFF" text-anchor="start">17 Aug – 20 Sep</text>
+<rect x="740.0" y="198.0" width="340.0" height="190.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="758.0" y="226.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Key activities</text>
+<circle cx="764.0" cy="248.0" r="3.5" fill="#5E81AC" stroke="none" stroke-width="1"/>
+<text x="776.0" y="252.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">S2–S3 extraction + review UI</text>
+<circle cx="764.0" cy="274.0" r="3.5" fill="#5E81AC" stroke="none" stroke-width="1"/>
+<text x="776.0" y="278.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">S4 analytics engine</text>
+<circle cx="764.0" cy="300.0" r="3.5" fill="#5E81AC" stroke="none" stroke-width="1"/>
+<text x="776.0" y="304.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">S5 grounded explanations</text>
+<circle cx="764.0" cy="326.0" r="3.5" fill="#5E81AC" stroke="none" stroke-width="1"/>
+<text x="776.0" y="330.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">S6 3D body map + accounts</text>
+<path d="M764,401 l11,11 -11,11 -11,-11 z" fill="#C06B47"/>
+<text x="784.0" y="416.0" font-size="12" font-weight="650" fill="#2E3440" text-anchor="start">M1 · 30 Aug  ·  M2 · 20 Sep</text>
+<polygon points="1090,110 1430,110 1452,142.0 1430,174 1090,174 1112,142.0" fill="#6E9A5B"/>
+<text x="1130.0" y="139.0" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="start">Transition</text>
+<text x="1130.0" y="158.0" font-size="11.5" font-weight="500" fill="#FFFFFF" text-anchor="start">21 – 30 Sep</text>
+<rect x="1090.0" y="198.0" width="340.0" height="190.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<text x="1108.0" y="226.0" font-size="11" font-weight="700" fill="#6B7385" text-anchor="start">Key activities</text>
+<circle cx="1114.0" cy="248.0" r="3.5" fill="#6E9A5B" stroke="none" stroke-width="1"/>
+<text x="1126.0" y="252.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">S7 evaluation + hardening</text>
+<circle cx="1114.0" cy="274.0" r="3.5" fill="#6E9A5B" stroke="none" stroke-width="1"/>
+<text x="1126.0" y="278.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">User tests + doctor review</text>
+<circle cx="1114.0" cy="300.0" r="3.5" fill="#6E9A5B" stroke="none" stroke-width="1"/>
+<text x="1126.0" y="304.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Report, poster, rehearsal</text>
+<circle cx="1114.0" cy="326.0" r="3.5" fill="#6E9A5B" stroke="none" stroke-width="1"/>
+<text x="1126.0" y="330.0" font-size="12" font-weight="400" fill="#2E3440" text-anchor="start">Offline demo mode</text>
+<path d="M1114,401 l11,11 -11,11 -11,-11 z" fill="#C06B47"/>
+<text x="1134.0" y="416.0" font-size="12" font-weight="650" fill="#2E3440" text-anchor="start">M3 · demo ready</text>
+<rect x="40.0" y="470.0" width="1400.0" height="250.0" rx="10" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="60.0" y="500.0" font-size="13" font-weight="700" fill="#2E3440" text-anchor="start">Inside every construction sprint (1 week)</text>
+<rect x="70.0" y="520.0" width="238.0" height="150.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="86.0" y="536.0" width="36.0" height="36.0" rx="7" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(94.0,544.0) scale(0.8333)" fill="none" stroke="#FFFFFF" stroke-width="2.16" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g>
+<text x="134.0" y="552.0" font-size="13.5" font-weight="700" fill="#2E3440" text-anchor="start">Plan</text>
+<text x="134.0" y="568.0" font-size="11" font-weight="500" fill="#6B7385" text-anchor="start">Mon</text>
+<text x="88.0" y="604.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">pick stories from the backlog;</text>
+<text x="88.0" y="619.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">define done</text>
+<path d="M312.0,595.0 L338.0,595.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="342.0" y="520.0" width="238.0" height="150.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="358.0" y="536.0" width="36.0" height="36.0" rx="7" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(366.0,544.0) scale(0.8333)" fill="none" stroke="#FFFFFF" stroke-width="2.16" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></g>
+<text x="406.0" y="552.0" font-size="13.5" font-weight="700" fill="#2E3440" text-anchor="start">Build</text>
+<text x="406.0" y="568.0" font-size="11" font-weight="500" fill="#6B7385" text-anchor="start">Mon–Thu</text>
+<text x="360.0" y="604.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">feature branch, tests first</text>
+<text x="360.0" y="619.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">for core logic</text>
+<path d="M584.0,595.0 L610.0,595.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="614.0" y="520.0" width="238.0" height="150.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="630.0" y="536.0" width="36.0" height="36.0" rx="7" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(638.0,544.0) scale(0.8333)" fill="none" stroke="#FFFFFF" stroke-width="2.16" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></g>
+<text x="678.0" y="552.0" font-size="13.5" font-weight="700" fill="#2E3440" text-anchor="start">Verify</text>
+<text x="678.0" y="568.0" font-size="11" font-weight="500" fill="#6B7385" text-anchor="start">Thu–Fri</text>
+<text x="632.0" y="604.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">unit + integration tests,</text>
+<text x="632.0" y="619.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">evaluation scripts</text>
+<path d="M856.0,595.0 L882.0,595.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="886.0" y="520.0" width="238.0" height="150.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="902.0" y="536.0" width="36.0" height="36.0" rx="7" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(910.0,544.0) scale(0.8333)" fill="none" stroke="#FFFFFF" stroke-width="2.16" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20c0-3.8 2.9-6 6.5-6s6.5 2.2 6.5 6"/><path d="M15.5 4.8a3.4 3.4 0 0 1 0 6.5M18 14.3c2.1.7 3.5 2.6 3.5 5.7"/></g>
+<text x="950.0" y="552.0" font-size="13.5" font-weight="700" fill="#2E3440" text-anchor="start">Demo &amp; review</text>
+<text x="950.0" y="568.0" font-size="11" font-weight="500" fill="#6B7385" text-anchor="start">Sat</text>
+<text x="904.0" y="604.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">show the team; guide review</text>
+<text x="904.0" y="619.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">every second week</text>
+<path d="M1128.0,595.0 L1154.0,595.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="1158.0" y="520.0" width="238.0" height="150.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="1174.0" y="536.0" width="36.0" height="36.0" rx="7" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1182.0,544.0) scale(0.8333)" fill="none" stroke="#FFFFFF" stroke-width="2.16" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M7.5 15l4-4.5 3 3L19.5 7"/></g>
+<text x="1222.0" y="552.0" font-size="13.5" font-weight="700" fill="#2E3440" text-anchor="start">Retrospect</text>
+<text x="1222.0" y="568.0" font-size="11" font-weight="500" fill="#6B7385" text-anchor="start">Sun</text>
+<text x="1176.0" y="604.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">update risks, docs and</text>
+<text x="1176.0" y="619.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">the Gantt chart</text>
+<path d="M1277.0,674.0 L1277.0,693.0 Q1277.0,700.0 1270.0,700.0 L196.0,700.0 Q189.0,700.0 189.0,693.0 L189.0,674.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<rect x="633.1" y="691.0" width="133.7" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="700.0" y="703.7" font-size="10.5" font-weight="500" fill="#4C566A" text-anchor="middle">repeat for sprints 2 – 7</text>
+<text x="40.0" y="760.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Why this model: requirements for the AI parts are uncertain (OCR accuracy, language quality), so risky pieces are prototyped first (Elaboration) and</text>
+<text x="40.0" y="778.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">every sprint ends with something demonstrable. Documentation is a living baseline: each gate re-publishes the docs with an updated revision history.</text>
+<text x="32.0" y="804.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/lifecycle.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>

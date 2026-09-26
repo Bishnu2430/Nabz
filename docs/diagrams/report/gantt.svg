@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.61cm" height="14.26cm" viewBox="0 0 930 539" role="img">
+
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="930" height="539" fill="#FFFFFF"/>
+<rect x="0.0" y="0.0" width="930.0" height="36.0" rx="3" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="22.0" font-size="9.5" font-weight="700" fill="#6B7385" text-anchor="start">ID</text>
+<text x="40.0" y="22.0" font-size="9.5" font-weight="700" fill="#6B7385" text-anchor="start">Task</text>
+<text x="318.0" y="22.0" font-size="9.5" font-weight="700" fill="#6B7385" text-anchor="start">Owner</text>
+<rect x="356.0" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="359.0" y="13.0" font-size="10" font-weight="700" fill="#2E3440" text-anchor="start">Aug</text>
+<rect x="365.3" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="374.7" y1="18.0" x2="374.7" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="377.7" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">03</text>
+<rect x="421.4" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="430.8" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="440.1" y1="18.0" x2="440.1" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="443.1" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">10</text>
+<rect x="486.8" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="496.2" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="505.5" y1="18.0" x2="505.5" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="508.5" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">17</text>
+<rect x="552.2" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="561.6" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="570.9" y1="18.0" x2="570.9" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="573.9" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">24</text>
+<rect x="617.6" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="627.0" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="636.3" y1="18.0" x2="636.3" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="639.3" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">31</text>
+<text x="648.7" y="13.0" font-size="10" font-weight="700" fill="#2E3440" text-anchor="start">Sep</text>
+<rect x="683.0" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="692.4" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="701.7" y1="18.0" x2="701.7" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="704.7" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">07</text>
+<rect x="748.5" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="757.8" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="767.1" y1="18.0" x2="767.1" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="770.1" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">14</text>
+<rect x="813.9" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="823.2" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="832.6" y1="18.0" x2="832.6" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="835.6" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">21</text>
+<rect x="879.3" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="888.6" y="40.0" width="9.3" height="465.0" rx="0" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<line x1="898.0" y1="18.0" x2="898.0" y2="505.0" stroke="#D8DEE9" stroke-width="0.8"/>
+<text x="901.0" y="31.0" font-size="9.5" font-weight="500" fill="#4C566A" text-anchor="start">28</text>
+<rect x="0.0" y="40.0" width="930.0" height="15.5" rx="0" fill="#E5E9F0" fill-opacity="0.8" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="51.5" font-size="9.5" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">P0</text>
+<text x="40.0" y="51.5" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Inception &amp; documentation</text>
+<path d="M356.0,52.0 V45.0 H440.1 V52.0" fill="none" stroke="#2E3440" stroke-width="2.4"/>
+<text x="6.0" y="67.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T0.1</text>
+<text x="40.0" y="67.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Project charter and SRS</text>
+<text x="318.0" y="67.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="356.0" y="59.0" width="37.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="82.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T0.2</text>
+<text x="40.0" y="82.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Docker · Postgres · repository scaffold</text>
+<text x="318.0" y="82.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="356.0" y="74.5" width="28.0" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="98.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T0.3</text>
+<text x="40.0" y="98.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Architecture · data design · ADRs</text>
+<text x="318.0" y="98.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="374.7" y="90.0" width="37.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="113.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T0.4</text>
+<text x="40.0" y="113.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Project plan · risk register · test plan</text>
+<text x="318.0" y="113.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="393.4" y="105.5" width="28.0" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="129.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T0.5</text>
+<text x="40.0" y="129.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Market research and problem validation</text>
+<text x="318.0" y="129.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="374.7" y="121.0" width="112.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="144.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">M0</text>
+<text x="40.0" y="144.5" font-size="10" font-weight="600" fill="#2E3440" text-anchor="start">Documentation baseline approved</text>
+<path d="M416.7377049180328,135.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
+<text x="425.7" y="144.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">07 Aug</text>
+<text x="318.0" y="144.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">gate</text>
+<rect x="0.0" y="148.5" width="930.0" height="15.5" rx="0" fill="#E5E9F0" fill-opacity="0.8" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="160.0" font-size="9.5" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">P1</text>
+<text x="40.0" y="160.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Elaboration · Sprint 1</text>
+<path d="M440.1,160.5 V153.5 H505.5 V160.5" fill="none" stroke="#2E3440" stroke-width="2.4"/>
+<text x="6.0" y="175.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.1</text>
+<text x="40.0" y="175.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Test catalogue: 60 tests, LOINC, units, organ map</text>
+<text x="318.0" y="175.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="440.1" y="167.5" width="46.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="191.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.2</text>
+<text x="40.0" y="191.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Synthetic report generator + ground truth</text>
+<text x="318.0" y="191.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="449.4" y="183.0" width="56.1" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="206.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.3</text>
+<text x="40.0" y="206.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">3D anatomy spike (Z-Anatomy → GLB → R3F)</text>
+<text x="318.0" y="206.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="440.1" y="198.5" width="18.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="222.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.4</text>
+<text x="40.0" y="222.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Knowledge-base sources and licence check</text>
+<text x="318.0" y="222.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="440.1" y="214.0" width="112.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="237.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.5</text>
+<text x="40.0" y="237.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Collect consented sample reports (redacted)</text>
+<text x="318.0" y="237.5" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="440.1" y="229.5" width="177.5" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<rect x="0.0" y="241.5" width="930.0" height="15.5" rx="0" fill="#E5E9F0" fill-opacity="0.8" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="253.0" font-size="9.5" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">P2</text>
+<text x="40.0" y="253.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Construction · Sprints 2–6</text>
+<path d="M505.5,253.5 V246.5 H832.6 V253.5" fill="none" stroke="#2E3440" stroke-width="2.4"/>
+<text x="6.0" y="268.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.1</text>
+<text x="40.0" y="268.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S2 · OCR · row parser · worker and job queue</text>
+<text x="318.0" y="268.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="505.5" y="260.5" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="284.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.2</text>
+<text x="40.0" y="284.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S3 · Mapping · normalisation · confidence · review UI</text>
+<text x="318.0" y="284.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="570.9" y="276.0" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="299.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">M1</text>
+<text x="40.0" y="299.5" font-size="10" font-weight="600" fill="#2E3440" text-anchor="start">Extraction MVP</text>
+<path d="M631.655737704918,290.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
+<text x="640.7" y="299.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">30 Aug</text>
+<text x="318.0" y="299.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">gate</text>
+<text x="6.0" y="315.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.3</text>
+<text x="40.0" y="315.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S4 · Analytics: ranges · critical · RCV · trends</text>
+<text x="318.0" y="315.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="636.3" y="307.0" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="330.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.4</text>
+<text x="40.0" y="330.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S5 · RAG · explanations · safety validator · voice</text>
+<text x="318.0" y="330.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="701.7" y="322.5" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="346.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.5</text>
+<text x="40.0" y="346.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Hindi / Odia glossary and translation review</text>
+<text x="318.0" y="346.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="636.3" y="338.0" width="112.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="361.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.6</text>
+<text x="40.0" y="361.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S6 · 3D body map · timeline · accounts · export</text>
+<text x="318.0" y="361.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="767.1" y="353.5" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="377.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.7</text>
+<text x="40.0" y="377.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Pitch deck and poster drafts</text>
+<text x="318.0" y="377.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="701.7" y="369.0" width="112.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="392.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">M2</text>
+<text x="40.0" y="392.5" font-size="10" font-weight="600" fill="#2E3440" text-anchor="start">Feature complete</text>
+<path d="M827.8852459016393,383.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
+<text x="836.9" y="392.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">20 Sep</text>
+<text x="318.0" y="392.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">gate</text>
+<rect x="0.0" y="396.5" width="930.0" height="15.5" rx="0" fill="#E5E9F0" fill-opacity="0.8" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="408.0" font-size="9.5" font-weight="700" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">P3</text>
+<text x="40.0" y="408.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Transition · Sprint 7</text>
+<path d="M832.6,408.5 V401.5 H926.0 V408.5" fill="none" stroke="#2E3440" stroke-width="2.4"/>
+<text x="6.0" y="423.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.1</text>
+<text x="40.0" y="423.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S7 · Hardening: evaluation · performance · offline mode</text>
+<text x="318.0" y="423.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
+<rect x="832.6" y="415.5" width="46.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="439.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.2</text>
+<text x="40.0" y="439.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">User testing (10 people) · doctor review (20 e…</text>
+<text x="318.0" y="439.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
+<rect x="832.6" y="431.0" width="56.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="454.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.3</text>
+<text x="40.0" y="454.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Project report (college format) · screenshots</text>
+<text x="318.0" y="454.5" font-size="9" font-weight="700" fill="#6E9A5B" text-anchor="start">ALL</text>
+<rect x="841.9" y="446.5" width="74.8" height="9.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="470.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.4</text>
+<text x="40.0" y="470.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Demo rehearsals × 3</text>
+<text x="318.0" y="470.0" font-size="9" font-weight="700" fill="#6E9A5B" text-anchor="start">ALL</text>
+<rect x="869.9" y="462.0" width="37.4" height="9.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="6.0" y="485.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">M3</text>
+<text x="40.0" y="485.5" font-size="10" font-weight="600" fill="#2E3440" text-anchor="start">Demo ready</text>
+<path d="M902.639344262295,476.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
+<text x="911.6" y="485.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">28 Sep</text>
+<text x="318.0" y="485.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">gate</text>
+<text x="6.0" y="501.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.5</text>
+<text x="40.0" y="501.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Contingency buffer</text>
+<text x="318.0" y="501.0" font-size="9" font-weight="700" fill="#6E9A5B" text-anchor="start">ALL</text>
+<rect x="907.3" y="493.0" width="18.7" height="9.0" rx="3" fill="#FFFFFF" stroke="#6B7385" stroke-width="0.9" stroke-dasharray="2 2"/>
+<rect x="6.0" y="518.0" width="26.0" height="14.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="40.0" y="529.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Developer</text>
+<rect x="118.1" y="518.0" width="26.0" height="14.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="152.1" y="529.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Team members</text>
+<rect x="248.6" y="518.0" width="26.0" height="14.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="282.6" y="529.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Whole team</text>
+<rect x="363.4" y="518.0" width="26.0" height="14.0" rx="3" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="397.4" y="529.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">weekend</text>
+<path d="M520,519.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
+<text x="532.0" y="529.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">milestone / gate</text>
+</g>
+</svg>

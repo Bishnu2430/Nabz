@@ -1,0 +1,58 @@
+# Nabz — local development stack.
+#   docker compose up --build                      # db + api
+#   docker compose --profile local-llm up --build  # + local small LLM (Ollama)
+# Services are added here as each sprint lands (worker: Sprint 2, web: Sprint 3).
+# See docs/03-system-architecture.md §5 for the full target topology.
+name: nabz
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-nabz}
+      POSTGRES_USER: ${POSTGRES_USER:-nabz}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/db/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nabz}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nabz}
+      UPLOAD_DIR: /data/uploads
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./backend/app:/app/app      # hot reload in development
+      - uploads:/data/uploads
+    ports:
+      - "127.0.0.1:${API_HOST_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  ollama:
+    image: ollama/ollama:latest   # pin to a specific tag once the model choice is final
+    profiles: ["local-llm"]
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "127.0.0.1:11434:11434"
+
+volumes:
+  pgdata:
+  uploads:
+  ollama:

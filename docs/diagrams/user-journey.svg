@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="780" viewBox="0 0 1480 780" role="img">
+<defs><marker id="m-arrow-BF616A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#BF616A"/></marker><marker id="m-arrow-6E9A5B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6E9A5B"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="780" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — user journey map</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Persona: Priya, 29, software engineer in Bengaluru, manages the lab reports of her father Ramesh, 58, who lives in Bhubaneswar.</text>
+<rect x="30.0" y="100.0" width="200.0" height="604.0" rx="10" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<rect x="50.0" y="120.0" width="52.0" height="52.0" rx="26" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(62.0,132.0) scale(1.1667)" fill="none" stroke="#FFFFFF" stroke-width="1.54" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></g>
+<text x="50.0" y="198.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="start">Priya · caregiver</text>
+<text x="50.0" y="217.0" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Checks reports on her</text>
+<text x="50.0" y="232.5" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">phone between meetings.</text>
+<text x="50.0" y="248.1" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Reads English; her</text>
+<text x="50.0" y="263.6" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">father prefers Odia.</text>
+<text x="50.0" y="295.1" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="start">Goal</text>
+<text x="50.0" y="314.1" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Know whether anything</text>
+<text x="50.0" y="329.6" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">needs a doctor before</text>
+<text x="50.0" y="345.2" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">the next visit.</text>
+<text x="50.0" y="376.7" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="start">Frustration</text>
+<text x="50.0" y="395.7" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Reports are dense tables;</text>
+<text x="50.0" y="411.2" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">searching each value is</text>
+<text x="50.0" y="426.7" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">slow and frightening.</text>
+<text x="50.0" y="458.2" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="start">Ramesh · patient</text>
+<text x="50.0" y="477.2" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">Borderline blood sugar;</text>
+<text x="50.0" y="492.8" font-size="11.5" font-weight="400" fill="#4C566A" text-anchor="start">yearly health check-up.</text>
+<rect x="250.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="346.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">1 · Report arrives</text>
+<rect x="450.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="546.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">2 · Upload</text>
+<rect x="650.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="746.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">3 · Check values</text>
+<rect x="850.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="946.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">4 · Understand</text>
+<rect x="1050.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="1146.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">5 · Act</text>
+<rect x="1250.0" y="100.0" width="192.0" height="40.0" rx="6" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="1346.0" y="125.0" font-size="12.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">6 · Track over time</text>
+<text x="240.0" y="166.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="240.0" y="266.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="240.0" y="366.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="240.0" y="524.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="240.0" y="624.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<rect x="250.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="266.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="264.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Lab sends a PDF on</text>
+<text x="264.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">WhatsApp; father</text>
+<text x="264.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">forwards a photo.</text>
+<rect x="250.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="264.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“Is anything here</text>
+<text x="264.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">serious?”</text>
+<rect x="250.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="264.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">20+ unfamiliar</text>
+<text x="264.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">abbreviations</text>
+<rect x="250.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="264.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">body map shows what</text>
+<text x="264.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">matters at a glance</text>
+<rect x="450.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="466.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="464.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Opens Nabz, picks</text>
+<text x="464.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Father&#x27;s profile,</text>
+<text x="464.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">shares the PDF.</text>
+<rect x="450.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="464.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“Will this work with</text>
+<text x="464.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">a blurry photo?”</text>
+<rect x="450.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="464.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">photos are skewed,</text>
+<text x="464.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">shadowed</text>
+<rect x="450.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="464.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">quality check with</text>
+<text x="464.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">retake tips</text>
+<rect x="650.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="666.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="664.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Sees each value next</text>
+<text x="664.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">to the report image;</text>
+<text x="664.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">fixes one OCR error.</text>
+<rect x="650.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="664.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“Can I trust what</text>
+<text x="664.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">it read?”</text>
+<rect x="650.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="664.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">OCR mistakes would</text>
+<text x="664.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">mislead</text>
+<rect x="650.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="664.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">human review of low-</text>
+<text x="664.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">confidence values</text>
+<rect x="850.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="866.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="864.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Taps the glowing liver;</text>
+<text x="864.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">reads why ALT is high;</text>
+<text x="864.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">plays Odia audio.</text>
+<rect x="850.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="864.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“What does this</text>
+<text x="864.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">actually mean for</text>
+<text x="864.0" y="308.4" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">Papa?”</text>
+<rect x="850.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="864.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">search results are</text>
+<text x="864.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">alarming, generic</text>
+<rect x="850.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="864.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">grounded explanation</text>
+<text x="864.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">in Odia, with sources</text>
+<rect x="1050.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="1066.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="1064.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Books a follow-up;</text>
+<text x="1064.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">shares a summary</text>
+<text x="1064.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">link with the doctor.</text>
+<rect x="1050.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="1064.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“What should I ask</text>
+<text x="1064.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">the doctor?”</text>
+<rect x="1050.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="1064.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">5-minute consultation;</text>
+<text x="1064.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">forgets questions</text>
+<rect x="1050.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="1064.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">printable doctor</text>
+<text x="1064.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">questions + share link</text>
+<rect x="1250.0" y="150.0" width="192.0" height="84.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<text x="1266.0" y="174.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start"></text>
+<text x="1264.0" y="176.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">Uploads next year&#x27;s</text>
+<text x="1264.0" y="191.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">report; scrubs the</text>
+<text x="1264.0" y="207.1" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">timeline.</text>
+<rect x="1250.0" y="250.0" width="192.0" height="84.0" rx="8" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="1264.0" y="276.0" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">“Is his sugar</text>
+<text x="1264.0" y="292.2" font-size="12" font-weight="400" fill="#4C566A" text-anchor="start">getting worse?”</text>
+<rect x="1250.0" y="508.0" width="192.0" height="84.0" rx="8" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.1"/>
+<text x="1264.0" y="534.0" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">reports from different</text>
+<text x="1264.0" y="549.5" font-size="11.5" font-weight="400" fill="#2E3440" text-anchor="start">labs, units differ</text>
+<rect x="1250.0" y="608.0" width="192.0" height="84.0" rx="8" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<text x="1264.0" y="634.0" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">unit-normalised trends</text>
+<text x="1264.0" y="649.5" font-size="11.5" font-weight="600" fill="#2E3440" text-anchor="start">+ change significance</text>
+<text x="1454.0" y="166.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="1454.0" y="266.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="1454.0" y="366.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="1454.0" y="524.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="1454.0" y="624.0" font-size="1" font-weight="400" fill="#2E3440" text-anchor="start"></text>
+<text x="1468" y="192" font-size="11.5" font-weight="700" fill="#6B7385" transform="rotate(90 1468 192)" text-anchor="middle">Doing</text>
+<text x="1468" y="292" font-size="11.5" font-weight="700" fill="#6B7385" transform="rotate(90 1468 292)" text-anchor="middle">Thinking</text>
+<text x="1468" y="416" font-size="11.5" font-weight="700" fill="#6B7385" transform="rotate(90 1468 416)" text-anchor="middle">Feeling</text>
+<text x="1468" y="550" font-size="11.5" font-weight="700" fill="#6B7385" transform="rotate(90 1468 550)" text-anchor="middle">Pain points</text>
+<text x="1468" y="650" font-size="11.5" font-weight="700" fill="#6B7385" transform="rotate(90 1468 650)" text-anchor="middle">How Nabz helps</text>
+<rect x="250.0" y="350.0" width="1192.0" height="132.0" rx="8" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<line x1="260.0" y1="407.0" x2="1432.0" y2="407.0" stroke="#D8DEE9" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="262.0" y="356.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="start">calm</text>
+<text x="262.0" y="460.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="start">anxious</text>
+<path d="M346.0,440.0 C446.0,440.0 446.0,418.0 546.0,418.0 C646.0,418.0 646.0,423.5 746.0,423.5 C846.0,423.5 846.0,456.5 946.0,456.5 C1046.0,456.5 1046.0,434.5 1146.0,434.5 C1246.0,434.5 1246.0,445.5 1346.0,445.5" fill="none" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="6 5"/>
+<circle cx="346.0" cy="440.0" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<circle cx="546.0" cy="418.0" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<circle cx="746.0" cy="423.5" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<circle cx="946.0" cy="456.5" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<circle cx="1146.0" cy="434.5" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<circle cx="1346.0" cy="445.5" r="5" fill="#FFFFFF" stroke="#BF616A" stroke-width="2"/>
+<path d="M346.0,429.0 C446.0,429.0 446.0,396.0 546.0,396.0 C646.0,396.0 646.0,390.5 746.0,390.5 C846.0,390.5 846.0,368.5 946.0,368.5 C1046.0,368.5 1046.0,363.0 1146.0,363.0 C1246.0,363.0 1246.0,357.5 1346.0,357.5" fill="none" stroke="#6E9A5B" stroke-width="2.5"/>
+<circle cx="346.0" cy="429.0" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<circle cx="546.0" cy="396.0" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<circle cx="746.0" cy="390.5" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<circle cx="946.0" cy="368.5" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<circle cx="1146.0" cy="363.0" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<circle cx="1346.0" cy="357.5" r="5" fill="#FFFFFF" stroke="#6E9A5B" stroke-width="2"/>
+<path d="M340.0,468.0 L366.0,468.0" fill="none" stroke="#BF616A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-BF616A)"/>
+<text x="374.0" y="472.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">today (PDF + web search)</text>
+<path d="M527.5,468.0 L553.5,468.0" fill="none" stroke="#6E9A5B" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-6E9A5B)"/>
+<text x="561.5" y="472.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">with Nabz</text>
+<text x="32.0" y="764.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/user-journey.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>
