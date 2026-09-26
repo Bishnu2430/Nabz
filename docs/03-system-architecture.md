@@ -41,7 +41,7 @@
 | **Models (in-process)** | OCR and embedding models loaded by the worker | PaddleOCR PP-OCRv5, multilingual-e5-small |
 | **Ollama** *(optional)* | Local 3–4B model for structuring ambiguous rows | Qwen3-4B-Instruct (Q4) |
 | **LLM API** | Grounded explanations; safety judge; consent-gated vision fallback (separate vision model) | Groq API: `openai/gpt-oss-120b`; vision model for the fallback |
-| **TTS API** *(optional)* | Narration in Indian languages | Chosen in Sprint 5 ([09 §5](09-data-sources-and-licensing.md#5-models-and-services)) |
+| **TTS API** *(optional)* | Narration in Indian languages | ElevenLabs, `eleven_multilingual_v2` ([ADR-0008](adr/0008-elevenlabs-for-narration.md)) |
 
 The architecture diagram doubles as the **block diagram** in the college report. It numbers the request flow; [05](05-workflows-and-interactions.md) shows the same flow as pipeline, activity and sequence diagrams.
 

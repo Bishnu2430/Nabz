@@ -72,7 +72,7 @@ Real samples are stored only in `data/private/`, which is git-ignored and on an 
 | Explanation LLM | Groq API, `openai/gpt-oss-120b` (open-weight model, Apache-2.0) | Groq API terms | De-identified payloads only |
 | Vision fallback | Groq API, vision model set in `VISION_MODEL` | Groq API terms; model licence | Only with per-report consent |
 | Translation aid | AI4Bharat IndicTrans2 | MIT | Fallback when direct generation in Odia is weak (R-03) |
-| Text-to-speech | Candidates: Sarvam AI (commercial API), AI4Bharat Indic Parler-TTS (open source) | Check each | Chosen in Sprint 5 after an Odia voice-quality test |
+| Text-to-speech | ElevenLabs API, `eleven_multilingual_v2` ([ADR-0008](adr/0008-elevenlabs-for-narration.md)); AI4Bharat Indic Parler-TTS as the Odia fallback | ElevenLabs terms; open source for the fallback | Odia support checked in Sprint 5 |
 | 3D anatomy | Z-Anatomy (derived from BodyParts3D) | CC BY-SA 4.0 | Attribution on the About screen; modified meshes are shared under the same licence |
 | Fonts | Noto Sans, Noto Sans Devanagari, Noto Sans Oriya | SIL OFL 1.1 | UI in all three scripts |
 

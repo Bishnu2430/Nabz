@@ -11,5 +11,6 @@ An ADR captures one significant decision: its context, the options considered, t
 | [0005](0005-deterministic-safety-rules.md) | Safety-critical logic is deterministic, not generated | Accepted | 2026-09-26 |
 | [0006](0006-3d-rendering-stack.md) | 3D body map with react-three-fiber and Z-Anatomy | Accepted | 2026-09-26 |
 | [0007](0007-groq-gpt-oss-for-explanations.md) | Groq `openai/gpt-oss-120b` for explanations (supersedes the provider in 0004) | Accepted | 2026-09-26 |
+| [0008](0008-elevenlabs-for-narration.md) | ElevenLabs for narration | Accepted | 2026-09-26 |
 
 Template: copy `0001` and follow the sections Context → Decision → Alternatives → Consequences.

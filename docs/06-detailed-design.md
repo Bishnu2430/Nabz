@@ -18,8 +18,10 @@ nabz/
 │   ├── pyproject.toml, uv.lock
 │   ├── app/
 │   │   ├── main.py              # FastAPI app factory, routers, health
+│   │   ├── cli.py               # management commands (seed-catalogue, …)
 │   │   ├── core/                # config, logging, security, i18n keys
 │   │   ├── db.py                # engine + session
+│   │   ├── catalogue/           # CSV loader + validation, unit normalisation/conversion, LOINC check, seeding
 │   │   ├── models/              # SQLAlchemy ORM (one module per domain)
 │   │   ├── schemas/             # Pydantic request/response + explanation JSON schema
 │   │   ├── api/                 # routers: auth, profiles, reports, insights, admin
@@ -29,14 +31,15 @@ nabz/
 │   │   ├── analysis/            # RangeClassifier, CriticalRules, ChangeDetector, TrendAnalyzer, Percentiles
 │   │   ├── explanation/         # KnowledgeRetriever, PromptBuilder, LLMProvider, SafetyValidator
 │   │   └── narration/           # TTSProvider implementations
+│   ├── tools/synthetic/         # synthetic report generator (PDF + ground truth)
 │   ├── migrations/              # Alembic
-│   └── tests/                   # unit, integration (testcontainers), eval harness
+│   └── tests/                   # unit, integration (throwaway Postgres database), eval harness
 ├── frontend/                    # React + TS + Vite (Sprint 3)
 │   └── src/{app,features,three,i18n,api}
 ├── data/
 │   ├── catalogue/               # tests, aliases, units, ranges, critical limits (CSV)
 │   ├── knowledge/               # curated source texts + licence manifest
-│   ├── synthetic/               # generated reports + ground truth (JSON)
+│   ├── synthetic/               # samples/ committed; generated sets git-ignored
 │   └── private/                 # consented real samples — git-ignored, encrypted
 └── docs/                        # this documentation
 ```
