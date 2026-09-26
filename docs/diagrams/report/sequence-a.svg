@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.93cm" height="13.86cm" viewBox="0 0 602 524" role="img">
+<defs><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker><marker id="m-open-4C566A" viewBox="0 0 11 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#4C566A" stroke-width="1.4"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="602" height="524" fill="#FFFFFF"/>
+<rect x="4.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="4.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="50.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">User</text>
+<line x1="50.0" y1="30.0" x2="50.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<rect x="104.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.4"/>
+<rect x="104.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="150.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">Web app</text>
+<line x1="150.0" y1="30.0" x2="150.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<rect x="204.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.4"/>
+<rect x="204.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="250.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">API</text>
+<line x1="250.0" y1="30.0" x2="250.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<rect x="304.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.4"/>
+<rect x="304.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="350.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">PostgreSQL</text>
+<line x1="350.0" y1="30.0" x2="350.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<rect x="404.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.4"/>
+<rect x="404.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="450.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">Worker</text>
+<line x1="450.0" y1="30.0" x2="450.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<rect x="504.0" y="2.0" width="92.0" height="28.0" rx="5" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="504.0" y="2.0" width="92.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="550.0" y="22.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="middle">Local LLM</text>
+<line x1="550.0" y1="30.0" x2="550.0" y2="518.0" stroke="#B8C0CE" stroke-width="1.1" stroke-dasharray="4 4"/>
+<path d="M50.0,58.0 L147.0,58.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="61.0" cy="48.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="61.0" y="51.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">1</text>
+<text x="72.0" y="52.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">choose photo / PDF</text>
+<path d="M150.0,82.0 L169.0,82.0 Q176.0,82.0 176.0,89.0 L176.0,89.0 Q176.0,96.0 169.0,96.0 L153.0,96.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="182.0" y="93.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">quality check</text>
+<circle cx="139.0" cy="89.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="139.0" y="92.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">2</text>
+<path d="M150.0,118.0 L247.0,118.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="161.0" cy="108.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="161.0" y="111.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">3</text>
+<text x="172.0" y="112.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">POST /reports</text>
+<path d="M250.0,148.0 L347.0,148.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="261.0" cy="138.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="261.0" y="141.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">4</text>
+<text x="272.0" y="142.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">INSERT report + job</text>
+<path d="M250.0,178.0 L153.0,178.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-open-4C566A)"/>
+<circle cx="161.0" cy="168.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="161.0" y="171.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">5</text>
+<text x="172.0" y="172.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">202 Accepted</text>
+<path d="M450.0,208.0 L353.0,208.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="361.0" cy="198.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="361.0" y="201.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">6</text>
+<text x="372.0" y="202.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">claim job (SKIP LOCKED)</text>
+<path d="M450.0,232.0 L469.0,232.0 Q476.0,232.0 476.0,239.0 L476.0,239.0 Q476.0,246.0 469.0,246.0 L453.0,246.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="482.0" y="243.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">pre-process · OCR</text>
+<circle cx="439.0" cy="239.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="439.0" y="242.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">7</text>
+<path d="M450.0,262.0 L469.0,262.0 Q476.0,262.0 476.0,269.0 L476.0,269.0 Q476.0,276.0 469.0,276.0 L453.0,276.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="482.0" y="273.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">parse · map · score</text>
+<circle cx="439.0" cy="269.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="439.0" y="272.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">8</text>
+<path d="M450.0,322.0 L547.0,322.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="461.0" cy="312.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="461.0" y="315.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">9</text>
+<text x="472.0" y="316.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">structure rows</text>
+<path d="M550.0,352.0 L453.0,352.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-open-4C566A)"/>
+<circle cx="461.0" cy="342.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="461.0" y="345.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">10</text>
+<text x="472.0" y="346.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">rows JSON</text>
+<rect x="410.0" y="282.0" width="180.0" height="94.0" rx="2" fill="none" stroke="#4C566A" stroke-width="1"/>
+<path d="M410,282 h28.7 v10 l-5,5 h-23.7 z" fill="#E5E9F0" stroke="#4C566A" stroke-width="1"/>
+<text x="416.0" y="293.0" font-size="10" font-weight="700" fill="#2E3440" text-anchor="start">alt</text>
+<text x="444.7" y="293.0" font-size="10" font-weight="500" fill="#4C566A" text-anchor="start">[confidence &lt; τ]</text>
+<path d="M450.0,392.0 L353.0,392.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="361.0" cy="382.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="361.0" y="385.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">11</text>
+<text x="372.0" y="386.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">INSERT observations</text>
+<path d="M150.0,422.0 L247.0,422.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="161.0" cy="412.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="161.0" y="415.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">12</text>
+<text x="172.0" y="416.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">GET status (SSE)</text>
+<path d="M250.0,452.0 L153.0,452.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-open-4C566A)"/>
+<circle cx="161.0" cy="442.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="161.0" y="445.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">13</text>
+<text x="172.0" y="446.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">draft values</text>
+<path d="M150.0,482.0 L53.0,482.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-open-4C566A)"/>
+<circle cx="61.0" cy="472.0" r="7" fill="#E5E9F0" stroke="none" stroke-width="1"/>
+<text x="61.0" y="475.5" font-size="8.5" font-weight="700" fill="#4C566A" text-anchor="middle">14</text>
+<text x="72.0" y="476.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">review screen</text>
+</g>
+</svg>

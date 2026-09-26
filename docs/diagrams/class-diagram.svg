@@ -1,0 +1,291 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="1300" viewBox="0 0 1660 1300" role="img">
+<defs><marker id="m-open-4C566A" viewBox="0 0 11 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#4C566A" stroke-width="1.4"/></marker><marker id="m-diamond-4C566A" viewBox="0 0 14 12" refX="13" refY="6" markerWidth="13" markerHeight="11" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1,6 L7,1 L13,6 L7,11 z" fill="#4C566A"/></marker><marker id="m-triangle-4C566A" viewBox="0 0 13 13" refX="12" refY="6.5" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1,1 L12,6.5 L1,12 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/></marker><marker id="m-open-B48EAD" viewBox="0 0 11 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#B48EAD" stroke-width="1.4"/></marker><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1660" height="1300" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — class diagram (backend core)</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Python modules in backend/app. Interfaces keep OCR, LLM, TTS, storage and queue swappable.</text>
+<rect x="30.0" y="100.0" width="250.0" height="144.0" rx="4" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.4"/>
+<rect x="30.0" y="100.0" width="250.0" height="44.0" rx="4" fill="#88C0D0" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="30.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="155.0" y="119.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«FastAPI router»</text>
+<text x="155.0" y="135.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ReportsRouter</text>
+<line x1="30.0" y1="144.0" x2="280.0" y2="144.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="40.0" y="160.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- service: ReportService</text>
+<line x1="30.0" y1="170.0" x2="280.0" y2="170.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="40.0" y="186.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ upload(profile_id, file)</text>
+<text x="40.0" y="202.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ get(report_id)</text>
+<text x="40.0" y="218.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ confirm(report_id, edits)</text>
+<text x="40.0" y="234.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ insights(report_id)</text>
+<rect x="300.0" y="100.0" width="250.0" height="162.0" rx="4" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.4"/>
+<rect x="300.0" y="100.0" width="250.0" height="30.0" rx="4" fill="#5E81AC" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="300.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="425.0" y="121.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ReportService</text>
+<line x1="300.0" y1="130.0" x2="550.0" y2="130.0" stroke="#5E81AC" stroke-width="1"/>
+<text x="310.0" y="146.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- repo: ReportRepository</text>
+<text x="310.0" y="162.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- storage: StorageBackend</text>
+<text x="310.0" y="178.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- queue: JobQueue</text>
+<line x1="300.0" y1="188.0" x2="550.0" y2="188.0" stroke="#5E81AC" stroke-width="1"/>
+<text x="310.0" y="204.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ create(profile_id, upload): Report</text>
+<text x="310.0" y="220.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ confirm(id, edits): Report</text>
+<text x="310.0" y="236.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ insights(id): Insights</text>
+<text x="310.0" y="252.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ delete(id): None</text>
+<rect x="570.0" y="100.0" width="250.0" height="130.0" rx="4" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.4"/>
+<rect x="570.0" y="100.0" width="250.0" height="30.0" rx="4" fill="#5E81AC" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="570.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="695.0" y="121.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ReportRepository</text>
+<line x1="570.0" y1="130.0" x2="820.0" y2="130.0" stroke="#5E81AC" stroke-width="1"/>
+<text x="580.0" y="146.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- session: Session</text>
+<line x1="570.0" y1="156.0" x2="820.0" y2="156.0" stroke="#5E81AC" stroke-width="1"/>
+<text x="580.0" y="172.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ get(id): Report</text>
+<text x="580.0" y="188.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ save(report): None</text>
+<text x="580.0" y="204.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ observations(id): list</text>
+<text x="580.0" y="220.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ history(profile, test): Series</text>
+<rect x="840.0" y="100.0" width="250.0" height="128.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.4"/>
+<rect x="840.0" y="100.0" width="250.0" height="44.0" rx="4" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="840.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="965.0" y="119.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="965.0" y="135.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">StorageBackend</text>
+<line x1="840.0" y1="144.0" x2="1090.0" y2="144.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="850.0" y="160.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="840.0" y1="170.0" x2="1090.0" y2="170.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="850.0" y="186.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ put(key, data): None</text>
+<text x="850.0" y="202.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ get(key): bytes</text>
+<text x="850.0" y="218.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ delete(key): None</text>
+<rect x="1110.0" y="100.0" width="250.0" height="144.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.4"/>
+<rect x="1110.0" y="100.0" width="250.0" height="44.0" rx="4" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1110.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="1235.0" y="119.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="1235.0" y="135.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">JobQueue</text>
+<line x1="1110.0" y1="144.0" x2="1360.0" y2="144.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="1120.0" y="160.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="1110.0" y1="170.0" x2="1360.0" y2="170.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="1120.0" y="186.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ enqueue(report_id, stage)</text>
+<text x="1120.0" y="202.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ claim(worker_id): Job | None</text>
+<text x="1120.0" y="218.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(job)</text>
+<text x="1120.0" y="234.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ fail(job, error)</text>
+<rect x="1380.0" y="100.0" width="250.0" height="114.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="1380.0" y="100.0" width="250.0" height="30.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1380.0" y="100.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="1505.0" y="121.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">Worker</text>
+<line x1="1380.0" y1="130.0" x2="1630.0" y2="130.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1390.0" y="146.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- queue: JobQueue</text>
+<text x="1390.0" y="162.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- handlers: dict[Stage, …]</text>
+<line x1="1380.0" y1="172.0" x2="1630.0" y2="172.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1390.0" y="188.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ run_forever(): None</text>
+<text x="1390.0" y="204.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ process(job): None</text>
+<rect x="840.0" y="330.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.4"/>
+<rect x="840.0" y="330.0" width="250.0" height="30.0" rx="4" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="840.0" y="330.0" width="250.0" height="4.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="965.0" y="351.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">LocalVolumeStorage</text>
+<line x1="840.0" y1="360.0" x2="1090.0" y2="360.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="850.0" y="376.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- root: Path</text>
+<line x1="840.0" y1="386.0" x2="1090.0" y2="386.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="850.0" y="402.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ put / get / delete</text>
+<rect x="1110.0" y="330.0" width="250.0" height="98.0" rx="4" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.4"/>
+<rect x="1110.0" y="330.0" width="250.0" height="30.0" rx="4" fill="#A3BE8C" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1110.0" y="330.0" width="250.0" height="4.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<text x="1235.0" y="351.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">PgJobQueue</text>
+<line x1="1110.0" y1="360.0" x2="1360.0" y2="360.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="1120.0" y="376.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- engine: Engine</text>
+<line x1="1110.0" y1="386.0" x2="1360.0" y2="386.0" stroke="#A3BE8C" stroke-width="1"/>
+<text x="1120.0" y="402.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ claim(): FOR UPDATE</text>
+<text x="1120.0" y="418.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">     SKIP LOCKED</text>
+<rect x="1380.0" y="330.0" width="250.0" height="96.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="1380.0" y="330.0" width="250.0" height="44.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1380.0" y="330.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="1505.0" y="349.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="1505.0" y="365.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">StageHandler</text>
+<line x1="1380.0" y1="374.0" x2="1630.0" y2="374.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1390.0" y="390.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ stage: Stage</text>
+<line x1="1380.0" y1="400.0" x2="1630.0" y2="400.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1390.0" y="416.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job): None</text>
+<rect x="30.0" y="580.0" width="250.0" height="96.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>
+<rect x="30.0" y="580.0" width="250.0" height="44.0" rx="4" fill="#8FBCBB" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="30.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="155.0" y="599.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="155.0" y="615.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">OCREngine</text>
+<line x1="30.0" y1="624.0" x2="280.0" y2="624.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="40.0" y="640.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="30.0" y1="650.0" x2="280.0" y2="650.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="40.0" y="666.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image): list[Line]</text>
+<rect x="300.0" y="580.0" width="250.0" height="114.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="300.0" y="580.0" width="250.0" height="30.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="300.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="425.0" y="601.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ExtractionStage</text>
+<line x1="300.0" y1="610.0" x2="550.0" y2="610.0" stroke="#4C566A" stroke-width="1"/>
+<text x="310.0" y="626.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- ocr: OCREngine</text>
+<text x="310.0" y="642.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- matcher: CatalogMatcher</text>
+<text x="310.0" y="658.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- scorer: ConfidenceModel</text>
+<line x1="300.0" y1="668.0" x2="550.0" y2="668.0" stroke="#4C566A" stroke-width="1"/>
+<text x="310.0" y="684.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job): None</text>
+<rect x="570.0" y="580.0" width="250.0" height="114.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="570.0" y="580.0" width="250.0" height="30.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="570.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="695.0" y="601.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">AnalysisStage</text>
+<line x1="570.0" y1="610.0" x2="820.0" y2="610.0" stroke="#4C566A" stroke-width="1"/>
+<text x="580.0" y="626.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- change: ChangeDetector</text>
+<text x="580.0" y="642.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- trends: TrendAnalyzer</text>
+<text x="580.0" y="658.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- critical: CriticalRules</text>
+<line x1="570.0" y1="668.0" x2="820.0" y2="668.0" stroke="#4C566A" stroke-width="1"/>
+<text x="580.0" y="684.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job): None</text>
+<rect x="840.0" y="580.0" width="250.0" height="114.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="840.0" y="580.0" width="250.0" height="30.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="840.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="965.0" y="601.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ExplanationStage</text>
+<line x1="840.0" y1="610.0" x2="1090.0" y2="610.0" stroke="#4C566A" stroke-width="1"/>
+<text x="850.0" y="626.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- retriever: KnowledgeRetriever</text>
+<text x="850.0" y="642.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- llm: LLMProvider</text>
+<text x="850.0" y="658.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- validator: SafetyValidator</text>
+<line x1="840.0" y1="668.0" x2="1090.0" y2="668.0" stroke="#4C566A" stroke-width="1"/>
+<text x="850.0" y="684.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job): None</text>
+<rect x="1110.0" y="580.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.4"/>
+<rect x="1110.0" y="580.0" width="250.0" height="30.0" rx="4" fill="#4C566A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1110.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="1235.0" y="601.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">NarrationStage</text>
+<line x1="1110.0" y1="610.0" x2="1360.0" y2="610.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1120.0" y="626.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- tts: TTSProvider</text>
+<line x1="1110.0" y1="636.0" x2="1360.0" y2="636.0" stroke="#4C566A" stroke-width="1"/>
+<text x="1120.0" y="652.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job): None</text>
+<rect x="1380.0" y="580.0" width="250.0" height="96.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1380.0" y="580.0" width="250.0" height="44.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1380.0" y="580.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="1505.0" y="599.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="1505.0" y="615.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">TTSProvider</text>
+<line x1="1380.0" y1="624.0" x2="1630.0" y2="624.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1390.0" y="640.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="1380.0" y1="650.0" x2="1630.0" y2="650.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1390.0" y="666.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ speak(text, lang): bytes</text>
+<rect x="30.0" y="810.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>
+<rect x="30.0" y="810.0" width="250.0" height="30.0" rx="4" fill="#8FBCBB" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="30.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="155.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">PaddleOCREngine</text>
+<line x1="30.0" y1="840.0" x2="280.0" y2="840.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="40.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model: PaddleOCR</text>
+<line x1="30.0" y1="866.0" x2="280.0" y2="866.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="40.0" y="882.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image): list[Line]</text>
+<rect x="300.0" y="810.0" width="250.0" height="98.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>
+<rect x="300.0" y="810.0" width="250.0" height="30.0" rx="4" fill="#8FBCBB" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="300.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="425.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">CatalogMatcher</text>
+<line x1="300.0" y1="840.0" x2="550.0" y2="840.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="310.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- catalog: TestCatalog</text>
+<text x="310.0" y="872.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- llm: LLMProvider</text>
+<line x1="300.0" y1="882.0" x2="550.0" y2="882.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="310.0" y="898.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ match(row): Match</text>
+<rect x="300.0" y="990.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>
+<rect x="300.0" y="990.0" width="250.0" height="30.0" rx="4" fill="#8FBCBB" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="300.0" y="990.0" width="250.0" height="4.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="425.0" y="1011.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ConfidenceModel</text>
+<line x1="300.0" y1="1020.0" x2="550.0" y2="1020.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="310.0" y="1036.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- clf: CalibratedClassifier</text>
+<line x1="300.0" y1="1046.0" x2="550.0" y2="1046.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="310.0" y="1062.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ score(features): float</text>
+<rect x="570.0" y="810.0" width="250.0" height="98.0" rx="4" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.4"/>
+<rect x="570.0" y="810.0" width="250.0" height="30.0" rx="4" fill="#88C0D0" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="570.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="695.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">ChangeDetector</text>
+<line x1="570.0" y1="840.0" x2="820.0" y2="840.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="580.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- cv: BiologicalVariation</text>
+<line x1="570.0" y1="866.0" x2="820.0" y2="866.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="580.0" y="882.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ rcv(test): float</text>
+<text x="580.0" y="898.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ significant(a, b): bool</text>
+<rect x="570.0" y="990.0" width="250.0" height="98.0" rx="4" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.4"/>
+<rect x="570.0" y="990.0" width="250.0" height="30.0" rx="4" fill="#88C0D0" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="570.0" y="990.0" width="250.0" height="4.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="695.0" y="1011.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">TrendAnalyzer</text>
+<line x1="570.0" y1="1020.0" x2="820.0" y2="1020.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="580.0" y="1036.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="570.0" y1="1046.0" x2="820.0" y2="1046.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="580.0" y="1062.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ slope(series): Trend</text>
+<text x="580.0" y="1078.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ project(series, lim): date</text>
+<rect x="570.0" y="1150.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.4"/>
+<rect x="570.0" y="1150.0" width="250.0" height="30.0" rx="4" fill="#BF616A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="570.0" y="1150.0" width="250.0" height="4.0" rx="2" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<text x="695.0" y="1171.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">CriticalRules</text>
+<line x1="570.0" y1="1180.0" x2="820.0" y2="1180.0" stroke="#BF616A" stroke-width="1"/>
+<text x="580.0" y="1196.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- limits: dict[int, Limit]</text>
+<line x1="570.0" y1="1206.0" x2="820.0" y2="1206.0" stroke="#BF616A" stroke-width="1"/>
+<text x="580.0" y="1222.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ check(obs): Alert | None</text>
+<rect x="840.0" y="810.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="840.0" y="810.0" width="250.0" height="30.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="840.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="965.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">KnowledgeRetriever</text>
+<line x1="840.0" y1="840.0" x2="1090.0" y2="840.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="850.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- embedder: Embedder</text>
+<line x1="840.0" y1="866.0" x2="1090.0" y2="866.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="850.0" y="882.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ top_k(tests, lang, k): list</text>
+<rect x="840.0" y="990.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.4"/>
+<rect x="840.0" y="990.0" width="250.0" height="30.0" rx="4" fill="#BF616A" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="840.0" y="990.0" width="250.0" height="4.0" rx="2" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<text x="965.0" y="1011.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">SafetyValidator</text>
+<line x1="840.0" y1="1020.0" x2="1090.0" y2="1020.0" stroke="#BF616A" stroke-width="1"/>
+<text x="850.0" y="1036.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- rules: list[Rule]</text>
+<line x1="840.0" y1="1046.0" x2="1090.0" y2="1046.0" stroke="#BF616A" stroke-width="1"/>
+<text x="850.0" y="1062.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ validate(text, obs): Verdict</text>
+<rect x="1110.0" y="810.0" width="250.0" height="96.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1110.0" y="810.0" width="250.0" height="44.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1110.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="1235.0" y="829.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="1235.0" y="845.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">LLMProvider</text>
+<line x1="1110.0" y1="854.0" x2="1360.0" y2="854.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1120.0" y="870.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace"></text>
+<line x1="1110.0" y1="880.0" x2="1360.0" y2="880.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1120.0" y="896.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt, schema): dict</text>
+<rect x="1110.0" y="1010.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1110.0" y="1010.0" width="250.0" height="30.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1110.0" y="1010.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="1235.0" y="1031.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">AnthropicProvider</text>
+<line x1="1110.0" y1="1040.0" x2="1360.0" y2="1040.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1120.0" y="1056.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model = &quot;claude-opus-5&quot;</text>
+<line x1="1110.0" y1="1066.0" x2="1360.0" y2="1066.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1120.0" y="1082.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt, schema)</text>
+<rect x="1380.0" y="1010.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1380.0" y="1010.0" width="250.0" height="30.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
+<rect x="1380.0" y="1010.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="1505.0" y="1031.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">OllamaProvider</text>
+<line x1="1380.0" y1="1040.0" x2="1630.0" y2="1040.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1390.0" y="1056.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model = &quot;qwen3:4b&quot;</text>
+<line x1="1380.0" y1="1066.0" x2="1630.0" y2="1066.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="1390.0" y="1082.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt, schema)</text>
+<path d="M280.0,150.4 L300.0,156.7" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)"/>
+<path d="M550.0,156.7 L570.0,145.5" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)"/>
+<path d="M425.0,100.0 L425.0,93.0 Q425.0,86.0 432.0,86.0 L958.0,86.0 Q965.0,86.0 965.0,93.0 L965.0,100.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)"/>
+<path d="M425.0,100.0 L425.0,93.0 Q425.0,86.0 432.0,86.0 L1228.0,86.0 Q1235.0,86.0 1235.0,93.0 L1235.0,100.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)"/>
+<path d="M1380.0,139.9 L1360.0,150.4" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)"/>
+<path d="M1505.0,214.0 L1505.0,330.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-open-4C566A)" marker-start="url(#m-diamond-4C566A)"/>
+<rect x="1468.8" y="291.0" width="72.5" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="1505.0" y="303.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">handlers 1..*</text>
+<path d="M965.0,330.0 L965.0,228.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M1235.0,330.0 L1235.0,244.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M425.0,580.0 L425.0,545.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M695.0,580.0 L695.0,545.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M965.0,580.0 L965.0,545.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M1235.0,580.0 L1235.0,545.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M425.0,545.0 L1498.0,545.0 Q1505.0,545.0 1505.0,538.0 L1505.0,426.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M300.0,625.6 L280.0,618.4" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M155.0,810.0 L155.0,676.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M425.0,694.0 L425.0,810.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M300.0,671.2 L293.0,671.2 Q286.0,671.2 286.0,678.2 L286.0,1024.0 Q286.0,1031.0 293.0,1031.0 L300.0,1031.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M695.0,694.0 L695.0,810.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M570.0,671.2 L563.0,671.2 Q556.0,671.2 556.0,678.2 L556.0,1032.0 Q556.0,1039.0 563.0,1039.0 L570.0,1039.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M570.0,671.2 L563.0,671.2 Q556.0,671.2 556.0,678.2 L556.0,1184.0 Q556.0,1191.0 563.0,1191.0 L570.0,1191.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M915.0,694.0 L915.0,810.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M840.0,676.9 L833.0,676.9 Q826.0,676.9 826.0,683.9 L826.0,1024.0 Q826.0,1031.0 833.0,1031.0 L840.0,1031.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M1090.0,676.9 L1093.0,676.9 Q1096.0,676.9 1096.0,679.9 L1096.0,851.0 Q1096.0,858.0 1103.0,858.0 L1110.0,858.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M1360.0,621.0 L1380.0,628.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<path d="M1235.0,1010.0 L1235.0,906.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M1505.0,1010.0 L1505.0,993.0 Q1505.0,986.0 1498.0,986.0 L1417.0,986.0 Q1410.0,986.0 1410.0,979.0 L1410.0,865.0 Q1410.0,858.0 1403.0,858.0 L1360.0,858.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M500.0,810.0 L500.0,787.0 Q500.0,780.0 507.0,780.0 L1178.0,780.0 Q1185.0,780.0 1185.0,787.0 L1185.0,810.0" fill="none" stroke="#B48EAD" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-B48EAD)"/>
+<rect x="707.5" y="771.0" width="105.0" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="760.0" y="783.7" font-size="10" font-weight="500" fill="#8E6D95" text-anchor="middle">fallback: local model</text>
+<path d="M840.0,1240.0 L866.0,1240.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="874.0" y="1244.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">association</text>
+<path d="M961.0,1240.0 L987.0,1240.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<text x="995.0" y="1244.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">dependency «use»</text>
+<path d="M1180,1266 h26" stroke="#4C566A" stroke-width="1.2" stroke-dasharray="6 4" marker-end="url(#m-triangle-4C566A)"/>
+<text x="1214.0" y="1270.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">realisation</text>
+<path d="M1320,1266 h26" stroke="#4C566A" stroke-width="1.3" marker-start="url(#m-diamond-4C566A)"/>
+<text x="1354.0" y="1270.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">composition</text>
+<text x="32.0" y="1284.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/class-diagram.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>

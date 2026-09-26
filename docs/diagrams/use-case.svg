@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1010" viewBox="0 0 1480 1010" role="img">
+<defs><marker id="m-open-4C566A" viewBox="0 0 11 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#4C566A" stroke-width="1.4"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="1010" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — use-case model</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Who uses Nabz and for what. Solid lines are associations; dashed arrows are «include» / «extend».</text>
+<rect x="340.0" y="100.0" width="790.0" height="870.0" rx="10" fill="#ECEFF4" fill-opacity="0.5" stroke="#4C566A" stroke-width="1.4"/>
+<text x="362.0" y="126.0" font-size="14" font-weight="700" fill="#2E3440" text-anchor="start">Nabz</text>
+<text x="408.0" y="126.0" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">system boundary</text>
+<ellipse cx="560" cy="175" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="171.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-01</text>
+<text x="560.0" y="186.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Sign up / sign in</text>
+<ellipse cx="560" cy="245" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="241.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-02</text>
+<text x="560.0" y="256.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Manage family profiles</text>
+<ellipse cx="560" cy="315" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="311.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-04</text>
+<text x="560.0" y="326.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Upload a lab report</text>
+<ellipse cx="560" cy="385" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="381.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-05</text>
+<text x="560.0" y="396.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Review &amp; correct values</text>
+<ellipse cx="560" cy="455" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="451.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-06</text>
+<text x="560.0" y="466.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Explore the 3D body map</text>
+<ellipse cx="560" cy="525" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="521.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-07</text>
+<text x="560.0" y="536.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">View trends over time</text>
+<ellipse cx="560" cy="595" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="591.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-08</text>
+<text x="560.0" y="606.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Read the explanation</text>
+<ellipse cx="560" cy="665" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="661.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-11</text>
+<text x="560.0" y="676.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Share a summary with a doctor</text>
+<ellipse cx="560" cy="735" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="560.0" y="731.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-12</text>
+<text x="560.0" y="746.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Export or delete my data</text>
+<circle cx="170" cy="400" r="10" fill="#FFFFFF" stroke="#2E3440" stroke-width="1.6"/><path d="M170,410 V440 M153,420 H187 M170,440 L157,464 M170,440 L183,464" stroke="#2E3440" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<text x="170.0" y="484.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="middle">Patient / caregiver</text>
+<text x="170.0" y="500.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">primary actor</text>
+<line x1="190.0" y1="422.0" x2="442.0" y2="175.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="245.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="315.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="385.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="455.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="525.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="595.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="665.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="190.0" y1="422.0" x2="442.0" y2="735.0" stroke="#4C566A" stroke-width="1.2"/>
+<ellipse cx="905" cy="315" rx="118" ry="27" fill="#FFFFFF" stroke="#A3BE8C" stroke-width="1.5"/>
+<text x="905.0" y="311.0" font-size="9.8" font-weight="600" fill="#6E9A5B" text-anchor="middle">UC-03</text>
+<text x="905.0" y="326.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Give / withdraw consent</text>
+<ellipse cx="905" cy="385" rx="118" ry="27" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.5"/>
+<text x="905.0" y="381.0" font-size="9.8" font-weight="600" fill="#BF616A" text-anchor="middle">UC-13</text>
+<text x="905.0" y="396.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Critical-value alert</text>
+<ellipse cx="905" cy="525" rx="118" ry="27" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="905.0" y="521.0" font-size="9.8" font-weight="600" fill="#5E81AC" text-anchor="middle">UC-10</text>
+<text x="905.0" y="536.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Questions for the doctor</text>
+<ellipse cx="905" cy="595" rx="118" ry="27" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.5"/>
+<text x="905.0" y="591.0" font-size="9.8" font-weight="600" fill="#8E6D95" text-anchor="middle">UC-18</text>
+<text x="905.0" y="606.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Generate grounded explanation</text>
+<ellipse cx="905" cy="665" rx="118" ry="27" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.5"/>
+<text x="905.0" y="661.0" font-size="9.8" font-weight="600" fill="#8E6D95" text-anchor="middle">UC-09</text>
+<text x="905.0" y="676.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Listen to the explanation</text>
+<ellipse cx="905" cy="810" rx="118" ry="27" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.5"/>
+<text x="905.0" y="806.0" font-size="9.8" font-weight="600" fill="#4F97AE" text-anchor="middle">UC-17</text>
+<text x="905.0" y="821.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">View a shared summary</text>
+<path d="M678.0,315.0 L787.0,315.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<rect x="704.4" y="306.0" width="56.2" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="732.5" y="318.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«include»</text>
+<path d="M787.0,385.0 L678.0,385.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<rect x="704.1" y="376.0" width="56.8" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="732.5" y="388.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«extend»</text>
+<path d="M664.0,582.0 L795.0,535.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<rect x="703.9" y="551.0" width="56.2" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="732.0" y="563.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«include»</text>
+<path d="M678.0,595.0 L787.0,595.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<rect x="703.9" y="597.0" width="56.2" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="732.0" y="609.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«include»</text>
+<path d="M795.0,655.0 L664.0,607.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-open-4C566A)"/>
+<rect x="703.6" y="631.0" width="56.8" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="732.0" y="643.7" font-size="10" font-weight="500" fill="#6B7385" text-anchor="middle">«extend»</text>
+<text x="905.0" y="422.0" font-size="10" font-weight="400" fill="#6B7385" text-anchor="middle" font-style="italic">condition: a value crosses a critical limit</text>
+<circle cx="170" cy="780" r="10" fill="#FFFFFF" stroke="#2E3440" stroke-width="1.6"/><path d="M170,790 V820 M153,800 H187 M170,820 L157,844 M170,820 L183,844" stroke="#2E3440" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<text x="170.0" y="864.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="middle">Doctor</text>
+<text x="170.0" y="880.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">secondary actor</text>
+<line x1="190.0" y1="802.0" x2="787.0" y2="810.0" stroke="#4C566A" stroke-width="1.2"/>
+<text x="905.0" y="852.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="middle" font-style="italic">via an expiring share link — no account needed</text>
+<ellipse cx="905" cy="175" rx="118" ry="27" fill="#FFFFFF" stroke="#D08770" stroke-width="1.5"/>
+<text x="905.0" y="171.0" font-size="9.8" font-weight="600" fill="#C06B47" text-anchor="middle">UC-14</text>
+<text x="905.0" y="186.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Curate the test catalogue</text>
+<ellipse cx="905" cy="245" rx="118" ry="27" fill="#FFFFFF" stroke="#D08770" stroke-width="1.5"/>
+<text x="905.0" y="241.0" font-size="9.8" font-weight="600" fill="#C06B47" text-anchor="middle">UC-15</text>
+<text x="905.0" y="256.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Manage the knowledge base</text>
+<ellipse cx="905" cy="455" rx="118" ry="27" fill="#FFFFFF" stroke="#D08770" stroke-width="1.5"/>
+<text x="905.0" y="451.0" font-size="9.8" font-weight="600" fill="#C06B47" text-anchor="middle">UC-16</text>
+<text x="905.0" y="466.0" font-size="12" font-weight="600" fill="#2E3440" text-anchor="middle">Review audit &amp; safety reports</text>
+<circle cx="1310" cy="210" r="10" fill="#FFFFFF" stroke="#2E3440" stroke-width="1.6"/><path d="M1310,220 V250 M1293,230 H1327 M1310,250 L1297,274 M1310,250 L1323,274" stroke="#2E3440" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<text x="1310.0" y="294.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="middle">Administrator</text>
+<text x="1310.0" y="310.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">clinical content owner</text>
+<line x1="1290.0" y1="235.0" x2="1023.0" y2="175.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="1290.0" y1="235.0" x2="1023.0" y2="245.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="1290.0" y1="235.0" x2="1023.0" y2="455.0" stroke="#4C566A" stroke-width="1.2"/>
+<rect x="1215.0" y="561.0" width="190.0" height="68.0" rx="6" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1227.0" y="575.0" width="40.0" height="40.0" rx="7" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1235.0,583.0) scale(1.0000)" fill="none" stroke="#FFFFFF" stroke-width="1.80" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="1278.0" y="585.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="start">«system»</text>
+<text x="1278.0" y="601.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">LLM service</text>
+<text x="1278.0" y="616.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">explanations</text>
+<rect x="1215.0" y="666.0" width="190.0" height="68.0" rx="6" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
+<rect x="1227.0" y="680.0" width="40.0" height="40.0" rx="7" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1235.0,688.0) scale(1.0000)" fill="none" stroke="#FFFFFF" stroke-width="1.80" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></g>
+<text x="1278.0" y="690.0" font-size="10" font-weight="500" fill="#6B7385" text-anchor="start">«system»</text>
+<text x="1278.0" y="706.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">TTS service</text>
+<text x="1278.0" y="721.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">narration</text>
+<line x1="1215.0" y1="595.0" x2="1023.0" y2="595.0" stroke="#4C566A" stroke-width="1.2"/>
+<line x1="1215.0" y1="700.0" x2="1023.0" y2="665.0" stroke="#4C566A" stroke-width="1.2"/>
+<rect x="380.0" y="870.0" width="400.0" height="80.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="381.5" y="880.0" width="3.5" height="60.0" rx="1.75" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<rect x="394.0" y="882.0" width="26.0" height="26.0" rx="5" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(398.0,886.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4M12 17h.01"/></g>
+<text x="430.0" y="900.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">Out of scope (by design)</text>
+<text x="396.0" y="928.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Diagnosis · prescribing or dosing advice ·</text>
+<text x="396.0" y="943.6" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">emergency triage · replacing a clinician</text>
+<text x="32.0" y="994.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/use-case.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>

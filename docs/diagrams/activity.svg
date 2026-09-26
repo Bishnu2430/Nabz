@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1720" viewBox="0 0 1480 1720" role="img">
+<defs><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="1720" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — activity diagram: from upload to explanation</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">UML activity diagram with one swimlane per participant. Diamonds mark decisions and merges; dashed actions are optional.</text>
+<rect x="40.0" y="96.0" width="240.0" height="1584.0" rx="0" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="40.0" y="96.0" width="240.0" height="36.0" rx="0" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="160.0" y="119.0" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">User</text>
+<rect x="280.0" y="96.0" width="260.0" height="1584.0" rx="0" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="280.0" y="96.0" width="260.0" height="36.0" rx="0" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="410.0" y="119.0" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Web app</text>
+<rect x="540.0" y="96.0" width="260.0" height="1584.0" rx="0" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="540.0" y="96.0" width="260.0" height="36.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="670.0" y="119.0" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">API</text>
+<rect x="800.0" y="96.0" width="380.0" height="1584.0" rx="0" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="800.0" y="96.0" width="380.0" height="36.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<text x="990.0" y="119.0" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Worker</text>
+<rect x="1180.0" y="96.0" width="260.0" height="1584.0" rx="0" fill="#ECEFF4" stroke="#D8DEE9" stroke-width="1.2"/>
+<rect x="1180.0" y="96.0" width="260.0" height="36.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="1310.0" y="119.0" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">AI services</text>
+<circle cx="160.0" cy="165.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<rect x="50.0" y="204.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="160.0" y="226.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Photograph or choose</text>
+<text x="160.0" y="240.9" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">the report file</text>
+<rect x="300.0" y="284.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.5"/>
+<text x="410.0" y="306.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Check type, size and</text>
+<text x="410.0" y="320.9" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">image quality</text>
+<path d="M410,370 L430,390 L410,410 L390,390 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="438.0" y="364.0" font-size="11" font-weight="500" fill="#4C566A" text-anchor="start">quality good enough?</text>
+<rect x="50.0" y="371.5" width="220.0" height="37.0" rx="14" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="160.0" y="397.5" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Retake the photo</text>
+<rect x="560.0" y="444.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="670.0" y="466.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Check consent · store file</text>
+<text x="670.0" y="480.9" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">create report + job</text>
+<rect x="880.0" y="524.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="990.0" y="546.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Claim job · pre-process</text>
+<text x="990.0" y="561.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">run OCR</text>
+<rect x="880.0" y="604.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="990.0" y="626.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Parse rows · map to catalogue</text>
+<text x="990.0" y="641.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">normalise · score confidence</text>
+<path d="M990,690 L1010,710 L990,730 L970,710 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="1018.0" y="684.0" font-size="11" font-weight="500" fill="#4C566A" text-anchor="start">any row below τ?</text>
+<rect x="1200.0" y="684.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.5"/>
+<text x="1310.0" y="706.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Local 3–4B model</text>
+<text x="1310.0" y="721.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">structures those rows</text>
+<path d="M990,770 L1010,790 L990,810 L970,790 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<rect x="300.0" y="844.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.5"/>
+<text x="410.0" y="866.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Show values beside the image</text>
+<text x="410.0" y="881.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">low-confidence rows first</text>
+<rect x="50.0" y="924.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="160.0" y="946.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Correct or confirm</text>
+<text x="160.0" y="961.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">each value</text>
+<rect x="880.0" y="1004.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="990.0" y="1026.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Classify vs ranges · critical rules</text>
+<text x="990.0" y="1041.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">change · trend · percentile</text>
+<path d="M990,1090 L1010,1110 L990,1130 L970,1110 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="1018.0" y="1084.0" font-size="11" font-weight="500" fill="#4C566A" text-anchor="start">critical value?</text>
+<rect x="300.0" y="1084.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.5"/>
+<text x="410.0" y="1106.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Show the fixed</text>
+<text x="410.0" y="1121.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">“see a doctor today” alert</text>
+<path d="M990,1170 L1010,1190 L990,1210 L970,1190 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<rect x="1200.0" y="1244.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.5"/>
+<text x="1310.0" y="1266.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Retrieve passages · write the</text>
+<text x="1310.0" y="1281.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">explanation (EN / HI / OR)</text>
+<rect x="880.0" y="1324.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="990.0" y="1346.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Safety validation; on failure</text>
+<text x="990.0" y="1361.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">use the safe template</text>
+<rect x="1200.0" y="1404.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="1310.0" y="1426.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Synthesise narration</text>
+<text x="1310.0" y="1441.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">(if voice is on)</text>
+<rect x="300.0" y="1484.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.5"/>
+<text x="410.0" y="1506.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Render body map, trends,</text>
+<text x="410.0" y="1521.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">explanation, questions</text>
+<rect x="50.0" y="1564.0" width="220.0" height="52.0" rx="14" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<text x="160.0" y="1586.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">Explore · listen · share</text>
+<text x="160.0" y="1601.0" font-size="11.5" font-weight="500" fill="#2E3440" text-anchor="middle">or export</text>
+<circle cx="160.0" cy="1652.0" r="12" fill="#FFFFFF" stroke="#2E3440" stroke-width="1.6"/>
+<circle cx="160.0" cy="1652.0" r="7" fill="#2E3440" stroke="none" stroke-width="1"/>
+<path d="M160.0,176.0 L160.0,204.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M160.0,256.0 L160.0,303.0 Q160.0,310.0 167.0,310.0 L300.0,310.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M410.0,336.0 L410.0,370.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M390.0,390.0 L270.0,390.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="380.0" y="384.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="end">[no]</text>
+<path d="M50.0,390.0 L47.5,390.0 Q45.0,390.0 45.0,387.5 L45.0,232.5 Q45.0,230.0 47.5,230.0 L50.0,230.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M410.0,410.0 L410.0,463.0 Q410.0,470.0 417.0,470.0 L560.0,470.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="418.0" y="426.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="start">[yes]</text>
+<path d="M670.0,496.0 L670.0,543.0 Q670.0,550.0 677.0,550.0 L880.0,550.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,576.0 L990.0,604.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,656.0 L990.0,690.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M1010.0,710.0 L1200.0,710.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="1020.0" y="704.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="start">[yes]</text>
+<path d="M1310.0,736.0 L1310.0,783.0 Q1310.0,790.0 1303.0,790.0 L1010.0,790.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,730.0 L990.0,770.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="998.0" y="746.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="start">[no]</text>
+<path d="M990.0,810.0 L990.0,863.0 Q990.0,870.0 983.0,870.0 L520.0,870.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M410.0,896.0 L410.0,943.0 Q410.0,950.0 403.0,950.0 L270.0,950.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M160.0,976.0 L160.0,1023.0 Q160.0,1030.0 167.0,1030.0 L880.0,1030.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,1056.0 L990.0,1090.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M970.0,1110.0 L520.0,1110.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="960.0" y="1104.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="end">[yes]</text>
+<path d="M410.0,1136.0 L410.0,1183.0 Q410.0,1190.0 417.0,1190.0 L970.0,1190.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,1130.0 L990.0,1170.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="998.0" y="1146.0" font-size="10.5" font-weight="600" fill="#6B7385" text-anchor="start">[no]</text>
+<path d="M990.0,1210.0 L990.0,1263.0 Q990.0,1270.0 997.0,1270.0 L1200.0,1270.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M1310.0,1296.0 L1310.0,1343.0 Q1310.0,1350.0 1303.0,1350.0 L1100.0,1350.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M990.0,1376.0 L990.0,1423.0 Q990.0,1430.0 997.0,1430.0 L1200.0,1430.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M1310.0,1456.0 L1310.0,1503.0 Q1310.0,1510.0 1303.0,1510.0 L520.0,1510.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M410.0,1536.0 L410.0,1583.0 Q410.0,1590.0 403.0,1590.0 L270.0,1590.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M160.0,1616.0 L160.0,1640.0" fill="none" stroke="#4C566A" stroke-width="1.3" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="32.0" y="1704.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/activity.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>

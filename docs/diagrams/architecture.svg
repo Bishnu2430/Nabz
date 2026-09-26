@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="930" viewBox="0 0 1480 930" role="img">
+<defs><marker id="m-arrow-4C566A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4C566A"/></marker><marker id="m-arrow-B48EAD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B48EAD"/></marker><marker id="m-arrow-C06B47" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C06B47"/></marker></defs>
+<g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<rect width="1480" height="930" fill="#FFFFFF"/>
+<text x="32.0" y="38.0" font-size="20" font-weight="700" fill="#2E3440" text-anchor="start">Nabz — system architecture</text>
+<text x="32.0" y="60.0" font-size="12.5" font-weight="400" fill="#6B7385" text-anchor="start">Logical view. Every box inside the host runs as a Docker container on one Compose network.</text>
+<rect x="74.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(84.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20c0-3.8 2.9-6 6.5-6s6.5 2.2 6.5 6"/><path d="M15.5 4.8a3.4 3.4 0 0 1 0 6.5M18 14.3c2.1.7 3.5 2.6 3.5 5.7"/></g>
+<text x="100.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Patient / caregiver</text>
+<text x="100.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">phone or laptop</text>
+<text x="100.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">browser</text>
+<rect x="74.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(84.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.8"/><path d="M3 21c0-4 3.1-6.5 7-6.5 1.2 0 2.3.2 3.3.7"/><circle cx="18" cy="17" r="2.2"/><path d="M18 12.8v1.6M18 19.6v1.6M13.8 17h1.6M20.6 17h1.6"/></g>
+<text x="100.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Administrator</text>
+<text x="100.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">catalogue &amp; knowledge</text>
+<text x="100.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">curation</text>
+<rect x="180.0" y="100.0" width="1020.0" height="580.0" rx="4" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.5"/>
+<rect x="180.0" y="100.0" width="28.0" height="28.0" rx="0" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<g transform="translate(185.0,105.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10.5" rx="1.2"/><path d="M2 19h20"/></g>
+<text x="218.0" y="118.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Docker host</text>
+<text x="306.4" y="118.5" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">developer laptop or a single VM</text>
+<rect x="200.0" y="140.0" width="980.0" height="520.0" rx="4" fill="#FFFFFF" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="200.0" y="140.0" width="28.0" height="28.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(205.0,145.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5.3M12 12l6 5.3"/></g>
+<text x="238.0" y="158.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Compose network</text>
+<text x="356.4" y="158.5" font-size="11" font-weight="400" fill="#6B7385" text-anchor="start">nabz_default</text>
+<rect x="220.0" y="180.0" width="170.0" height="460.0" rx="4" fill="#88C0D0" fill-opacity="0.06" stroke="#88C0D0" stroke-width="1.5"/>
+<rect x="220.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<g transform="translate(225.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6 6.5h.01M8.5 6.5h.01"/></g>
+<text x="258.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Presentation</text>
+<rect x="410.0" y="180.0" width="170.0" height="460.0" rx="4" fill="#5E81AC" fill-opacity="0.06" stroke="#5E81AC" stroke-width="1.5"/>
+<rect x="410.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(415.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></g>
+<text x="448.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">API</text>
+<rect x="600.0" y="180.0" width="200.0" height="460.0" rx="4" fill="#A3BE8C" fill-opacity="0.06" stroke="#A3BE8C" stroke-width="1.5"/>
+<rect x="600.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(605.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></g>
+<text x="638.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Data</text>
+<rect x="820.0" y="180.0" width="170.0" height="460.0" rx="4" fill="#5E81AC" fill-opacity="0.06" stroke="#5E81AC" stroke-width="1.5"/>
+<rect x="820.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(825.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g>
+<text x="858.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Processing</text>
+<rect x="1010.0" y="180.0" width="150.0" height="460.0" rx="4" fill="#B48EAD" fill-opacity="0.06" stroke="#B48EAD" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="1010.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1015.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="1048.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">Local AI</text>
+<rect x="1225.0" y="180.0" width="225.0" height="460.0" rx="4" fill="#D08770" fill-opacity="0.06" stroke="#D08770" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="1225.0" y="180.0" width="28.0" height="28.0" rx="0" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1230.0,185.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.5h10.5a4 4 0 0 0 .3-8A6 6 0 0 0 6.2 11 3.8 3.8 0 0 0 7 18.5z"/></g>
+<text x="1263.0" y="198.5" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="start">External APIs</text>
+<rect x="279.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<g transform="translate(289.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6 6.5h.01M8.5 6.5h.01"/></g>
+<text x="305.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Web app</text>
+<text x="305.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">React + TypeScript</text>
+<text x="305.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">3D body map · i18n</text>
+<rect x="279.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<g transform="translate(289.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.6" r="2.3"/><path d="M12 7.5v7M6.5 10.5h11M12 14.5l-3.5 6.5M12 14.5l3.5 6.5"/></g>
+<text x="305.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">3D anatomy</text>
+<text x="305.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">organ meshes (GLB)</text>
+<text x="305.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">from Z-Anatomy</text>
+<rect x="469.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(479.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></g>
+<text x="495.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">API</text>
+<text x="495.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">FastAPI · REST</text>
+<text x="495.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">auth · consent</text>
+<text x="495.0" y="386.1" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">uploads</text>
+<rect x="674.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(684.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></g>
+<text x="700.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">PostgreSQL 17</text>
+<text x="700.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">+ pgvector</text>
+<text x="700.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">records · jobs · vectors</text>
+<rect x="674.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(684.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18"/><path d="M16.5 16h.01M13.5 16h.01"/></g>
+<text x="700.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Uploads volume</text>
+<text x="700.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">report images</text>
+<text x="700.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">and PDFs</text>
+<rect x="879.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
+<g transform="translate(889.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g>
+<text x="905.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Worker</text>
+<text x="905.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">pipeline runner</text>
+<text x="905.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">OCR · parse · analyse</text>
+<text x="905.0" y="386.1" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">explain · narrate</text>
+<rect x="879.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(889.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 9.5h8M8 12.5h8M8 15.5h5"/></g>
+<text x="905.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Models</text>
+<text x="905.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">PaddleOCR · e5-small</text>
+<text x="905.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">in-process · CPU</text>
+<rect x="1059.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1069.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="1085.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Ollama</text>
+<text x="1085.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">Qwen3-4B · Q4</text>
+<text x="1085.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">profile: local-llm</text>
+<rect x="1311.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1321.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
+<text x="1337.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">LLM API</text>
+<text x="1337.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">claude-opus-5</text>
+<text x="1337.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">explanations and</text>
+<text x="1337.0" y="386.1" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">consented vision fallback</text>
+<rect x="1311.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1321.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></g>
+<text x="1337.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">TTS API</text>
+<text x="1337.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">Indian-language</text>
+<text x="1337.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">voices (optional)</text>
+<path d="M126.0,300.0 L279.0,300.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="200.0" cy="300.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="200.0" y="304.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<path d="M126.0,520.0 L243.0,520.0 Q250.0,520.0 250.0,513.0 L250.0,321.0 Q250.0,314.0 257.0,314.0 L279.0,314.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M331.0,300.0 L469.0,300.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)" marker-start="url(#m-arrow-4C566A)"/>
+<circle cx="400.0" cy="300.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="400.0" y="304.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<path d="M521.0,300.0 L674.0,300.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="590.0" cy="300.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="590.0" y="304.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<path d="M521.0,314.0 L583.0,314.0 Q590.0,314.0 590.0,321.0 L590.0,513.0 Q590.0,520.0 597.0,520.0 L674.0,520.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M879.0,300.0 L726.0,300.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)" marker-start="url(#m-arrow-4C566A)"/>
+<circle cx="810.0" cy="300.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="810.0" y="304.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<path d="M879.0,314.0 L817.0,314.0 Q810.0,314.0 810.0,321.0 L810.0,513.0 Q810.0,520.0 803.0,520.0 L726.0,520.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M905.0,394.0 L905.0,494.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<path d="M931.0,300.0 L1059.0,300.0" fill="none" stroke="#B48EAD" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-B48EAD)" marker-start="url(#m-arrow-B48EAD)"/>
+<circle cx="1000.0" cy="300.0" r="11" fill="#8E6D95" stroke="none" stroke-width="1"/>
+<text x="1000.0" y="304.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+<path d="M905.0,274.0 L905.0,229.0 Q905.0,222.0 912.0,222.0 L1330.0,222.0 Q1337.0,222.0 1337.0,229.0 L1337.0,274.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-C06B47)" marker-start="url(#m-arrow-C06B47)"/>
+<circle cx="1192.0" cy="222.0" r="11" fill="#C06B47" stroke="none" stroke-width="1"/>
+<text x="1192.0" y="226.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
+<path d="M931.0,316.0 L993.0,316.0 Q1000.0,316.0 1000.0,323.0 L1000.0,433.0 Q1000.0,440.0 1007.0,440.0 L1330.0,440.0 Q1337.0,440.0 1337.0,447.0 L1337.0,494.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-C06B47)"/>
+<circle cx="1192.0" cy="440.0" r="11" fill="#C06B47" stroke="none" stroke-width="1"/>
+<text x="1192.0" y="444.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
+<path d="M305.0,380.0 L305.0,494.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<circle cx="305.0" cy="437.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="305.0" y="441.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">8</text>
+<rect x="180.0" y="705.0" width="820.0" height="190.0" rx="6" fill="#ECEFF4" stroke="none" stroke-width="1.2"/>
+<text x="200.0" y="730.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">Request flow</text>
+<circle cx="210.0" cy="754.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="210.0" y="758.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="230.0" y="749.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Patient or caregiver opens the web app on a phone or</text>
+<text x="230.0" y="763.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">laptop.</text>
+<circle cx="210.0" cy="790.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="210.0" y="794.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="230.0" y="785.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">The web app calls the REST API: upload, review</text>
+<text x="230.0" y="799.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">values, fetch results.</text>
+<circle cx="210.0" cy="826.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="210.0" y="830.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="230.0" y="821.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">API saves the file to the uploads volume and writes</text>
+<text x="230.0" y="835.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">report + job rows.</text>
+<circle cx="210.0" cy="862.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="210.0" y="866.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="230.0" y="857.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Worker claims the job (FOR UPDATE SKIP LOCKED),</text>
+<text x="230.0" y="871.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">reads the file, runs OCR.</text>
+<circle cx="610.0" cy="754.0" r="11" fill="#8E6D95" stroke="none" stroke-width="1"/>
+<text x="610.0" y="758.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+<text x="630.0" y="749.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Ambiguous rows are structured by the local 3–4B</text>
+<text x="630.0" y="763.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">model (optional profile).</text>
+<circle cx="610.0" cy="790.0" r="11" fill="#C06B47" stroke="none" stroke-width="1"/>
+<text x="610.0" y="794.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
+<text x="630.0" y="785.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">After the user confirms values: de-identified values</text>
+<text x="630.0" y="799.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">+ retrieved passages → LLM API.</text>
+<circle cx="610.0" cy="826.0" r="11" fill="#C06B47" stroke="none" stroke-width="1"/>
+<text x="610.0" y="830.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
+<text x="630.0" y="821.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">The explanation passes the safety validator;</text>
+<text x="630.0" y="835.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">narration comes from the TTS API.</text>
+<circle cx="610.0" cy="862.0" r="11" fill="#2E3440" stroke="none" stroke-width="1"/>
+<text x="610.0" y="866.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">8</text>
+<text x="630.0" y="857.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">The web app renders the 3D body map, trends and</text>
+<text x="630.0" y="871.3" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">explanation.</text>
+<rect x="1020.0" y="705.0" width="430.0" height="190.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.1"/>
+<rect x="1021.5" y="715.0" width="3.5" height="170.0" rx="1.75" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<rect x="1034.0" y="717.0" width="26.0" height="26.0" rx="5" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
+<g transform="translate(1038.0,721.0) scale(0.7500)" fill="none" stroke="#FFFFFF" stroke-width="2.40" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></g>
+<text x="1070.0" y="735.0" font-size="12.5" font-weight="650" fill="#2E3440" text-anchor="start">Data minimisation</text>
+<text x="1036.0" y="763.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">Report images, names and IDs never leave the host</text>
+<text x="1036.0" y="778.6" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">by default. Explanations receive only de-identified</text>
+<text x="1036.0" y="794.2" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">values: test, value, unit, range, age band and sex.</text>
+<text x="1036.0" y="809.9" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">The vision fallback sends an image only after</text>
+<text x="1036.0" y="825.5" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">explicit, per-report consent.</text>
+<path d="M1030.0,90.0 L1056.0,90.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
+<text x="1064.0" y="94.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">request / data</text>
+<path d="M1169.5,90.0 L1195.5,90.0" fill="none" stroke="#4C566A" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m-arrow-4C566A)"/>
+<text x="1203.5" y="94.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">mount / optional</text>
+<path d="M1314.5,90.0 L1340.5,90.0" fill="none" stroke="#C06B47" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#m-arrow-C06B47)"/>
+<text x="1348.5" y="94.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">internet egress</text>
+<text x="32.0" y="914.0" font-size="10.5" font-weight="400" fill="#6B7385" text-anchor="start">Nabz · docs/diagrams/architecture.svg · v0.1 · 2026-09-26</text>
+</g>
+</svg>
