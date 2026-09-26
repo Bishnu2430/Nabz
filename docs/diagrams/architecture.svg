@@ -93,9 +93,9 @@
 <rect x="1311.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
 <g transform="translate(1321.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>
 <text x="1337.0" y="343.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">LLM API</text>
-<text x="1337.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">claude-opus-5</text>
-<text x="1337.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">explanations and</text>
-<text x="1337.0" y="386.1" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">consented vision fallback</text>
+<text x="1337.0" y="358.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">gpt-oss-120b on Groq</text>
+<text x="1337.0" y="372.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">explanations; vision</text>
+<text x="1337.0" y="386.1" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">model for fallback</text>
 <rect x="1311.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#C06B47" stroke="none" stroke-width="1.2"/>
 <g transform="translate(1321.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></g>
 <text x="1337.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">TTS API</text>

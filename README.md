@@ -14,6 +14,8 @@ Documentation baseline and platform scaffold are in place. See the [project plan
 |---|---|
 | PostgreSQL 17 + pgvector | ✅ running in Docker |
 | API (FastAPI) | ✅ health endpoints |
+| Database schema (22 tables, Alembic) | ✅ Sprint 1 |
+| Test catalogue (70 tests) + synthetic report generator | ✅ Sprint 1 |
 | Worker, extraction, analysis, explanation | Sprints 2–5 |
 | Web app + 3D body map | Sprints 3–6 |
 
@@ -33,6 +35,20 @@ docker compose up --build -d
 
 ```bash
 curl http://localhost:8000/health/ready
+```
+
+Create the schema, load the test catalogue and run the tests:
+
+```bash
+docker compose exec api alembic upgrade head
+```
+
+```bash
+docker compose exec api python -m app.cli seed-catalogue
+```
+
+```bash
+docker compose exec api pytest
 ```
 
 The optional local small LLM (row structuring) starts with:

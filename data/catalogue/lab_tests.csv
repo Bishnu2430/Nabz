@@ -1,0 +1,71 @@
+code,loinc,name,short,panel,organ,unit,decimals,plausible_min,plausible_max,cv_i,cv_a,aliases
+hb,718-7,Haemoglobin,Hb,cbc,blood,g/dL,1,2,25,2.7,1.0,Haemoglobin|Hemoglobin|Hb|Hgb|HGB
+hct,4544-3,Haematocrit (PCV),Hct,cbc,blood,%,1,8,75,2.8,1.0,Haematocrit|Hematocrit|PCV|Packed Cell Volume|HCT
+rbc,789-8,Red blood cell count,RBC,cbc,blood,10^6/µL,2,0.5,9,3.2,1.0,RBC Count|Total RBC Count|Red Blood Cell Count|RBC|Erythrocyte Count|R.B.C. Count
+wbc,6690-2,White blood cell count,WBC,cbc,blood,10^3/µL,2,0.1,200,11.1,2.0,Total Leucocyte Count|TLC|Total WBC Count|WBC Count|WBC|Leukocyte Count|Total Leukocyte Count
+plt,777-3,Platelet count,Platelets,cbc,blood,10^3/µL,0,1,2000,7.4,3.0,Platelet Count|Platelets|PLT|Platelet
+mcv,787-2,Mean corpuscular volume,MCV,cbc,blood,fL,1,40,150,1.3,0.7,MCV|Mean Corpuscular Volume|Mean Cell Volume
+mch,785-6,Mean corpuscular haemoglobin,MCH,cbc,blood,pg,1,10,50,,,MCH|Mean Corpuscular Hemoglobin|Mean Corpuscular Haemoglobin|Mean Cell Haemoglobin
+mchc,786-4,Mean corpuscular haemoglobin concentration,MCHC,cbc,blood,g/dL,1,20,45,,,MCHC|Mean Corpuscular Hemoglobin Concentration|Mean Corpuscular Haemoglobin Concentration
+rdw,788-0,Red cell distribution width,RDW,cbc,blood,%,1,8,35,,,RDW|RDW-CV|Red Cell Distribution Width|R.D.W.
+neut_pct,770-8,Neutrophils,Neutrophils,cbc,blood,%,0,0,100,,,Neutrophils|Polymorphs|Neutrophil|Neutrophils %|Segmented Neutrophils
+lymph_pct,736-9,Lymphocytes,Lymphocytes,cbc,blood,%,0,0,100,,,Lymphocytes|Lymphocyte|Lymphocytes %
+mono_pct,5905-5,Monocytes,Monocytes,cbc,blood,%,0,0,100,,,Monocytes|Monocyte|Monocytes %
+eos_pct,713-8,Eosinophils,Eosinophils,cbc,blood,%,0,0,100,,,Eosinophils|Eosinophil|Eosinophils %
+baso_pct,706-2,Basophils,Basophils,cbc,blood,%,0,0,100,,,Basophils|Basophil|Basophils %
+esr,4537-7,Erythrocyte sedimentation rate,ESR,cbc,immune,mm/h,0,0,160,,,ESR|Erythrocyte Sedimentation Rate|E.S.R.|ESR (Westergren)
+glucose_fasting,1558-6,Fasting blood glucose,Glucose (fasting),diabetes,pancreas,mg/dL,0,10,1500,5.0,2.0,Fasting Blood Sugar|FBS|Glucose Fasting|Plasma Glucose Fasting|Blood Sugar Fasting|Glucose (F)|Fasting Plasma Glucose|FPG
+glucose_pp,1521-4,Post-prandial blood glucose,Glucose (PP),diabetes,pancreas,mg/dL,0,10,1500,5.0,2.0,Post Prandial Blood Sugar|PPBS|Glucose PP|Blood Sugar PP|Glucose Post Prandial|Plasma Glucose PP|Glucose (PP)|PP Blood Sugar
+glucose_random,2345-7,Random blood glucose,Glucose (random),diabetes,pancreas,mg/dL,0,10,1500,5.0,2.0,Random Blood Sugar|RBS|Glucose Random|Blood Sugar Random|Plasma Glucose Random|Glucose (R)
+hba1c,4548-4,Glycated haemoglobin (HbA1c),HbA1c,diabetes,pancreas,%,1,3,20,1.6,1.5,HbA1c|Glycated Haemoglobin|Glycated Hemoglobin|Glycosylated Haemoglobin|Glycosylated Hemoglobin|GHb|A1C
+eag,27353-2,Estimated average glucose,eAG,diabetes,pancreas,mg/dL,0,40,600,,,Estimated Average Glucose|eAG|Mean Plasma Glucose|Average Blood Glucose
+chol_total,2093-3,Total cholesterol,Cholesterol,lipid,heart,mg/dL,0,40,1000,5.3,1.5,Total Cholesterol|Cholesterol Total|Serum Cholesterol|S. Cholesterol|Cholesterol|CHOL
+hdl,2085-9,HDL cholesterol,HDL,lipid,heart,mg/dL,0,5,200,5.6,2.0,HDL Cholesterol|HDL-C|HDL|HDL Cholesterol Direct|High Density Lipoprotein
+ldl,13457-7,LDL cholesterol (calculated),LDL,lipid,heart,mg/dL,0,5,600,7.8,2.0,LDL Cholesterol|LDL-C|LDL|LDL Cholesterol Calculated|Low Density Lipoprotein|LDL (Calculated)
+tg,2571-8,Triglycerides,Triglycerides,lipid,heart,mg/dL,0,10,5000,19.9,2.0,Triglycerides|TG|S. Triglycerides|Triglyceride|TRIG
+vldl,13458-5,VLDL cholesterol (calculated),VLDL,lipid,heart,mg/dL,0,1,1000,,,VLDL Cholesterol|VLDL|VLDL-C|Very Low Density Lipoprotein
+non_hdl,43396-1,Non-HDL cholesterol,Non-HDL,lipid,heart,mg/dL,0,10,1000,,,Non-HDL Cholesterol|Non HDL Cholesterol|Non-HDL-C|Non HDL
+chol_hdl_ratio,9830-1,Total cholesterol / HDL ratio,TC/HDL,lipid,heart,ratio,1,0.5,30,,,Total Cholesterol/HDL Ratio|TC/HDL Ratio|CHOL/HDL Ratio|Cholesterol/HDL Ratio|Chol/HDL Ratio
+creatinine,2160-0,Creatinine,Creatinine,kidney,kidney,mg/dL,2,0.1,30,4.5,2.5,Creatinine|Serum Creatinine|S. Creatinine|S.Creatinine|Creatinine Serum|CREA
+urea,3091-6,Urea,Urea,kidney,kidney,mg/dL,0,2,500,13.9,3.0,Urea|Blood Urea|Serum Urea|S. Urea|Urea Serum
+bun,3094-0,Blood urea nitrogen,BUN,kidney,kidney,mg/dL,0,1,250,13.9,3.0,Blood Urea Nitrogen|BUN|Urea Nitrogen
+uric_acid,3084-1,Uric acid,Uric acid,kidney,kidney,mg/dL,1,0.5,25,8.2,2.0,Uric Acid|Serum Uric Acid|S. Uric Acid|URIC
+egfr,62238-1,Estimated GFR,eGFR,kidney,kidney,mL/min/1.73m²,0,1,200,,,eGFR|Estimated GFR|GFR Estimated|eGFR (CKD-EPI)|Estimated Glomerular Filtration Rate
+sodium,2951-2,Sodium,Sodium,electrolytes,kidney,mmol/L,0,90,200,0.5,0.8,Sodium|Na|Na+|S. Sodium|Serum Sodium
+potassium,2823-3,Potassium,Potassium,electrolytes,kidney,mmol/L,1,1,10,4.0,1.5,Potassium|K|K+|S. Potassium|Serum Potassium
+chloride,2075-0,Chloride,Chloride,electrolytes,kidney,mmol/L,0,60,150,1.1,1.0,Chloride|Cl|Cl-|S. Chloride|Serum Chloride
+bicarbonate,1963-8,Bicarbonate,Bicarbonate,electrolytes,kidney,mmol/L,0,2,60,,,Bicarbonate|HCO3|Total CO2|TCO2|Serum Bicarbonate
+calcium,17861-6,Calcium,Calcium,electrolytes,bone,mg/dL,1,2,20,1.8,1.5,Calcium|Total Calcium|S. Calcium|Serum Calcium|Ca
+phosphorus,2777-1,Phosphorus,Phosphorus,electrolytes,bone,mg/dL,1,0.3,20,8.0,2.0,Phosphorus|Inorganic Phosphorus|Phosphate|S. Phosphorus|Serum Phosphorus
+magnesium,19123-9,Magnesium,Magnesium,electrolytes,bone,mg/dL,1,0.3,10,3.6,2.0,Magnesium|S. Magnesium|Serum Magnesium|Mg
+bili_total,1975-2,Bilirubin (total),Total bilirubin,liver,liver,mg/dL,2,0,50,20.0,3.0,Bilirubin Total|Total Bilirubin|S. Bilirubin Total|Serum Bilirubin (Total)|Bilirubin (Total)|T. Bilirubin
+bili_direct,1968-7,Bilirubin (direct),Direct bilirubin,liver,liver,mg/dL,2,0,40,,,Bilirubin Direct|Direct Bilirubin|Conjugated Bilirubin|Bilirubin (Direct)|D. Bilirubin
+bili_indirect,1971-1,Bilirubin (indirect),Indirect bilirubin,liver,liver,mg/dL,2,0,40,,,Bilirubin Indirect|Indirect Bilirubin|Unconjugated Bilirubin|Bilirubin (Indirect)|I. Bilirubin
+alt,1742-6,Alanine aminotransferase (ALT/SGPT),ALT (SGPT),liver,liver,U/L,0,0,5000,10.0,4.0,SGPT|ALT|SGPT (ALT)|ALT (SGPT)|Alanine Aminotransferase|Alanine Transaminase
+ast,1920-8,Aspartate aminotransferase (AST/SGOT),AST (SGOT),liver,liver,U/L,0,0,5000,9.5,4.0,SGOT|AST|SGOT (AST)|AST (SGOT)|Aspartate Aminotransferase|Aspartate Transaminase
+alp,6768-6,Alkaline phosphatase,ALP,liver,liver,U/L,0,5,3000,5.3,3.0,Alkaline Phosphatase|ALP|ALKP|S. Alkaline Phosphatase
+ggt,2324-2,Gamma-glutamyl transferase,GGT,liver,liver,U/L,0,0,3000,8.9,3.0,GGT|Gamma GT|GGTP|Gamma Glutamyl Transferase|Gamma-Glutamyl Transpeptidase
+protein_total,2885-2,Total protein,Total protein,liver,liver,g/dL,1,2,15,2.6,1.5,Total Protein|Protein Total|S. Total Protein|Serum Protein|Total Proteins
+albumin,1751-7,Albumin,Albumin,liver,liver,g/dL,1,0.5,7,2.5,1.5,Albumin|S. Albumin|Serum Albumin|ALB
+globulin,10834-0,Globulin,Globulin,liver,liver,g/dL,1,0.5,10,,,Globulin|S. Globulin|Serum Globulin
+ag_ratio,1759-0,Albumin / globulin ratio,A/G ratio,liver,liver,ratio,2,0.1,5,,,A/G Ratio|Albumin/Globulin Ratio|A:G Ratio|AG Ratio
+tsh,3016-3,Thyroid-stimulating hormone,TSH,thyroid,thyroid,µIU/mL,2,0.001,200,17.7,3.0,TSH|Thyroid Stimulating Hormone|TSH (Ultrasensitive)|Ultrasensitive TSH|TSH 3rd Generation
+ft4,3024-7,Free thyroxine (FT4),Free T4,thyroid,thyroid,ng/dL,2,0.1,10,5.7,3.0,Free T4|FT4|Free Thyroxine|F.T4
+ft3,3051-0,Free triiodothyronine (FT3),Free T3,thyroid,thyroid,pg/mL,2,0.5,30,,,Free T3|FT3|Free Triiodothyronine|F.T3
+t3,3053-6,Total triiodothyronine (T3),T3,thyroid,thyroid,ng/dL,0,10,1000,,,T3|Total T3|Triiodothyronine|T3 Total|Tri-iodothyronine
+t4,3026-2,Total thyroxine (T4),T4,thyroid,thyroid,µg/dL,1,0.5,30,,,T4|Total T4|Thyroxine|T4 Total
+vitamin_d,62292-8,25-hydroxyvitamin D,Vitamin D,vitamins,bone,ng/mL,1,2,250,,,Vitamin D|25-OH Vitamin D|25 Hydroxy Vitamin D|Vitamin D Total|25(OH)D|Vit D|25-Hydroxy Vitamin D
+vitamin_b12,2132-9,Vitamin B12,Vitamin B12,vitamins,blood,pg/mL,0,20,3000,,,Vitamin B12|Vit B12|Cyanocobalamin|Serum B12|B12
+folate,2284-8,Folate (folic acid),Folate,vitamins,blood,ng/mL,1,0.5,40,,,Folic Acid|Folate|Serum Folate|Folic Acid Serum
+iron,2498-4,Iron,Iron,iron,blood,µg/dL,0,5,500,26.5,3.0,Iron|Serum Iron|S. Iron|Fe
+tibc,2500-7,Total iron-binding capacity,TIBC,iron,blood,µg/dL,0,50,800,,,TIBC|Total Iron Binding Capacity
+ferritin,2276-4,Ferritin,Ferritin,iron,blood,ng/mL,1,1,10000,14.2,4.0,Ferritin|S. Ferritin|Serum Ferritin
+tsat,2502-3,Transferrin saturation,Transferrin saturation,iron,blood,%,0,1,100,,,Transferrin Saturation|% Saturation|Iron Saturation|TSAT|% Transferrin Saturation
+crp,1988-5,C-reactive protein,CRP,inflammation,immune,mg/L,1,0,500,42.2,4.0,CRP|C-Reactive Protein|C Reactive Protein|CRP (Quantitative)|CRP Quantitative
+hs_crp,30522-7,High-sensitivity CRP,hs-CRP,inflammation,heart,mg/L,2,0,100,,,hs-CRP|hsCRP|High Sensitivity CRP|High Sensitive C-Reactive Protein|HS CRP
+urine_ph,5803-2,Urine pH,pH (urine),urine,urinary,ratio,1,4,9,,,Urine pH|pH|Reaction|Reaction (pH)
+urine_sg,5811-5,Urine specific gravity,Specific gravity,urine,urinary,ratio,3,1.0,1.05,,,Specific Gravity|Sp. Gravity|Urine Specific Gravity|SG
+urine_rbc,13945-1,Urine red blood cells,RBC (urine),urine,urinary,/hpf,0,0,500,,,Urine RBC|RBC (Urine)|Red Blood Cells|RBCs|Red Cells
+urine_pus,5821-4,Urine pus cells (WBC),Pus cells,urine,urinary,/hpf,0,0,500,,,Pus Cells|Pus Cells (WBC)|WBC/Pus Cells|Urine WBC|Leukocytes (Urine)
+urine_acr,9318-7,Urine albumin / creatinine ratio,UACR,urine,kidney,mg/g,1,0,5000,,,Urine Albumin/Creatinine Ratio|UACR|ACR|Microalbumin/Creatinine Ratio|Albumin Creatinine Ratio
+psa,2857-1,Prostate-specific antigen (total),PSA,prostate,prostate,ng/mL,2,0,1000,,,PSA|Total PSA|Prostate Specific Antigen|PSA Total|T-PSA

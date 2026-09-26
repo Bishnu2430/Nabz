@@ -1,0 +1,1026 @@
+{
+  "id": "hist-2026-00-v2",
+  "synthetic": true,
+  "layout": "table",
+  "unit_style": "conventional",
+  "lab": {
+    "name": "Anvaya Diagnostics (Demo)",
+    "doctor": "Dr. Ekaja Thakkar"
+  },
+  "patient_name": "Chakradev Rastogi",
+  "persona": {
+    "sex": "male",
+    "age": 77,
+    "conditions": [
+      "vitamin_d_deficiency"
+    ]
+  },
+  "package": "Comprehensive Health Check",
+  "collected_at": "2026-07-04",
+  "lab_no": "87735838",
+  "pages": 2,
+  "page_size_pt": [
+    595.28,
+    841.89
+  ],
+  "sections": [
+    {
+      "panel": "cbc",
+      "title": "COMPLETE BLOOD COUNT (CBC)"
+    },
+    {
+      "panel": "diabetes",
+      "title": "DIABETES PROFILE"
+    },
+    {
+      "panel": "lipid",
+      "title": "LIPID PROFILE"
+    },
+    {
+      "panel": "kidney",
+      "title": "KIDNEY FUNCTION TEST (KFT)"
+    },
+    {
+      "panel": "liver",
+      "title": "LIVER FUNCTION TEST (LFT)"
+    },
+    {
+      "panel": "thyroid",
+      "title": "THYROID PROFILE"
+    },
+    {
+      "panel": "vitamins",
+      "title": "VITAMINS"
+    },
+    {
+      "panel": "urine",
+      "title": "URINE ROUTINE EXAMINATION"
+    },
+    {
+      "panel": "prostate",
+      "title": "PROSTATE"
+    }
+  ],
+  "rows": [
+    {
+      "test_code": "hb",
+      "printed_name": "Hb",
+      "printed_value": "14.5",
+      "printed_unit": "g/dl",
+      "printed_range": "13.3 to 17.2",
+      "flag": "",
+      "value_canonical": "14.5000",
+      "ref_low": "13.3000",
+      "ref_high": "17.2000",
+      "page": 0,
+      "bbox": [
+        40,
+        180.0,
+        555.3,
+        192.0
+      ]
+    },
+    {
+      "test_code": "hct",
+      "printed_name": "Packed Cell Volume",
+      "printed_value": "42.4",
+      "printed_unit": "%",
+      "printed_range": "39.9 to 48.8",
+      "flag": "",
+      "value_canonical": "42.4000",
+      "ref_low": "39.9000",
+      "ref_high": "48.8000",
+      "page": 0,
+      "bbox": [
+        40,
+        195.0,
+        555.3,
+        207.0
+      ]
+    },
+    {
+      "test_code": "rbc",
+      "printed_name": "R.B.C. Count",
+      "printed_value": "5.31",
+      "printed_unit": "million/cumm",
+      "printed_range": "4.48 to 5.54",
+      "flag": "",
+      "value_canonical": "5.3100",
+      "ref_low": "4.4800",
+      "ref_high": "5.5400",
+      "page": 0,
+      "bbox": [
+        40,
+        210.0,
+        555.3,
+        222.0
+      ]
+    },
+    {
+      "test_code": "wbc",
+      "printed_name": "Total Leucocyte Count",
+      "printed_value": "5,811",
+      "printed_unit": "/cumm",
+      "printed_range": "4100 to 10000",
+      "flag": "",
+      "value_canonical": "5.8110",
+      "ref_low": "4.1000",
+      "ref_high": "10.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        225.0,
+        555.3,
+        237.0
+      ]
+    },
+    {
+      "test_code": "plt",
+      "printed_name": "Platelet Count",
+      "printed_value": "2.43",
+      "printed_unit": "lakhs/cumm",
+      "printed_range": "1.53 to 4.04",
+      "flag": "",
+      "value_canonical": "243.0000",
+      "ref_low": "153.0000",
+      "ref_high": "404.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        240.0,
+        555.3,
+        252.0
+      ]
+    },
+    {
+      "test_code": "mcv",
+      "printed_name": "MCV",
+      "printed_value": "79.8",
+      "printed_unit": "fl",
+      "printed_range": "84.5 to 100.0",
+      "flag": "L",
+      "value_canonical": "79.8000",
+      "ref_low": "84.5000",
+      "ref_high": "100.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        255.0,
+        555.3,
+        267.0
+      ]
+    },
+    {
+      "test_code": "mch",
+      "printed_name": "Mean Corpuscular Haemoglobin",
+      "printed_value": "27.4",
+      "printed_unit": "pg",
+      "printed_range": "26.2 to 32.4",
+      "flag": "",
+      "value_canonical": "27.4000",
+      "ref_low": "26.2000",
+      "ref_high": "32.4000",
+      "page": 0,
+      "bbox": [
+        40,
+        270.0,
+        555.3,
+        282.0
+      ]
+    },
+    {
+      "test_code": "mchc",
+      "printed_name": "MCHC",
+      "printed_value": "34.3",
+      "printed_unit": "g/dl",
+      "printed_range": "31.3 to 35.2",
+      "flag": "",
+      "value_canonical": "34.3000",
+      "ref_low": "31.3000",
+      "ref_high": "35.2000",
+      "page": 0,
+      "bbox": [
+        40,
+        285.0,
+        555.3,
+        297.0
+      ]
+    },
+    {
+      "test_code": "rdw",
+      "printed_name": "Red Cell Distribution Width",
+      "printed_value": "11.7",
+      "printed_unit": "%",
+      "printed_range": "11.7 to 13.6",
+      "flag": "",
+      "value_canonical": "11.7000",
+      "ref_low": "11.7000",
+      "ref_high": "13.6000",
+      "page": 0,
+      "bbox": [
+        40,
+        300.0,
+        555.3,
+        312.0
+      ]
+    },
+    {
+      "test_code": "neut_pct",
+      "printed_name": "Neutrophils",
+      "printed_value": "62",
+      "printed_unit": "%",
+      "printed_range": "40 to 82",
+      "flag": "",
+      "value_canonical": "62.0000",
+      "ref_low": "40.0000",
+      "ref_high": "82.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        315.0,
+        555.3,
+        327.0
+      ]
+    },
+    {
+      "test_code": "lymph_pct",
+      "printed_name": "Lymphocytes %",
+      "printed_value": "29",
+      "printed_unit": "%",
+      "printed_range": "20 to 40",
+      "flag": "",
+      "value_canonical": "29.0000",
+      "ref_low": "20.0000",
+      "ref_high": "40.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        330.0,
+        555.3,
+        342.0
+      ]
+    },
+    {
+      "test_code": "mono_pct",
+      "printed_name": "Monocytes",
+      "printed_value": "5",
+      "printed_unit": "%",
+      "printed_range": "2 to 10",
+      "flag": "",
+      "value_canonical": "5.0000",
+      "ref_low": "2.0000",
+      "ref_high": "10.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        345.0,
+        555.3,
+        357.0
+      ]
+    },
+    {
+      "test_code": "eos_pct",
+      "printed_name": "Eosinophils",
+      "printed_value": "4",
+      "printed_unit": "%",
+      "printed_range": "1 to 6",
+      "flag": "",
+      "value_canonical": "4.0000",
+      "ref_low": "1.0000",
+      "ref_high": "6.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        360.0,
+        555.3,
+        372.0
+      ]
+    },
+    {
+      "test_code": "baso_pct",
+      "printed_name": "Basophils",
+      "printed_value": "1",
+      "printed_unit": "%",
+      "printed_range": "0 to 2",
+      "flag": "",
+      "value_canonical": "1.0000",
+      "ref_low": "0.0000",
+      "ref_high": "2.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        375.0,
+        555.3,
+        387.0
+      ]
+    },
+    {
+      "test_code": "esr",
+      "printed_name": "ESR (Westergren)",
+      "printed_value": "6",
+      "printed_unit": "mm/h",
+      "printed_range": "0 to 15",
+      "flag": "",
+      "value_canonical": "6.0000",
+      "ref_low": "0.0000",
+      "ref_high": "15.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        390.0,
+        555.3,
+        402.0
+      ]
+    },
+    {
+      "test_code": "glucose_fasting",
+      "printed_name": "Fasting Blood Sugar",
+      "printed_value": "88",
+      "printed_unit": "mg%",
+      "printed_range": "69 to 100",
+      "flag": "",
+      "value_canonical": "88.0000",
+      "ref_low": "69.0000",
+      "ref_high": "100.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        449.0,
+        555.3,
+        461.0
+      ]
+    },
+    {
+      "test_code": "glucose_pp",
+      "printed_name": "Glucose Post Prandial",
+      "printed_value": "103",
+      "printed_unit": "mg%",
+      "printed_range": "72 to 140",
+      "flag": "",
+      "value_canonical": "103.0000",
+      "ref_low": "72.0000",
+      "ref_high": "140.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        464.0,
+        555.3,
+        476.0
+      ]
+    },
+    {
+      "test_code": "hba1c",
+      "printed_name": "HbA1c",
+      "printed_value": "5.4",
+      "printed_unit": "%",
+      "printed_range": "4.0 to 5.7",
+      "flag": "",
+      "value_canonical": "5.4000",
+      "ref_low": "4.0000",
+      "ref_high": "5.7000",
+      "page": 0,
+      "bbox": [
+        40,
+        479.0,
+        555.3,
+        491.0
+      ]
+    },
+    {
+      "test_code": "eag",
+      "printed_name": "Average Blood Glucose",
+      "printed_value": "107",
+      "printed_unit": "mg%",
+      "printed_range": "68 to 120",
+      "flag": "",
+      "value_canonical": "107.0000",
+      "ref_low": "68.0000",
+      "ref_high": "120.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        494.0,
+        555.3,
+        506.0
+      ]
+    },
+    {
+      "test_code": "chol_total",
+      "printed_name": "Total Cholesterol",
+      "printed_value": "153",
+      "printed_unit": "mg%",
+      "printed_range": "Up to 210",
+      "flag": "",
+      "value_canonical": "153.0000",
+      "ref_low": null,
+      "ref_high": "210.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        553.0,
+        555.3,
+        565.0
+      ]
+    },
+    {
+      "test_code": "tg",
+      "printed_name": "S. Triglycerides",
+      "printed_value": "192",
+      "printed_unit": "mg%",
+      "printed_range": "Up to 150",
+      "flag": "H",
+      "value_canonical": "192.0000",
+      "ref_low": null,
+      "ref_high": "150.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        568.0,
+        555.3,
+        580.0
+      ]
+    },
+    {
+      "test_code": "hdl",
+      "printed_name": "HDL",
+      "printed_value": "54",
+      "printed_unit": "mg%",
+      "printed_range": "> 40",
+      "flag": "",
+      "value_canonical": "54.0000",
+      "ref_low": "40.0000",
+      "ref_high": null,
+      "page": 0,
+      "bbox": [
+        40,
+        583.0,
+        555.3,
+        595.0
+      ]
+    },
+    {
+      "test_code": "ldl",
+      "printed_name": "LDL Cholesterol",
+      "printed_value": "61",
+      "printed_unit": "mg%",
+      "printed_range": "Desirable: Up to 98",
+      "flag": "",
+      "value_canonical": "61.0000",
+      "ref_low": null,
+      "ref_high": "98.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        598.0,
+        555.3,
+        610.0
+      ]
+    },
+    {
+      "test_code": "vldl",
+      "printed_name": "VLDL Cholesterol",
+      "printed_value": "38",
+      "printed_unit": "mg%",
+      "printed_range": "2 to 30",
+      "flag": "H",
+      "value_canonical": "38.0000",
+      "ref_low": "2.0000",
+      "ref_high": "30.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        613.0,
+        555.3,
+        625.0
+      ]
+    },
+    {
+      "test_code": "non_hdl",
+      "printed_name": "Non-HDL-C",
+      "printed_value": "100",
+      "printed_unit": "mg%",
+      "printed_range": "Up to 130",
+      "flag": "",
+      "value_canonical": "100.0000",
+      "ref_low": null,
+      "ref_high": "130.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        628.0,
+        555.3,
+        640.0
+      ]
+    },
+    {
+      "test_code": "chol_hdl_ratio",
+      "printed_name": "Total Cholesterol/HDL Ratio",
+      "printed_value": "2.9",
+      "printed_unit": "",
+      "printed_range": "Up to 5.1",
+      "flag": "",
+      "value_canonical": "2.9000",
+      "ref_low": null,
+      "ref_high": "5.1000",
+      "page": 0,
+      "bbox": [
+        40,
+        643.0,
+        555.3,
+        655.0
+      ]
+    },
+    {
+      "test_code": "urea",
+      "printed_name": "S. Urea",
+      "printed_value": "14",
+      "printed_unit": "mg%",
+      "printed_range": "17 to 44",
+      "flag": "L",
+      "value_canonical": "14.0000",
+      "ref_low": "17.0000",
+      "ref_high": "44.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        702.0,
+        555.3,
+        714.0
+      ]
+    },
+    {
+      "test_code": "bun",
+      "printed_name": "Urea Nitrogen",
+      "printed_value": "7",
+      "printed_unit": "mg%",
+      "printed_range": "7 to 20",
+      "flag": "",
+      "value_canonical": "7.0000",
+      "ref_low": "7.0000",
+      "ref_high": "20.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        717.0,
+        555.3,
+        729.0
+      ]
+    },
+    {
+      "test_code": "creatinine",
+      "printed_name": "Creatinine",
+      "printed_value": "1.13",
+      "printed_unit": "mg%",
+      "printed_range": "0.71 to 1.28",
+      "flag": "",
+      "value_canonical": "1.1300",
+      "ref_low": "0.7100",
+      "ref_high": "1.2800",
+      "page": 0,
+      "bbox": [
+        40,
+        732.0,
+        555.3,
+        744.0
+      ]
+    },
+    {
+      "test_code": "uric_acid",
+      "printed_name": "Uric Acid",
+      "printed_value": "5.8",
+      "printed_unit": "mg%",
+      "printed_range": "3.6 to 7.4",
+      "flag": "",
+      "value_canonical": "5.8000",
+      "ref_low": "3.6000",
+      "ref_high": "7.4000",
+      "page": 1,
+      "bbox": [
+        40,
+        61.0,
+        555.3,
+        73.0
+      ]
+    },
+    {
+      "test_code": "egfr",
+      "printed_name": "eGFR",
+      "printed_value": "67",
+      "printed_unit": "mL/min/1.73m²",
+      "printed_range": "> 92",
+      "flag": "L",
+      "value_canonical": "67.0000",
+      "ref_low": "92.0000",
+      "ref_high": null,
+      "page": 1,
+      "bbox": [
+        40,
+        76.0,
+        555.3,
+        88.0
+      ]
+    },
+    {
+      "test_code": "bili_total",
+      "printed_name": "Bilirubin Total",
+      "printed_value": "0.83",
+      "printed_unit": "mg%",
+      "printed_range": "0.31 to 1.21",
+      "flag": "",
+      "value_canonical": "0.8300",
+      "ref_low": "0.3100",
+      "ref_high": "1.2100",
+      "page": 1,
+      "bbox": [
+        40,
+        135.0,
+        555.3,
+        147.0
+      ]
+    },
+    {
+      "test_code": "bili_direct",
+      "printed_name": "Bilirubin (Direct)",
+      "printed_value": "0.08",
+      "printed_unit": "mg%",
+      "printed_range": "0.00 to 0.30",
+      "flag": "",
+      "value_canonical": "0.0800",
+      "ref_low": "0.0000",
+      "ref_high": "0.3000",
+      "page": 1,
+      "bbox": [
+        40,
+        150.0,
+        555.3,
+        162.0
+      ]
+    },
+    {
+      "test_code": "bili_indirect",
+      "printed_name": "Bilirubin (Indirect)",
+      "printed_value": "0.75",
+      "printed_unit": "mg%",
+      "printed_range": "0.10 to 1.03",
+      "flag": "",
+      "value_canonical": "0.7500",
+      "ref_low": "0.1000",
+      "ref_high": "1.0300",
+      "page": 1,
+      "bbox": [
+        40,
+        165.0,
+        555.3,
+        177.0
+      ]
+    },
+    {
+      "test_code": "alt",
+      "printed_name": "Alanine Aminotransferase",
+      "printed_value": "28",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 49",
+      "flag": "",
+      "value_canonical": "28.0000",
+      "ref_low": "0.0000",
+      "ref_high": "49.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        180.0,
+        555.3,
+        192.0
+      ]
+    },
+    {
+      "test_code": "ast",
+      "printed_name": "SGOT",
+      "printed_value": "28",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 40",
+      "flag": "",
+      "value_canonical": "28.0000",
+      "ref_low": "0.0000",
+      "ref_high": "40.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        195.0,
+        555.3,
+        207.0
+      ]
+    },
+    {
+      "test_code": "alp",
+      "printed_name": "Alkaline Phosphatase",
+      "printed_value": "74",
+      "printed_unit": "IU/L",
+      "printed_range": "30 to 120",
+      "flag": "",
+      "value_canonical": "74.0000",
+      "ref_low": "30.0000",
+      "ref_high": "120.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        210.0,
+        555.3,
+        222.0
+      ]
+    },
+    {
+      "test_code": "ggt",
+      "printed_name": "GGT",
+      "printed_value": "24",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 56",
+      "flag": "",
+      "value_canonical": "24.0000",
+      "ref_low": "0.0000",
+      "ref_high": "56.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        225.0,
+        555.3,
+        237.0
+      ]
+    },
+    {
+      "test_code": "protein_total",
+      "printed_name": "S. Total Protein",
+      "printed_value": "7.1",
+      "printed_unit": "g/dl",
+      "printed_range": "6.3 to 8.2",
+      "flag": "",
+      "value_canonical": "7.1000",
+      "ref_low": "6.3000",
+      "ref_high": "8.2000",
+      "page": 1,
+      "bbox": [
+        40,
+        240.0,
+        555.3,
+        252.0
+      ]
+    },
+    {
+      "test_code": "albumin",
+      "printed_name": "Albumin",
+      "printed_value": "4.6",
+      "printed_unit": "g/dl",
+      "printed_range": "3.6 to 5.1",
+      "flag": "",
+      "value_canonical": "4.6000",
+      "ref_low": "3.6000",
+      "ref_high": "5.1000",
+      "page": 1,
+      "bbox": [
+        40,
+        255.0,
+        555.3,
+        267.0
+      ]
+    },
+    {
+      "test_code": "globulin",
+      "printed_name": "Globulin",
+      "printed_value": "2.4",
+      "printed_unit": "g/dl",
+      "printed_range": "2.0 to 3.4",
+      "flag": "",
+      "value_canonical": "2.4000",
+      "ref_low": "2.0000",
+      "ref_high": "3.4000",
+      "page": 1,
+      "bbox": [
+        40,
+        270.0,
+        555.3,
+        282.0
+      ]
+    },
+    {
+      "test_code": "ag_ratio",
+      "printed_name": "A/G Ratio",
+      "printed_value": "1.90",
+      "printed_unit": "",
+      "printed_range": "0.98 to 2.12",
+      "flag": "",
+      "value_canonical": "1.9000",
+      "ref_low": "0.9800",
+      "ref_high": "2.1200",
+      "page": 1,
+      "bbox": [
+        40,
+        285.0,
+        555.3,
+        297.0
+      ]
+    },
+    {
+      "test_code": "t3",
+      "printed_name": "Triiodothyronine",
+      "printed_value": "116",
+      "printed_unit": "ng/dl",
+      "printed_range": "78 to 200",
+      "flag": "",
+      "value_canonical": "116.0000",
+      "ref_low": "78.0000",
+      "ref_high": "200.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        344.0,
+        555.3,
+        356.0
+      ]
+    },
+    {
+      "test_code": "t4",
+      "printed_name": "T4",
+      "printed_value": "10.0",
+      "printed_unit": "µg/dL",
+      "printed_range": "5.2 to 14.1",
+      "flag": "",
+      "value_canonical": "10.0000",
+      "ref_low": "5.2000",
+      "ref_high": "14.1000",
+      "page": 1,
+      "bbox": [
+        40,
+        359.0,
+        555.3,
+        371.0
+      ]
+    },
+    {
+      "test_code": "tsh",
+      "printed_name": "TSH",
+      "printed_value": "1.51",
+      "printed_unit": "uIU/ml",
+      "printed_range": "0.40 to 3.89",
+      "flag": "",
+      "value_canonical": "1.5100",
+      "ref_low": "0.4000",
+      "ref_high": "3.8900",
+      "page": 1,
+      "bbox": [
+        40,
+        374.0,
+        555.3,
+        386.0
+      ]
+    },
+    {
+      "test_code": "vitamin_d",
+      "printed_name": "Vitamin D",
+      "printed_value": "18.8",
+      "printed_unit": "ng/mL",
+      "printed_range": "30.2 to 100.0",
+      "flag": "L",
+      "value_canonical": "18.8000",
+      "ref_low": "30.2000",
+      "ref_high": "100.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        433.0,
+        555.3,
+        445.0
+      ]
+    },
+    {
+      "test_code": "vitamin_b12",
+      "printed_name": "Vitamin B12",
+      "printed_value": "430",
+      "printed_unit": "pg/mL",
+      "printed_range": "210 to 910",
+      "flag": "",
+      "value_canonical": "430.0000",
+      "ref_low": "210.0000",
+      "ref_high": "910.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        448.0,
+        555.3,
+        460.0
+      ]
+    },
+    {
+      "test_code": "folate",
+      "printed_name": "Folic Acid",
+      "printed_value": "3.8",
+      "printed_unit": "ng/mL",
+      "printed_range": "3.1 to 21.1",
+      "flag": "",
+      "value_canonical": "3.8000",
+      "ref_low": "3.1000",
+      "ref_high": "21.1000",
+      "page": 1,
+      "bbox": [
+        40,
+        463.0,
+        555.3,
+        475.0
+      ]
+    },
+    {
+      "test_code": "urine_ph",
+      "printed_name": "Reaction",
+      "printed_value": "5.7",
+      "printed_unit": "",
+      "printed_range": "4.4 to 7.8",
+      "flag": "",
+      "value_canonical": "5.7000",
+      "ref_low": "4.4000",
+      "ref_high": "7.8000",
+      "page": 1,
+      "bbox": [
+        40,
+        522.0,
+        555.3,
+        534.0
+      ]
+    },
+    {
+      "test_code": "urine_sg",
+      "printed_name": "Specific Gravity",
+      "printed_value": "1.024",
+      "printed_unit": "",
+      "printed_range": "1.033 to 1.011",
+      "flag": "H",
+      "value_canonical": "1.0240",
+      "ref_low": "1.0330",
+      "ref_high": "1.0110",
+      "page": 1,
+      "bbox": [
+        40,
+        537.0,
+        555.3,
+        549.0
+      ]
+    },
+    {
+      "test_code": "urine_pus",
+      "printed_name": "Pus Cells",
+      "printed_value": "2",
+      "printed_unit": "cells/hpf",
+      "printed_range": "0 to 5",
+      "flag": "",
+      "value_canonical": "2.0000",
+      "ref_low": "0.0000",
+      "ref_high": "5.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        552.0,
+        555.3,
+        564.0
+      ]
+    },
+    {
+      "test_code": "urine_rbc",
+      "printed_name": "Urine RBC",
+      "printed_value": "1",
+      "printed_unit": "cells/hpf",
+      "printed_range": "0 to 2",
+      "flag": "",
+      "value_canonical": "1.0000",
+      "ref_low": "0.0000",
+      "ref_high": "2.0000",
+      "page": 1,
+      "bbox": [
+        40,
+        567.0,
+        555.3,
+        579.0
+      ]
+    },
+    {
+      "test_code": "psa",
+      "printed_name": "PSA",
+      "printed_value": "0.84",
+      "printed_unit": "ng/mL",
+      "printed_range": "0.00 to 3.98",
+      "flag": "",
+      "value_canonical": "0.8400",
+      "ref_low": "0.0000",
+      "ref_high": "3.9800",
+      "page": 1,
+      "bbox": [
+        40,
+        626.0,
+        555.3,
+        638.0
+      ]
+    }
+  ],
+  "person_id": "hist-2026-00",
+  "visit": 2,
+  "planted_trend": {
+    "test_code": "creatinine",
+    "slope_per_year": 0.12
+  }
+}

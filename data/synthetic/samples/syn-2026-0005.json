@@ -1,0 +1,510 @@
+{
+  "id": "syn-2026-0005",
+  "synthetic": true,
+  "layout": "leaders",
+  "unit_style": "international",
+  "lab": {
+    "name": "Kalinga Test House (Demo)",
+    "doctor": "Dr. Vritti Murthy"
+  },
+  "patient_name": "Rajata Shenoy",
+  "persona": {
+    "sex": "female",
+    "age": 38,
+    "conditions": [
+      "hypothyroid"
+    ]
+  },
+  "package": "Basic Health Check",
+  "collected_at": "2024-05-05",
+  "lab_no": "94700773",
+  "pages": 1,
+  "page_size_pt": [
+    595.28,
+    841.89
+  ],
+  "sections": [
+    {
+      "panel": "cbc",
+      "title": "COMPLETE BLOOD COUNT (CBC)"
+    },
+    {
+      "panel": "diabetes",
+      "title": "DIABETES PROFILE"
+    },
+    {
+      "panel": "lipid",
+      "title": "LIPID PROFILE"
+    }
+  ],
+  "rows": [
+    {
+      "test_code": "hb",
+      "printed_name": "Haemoglobin",
+      "printed_value": "14.6",
+      "printed_unit": "gm%",
+      "printed_range": "12.1-15.4",
+      "flag": "",
+      "value_canonical": "14.6000",
+      "ref_low": "12.1000",
+      "ref_high": "15.4000",
+      "page": 0,
+      "bbox": [
+        40,
+        164.0,
+        555.3,
+        176.0
+      ]
+    },
+    {
+      "test_code": "hct",
+      "printed_name": "Haematocrit",
+      "printed_value": "44.1",
+      "printed_unit": "%",
+      "printed_range": "35.4-47.3",
+      "flag": "",
+      "value_canonical": "44.1000",
+      "ref_low": "35.4000",
+      "ref_high": "47.3000",
+      "page": 0,
+      "bbox": [
+        40,
+        178.0,
+        555.3,
+        190.0
+      ]
+    },
+    {
+      "test_code": "rbc",
+      "printed_name": "RBC Count",
+      "printed_value": "4.63",
+      "printed_unit": "x10⁶/µL",
+      "printed_range": "3.89-4.86",
+      "flag": "",
+      "value_canonical": "4.6300",
+      "ref_low": "3.8900",
+      "ref_high": "4.8600",
+      "page": 0,
+      "bbox": [
+        40,
+        192.0,
+        555.3,
+        204.0
+      ]
+    },
+    {
+      "test_code": "wbc",
+      "printed_name": "Total Leucocyte Count",
+      "printed_value": "8.28",
+      "printed_unit": "10^3/µL",
+      "printed_range": "4.05-10.26",
+      "flag": "",
+      "value_canonical": "8.2800",
+      "ref_low": "4.0500",
+      "ref_high": "10.2600",
+      "page": 0,
+      "bbox": [
+        40,
+        206.0,
+        555.3,
+        218.0
+      ]
+    },
+    {
+      "test_code": "plt",
+      "printed_name": "Platelets",
+      "printed_value": "190",
+      "printed_unit": "10^3/µL",
+      "printed_range": "150-410",
+      "flag": "",
+      "value_canonical": "190.0000",
+      "ref_low": "150.0000",
+      "ref_high": "410.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        220.0,
+        555.3,
+        232.0
+      ]
+    },
+    {
+      "test_code": "mcv",
+      "printed_name": "MCV",
+      "printed_value": "95.2",
+      "printed_unit": "fL",
+      "printed_range": "82.5-100.0",
+      "flag": "",
+      "value_canonical": "95.2000",
+      "ref_low": "82.5000",
+      "ref_high": "100.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        234.0,
+        555.3,
+        246.0
+      ]
+    },
+    {
+      "test_code": "mch",
+      "printed_name": "Mean Corpuscular Haemoglobin",
+      "printed_value": "31.5",
+      "printed_unit": "pg",
+      "printed_range": "26.4-31.6",
+      "flag": "",
+      "value_canonical": "31.5000",
+      "ref_low": "26.4000",
+      "ref_high": "31.6000",
+      "page": 0,
+      "bbox": [
+        40,
+        248.0,
+        555.3,
+        260.0
+      ]
+    },
+    {
+      "test_code": "mchc",
+      "printed_name": "MCHC",
+      "printed_value": "33.1",
+      "printed_unit": "gm%",
+      "printed_range": "30.7-33.8",
+      "flag": "",
+      "value_canonical": "33.1000",
+      "ref_low": "30.7000",
+      "ref_high": "33.8000",
+      "page": 0,
+      "bbox": [
+        40,
+        262.0,
+        555.3,
+        274.0
+      ]
+    },
+    {
+      "test_code": "rdw",
+      "printed_name": "RDW",
+      "printed_value": "13.7",
+      "printed_unit": "%",
+      "printed_range": "11.4-14.0",
+      "flag": "",
+      "value_canonical": "13.7000",
+      "ref_low": "11.4000",
+      "ref_high": "14.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        276.0,
+        555.3,
+        288.0
+      ]
+    },
+    {
+      "test_code": "neut_pct",
+      "printed_name": "Polymorphs",
+      "printed_value": "61",
+      "printed_unit": "%",
+      "printed_range": "39-82",
+      "flag": "",
+      "value_canonical": "61.0000",
+      "ref_low": "39.0000",
+      "ref_high": "82.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        290.0,
+        555.3,
+        302.0
+      ]
+    },
+    {
+      "test_code": "lymph_pct",
+      "printed_name": "Lymphocyte",
+      "printed_value": "29",
+      "printed_unit": "%",
+      "printed_range": "19-39",
+      "flag": "",
+      "value_canonical": "29.0000",
+      "ref_low": "19.0000",
+      "ref_high": "39.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        304.0,
+        555.3,
+        316.0
+      ]
+    },
+    {
+      "test_code": "mono_pct",
+      "printed_name": "Monocyte",
+      "printed_value": "5",
+      "printed_unit": "%",
+      "printed_range": "2-10",
+      "flag": "",
+      "value_canonical": "5.0000",
+      "ref_low": "2.0000",
+      "ref_high": "10.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        318.0,
+        555.3,
+        330.0
+      ]
+    },
+    {
+      "test_code": "eos_pct",
+      "printed_name": "Eosinophils",
+      "printed_value": "4",
+      "printed_unit": "%",
+      "printed_range": "1-6",
+      "flag": "",
+      "value_canonical": "4.0000",
+      "ref_low": "1.0000",
+      "ref_high": "6.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        332.0,
+        555.3,
+        344.0
+      ]
+    },
+    {
+      "test_code": "baso_pct",
+      "printed_name": "Basophils",
+      "printed_value": "1",
+      "printed_unit": "%",
+      "printed_range": "0-2",
+      "flag": "",
+      "value_canonical": "1.0000",
+      "ref_low": "0.0000",
+      "ref_high": "2.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        346.0,
+        555.3,
+        358.0
+      ]
+    },
+    {
+      "test_code": "esr",
+      "printed_name": "ESR",
+      "printed_value": "7",
+      "printed_unit": "mm/h",
+      "printed_range": "0-20",
+      "flag": "",
+      "value_canonical": "7.0000",
+      "ref_low": "0.0000",
+      "ref_high": "20.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        360.0,
+        555.3,
+        372.0
+      ]
+    },
+    {
+      "test_code": "glucose_fasting",
+      "printed_name": "Fasting Blood Sugar",
+      "printed_value": "89",
+      "printed_unit": "mg%",
+      "printed_range": "69-99",
+      "flag": "",
+      "value_canonical": "89.0000",
+      "ref_low": "69.0000",
+      "ref_high": "99.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        402.0,
+        555.3,
+        414.0
+      ]
+    },
+    {
+      "test_code": "glucose_pp",
+      "printed_name": "Glucose PP",
+      "printed_value": "96",
+      "printed_unit": "mg%",
+      "printed_range": "71-140",
+      "flag": "",
+      "value_canonical": "96.0000",
+      "ref_low": "71.0000",
+      "ref_high": "140.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        416.0,
+        555.3,
+        428.0
+      ]
+    },
+    {
+      "test_code": "hba1c",
+      "printed_name": "Glycated Haemoglobin",
+      "printed_value": "5.1",
+      "printed_unit": "%",
+      "printed_range": "3.9-5.5",
+      "flag": "",
+      "value_canonical": "5.1000",
+      "ref_low": "3.9000",
+      "ref_high": "5.5000",
+      "page": 0,
+      "bbox": [
+        40,
+        430.0,
+        555.3,
+        442.0
+      ]
+    },
+    {
+      "test_code": "eag",
+      "printed_name": "Estimated Average Glucose",
+      "printed_value": "99",
+      "printed_unit": "mg%",
+      "printed_range": "67-110",
+      "flag": "",
+      "value_canonical": "99.0000",
+      "ref_low": "67.0000",
+      "ref_high": "110.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        444.0,
+        555.3,
+        456.0
+      ]
+    },
+    {
+      "test_code": "chol_total",
+      "printed_name": "Total Cholesterol",
+      "printed_value": "200",
+      "printed_unit": "mg%",
+      "printed_range": "< 200",
+      "flag": "",
+      "value_canonical": "200.0000",
+      "ref_low": null,
+      "ref_high": "200.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        486.0,
+        555.3,
+        498.0
+      ]
+    },
+    {
+      "test_code": "tg",
+      "printed_name": "Triglycerides",
+      "printed_value": "60",
+      "printed_unit": "mg%",
+      "printed_range": "< 150",
+      "flag": "",
+      "value_canonical": "60.0000",
+      "ref_low": null,
+      "ref_high": "150.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        500.0,
+        555.3,
+        512.0
+      ]
+    },
+    {
+      "test_code": "hdl",
+      "printed_name": "HDL Cholesterol",
+      "printed_value": "61",
+      "printed_unit": "mg%",
+      "printed_range": ">= 50",
+      "flag": "",
+      "value_canonical": "61.0000",
+      "ref_low": "50.0000",
+      "ref_high": null,
+      "page": 0,
+      "bbox": [
+        40,
+        514.0,
+        555.3,
+        526.0
+      ]
+    },
+    {
+      "test_code": "ldl",
+      "printed_name": "LDL (Calculated)",
+      "printed_value": "127",
+      "printed_unit": "mg%",
+      "printed_range": "Desirable: < 99",
+      "flag": "H",
+      "value_canonical": "127.0000",
+      "ref_low": null,
+      "ref_high": "99.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        528.0,
+        555.3,
+        540.0
+      ]
+    },
+    {
+      "test_code": "vldl",
+      "printed_name": "VLDL-C",
+      "printed_value": "12",
+      "printed_unit": "mg%",
+      "printed_range": "2-31",
+      "flag": "",
+      "value_canonical": "12.0000",
+      "ref_low": "2.0000",
+      "ref_high": "31.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        542.0,
+        555.3,
+        554.0
+      ]
+    },
+    {
+      "test_code": "non_hdl",
+      "printed_name": "Non-HDL Cholesterol",
+      "printed_value": "139",
+      "printed_unit": "mg%",
+      "printed_range": "< 130",
+      "flag": "H",
+      "value_canonical": "139.0000",
+      "ref_low": null,
+      "ref_high": "130.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        556.0,
+        555.3,
+        568.0
+      ]
+    },
+    {
+      "test_code": "chol_hdl_ratio",
+      "printed_name": "Total Cholesterol/HDL Ratio",
+      "printed_value": "3.3",
+      "printed_unit": "",
+      "printed_range": "< 4.9",
+      "flag": "",
+      "value_canonical": "3.3000",
+      "ref_low": null,
+      "ref_high": "4.9000",
+      "page": 0,
+      "bbox": [
+        40,
+        570.0,
+        555.3,
+        582.0
+      ]
+    }
+  ]
+}

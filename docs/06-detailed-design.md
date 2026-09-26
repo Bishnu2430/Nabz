@@ -18,8 +18,10 @@ nabz/
 │   ├── pyproject.toml, uv.lock
 │   ├── app/
 │   │   ├── main.py              # FastAPI app factory, routers, health
+│   │   ├── cli.py               # management commands (seed-catalogue, …)
 │   │   ├── core/                # config, logging, security, i18n keys
 │   │   ├── db.py                # engine + session
+│   │   ├── catalogue/           # CSV loader + validation, unit normalisation/conversion, LOINC check, seeding
 │   │   ├── models/              # SQLAlchemy ORM (one module per domain)
 │   │   ├── schemas/             # Pydantic request/response + explanation JSON schema
 │   │   ├── api/                 # routers: auth, profiles, reports, insights, admin
@@ -29,14 +31,15 @@ nabz/
 │   │   ├── analysis/            # RangeClassifier, CriticalRules, ChangeDetector, TrendAnalyzer, Percentiles
 │   │   ├── explanation/         # KnowledgeRetriever, PromptBuilder, LLMProvider, SafetyValidator
 │   │   └── narration/           # TTSProvider implementations
+│   ├── tools/synthetic/         # synthetic report generator (PDF + ground truth)
 │   ├── migrations/              # Alembic
-│   └── tests/                   # unit, integration (testcontainers), eval harness
+│   └── tests/                   # unit, integration (throwaway Postgres database), eval harness
 ├── frontend/                    # React + TS + Vite (Sprint 3)
 │   └── src/{app,features,three,i18n,api}
 ├── data/
 │   ├── catalogue/               # tests, aliases, units, ranges, critical limits (CSV)
 │   ├── knowledge/               # curated source texts + licence manifest
-│   ├── synthetic/               # generated reports + ground truth (JSON)
+│   ├── synthetic/               # samples/ committed; generated sets git-ignored
 │   └── private/                 # consented real samples — git-ignored, encrypted
 └── docs/                        # this documentation
 ```
@@ -49,7 +52,7 @@ The diagram shows the backend core in three layers:
 
 - **Request path** (top row). `ReportsRouter` → `ReportService` → repository, storage and queue. The service never calls the worker. It only enqueues.
 - **Worker** (right). `Worker` owns one `StageHandler` per stage (composition) and runs whatever the queue hands it. The four stages implement the same interface, so adding a stage (for example "translate") means adding a class and a row in the `job_stage` enum.
-- **Collaborators** (bottom). Every external or swappable dependency is an interface: `OCREngine`, `LLMProvider`, `TTSProvider`, `StorageBackend`, `JobQueue`. Tests use in-memory fakes. Production uses PaddleOCR, Anthropic or Ollama, local volume storage and the Postgres queue.
+- **Collaborators** (bottom). Every external or swappable dependency is an interface: `OCREngine`, `LLMProvider`, `TTSProvider`, `StorageBackend`, `JobQueue`. Tests use in-memory fakes. Production uses PaddleOCR, Groq or Ollama, local volume storage and the Postgres queue.
 
 ## 3. Key interfaces
 

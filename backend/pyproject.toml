@@ -10,6 +10,8 @@ dependencies = [
     "psycopg[binary]>=3.2",
     "alembic>=1.13",
     "pydantic-settings>=2.4",
+    "pgvector>=0.3",
+    "rapidfuzz>=3.9",
 ]
 
 [dependency-groups]
@@ -18,14 +20,21 @@ dev = [
     "httpx>=0.27",
     "ruff>=0.6",
     "mypy>=1.11",
+    "reportlab>=4.2",
+    "faker>=30.0",
+    "pypdf>=5.0",
 ]
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py312"
+extend-exclude = ["migrations/versions"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["S101", "S311"]  # asserts in tests; non-crypto random in synthetic data
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["db: needs a PostgreSQL server (DATABASE_URL)"]

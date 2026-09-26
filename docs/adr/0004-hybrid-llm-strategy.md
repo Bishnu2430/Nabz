@@ -1,6 +1,6 @@
 # ADR-0004 · Hybrid LLM strategy
 
-**Status:** Accepted · 2026-09-26
+**Status:** Accepted · 2026-09-26 · *API provider and model superseded by [ADR-0007](0007-groq-gpt-oss-for-explanations.md); the local/API split still stands*
 
 ## Context
 

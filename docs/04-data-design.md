@@ -105,9 +105,11 @@ Indexes: `(report_id)`; `(test_id)`; history query uses `report.profile_id` + `t
 | Column | Type | Description |
 |---|---|---|
 | `id` | int | PK |
-| `loinc_code` | text | Unique LOINC code (e.g. `4548-4` for HbA1c) |
+| `code` | text | Unique stable slug used by seeds and code (e.g. `hba1c`) |
+| `loinc_code` | text | Unique LOINC code (e.g. `4548-4` for HbA1c); check digit validated on load |
+| `short_name`, `panel` | text | Display label and report section (`cbc`, `lipid`, `liver`, …) |
 | `canonical_name` | text | Display name in English; translations in the i18n bundle |
-| `aliases` | text[] | Spellings seen on Indian reports ("HbA1c", "Glycated Hb", "GHb"…); GIN trigram index |
+| `aliases` | text[] | Spellings seen on Indian reports ("HbA1c", "Glycated Haemoglobin", "GHb"…). Matched in memory with rapidfuzz, as the catalogue is small; `pg_trgm` stays available for admin search |
 | `organ_system_id` | smallint | FK → `organ_system.id`; drives the 3D colouring |
 | `canonical_unit` | text | UCUM unit |
 | `plausible_min`, `plausible_max` | numeric | Physiological bounds for sanity checks (not reference ranges) |
@@ -133,7 +135,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | Column | Type | Description |
 |---|---|---|
 | `content` | jsonb | `{summary, per_test[], doctor_questions[], disclaimer}`; schema versioned by `prompt_version` |
-| `model_id` | text | e.g. `claude-opus-5` or `template` for the safe fallback |
+| `model_id` | text | e.g. `openai/gpt-oss-120b` or `template` for the safe fallback |
 | `safety_status` | safety_status | Validator result |
 | `input_tokens`, `output_tokens`, `latency_ms` | int | Cost and performance accounting |
 | `audio_key` | text | Storage key of the narration, if any |
@@ -159,7 +161,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 ## 7. Migrations and seed data
 
 - Alembic revision per change, named `YYYYMMDD_short_description`.
-- Seed data comes from CSV files in `data/catalogue/` (tests, aliases, units, ranges, critical limits) and is loaded by an idempotent `seed` command. The catalogue CSV is reviewed like code.
+- Seed data comes from CSV files in [`data/catalogue/`](../data/catalogue/README.md) (10 organ systems, 70 tests, unit conversions, default ranges, critical limits). It is validated on load (LOINC check digits, units, bounds) and loaded by an idempotent command: `python -m app.cli seed-catalogue`. The catalogue CSV is reviewed like code.
 - The knowledge base is loaded by an ingestion command that records licence and checksum in `kb_document`, chunks the text (about 300 tokens with 15 % overlap), embeds it and writes to `kb_chunk`.
 
 ## Revision history
