@@ -26,7 +26,7 @@ data/uploads/
 data/synthetic/*
 !data/synthetic/README.md
 !data/synthetic/samples/
-models/
+/models/
 *.gguf
 *.safetensors
 
