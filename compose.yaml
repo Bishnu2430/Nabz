@@ -1,6 +1,7 @@
 # Nabz — local development stack.
 #   docker compose up --build                      # db + api
 #   docker compose --profile local-llm up --build  # + local small LLM (Ollama)
+#   docker compose exec api pytest                 # run the test suite
 # Services are added here as each sprint lands (worker: Sprint 2, web: Sprint 3).
 # See docs/03-system-architecture.md §5 for the full target topology.
 name: nabz
@@ -25,7 +26,10 @@ services:
       retries: 20
 
   api:
-    build: ./backend
+    build:
+      context: ./backend
+      args:
+        INSTALL_DEV: "true"
     restart: unless-stopped
     env_file:
       - path: .env
@@ -33,9 +37,11 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nabz}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nabz}
       UPLOAD_DIR: /data/uploads
+      DATA_DIR: /srv/data
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     volumes:
-      - ./backend/app:/app/app      # hot reload in development
+      - ./backend:/app              # source, tests and migrations (hot reload)
+      - ./data:/srv/data            # catalogue CSVs, synthetic reports
       - uploads:/data/uploads
     ports:
       - "127.0.0.1:${API_HOST_PORT:-8000}:8000"

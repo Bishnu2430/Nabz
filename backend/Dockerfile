@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM python:3.12-slim
 
+# INSTALL_DEV=true adds test and tooling dependencies (used by compose for development).
+ARG INSTALL_DEV=false
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     UV_COMPILE_BYTECODE=1 \
@@ -15,13 +18,17 @@ WORKDIR /app
 # Dependencies first so code edits don't invalidate the layer.
 COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-install-project --no-dev
+    if [ "$INSTALL_DEV" = "true" ]; then \
+        uv sync --locked --no-install-project; \
+    else \
+        uv sync --locked --no-install-project --no-dev; \
+    fi
 
-COPY app ./app
+COPY . .
 
 RUN useradd --create-home --uid 10001 nabz \
-    && mkdir -p /data/uploads \
-    && chown -R nabz /app /data
+    && mkdir -p /data/uploads /srv/data \
+    && chown -R nabz /app /data /srv/data
 USER nabz
 
 EXPOSE 8000

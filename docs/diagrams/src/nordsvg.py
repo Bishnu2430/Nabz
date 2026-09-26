@@ -353,4 +353,4 @@ class Diagram:
         )
 
     def save(self, path: Path) -> None:
-        path.write_text(self.svg(), encoding="utf-8")
+        path.write_text(self.svg(), encoding="utf-8", newline="\n")

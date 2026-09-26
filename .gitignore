@@ -22,6 +22,10 @@ dist/
 # Real (even redacted) lab reports, uploads and model weights stay out of git.
 data/private/
 data/uploads/
+# Generated synthetic reports (regenerate with `python -m tools.synthetic`); samples/ is committed.
+data/synthetic/*
+!data/synthetic/README.md
+!data/synthetic/samples/
 models/
 *.gguf
 *.safetensors
