@@ -1,0 +1,10 @@
+id,layout,unit_style,package,sex,age,conditions,collected_at,pages,rows,person,visit
+syn-2026-0000,table,conventional,Liver and Kidney Profile,male,42,diabetes|fatty_liver,2025-01-05,1,23,,
+syn-2026-0001,boxed,international,Basic Health Check,female,45,,2024-11-01,1,26,,
+syn-2026-0002,leaders,conventional,Comprehensive Health Check,male,76,critical_potassium,2024-08-29,2,53,,
+syn-2026-0003,table,si,Basic Health Check,female,34,,2024-10-12,1,26,,
+syn-2026-0004,boxed,conventional,Diabetes Care Profile,female,42,,2024-05-14,1,21,,
+syn-2026-0005,leaders,international,Basic Health Check,female,38,hypothyroid,2024-05-05,1,26,,
+hist-2026-00-v0,table,conventional,Comprehensive Health Check,male,75,vitamin_d_deficiency,2024-07-02,2,53,hist-2026-00,0
+hist-2026-00-v1,table,conventional,Comprehensive Health Check,male,76,vitamin_d_deficiency,2025-06-04,2,53,hist-2026-00,1
+hist-2026-00-v2,table,conventional,Comprehensive Health Check,male,77,vitamin_d_deficiency,2026-07-04,2,53,hist-2026-00,2

@@ -1,0 +1,457 @@
+{
+  "id": "syn-2026-0000",
+  "synthetic": true,
+  "layout": "table",
+  "unit_style": "conventional",
+  "lab": {
+    "name": "Anvaya Diagnostics (Demo)",
+    "doctor": "Dr. Ekaja Thakkar"
+  },
+  "patient_name": "Rushil Krishnamurthy",
+  "persona": {
+    "sex": "male",
+    "age": 42,
+    "conditions": [
+      "diabetes",
+      "fatty_liver"
+    ]
+  },
+  "package": "Liver and Kidney Profile",
+  "collected_at": "2025-01-05",
+  "lab_no": "61802287",
+  "pages": 1,
+  "page_size_pt": [
+    595.28,
+    841.89
+  ],
+  "sections": [
+    {
+      "panel": "liver",
+      "title": "LIVER FUNCTION TEST (LFT)"
+    },
+    {
+      "panel": "kidney",
+      "title": "KIDNEY FUNCTION TEST (KFT)"
+    },
+    {
+      "panel": "electrolytes",
+      "title": "SERUM ELECTROLYTES"
+    }
+  ],
+  "rows": [
+    {
+      "test_code": "bili_total",
+      "printed_name": "Bilirubin (Total)",
+      "printed_value": "0.78",
+      "printed_unit": "mg%",
+      "printed_range": "0.31 to 1.21",
+      "flag": "",
+      "value_canonical": "0.7800",
+      "ref_low": "0.3100",
+      "ref_high": "1.2100",
+      "page": 0,
+      "bbox": [
+        40,
+        180.0,
+        555.3,
+        192.0
+      ]
+    },
+    {
+      "test_code": "bili_direct",
+      "printed_name": "D. Bilirubin",
+      "printed_value": "0.14",
+      "printed_unit": "mg%",
+      "printed_range": "0.00 to 0.29",
+      "flag": "",
+      "value_canonical": "0.1400",
+      "ref_low": "0.0000",
+      "ref_high": "0.2900",
+      "page": 0,
+      "bbox": [
+        40,
+        195.0,
+        555.3,
+        207.0
+      ]
+    },
+    {
+      "test_code": "bili_indirect",
+      "printed_name": "Bilirubin (Indirect)",
+      "printed_value": "0.64",
+      "printed_unit": "mg%",
+      "printed_range": "0.10 to 1.01",
+      "flag": "",
+      "value_canonical": "0.6400",
+      "ref_low": "0.1000",
+      "ref_high": "1.0100",
+      "page": 0,
+      "bbox": [
+        40,
+        210.0,
+        555.3,
+        222.0
+      ]
+    },
+    {
+      "test_code": "alt",
+      "printed_name": "SGPT",
+      "printed_value": "110",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 51",
+      "flag": "H",
+      "value_canonical": "110.0000",
+      "ref_low": "0.0000",
+      "ref_high": "51.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        225.0,
+        555.3,
+        237.0
+      ]
+    },
+    {
+      "test_code": "ast",
+      "printed_name": "SGOT",
+      "printed_value": "66",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 41",
+      "flag": "H",
+      "value_canonical": "66.0000",
+      "ref_low": "0.0000",
+      "ref_high": "41.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        240.0,
+        555.3,
+        252.0
+      ]
+    },
+    {
+      "test_code": "alp",
+      "printed_name": "Alkaline Phosphatase",
+      "printed_value": "90",
+      "printed_unit": "IU/L",
+      "printed_range": "30 to 120",
+      "flag": "",
+      "value_canonical": "90.0000",
+      "ref_low": "30.0000",
+      "ref_high": "120.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        255.0,
+        555.3,
+        267.0
+      ]
+    },
+    {
+      "test_code": "ggt",
+      "printed_name": "GGT",
+      "printed_value": "103",
+      "printed_unit": "IU/L",
+      "printed_range": "0 to 53",
+      "flag": "H",
+      "value_canonical": "103.0000",
+      "ref_low": "0.0000",
+      "ref_high": "53.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        270.0,
+        555.3,
+        282.0
+      ]
+    },
+    {
+      "test_code": "protein_total",
+      "printed_name": "Total Proteins",
+      "printed_value": "6.8",
+      "printed_unit": "g/dl",
+      "printed_range": "6.5 to 8.2",
+      "flag": "",
+      "value_canonical": "6.8000",
+      "ref_low": "6.5000",
+      "ref_high": "8.2000",
+      "page": 0,
+      "bbox": [
+        40,
+        285.0,
+        555.3,
+        297.0
+      ]
+    },
+    {
+      "test_code": "albumin",
+      "printed_name": "ALB",
+      "printed_value": "4.8",
+      "printed_unit": "g/dl",
+      "printed_range": "3.6 to 5.3",
+      "flag": "",
+      "value_canonical": "4.8000",
+      "ref_low": "3.6000",
+      "ref_high": "5.3000",
+      "page": 0,
+      "bbox": [
+        40,
+        300.0,
+        555.3,
+        312.0
+      ]
+    },
+    {
+      "test_code": "globulin",
+      "printed_name": "Globulin",
+      "printed_value": "2.0",
+      "printed_unit": "g/dl",
+      "printed_range": "1.9 to 3.5",
+      "flag": "",
+      "value_canonical": "2.0000",
+      "ref_low": "1.9000",
+      "ref_high": "3.5000",
+      "page": 0,
+      "bbox": [
+        40,
+        315.0,
+        555.3,
+        327.0
+      ]
+    },
+    {
+      "test_code": "ag_ratio",
+      "printed_name": "A/G Ratio",
+      "printed_value": "2.43",
+      "printed_unit": "",
+      "printed_range": "1.02 to 2.07",
+      "flag": "H",
+      "value_canonical": "2.4300",
+      "ref_low": "1.0200",
+      "ref_high": "2.0700",
+      "page": 0,
+      "bbox": [
+        40,
+        330.0,
+        555.3,
+        342.0
+      ]
+    },
+    {
+      "test_code": "urea",
+      "printed_name": "S. Urea",
+      "printed_value": "26",
+      "printed_unit": "mg%",
+      "printed_range": "17 to 44",
+      "flag": "",
+      "value_canonical": "26.0000",
+      "ref_low": "17.0000",
+      "ref_high": "44.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        389.0,
+        555.3,
+        401.0
+      ]
+    },
+    {
+      "test_code": "bun",
+      "printed_name": "BUN",
+      "printed_value": "12",
+      "printed_unit": "mg%",
+      "printed_range": "7 to 20",
+      "flag": "",
+      "value_canonical": "12.0000",
+      "ref_low": "7.0000",
+      "ref_high": "20.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        404.0,
+        555.3,
+        416.0
+      ]
+    },
+    {
+      "test_code": "creatinine",
+      "printed_name": "Creatinine Serum",
+      "printed_value": "0.78",
+      "printed_unit": "mg%",
+      "printed_range": "0.69 to 1.34",
+      "flag": "",
+      "value_canonical": "0.7800",
+      "ref_low": "0.6900",
+      "ref_high": "1.3400",
+      "page": 0,
+      "bbox": [
+        40,
+        419.0,
+        555.3,
+        431.0
+      ]
+    },
+    {
+      "test_code": "uric_acid",
+      "printed_name": "Uric Acid",
+      "printed_value": "4.9",
+      "printed_unit": "mg%",
+      "printed_range": "3.6 to 7.2",
+      "flag": "",
+      "value_canonical": "4.9000",
+      "ref_low": "3.6000",
+      "ref_high": "7.2000",
+      "page": 0,
+      "bbox": [
+        40,
+        434.0,
+        555.3,
+        446.0
+      ]
+    },
+    {
+      "test_code": "egfr",
+      "printed_name": "GFR Estimated",
+      "printed_value": "114",
+      "printed_unit": "mL/min/1.73m²",
+      "printed_range": "> 88",
+      "flag": "",
+      "value_canonical": "114.0000",
+      "ref_low": "88.0000",
+      "ref_high": null,
+      "page": 0,
+      "bbox": [
+        40,
+        449.0,
+        555.3,
+        461.0
+      ]
+    },
+    {
+      "test_code": "sodium",
+      "printed_name": "Sodium",
+      "printed_value": "140",
+      "printed_unit": "mmol/l",
+      "printed_range": "140 to 140",
+      "flag": "",
+      "value_canonical": "140.0000",
+      "ref_low": "140.0000",
+      "ref_high": "140.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        508.0,
+        555.3,
+        520.0
+      ]
+    },
+    {
+      "test_code": "potassium",
+      "printed_name": "S. Potassium",
+      "printed_value": "5.1",
+      "printed_unit": "mmol/l",
+      "printed_range": "3.5 to 5.1",
+      "flag": "",
+      "value_canonical": "5.1000",
+      "ref_low": "3.5000",
+      "ref_high": "5.1000",
+      "page": 0,
+      "bbox": [
+        40,
+        523.0,
+        555.3,
+        535.0
+      ]
+    },
+    {
+      "test_code": "chloride",
+      "printed_name": "Serum Chloride",
+      "printed_value": "105",
+      "printed_unit": "mmol/l",
+      "printed_range": "98 to 110",
+      "flag": "",
+      "value_canonical": "105.0000",
+      "ref_low": "98.0000",
+      "ref_high": "110.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        538.0,
+        555.3,
+        550.0
+      ]
+    },
+    {
+      "test_code": "bicarbonate",
+      "printed_name": "Bicarbonate",
+      "printed_value": "24",
+      "printed_unit": "mmol/l",
+      "printed_range": "22 to 29",
+      "flag": "",
+      "value_canonical": "24.0000",
+      "ref_low": "22.0000",
+      "ref_high": "29.0000",
+      "page": 0,
+      "bbox": [
+        40,
+        553.0,
+        555.3,
+        565.0
+      ]
+    },
+    {
+      "test_code": "calcium",
+      "printed_name": "Total Calcium",
+      "printed_value": "9.8",
+      "printed_unit": "mg%",
+      "printed_range": "8.6 to 10.2",
+      "flag": "",
+      "value_canonical": "9.8000",
+      "ref_low": "8.6000",
+      "ref_high": "10.2000",
+      "page": 0,
+      "bbox": [
+        40,
+        568.0,
+        555.3,
+        580.0
+      ]
+    },
+    {
+      "test_code": "phosphorus",
+      "printed_name": "S. Phosphorus",
+      "printed_value": "3.5",
+      "printed_unit": "mg%",
+      "printed_range": "2.5 to 4.4",
+      "flag": "",
+      "value_canonical": "3.5000",
+      "ref_low": "2.5000",
+      "ref_high": "4.4000",
+      "page": 0,
+      "bbox": [
+        40,
+        583.0,
+        555.3,
+        595.0
+      ]
+    },
+    {
+      "test_code": "magnesium",
+      "printed_name": "Serum Magnesium",
+      "printed_value": "2.2",
+      "printed_unit": "mg%",
+      "printed_range": "1.7 to 2.4",
+      "flag": "",
+      "value_canonical": "2.2000",
+      "ref_low": "1.7000",
+      "ref_high": "2.4000",
+      "page": 0,
+      "bbox": [
+        40,
+        598.0,
+        555.3,
+        610.0
+      ]
+    }
+  ]
+}
