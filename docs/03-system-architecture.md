@@ -40,7 +40,7 @@
 | **Uploads volume** | Original files and page images, addressed by random keys | Docker named volume |
 | **Models (in-process)** | OCR and embedding models loaded by the worker | PaddleOCR PP-OCRv5, multilingual-e5-small |
 | **Ollama** *(optional)* | Local 3–4B model for structuring ambiguous rows | Qwen3-4B-Instruct (Q4) |
-| **LLM API** | Grounded explanations; consent-gated vision fallback; safety judge | Claude API, `claude-opus-5` |
+| **LLM API** | Grounded explanations; safety judge; consent-gated vision fallback (separate vision model) | Groq API: `openai/gpt-oss-120b`; vision model for the fallback |
 | **TTS API** *(optional)* | Narration in Indian languages | Chosen in Sprint 5 ([09 §5](09-data-sources-and-licensing.md#5-models-and-services)) |
 
 The architecture diagram doubles as the **block diagram** in the college report. It numbers the request flow; [05](05-workflows-and-interactions.md) shows the same flow as pipeline, activity and sequence diagrams.
@@ -97,7 +97,7 @@ Health checks: `GET http://localhost:8000/health` (liveness) and `GET /health/re
 | OCR | PaddleOCR PP-OCRv5 + OpenCV | Strong accuracy on printed tables, runs on CPU, Apache-2.0 |
 | ML / DS | scikit-learn, SciPy, statsmodels, pandas, rapidfuzz | Calibrated classifiers, robust statistics, fuzzy matching |
 | Embeddings | intfloat/multilingual-e5-small (384-d) | Multilingual (EN/HI/OR), 118 M parameters, runs on CPU |
-| LLM (explanations) | Claude API, `claude-opus-5` | See §7 |
+| LLM (explanations) | Groq API, `openai/gpt-oss-120b` | See §7 and [ADR-0007](adr/0007-groq-gpt-oss-for-explanations.md) |
 | LLM (local) | Ollama + Qwen3-4B-Instruct | Apache-2.0; enough for short structuring tasks on CPU |
 | Containers | Docker Desktop (WSL 2) + Compose v2 | Stakeholder requirement; identical setup for every machine ([ADR-0003](adr/0003-docker-compose-for-all-environments.md)) |
 | Quality | ruff, mypy, pytest, Playwright, GitHub Actions | Linting, typing, unit/integration and end-to-end tests in CI |
@@ -110,14 +110,14 @@ Health checks: `GET http://localhost:8000/health` (liveness) and `GET /health/re
 |---|---|---|---|---|
 | Read text from the report image | Text detection and recognition, table layout | Not an LLM: PaddleOCR models (tens of MB) | Worker, CPU, about 2–6 s per page | **Local** |
 | Structure ambiguous rows ("S. Creat 1.1 mg/dl 0.7-1.3") into JSON; resolve unknown aliases | Short text in, schema-constrained JSON out | **3–4B instruct model** (Qwen3-4B-Instruct, about 2.5 GB at 4-bit) | Ollama, CPU, about 20–60 s per batch of rows | **Local (optional)**: rules and fuzzy matching handle most rows first |
-| Read a table straight from a hard photo (skewed, folded, multi-column) | Vision-language understanding | About **7–8B vision-language model** (Qwen2.5-VL-7B / Qwen3-VL-8B class), roughly 6–8 GB of GPU memory | Not practical on this CPU | **API**, only after per-report consent |
-| Explain results in English, Hindi and Odia; write doctor questions | Faithful grounding, medical nuance, fluent Indic output, reliable JSON | Frontier-class. Open models below about 30B are noticeably weaker in Hindi and weak in Odia | — | **API** (`claude-opus-5`) |
+| Read a table straight from a hard photo (skewed, folded, multi-column) | Vision-language understanding | About **7–8B vision-language model** (Qwen2.5-VL-7B / Qwen3-VL-8B class), roughly 6–8 GB of GPU memory | Not practical on this CPU | **API vision model on Groq** (`VISION_MODEL`), only after per-report consent; gpt-oss-120b is text-only |
+| Explain results in English, Hindi and Odia; write doctor questions | Faithful grounding, medical nuance, fluent Indic output, reliable JSON | Frontier-class. Open models below about 30B are noticeably weaker in Hindi and weak in Odia | — | **API** (`openai/gpt-oss-120b` on Groq) |
 | Safety judge (second opinion on generated text) | Spot diagnosis, dosing or number mismatches | Same API model at low effort | — | **API**, backed by deterministic rules |
 | Semantic search over the knowledge base | Multilingual embeddings | 118M-parameter embedding model | Worker, CPU | **Local** |
 
-**Summary.** Run a 3–4B local model for row structuring, and use an API model for anything a patient reads. That covers explanations, Hindi and Odia, and the safety judge. OCR and embeddings are small specialised models, not LLMs. Everything sits behind an `LLMProvider` interface ([06](06-detailed-design.md)), so the local-versus-API split is a configuration change (`LLM_PROVIDER`, `LOCAL_LLM_MODEL` in `.env`).
+**Summary.** Run a 3–4B local model for row structuring, and use an API model (`openai/gpt-oss-120b` on Groq, [ADR-0007](adr/0007-groq-gpt-oss-for-explanations.md)) for anything a patient reads. That covers explanations, Hindi and Odia, and the safety judge. OCR and embeddings are small specialised models, not LLMs. Everything sits behind an `LLMProvider` interface ([06](06-detailed-design.md)), so the local-versus-API split is a configuration change (`LLM_PROVIDER`, `LOCAL_LLM_MODEL` in `.env`).
 
-**Cost.** One explanation uses roughly 5k input tokens (instructions, values, retrieved passages) and 1.5k output tokens. At `claude-opus-5` list prices ($5 per million input and $25 per million output tokens) that is about **US$0.06 per report per language**, before prompt caching. The whole project's development and demo traffic (a few hundred reports) stays under the US$30 budget.
+**Cost.** One explanation uses roughly 5k input tokens (instructions, values, retrieved passages) and 1.5k output tokens. At Groq's list price for `openai/gpt-oss-120b` (about $0.15 per million input and $0.75 per million output tokens at the time of writing; check groq.com/pricing), that is well under **US$0.01 per report per language**. The whole project's traffic stays far below the US$30 budget.
 
 **Privacy.** The explanation call receives only `{test, value, unit, range, status, trend, age band, sex}` plus retrieved passages. The vision fallback is the only path that sends an image, and it requires explicit per-report consent ([10](10-safety-privacy-compliance.md)).
 

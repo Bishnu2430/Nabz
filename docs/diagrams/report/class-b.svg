@@ -115,7 +115,7 @@
 <rect x="309.0" y="428.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
 <rect x="309.0" y="428.0" width="132.0" height="24.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
 <rect x="309.0" y="428.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="445.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">AnthropicProvider</text>
+<text x="375.0" y="445.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">GroqProvider</text>
 <line x1="309.0" y1="452.0" x2="441.0" y2="452.0" stroke="#B48EAD" stroke-width="1"/>
 <line x1="309.0" y1="458.0" x2="441.0" y2="458.0" stroke="#B48EAD" stroke-width="1"/>
 <text x="316.0" y="471.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt)</text>

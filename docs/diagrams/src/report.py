@@ -83,7 +83,7 @@ def architecture() -> Diagram:
     d.arrow([(507, 330), (585, 330), (585, 556)], TILE["orange"])
     d.group(10, 540, 582, 92, "External APIs", "orange", "cloud", dashed=True,
             sublabel="HTTPS · de-identified values only")
-    chip(d, 40, 580, "sparkle", "orange", "LLM API", "claude-opus-5 · explanations")
+    chip(d, 40, 580, "sparkle", "orange", "LLM API", "gpt-oss-120b on Groq · explanations")
     chip(d, 330, 580, "speaker", "orange", "TTS API", "narration (optional)")
     return d
 
@@ -153,7 +153,7 @@ def pipeline() -> Diagram:
         ]),
         ("C · Explain & present", "grounded · validated", [
             ("Retrieve", "ml", "top-k cited passages", "pgvector · e5-small"),
-            ("Explain", "genai", "summary + doctor questions", "claude-opus-5"),
+            ("Explain", "genai", "summary + doctor questions", "gpt-oss-120b · Groq"),
             ("Safety check", "rule", "no diagnosis · numbers match", "validator + judge"),
             ("Narrate", "genai", "English · Hindi · Odia", "TTS API"),
             ("Render", "rule", "3D organ status · timeline", "React Three Fiber"),
@@ -761,7 +761,7 @@ def class_b() -> Diagram:
             ("retriever", "KnowledgeRetriever", [], ["+ top_k(tests, k)"], "purple", None),
             ("validator", "SafetyValidator", [], ["+ validate(text)"], "red", None),
             ("llm", "LLMProvider", [], ["+ complete(prompt)"], "purple", "interface"),
-            ("anthropic", "AnthropicProvider", [], ["+ complete(prompt)"], "purple", None),
+            ("anthropic", "GroqProvider", [], ["+ complete(prompt)"], "purple", None),
             ("ollama", "OllamaProvider", [], ["+ complete(prompt)"], "purple", None),
         ]),
         ("narration", "orange", [

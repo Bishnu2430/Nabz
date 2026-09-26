@@ -56,7 +56,7 @@ def architecture() -> Diagram:
     d.node(905, 300, "Worker", "gear", "blue", ["pipeline runner", "OCR · parse · analyse", "explain · narrate"])
     d.node(905, 520, "Models", "scan", "purple", ["PaddleOCR · e5-small", "in-process · CPU"])
     d.node(1085, 300, "Ollama", "sparkle", "purple", ["Qwen3-4B · Q4", "profile: local-llm"])
-    d.node(1337, 300, "LLM API", "sparkle", "orange", ["claude-opus-5", "explanations and", "consented vision fallback"])
+    d.node(1337, 300, "LLM API", "sparkle", "orange", ["gpt-oss-120b on Groq", "explanations; vision", "model for fallback"])
     d.node(1337, 520, "TTS API", "speaker", "orange", ["Indian-language", "voices (optional)"])
 
     # Flows
@@ -186,7 +186,7 @@ def deployment() -> Diagram:
 
     # egress
     d.group(1240, 170, 215, 460, "Egress · HTTPS 443", "orange", "globe", dashed=True)
-    d.node(1347, 270, "LLM API", "sparkle", "orange", ["api.anthropic.com"])
+    d.node(1347, 270, "LLM API", "sparkle", "orange", ["api.groq.com"])
     d.node(1347, 400, "TTS provider", "speaker", "orange", ["optional"])
     d.node(1347, 530, "Model registries", "cloud", "orange", ["first-run downloads"])
     d.arrow([(880, 380), (890, 380), (890, 412), (1305, 412), (1305, 270), (1321, 270)], TILE["orange"])
@@ -252,7 +252,7 @@ def pipeline() -> Diagram:
         ]),
         ("C", "Explain & present", "grounded generation · safety first", [
             ("Retrieve", "ml", "top-k passages per test", "from the knowledge base", "pgvector · e5-small"),
-            ("Explain", "genai", "plain-language summary +", "questions for the doctor", "claude-opus-5"),
+            ("Explain", "genai", "plain-language summary +", "questions for the doctor", "gpt-oss-120b · Groq"),
             ("Safety check", "rule", "no diagnosis, no dosing,", "numbers match the source", "validator + judge"),
             ("Narrate", "genai", "voice in English,", "Hindi or Odia", "TTS API (optional)"),
             ("Render", "rule", "organ status, timeline,", "report ↔ organ links", "React Three Fiber"),
@@ -1008,7 +1008,7 @@ def class_diagram() -> Diagram:
     cls("retriever", 3, 810, "KnowledgeRetriever", ["- embedder: Embedder"], ["+ top_k(tests, lang, k): list"], "purple")
     cls("validator", 3, 990, "SafetyValidator", ["- rules: list[Rule]"], ["+ validate(text, obs): Verdict"], "red")
     cls("llm", 4, 810, "LLMProvider", [], ["+ complete(prompt, schema): dict"], "purple", "interface")
-    cls("anthropic", 4, 1010, "AnthropicProvider", ['- model = "claude-opus-5"'], ["+ complete(prompt, schema)"], "purple")
+    cls("anthropic", 4, 1010, "GroqProvider", ['- model = "openai/gpt-oss-120b"'], ["+ complete(prompt, schema)"], "purple")
     cls("ollama", 5, 1010, "OllamaProvider", ['- model = "qwen3:4b"'], ["+ complete(prompt, schema)"], "purple")
 
     def R(k, f=0.5):  # right-edge point at fraction f of height

@@ -111,7 +111,7 @@
 <text x="424.0" y="156.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">13</text>
 <text x="441.0" y="156.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Explain</text>
 <text x="416.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">summary + doctor questions</text>
-<text x="416.0" y="188.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">claude-opus-5</text>
+<text x="416.0" y="188.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">gpt-oss-120b · Groq</text>
 <path d="M499.0,197.0 L499.0,209.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="404.0" y="210.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="404.0" y="210.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>

@@ -7,8 +7,9 @@ An ADR captures one significant decision: its context, the options considered, t
 | [0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted | 2026-09-26 |
 | [0002](0002-postgresql-single-datastore.md) | PostgreSQL as the single datastore (records, queue, vectors) | Accepted | 2026-09-26 |
 | [0003](0003-docker-compose-for-all-environments.md) | Docker Compose for every environment | Accepted | 2026-09-26 |
-| [0004](0004-hybrid-llm-strategy.md) | Hybrid LLM strategy: small local model + API for explanations | Accepted | 2026-09-26 |
+| [0004](0004-hybrid-llm-strategy.md) | Hybrid LLM strategy: small local model + API for explanations | Accepted (provider superseded by 0007) | 2026-09-26 |
 | [0005](0005-deterministic-safety-rules.md) | Safety-critical logic is deterministic, not generated | Accepted | 2026-09-26 |
 | [0006](0006-3d-rendering-stack.md) | 3D body map with react-three-fiber and Z-Anatomy | Accepted | 2026-09-26 |
+| [0007](0007-groq-gpt-oss-for-explanations.md) | Groq `openai/gpt-oss-120b` for explanations (supersedes the provider in 0004) | Accepted | 2026-09-26 |
 
 Template: copy `0001` and follow the sections Context → Decision → Alternatives → Consequences.

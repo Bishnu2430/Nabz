@@ -234,9 +234,9 @@
 <rect x="1110.0" y="1010.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>
 <rect x="1110.0" y="1010.0" width="250.0" height="30.0" rx="4" fill="#B48EAD" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
 <rect x="1110.0" y="1010.0" width="250.0" height="4.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="1235.0" y="1031.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">AnthropicProvider</text>
+<text x="1235.0" y="1031.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">GroqProvider</text>
 <line x1="1110.0" y1="1040.0" x2="1360.0" y2="1040.0" stroke="#B48EAD" stroke-width="1"/>
-<text x="1120.0" y="1056.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model = &quot;claude-opus-5&quot;</text>
+<text x="1120.0" y="1056.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model = &quot;openai/gpt-oss-120b&quot;</text>
 <line x1="1110.0" y1="1066.0" x2="1360.0" y2="1066.0" stroke="#B48EAD" stroke-width="1"/>
 <text x="1120.0" y="1082.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt, schema)</text>
 <rect x="1380.0" y="1010.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.4"/>

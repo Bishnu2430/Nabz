@@ -133,7 +133,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | Column | Type | Description |
 |---|---|---|
 | `content` | jsonb | `{summary, per_test[], doctor_questions[], disclaimer}`; schema versioned by `prompt_version` |
-| `model_id` | text | e.g. `claude-opus-5` or `template` for the safe fallback |
+| `model_id` | text | e.g. `openai/gpt-oss-120b` or `template` for the safe fallback |
 | `safety_status` | safety_status | Validator result |
 | `input_tokens`, `output_tokens`, `latency_ms` | int | Cost and performance accounting |
 | `audio_key` | text | Storage key of the narration, if any |
