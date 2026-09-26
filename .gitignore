@@ -1,0 +1,38 @@
+# --- Secrets & local config -------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Node / frontend --------------------------------------------------------
+node_modules/
+dist/
+.vite/
+
+# --- Data that must never be committed --------------------------------------
+# Real (even redacted) lab reports, uploads and model weights stay out of git.
+data/private/
+data/uploads/
+models/
+*.gguf
+*.safetensors
+
+# --- College report template (contains institution logos; kept locally) ----
+/Major_Project_Report_Sample*.docx
+~$*.docx
+
+# --- OS / editor ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
