@@ -24,6 +24,9 @@ from app.catalogue.units import normalize_unit
         ("cells/hpf", "/hpf"), ("/HPF", "/hpf"),
         ("mg/g creat", "mg/g"), ("mcg/dL", "ug/dl"),
         ("", ""), ("-", ""), ("ratio", ""), (None, ""),
+        # OCR confusions: final l read as I or 1, superscripts read as plain digits
+        ("U/I", "u/l"), ("mg/dI", "mg/dl"), ("mg/d1", "mg/dl"), ("mmol/I", "mmol/l"),
+        ("x103/μL", "10^3/ul"), ("106/uL", "10^6/ul"), ("mg/l", "mg/l"),
     ],
 )
 def test_normalize_unit(printed: str | None, key: str) -> None:

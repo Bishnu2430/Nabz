@@ -66,7 +66,8 @@ Real samples are stored only in `data/private/`, which is git-ignored and on an 
 
 | Component | Model / service | Licence | Notes |
 |---|---|---|---|
-| OCR | PaddleOCR PP-OCRv5 | Apache-2.0 | CPU inference in the worker |
+| PDF text layer | PDFium via pypdfium2 | Apache-2.0 / BSD-3-Clause | Exact text for digital PDFs |
+| OCR | PaddleOCR models run by RapidOCR on ONNX Runtime | Apache-2.0 (models, RapidOCR), MIT (ONNX Runtime) | CPU inference in the worker ([ADR-0009](adr/0009-text-layer-first-and-rapidocr.md)) |
 | Embeddings | intfloat/multilingual-e5-small | MIT | 384-d; supports Hindi; Odia retrieval quality to be verified in Sprint 5 |
 | Local LLM | Qwen3-4B-Instruct (via Ollama) | Apache-2.0 | Optional; row structuring only |
 | Explanation LLM | Groq API, `openai/gpt-oss-120b` (open-weight model, Apache-2.0) | Groq API terms | De-identified payloads only |
@@ -91,6 +92,8 @@ The About page will list: LOINC ("This material contains content from LOINC®…
 [4] European Federation of Clinical Chemistry and Laboratory Medicine, "EFLM Biological Variation Database." [Online]. Available: https://biologicalvariation.eu
 
 [5] PaddlePaddle, "PaddleOCR." [Online]. Available: https://github.com/PaddlePaddle/PaddleOCR
+
+[5a] RapidAI, "RapidOCR." [Online]. Available: https://github.com/RapidAI/RapidOCR
 
 [6] Z-Anatomy, "Z-Anatomy: an open-source 3D atlas of anatomy." [Online]. Available: https://www.z-anatomy.com
 

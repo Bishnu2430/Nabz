@@ -158,9 +158,9 @@
 <rect x="30.0" y="810.0" width="250.0" height="82.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>
 <rect x="30.0" y="810.0" width="250.0" height="30.0" rx="4" fill="#8FBCBB" fill-opacity="0.18" stroke="none" stroke-width="1.2"/>
 <rect x="30.0" y="810.0" width="250.0" height="4.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="155.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">PaddleOCREngine</text>
+<text x="155.0" y="831.0" font-size="12.5" font-weight="700" fill="#2E3440" text-anchor="middle">RapidOCREngine</text>
 <line x1="30.0" y1="840.0" x2="280.0" y2="840.0" stroke="#8FBCBB" stroke-width="1"/>
-<text x="40.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- model: PaddleOCR</text>
+<text x="40.0" y="856.0" font-size="10.3" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- engine: RapidOCR</text>
 <line x1="30.0" y1="866.0" x2="280.0" y2="866.0" stroke="#8FBCBB" stroke-width="1"/>
 <text x="40.0" y="882.0" font-size="10.3" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image): list[Line]</text>
 <rect x="300.0" y="810.0" width="250.0" height="98.0" rx="4" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.4"/>

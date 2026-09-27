@@ -54,7 +54,7 @@ def architecture() -> Diagram:
     d.node(700, 300, "PostgreSQL 17", "database", "green", ["+ pgvector", "records · jobs · vectors"])
     d.node(700, 520, "Uploads volume", "disk", "green", ["report images", "and PDFs"])
     d.node(905, 300, "Worker", "gear", "blue", ["pipeline runner", "OCR · parse · analyse", "explain · narrate"])
-    d.node(905, 520, "Models", "scan", "purple", ["PaddleOCR · e5-small", "in-process · CPU"])
+    d.node(905, 520, "Models", "scan", "purple", ["RapidOCR · e5-small", "in-process · CPU"])
     d.node(1085, 300, "Ollama", "sparkle", "purple", ["Qwen3-4B · Q4", "profile: local-llm"])
     d.node(1337, 300, "LLM API", "sparkle", "orange", ["gpt-oss-120b on Groq", "explanations; vision", "model for fallback"])
     d.node(1337, 520, "TTS API", "speaker", "orange", ["Indian-language", "voices (optional)"])
@@ -204,7 +204,7 @@ def deployment() -> Diagram:
     rows = [
         ("db", "shared buffers, pgvector index", "0.3–0.5 GB", "low", "tune shared_buffers=256MB"),
         ("api", "FastAPI workers", "0.2–0.3 GB", "low", "2 uvicorn workers in demo mode"),
-        ("worker", "PaddleOCR + e5-small + pandas", "1.2–1.8 GB", "burst 100%", "one job at a time on a 10-core laptop CPU"),
+        ("worker", "RapidOCR + e5-small + pandas", "1.0–1.5 GB", "burst 100%", "one job at a time on a 10-core laptop CPU"),
         ("ollama", "Qwen3-4B Q4_K_M weights + KV cache", "3.0–3.5 GB", "burst 100%", "only with --profile local-llm"),
         ("web", "Vite dev server", "0.3–0.5 GB", "low", "production build is static files"),
     ]
@@ -238,7 +238,7 @@ def pipeline() -> Diagram:
         ("A", "Ingest & extract", "automatic · worker", [
             ("Upload & validate", "rule", "type, size, page count;", "blur / skew / glare score", "FastAPI · OpenCV"),
             ("Pre-process", "rule", "deskew, denoise,", "contrast, crop to page", "OpenCV"),
-            ("OCR", "ml", "text lines + boxes", "with confidences", "PaddleOCR PP-OCRv5"),
+            ("OCR", "ml", "text layer first; OCR", "for scans and photos", "pypdfium2 · RapidOCR"),
             ("Parse rows", "rule", "table layout → rows of", "name · value · unit · range", "layout rules"),
             ("Map to catalogue", "ml", "aliases → LOINC codes;", "ambiguous rows → small LLM", "pg_trgm · Qwen3-4B"),
             ("Normalise & score", "ml", "units, plausibility, a", "calibrated confidence", "scikit-learn"),
@@ -998,7 +998,7 @@ def class_diagram() -> Diagram:
     cls("narrate", 4, 580, "NarrationStage", ["- tts: TTSProvider"], ["+ handle(job): None"], "slate")
     cls("tts", 5, 580, "TTSProvider", [], ["+ speak(text, lang): bytes"], "purple", "interface")
     # row 4+ — collaborators
-    cls("paddle", 0, 810, "PaddleOCREngine", ["- model: PaddleOCR"], ["+ read(image): list[Line]"], "teal")
+    cls("paddle", 0, 810, "RapidOCREngine", ["- engine: RapidOCR"], ["+ read(image): list[Line]"], "teal")
     cls("matcher", 1, 810, "CatalogMatcher", ["- catalog: TestCatalog", "- llm: LLMProvider"], ["+ match(row): Match"], "teal")
     cls("conf", 1, 990, "ConfidenceModel", ["- clf: CalibratedClassifier"], ["+ score(features): float"], "teal")
     cls("change", 2, 810, "ChangeDetector", ["- cv: BiologicalVariation"], ["+ rcv(test): float",

@@ -26,8 +26,8 @@
 <circle cx="24.0" cy="228.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="24.0" y="232.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
 <text x="41.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">OCR</text>
-<text x="16.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">text lines + boxes</text>
-<text x="16.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">PaddleOCR</text>
+<text x="16.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">text layer, else OCR</text>
+<text x="16.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">pypdfium2 · RapidOCR</text>
 <path d="M99.0,273.0 L99.0,285.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="4.0" y="286.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="4.0" y="286.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>

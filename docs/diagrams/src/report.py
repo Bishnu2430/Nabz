@@ -139,7 +139,7 @@ def pipeline() -> Diagram:
         ("A · Ingest & extract", "automatic", [
             ("Upload & validate", "rule", "type · size · quality score", "FastAPI · OpenCV"),
             ("Pre-process", "rule", "deskew · denoise · crop", "OpenCV"),
-            ("OCR", "ml", "text lines + boxes", "PaddleOCR"),
+            ("OCR", "ml", "text layer, else OCR", "pypdfium2 · RapidOCR"),
             ("Parse rows", "rule", "name · value · unit · range", "layout rules"),
             ("Map to catalogue", "ml", "aliases → LOINC codes", "pg_trgm · Qwen3-4B"),
             ("Normalise & score", "ml", "units · plausibility", "scikit-learn"),
@@ -746,7 +746,7 @@ def class_b() -> Diagram:
         ("extraction", "teal", [
             ("extract", "ExtractionStage", [], ["+ handle(job)"], "slate", None),
             ("ocr", "OCREngine", [], ["+ read(image)"], "teal", "interface"),
-            ("paddle", "PaddleOCREngine", [], ["+ read(image)"], "teal", None),
+            ("paddle", "RapidOCREngine", [], ["+ read(image)"], "teal", None),
             ("matcher", "CatalogMatcher", [], ["+ match(row)"], "teal", None),
             ("conf", "ConfidenceModel", [], ["+ score(features)"], "teal", None),
         ]),

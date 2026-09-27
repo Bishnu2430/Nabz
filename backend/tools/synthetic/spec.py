@@ -63,7 +63,7 @@ SPELLINGS = {
     "U/L": ["U/L", "IU/L", "U/l"],
     "µIU/mL": ["µIU/mL", "uIU/ml", "mIU/L"],
     "10^3/µL": ["10^3/µL", "x10³/µL", "10³/µL"],
-    "10^6/µL": ["10^6/µL", "x10⁶/µL"],
+    "10^6/µL": ["10^6/µL", "x10^6/µL"],  # no superscript 6 in the standard PDF fonts
     "fL": ["fL", "fl"],
     "mm/h": ["mm/hr", "mm/1st hr", "mm/h"],
     "ng/mL": ["ng/mL", "ng/ml"],
@@ -205,9 +205,16 @@ def build_sections(values: dict[str, float], persona: Persona, package: str, lab
             rr = next((r for r in cat.ranges if r.test_code == code and r.sex == persona.sex),
                       next((r for r in cat.ranges if r.test_code == code and r.sex == "unknown"), None))
             if code not in jitter:
-                jitter[code] = (lab_rng.uniform(0.97, 1.03), lab_rng.uniform(0.97, 1.03))
-            lo = float(rr.low) * jitter[code][0] if rr and rr.low is not None else None
-            hi = float(rr.high) * jitter[code][1] if rr and rr.high is not None else None
+                jitter[code] = (lab_rng.uniform(-1, 1), lab_rng.uniform(-1, 1))
+            lo = float(rr.low) if rr and rr.low is not None else None
+            hi = float(rr.high) if rr and rr.high is not None else None
+            # Labs differ slightly: shift each bound by up to 4 % of the range width (3 % of the
+            # bound itself when the range is one-sided), so narrow ranges never invert.
+            width = (hi - lo) if lo is not None and hi is not None else None
+            if lo is not None:
+                lo += jitter[code][0] * (0.04 * width if width else 0.03 * lo)
+            if hi is not None:
+                hi += jitter[code][1] * (0.04 * width if width else 0.03 * hi)
 
             plo = _bound_to_printed(conv, code, printed_unit, decimals, lo)
             phi = _bound_to_printed(conv, code, printed_unit, decimals, hi)

@@ -16,7 +16,8 @@ Documentation baseline and platform scaffold are in place. See the [project plan
 | API (FastAPI) | ✅ health endpoints |
 | Database schema (22 tables, Alembic) | ✅ Sprint 1 |
 | Test catalogue (70 tests) + synthetic report generator | ✅ Sprint 1 |
-| Worker, extraction, analysis, explanation | Sprints 2–5 |
+| Worker + job queue, PDF/OCR extraction and row parser | ✅ Sprint 2 |
+| Catalogue matching, confidence, review UI; analysis; explanations | Sprints 3–5 |
 | Web app + 3D body map | Sprints 3–6 |
 
 ## Quick start
@@ -50,6 +51,24 @@ docker compose exec api python -m app.cli seed-catalogue
 ```bash
 docker compose exec api pytest
 ```
+
+Queue a report file for processing and look at what was extracted (development helpers until the upload API lands in Sprint 3):
+
+```bash
+docker compose exec api python -m app.cli ingest /srv/data/synthetic/samples/syn-2026-0001.pdf
+```
+
+```bash
+docker compose exec api python -m app.cli show-report <report-id>
+```
+
+Measure extraction accuracy against synthetic ground truth (`--mode text`, `ocr` or `photo`):
+
+```bash
+docker compose exec api python -m tools.eval.extraction --mode photo --limit 10
+```
+
+On Git Bash for Windows, prefix `docker compose exec` commands that contain absolute container paths with `MSYS_NO_PATHCONV=1`.
 
 The optional local small LLM (row structuring) starts with:
 

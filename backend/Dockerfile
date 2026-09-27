@@ -13,6 +13,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY --from=ghcr.io/astral-sh/uv:0.11.23 /uv /uvx /bin/
 
+# Runtime libraries for ONNX Runtime (OCR) and OpenCV.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Dependencies first so code edits don't invalidate the layer.

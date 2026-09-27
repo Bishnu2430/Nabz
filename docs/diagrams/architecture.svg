@@ -83,7 +83,7 @@
 <rect x="879.0" y="494.0" width="52.0" height="52.0" rx="8" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
 <g transform="translate(889.9,504.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 9.5h8M8 12.5h8M8 15.5h5"/></g>
 <text x="905.0" y="563.0" font-size="12.5" font-weight="600" fill="#2E3440" text-anchor="middle">Models</text>
-<text x="905.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">PaddleOCR · e5-small</text>
+<text x="905.0" y="578.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">RapidOCR · e5-small</text>
 <text x="905.0" y="592.0" font-size="10.8" font-weight="400" fill="#6B7385" text-anchor="middle">in-process · CPU</text>
 <rect x="1059.0" y="274.0" width="52.0" height="52.0" rx="8" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
 <g transform="translate(1069.9,284.9) scale(1.2567)" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></g>

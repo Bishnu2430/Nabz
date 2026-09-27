@@ -47,7 +47,8 @@ Nabz is a self-contained system: a web client, a REST API, an asynchronous worke
 | Patient | Adult managing their own reports | A few times a year | Low to medium, mostly on a phone |
 | Caregiver | Manages reports for parents or children through family profiles | Monthly | Medium |
 | Doctor | Opens a shared summary link; no account | Occasional | High (domain) |
-| Administrator | Curates the test catalogue, knowledge base and critical limits; reviews audit and safety reports | Weekly | High |
+| Clinical reviewer | Clinical advisor: signs off critical limits and explanation templates; works the de-identified safety queue | Weekly | High (domain) |
+| Administrator | Runs the system: users and roles, clinician verification, catalogue, knowledge base, jobs, audit log. No routine access to health data | Weekly | High |
 
 ### 2.3 Personas
 
@@ -105,6 +106,9 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-03 | The system shall record consent per profile and per purpose (processing, external AI, voice, research) with the policy version, and shall let the user withdraw it at any time. | M | UC-03 |
 | FR-04 | The system shall not process a report for a profile without active *processing* consent. It shall not call an external API for that profile without active *external AI* consent. | M | UC-03, UC-04 |
 | FR-05 | For a profile of a minor (under 18), the system shall require the account holder to confirm they are the parent or lawful guardian before consent is recorded. | M | UC-02 |
+| FR-39 | The system shall enforce role-based access for member, clinician, clinical reviewer and admin as specified in [12 §2](12-ux-and-access-design.md#2-roles-and-permissions); admin access to identifiable health data requires a recorded reason. | M | UC-01, UC-16 |
+| FR-40 | The system shall verify a user's email before their first upload and support password reset by a single-use emailed token. | M | UC-01 |
+| FR-41 | The system shall require a TOTP second factor for admin and clinical reviewer accounts. | S | UC-14–UC-16 |
 
 ### 4.2 Upload and extraction
 

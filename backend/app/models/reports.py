@@ -120,6 +120,8 @@ class Observation(Base):
     raw_value: Mapped[str | None] = mapped_column(Text)
     raw_unit: Mapped[str | None] = mapped_column(Text)
     raw_range: Mapped[str | None] = mapped_column(Text)
+    raw_flag: Mapped[str | None] = mapped_column(Text)  # "H"/"L" as printed; cross-checked by the classifier
+    section: Mapped[str | None] = mapped_column(Text)  # panel code of the report section (matching context)
     value_num: Mapped[Decimal | None] = mapped_column(Numeric)
     unit: Mapped[str | None] = mapped_column(Text)
     ref_low: Mapped[Decimal | None] = mapped_column(Numeric)

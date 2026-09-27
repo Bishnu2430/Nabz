@@ -36,6 +36,9 @@ _ALIASES: dict[str, str] = {
     "lacs/cumm": "lakh/ul", "lakh/mm3": "lakh/ul", "lakhs/mm3": "lakh/ul",
     "/cumm": "/ul", "cells/cumm": "/ul", "cells/ul": "/ul", "/mm3": "/ul", "cells/mm3": "/ul",
     "/c.mm": "/ul", "/cu.mm": "/ul", "/cmm": "/ul", "percumm": "/ul",
+    # OCR reads superscripts as plain digits: "x10³/µL" → "x103/µL"
+    "x103/ul": "10^3/ul", "103/ul": "10^3/ul", "x109/l": "10^3/ul", "109/l": "10^3/ul",
+    "x106/ul": "10^6/ul", "106/ul": "10^6/ul", "x1012/l": "10^6/ul", "1012/l": "10^6/ul",
     # urine
     "cells/hpf": "/hpf", "perhpf": "/hpf", "/h.p.f": "/hpf", "/h.p.f.": "/hpf", "hpf": "/hpf", "/hpf.": "/hpf",
     "mg/gcreatinine": "mg/g", "mg/gcreat": "mg/g", "mg/gmcreatinine": "mg/g", "ug/mg": "mg/g",
@@ -59,4 +62,6 @@ def normalize_unit(raw: str | None) -> str:
     s = s.replace("µ", "u").replace("μ", "u").replace("×", "x")
     s = re.sub(r"\s+", "", s)
     s = s.rstrip(".") if s.endswith(".") and s not in _ALIASES else s
+    # OCR confuses a final lowercase l with I or 1: "U/I", "mg/dI", "mg/d1". No real unit ends that way.
+    s = re.sub(r"/(d?)[i1]$", r"/\1l", s)
     return _ALIASES.get(s, s)
