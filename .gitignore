@@ -40,3 +40,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# --- Caches -----------------------------------------------------------------
+.cache/
+*.tsbuildinfo
