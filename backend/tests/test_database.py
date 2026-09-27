@@ -1,52 +1,29 @@
 """Migrations and catalogue seeding against a real, throwaway PostgreSQL database."""
 
-import argparse
-import uuid
 from collections.abc import Iterator
-from pathlib import Path
 
 import pytest
 from alembic import command
-from alembic.config import Config
-from sqlalchemy import URL, create_engine, func, inspect, select, text
-from sqlalchemy.exc import OperationalError
+from sqlalchemy import URL, Engine, create_engine, func, inspect, select, text
 from sqlalchemy.orm import Session
 
 from app.catalogue import CatalogueData
 from app.catalogue.seed import seed_catalogue
-from app.core.config import settings
 from app.models import Base, CriticalLimit, LabTest, OrganSystem, UnitConversion
+from tests.conftest import alembic_config, create_test_database, drop_test_database
 
 pytestmark = pytest.mark.db
-ROOT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(scope="module")
-def db_url() -> Iterator[URL]:
-    base = create_engine(settings.database_url).url
-    admin = create_engine(base.set(database="postgres"), isolation_level="AUTOCOMMIT")
-    try:
-        conn = admin.connect()
-    except OperationalError:
-        pytest.skip("PostgreSQL is not reachable (set DATABASE_URL)")
-    name = f"nabz_test_{uuid.uuid4().hex[:8]}"
-    conn.execute(text(f'CREATE DATABASE "{name}"'))
-    try:
-        yield base.set(database=name)
-    finally:
-        conn.execute(text(f'DROP DATABASE "{name}" WITH (FORCE)'))
-        conn.close()
-
-
-def _alembic(url: URL) -> Config:
-    cfg = Config(str(ROOT / "alembic.ini"))
-    cfg.set_main_option("script_location", str(ROOT / "migrations"))
-    cfg.cmd_opts = argparse.Namespace(x=[f"url={url.render_as_string(hide_password=False)}"])
-    return cfg
+def db_url(pg_admin: Engine) -> Iterator[URL]:
+    url = create_test_database(pg_admin)
+    yield url
+    drop_test_database(pg_admin, url)
 
 
 def test_migrations_create_every_model_table(db_url: URL) -> None:
-    command.upgrade(_alembic(db_url), "head")
+    command.upgrade(alembic_config(db_url), "head")
     tables = set(inspect(create_engine(db_url)).get_table_names())
     assert set(Base.metadata.tables) <= tables
 
@@ -66,7 +43,7 @@ def test_seed_is_idempotent(db_url: URL, catalogue: CatalogueData) -> None:
 
 
 def test_downgrade_removes_everything(db_url: URL) -> None:
-    cfg = _alembic(db_url)
+    cfg = alembic_config(db_url)
     command.downgrade(cfg, "base")
     engine = create_engine(db_url)
     assert set(inspect(engine).get_table_names()) <= {"alembic_version"}
