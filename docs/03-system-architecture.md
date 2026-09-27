@@ -129,8 +129,8 @@ Full reasoning is in [ADR-0004](adr/0004-hybrid-llm-strategy.md).
 |---|---|---|---|
 | Image quality score | Laplacian variance (blur), Hough-line skew, highlight ratio | Thresholds tuned on the photo evaluation set | 0–1 score and retake tips |
 | Row parser | Line grouping + segment classification (name, value, flag, unit, range); no fixed columns, so any layout works | Synthetic reports | Draft rows |
-| Catalogue matcher | Alias lookup → trigram similarity (`pg_trgm`) → local LLM fallback | Test catalogue aliases | LOINC code and match score |
-| Confidence model | Calibrated logistic regression over OCR confidence, match score, plausibility and unit agreement | Synthetic + photographed set, labelled automatically from ground truth | Probability the row is correct; rows below τ are reviewed first |
+| Catalogue matcher | Names squashed (case, spaces, punctuation, `S.`/`Serum` prefixes) → exact alias lookup → fuzzy similarity (RapidFuzz) with context bonuses for the report section and a unit the test accepts; accepted at ≥ 0.86 with a 0.04 margin, otherwise the top candidates go to the review screen. A `NameResolver` hook leaves room for a local-LLM tie-breaker | Test catalogue aliases (70 tests, LOINC-coded) | Test code, match score, method and candidates |
+| Confidence model | Logistic regression over nine row features (OCR confidence, text layer, match score, mapped, unit known, plausible, range printed, distance outside the printed range, printed flag disagreeing); coefficients stored as JSON, no pickles | Synthetic reports read as text, OCR and simulated photos, labelled automatically from ground truth (doc 11 §10) | Probability the row is correct; rows below τ = 0.90 are flagged and shown first |
 | Change detector | Reference change value from analytical and within-subject biological variation (EFLM data) | Biological-variation table in the catalogue | Significant / not significant |
 | Trend analyser | Theil–Sen slope, projection to range limits, bootstrap interval | The profile's own history | Slope per year, projected crossing date |
 | Percentile service | Survey-weighted percentiles by age band and sex | NHANES laboratory files | Percentile and population label |
@@ -166,3 +166,4 @@ The threat model is in [10 §5](10-safety-privacy-compliance.md#5-threat-model-s
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
+| 0.2 | 2026-09-27 | §8: catalogue matcher and confidence model as built in Sprint 3 |

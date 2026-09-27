@@ -66,13 +66,20 @@ Clinicians are verified by an admin against a medical-council registration numbe
 | `hairline` | `#D9CFBF` | `#3A3029` | Borders, dividers |
 | `accent` | `#B8412E` vermilion (seal) | `#C9A55A` gold | Primary action, seal stamp, focus |
 | `link` | `#2E4A62` indigo | `#8FA9C4` | Links, info |
-| `status-normal` | `#6E8F72` jade | `#8FB093` | Normal |
-| `status-borderline` | `#A8752A` ochre | `#D8A94E` | Borderline / change to watch |
-| `status-abnormal` | `#B8412E` vermilion | `#E07A62` | High or low |
+| `status-normal` | `#486A4D` jade | `#8FB093` | Normal |
+| `status-borderline` | `#825A1D` ochre | `#D8A94E` | Borderline / change to watch; rows to check |
+| `status-abnormal` | `#A33A28` deep vermilion | `#E07A62` | High or low |
 | `status-critical` | `#8E1F1B` crimson | `#F0907E` | Critical (always with seal icon and text) |
-| `gold` | `#A8863F` | `#C9A55A` | Kintsugi seams on improving trends |
+| `gold` | `#9A7A36` | `#C9A55A` | Kintsugi seams on improving trends |
 
-Every status is shown as **colour + icon + word**, never by colour alone. All text pairs must pass WCAG 2.2 AA; this is checked in Sprint 3 when the tokens become CSS variables.
+Every status is shown as **colour + icon + word**, never by colour alone. All text pairs must pass WCAG 2.2 AA.
+
+**Contrast check (Sprint 3, `frontend/src/index.css`).**
+- Status and body text colours pass AA (≥ 4.5 : 1) on `surface`, `surface-raised` and the darker `surface-sunken`, in both themes.
+- Jade, ochre and gold were darkened from the first draft to get there. The first-draft jade and ochre measured 4.3–4.4 : 1 on `surface-sunken`, and gold measured 2.7 : 1.
+- Abnormal was separated from the seal vermilion, so an abnormal value never looks like the brand colour.
+- The vermilion `accent` is used for button backgrounds (button text 5.2 : 1), focus rings and the seal, never for small text on the sunken surface (4.3 : 1).
+- In dark mode, every pair measures at least 5.8 : 1.
 
 ### 5.2 Type
 
@@ -133,3 +140,4 @@ Brush lettering is decorative only and never carries information.
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-27 | Decisions D1–D6, roles, authentication, visual design and page map |
+| 0.2 | 2026-09-27 | §5.1 light-theme status colours adjusted to pass WCAG AA; contrast results |

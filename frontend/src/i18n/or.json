@@ -1,0 +1,26 @@
+{
+  "_note": "DRAFT translation — awaiting native-speaker review (task T2.5). Missing keys fall back to English.",
+  "app": {
+    "tagline": "ଆପଣଙ୍କ ଲ୍ୟାବ୍ ରିପୋର୍ଟ କ'ଣ କହୁଛି ଦେଖନ୍ତୁ।",
+    "disclaimer": "ନବ୍ଜ଼ ଫଳାଫଳ ବୁଝାଏ, ରୋଗ ନିର୍ଣ୍ଣୟ କରେ ନାହିଁ। ଆପଣଙ୍କ ଫଳାଫଳ ବିଷୟରେ ଡାକ୍ତରଙ୍କ ସହ କଥା ହୁଅନ୍ତୁ।"
+  },
+  "nav": { "family": "ପରିବାର", "language": "ଭାଷା" },
+  "common": { "loading": "ଲୋଡ୍ ହେଉଛି…", "back": "ପଛକୁ", "cancel": "ବାତିଲ୍", "save": "ସେଭ୍ କରନ୍ତୁ" },
+  "home": {
+    "title": "ଆପଣଙ୍କ ପରିବାର",
+    "add_person": "ଜଣେ ବ୍ୟକ୍ତି ଯୋଡନ୍ତୁ"
+  },
+  "person": {
+    "reports": "ରିପୋର୍ଟ",
+    "upload": "ରିପୋର୍ଟ ଅପଲୋଡ୍ କରନ୍ତୁ"
+  },
+  "status": {
+    "processing": "ପଢାଯାଉଛି",
+    "needs_review": "ଆପଣଙ୍କ ଯାଞ୍ଚ ବାକି",
+    "verified": "ନିଶ୍ଚିତ ହେଲା"
+  },
+  "review": {
+    "title": "ମୂଲ୍ୟ ଯାଞ୍ଚ କରନ୍ତୁ",
+    "confirm": "ମୂଲ୍ୟ ନିଶ୍ଚିତ କରନ୍ତୁ"
+  }
+}

@@ -9,9 +9,11 @@ from sqlalchemy.orm import Session
 
 from app.catalogue.data import CatalogueData
 from app.extraction import extract
+from app.extraction.interpret import Interpreter, RawRow
 from app.extraction.ocr import OCREngine
-from app.models import Observation, Report, ReportFile, ReportPage
+from app.models import Observation, Profile, Report, ReportFile, ReportPage
 from app.models.enums import JobStage, ObsStatus, ReportStatus
+from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids
 from app.storage import StorageBackend
 from app.worker.queue import Job
 
@@ -23,14 +25,17 @@ class StageHandler(Protocol):
 
 
 class ExtractionStage:
-    """File → pages (text layer or OCR) → draft observations; the report then waits for human review."""
+    """File → pages (text layer or OCR) → rows mapped to the catalogue, converted to canonical units and
+    scored for confidence. The report then waits for human review."""
 
     stage = JobStage.EXTRACT
 
-    def __init__(self, storage: StorageBackend, catalogue: CatalogueData, ocr: OCREngine | None = None):
+    def __init__(self, storage: StorageBackend, catalogue: CatalogueData, ocr: OCREngine | None = None,
+                 interpreter: Interpreter | None = None):
         self.storage = storage
         self.catalogue = catalogue
         self.ocr = ocr
+        self.interpreter = interpreter or build_interpreter(catalogue)
 
     def handle(self, job: Job, session: Session) -> None:
         report = session.get(Report, job.report_id)
@@ -38,6 +43,10 @@ class ExtractionStage:
             return  # deleted while queued: nothing to do
         files = session.scalars(select(ReportFile).where(ReportFile.report_id == report.id)
                                 .order_by(ReportFile.created_at)).all()
+        profile = session.get(Profile, report.profile_id)
+        sex = profile.sex.value if profile else None
+        age = age_on(profile, report.collected_at) if profile else None
+        ids = lab_test_ids(session)
 
         session.execute(delete(Observation).where(Observation.report_id == report.id))
         for f in files:
@@ -49,7 +58,7 @@ class ExtractionStage:
             for page in result.pages:
                 rp = ReportPage(
                     report_file_id=f.id, page_no=page.number, width=round(page.width), height=round(page.height),
-                    ocr={"source": page.source, "quality": page.quality,
+                    ocr={"source": page.source, "quality": page.quality, "skew": round(page.skew, 3),
                          "tokens": [[t.text, round(t.x0, 1), round(t.top, 1), round(t.x1, 1), round(t.bottom, 1),
                                      round(t.conf, 3)] for t in page.tokens]},
                 )
@@ -58,14 +67,19 @@ class ExtractionStage:
                 page_ids[page.number] = rp.id
             ocr_quality = [p.quality for p in result.pages if p.quality is not None]
             f.quality_score = min(ocr_quality) if ocr_quality else 1.0
+            sources = {p.number: p.source for p in result.pages}
             for row in result.rows:
-                session.add(Observation(
+                obs = Observation(
                     report_id=report.id, report_page_id=page_ids.get(row.page), raw_name=row.raw_name,
                     raw_value=row.raw_value, raw_unit=row.raw_unit, raw_range=row.raw_range, raw_flag=row.flag,
-                    section=row.section, status=ObsStatus.UNKNOWN, confidence=row.confidence,
+                    section=row.section, status=ObsStatus.UNKNOWN, ocr_confidence=round(row.confidence, 4),
                     bbox={"page": row.page, "x0": round(row.bbox[0], 1), "top": round(row.bbox[1], 1),
                           "x1": round(row.bbox[2], 1), "bottom": round(row.bbox[3], 1)},
-                ))
+                )
+                raw = RawRow(row.raw_name, row.raw_value, row.raw_unit, row.raw_range, row.flag, row.section,
+                             row.confidence, sources.get(row.page, "ocr"))
+                apply(obs, self.interpreter.interpret(raw, sex, age), ids)
+                session.add(obs)
             if report.lab_name is None and result.lab_name:
                 report.lab_name = result.lab_name[:200]
         report.status = ReportStatus.NEEDS_REVIEW

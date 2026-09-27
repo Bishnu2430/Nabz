@@ -8,17 +8,19 @@ Nabz reads a photo or PDF of a blood-test report and asks you to confirm the val
 
 ## Status
 
-Documentation baseline and platform scaffold are in place. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
+Sprint 3 is done: you can upload a report in the web app, watch it being read, check every value against the page image, and confirm it. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
 | Component | State |
 |---|---|
 | PostgreSQL 17 + pgvector | ✅ running in Docker |
-| API (FastAPI) | ✅ health endpoints |
+| API (FastAPI) | ✅ profiles, upload, review and confirm (Sprint 3) |
 | Database schema (22 tables, Alembic) | ✅ Sprint 1 |
 | Test catalogue (70 tests) + synthetic report generator | ✅ Sprint 1 |
 | Worker + job queue, PDF/OCR extraction and row parser | ✅ Sprint 2 |
-| Catalogue matching, confidence, review UI; analysis; explanations | Sprints 3–5 |
-| Web app + 3D body map | Sprints 3–6 |
+| Catalogue matching, unit normalisation, row-confidence model | ✅ Sprint 3 |
+| Web app: family, upload with live progress, review and confirm | ✅ Sprint 3 |
+| Analysis (status, trends, change significance); explanations and narration | Sprints 4–5 |
+| 3D body map; sign-in and roles | Sprints 5–6 |
 
 ## Quick start
 
@@ -28,7 +30,7 @@ Requirements: Docker Desktop (Compose v2). No local Python or Node needed.
 cp .env.example .env
 ```
 
-Set `POSTGRES_PASSWORD` (and `ANTHROPIC_API_KEY` once explanations land) in `.env`, then start the stack:
+Set `POSTGRES_PASSWORD` in `.env` (and `GROQ_API_KEY` and `ELEVENLABS_API_KEY` once explanations and narration land), then start the stack:
 
 ```bash
 docker compose up --build -d
@@ -52,7 +54,19 @@ docker compose exec api python -m app.cli seed-catalogue
 docker compose exec api pytest
 ```
 
-Queue a report file for processing and look at what was extracted (development helpers until the upload API lands in Sprint 3):
+Open the web app at <http://localhost:5173>. Add a person, upload a PDF or photo of a report (samples are in `data/synthetic/samples/`), and check the values. Until sign-in arrives in Sprint 6, the development stack uses one local account (`DEV_AUTH=true`, allowed only when `APP_ENV=development`).
+
+Frontend checks run in the `web` container:
+
+```bash
+docker compose exec web npm run typecheck
+```
+
+```bash
+docker compose exec web npm test
+```
+
+Queue a report file from the command line and look at what was extracted:
 
 ```bash
 docker compose exec api python -m app.cli ingest /srv/data/synthetic/samples/syn-2026-0001.pdf
@@ -62,10 +76,16 @@ docker compose exec api python -m app.cli ingest /srv/data/synthetic/samples/syn
 docker compose exec api python -m app.cli show-report <report-id>
 ```
 
-Measure extraction accuracy against synthetic ground truth (`--mode text`, `ocr` or `photo`):
+Measure extraction, mapping and canonical-value accuracy against synthetic ground truth (`--mode text`, `ocr` or `photo`):
 
 ```bash
 docker compose exec api python -m tools.eval.extraction --mode photo --limit 10
+```
+
+Retrain the row-confidence model (reads cached extractions from `data/synthetic/train` and `eval`, writes `data/models/confidence-v1.json`):
+
+```bash
+docker compose exec worker python -m tools.train.confidence
 ```
 
 On Git Bash for Windows, prefix `docker compose exec` commands that contain absolute container paths with `MSYS_NO_PATHCONV=1`.
@@ -90,8 +110,9 @@ python docs/diagrams/src/build.py
 
 ```text
 backend/     FastAPI API and worker (Python 3.12, uv)
-frontend/    React + three.js web app (Sprint 3)
+frontend/    React + TypeScript web app (Vite, Tailwind, TanStack Query, i18next)
 infra/       database initialisation
+data/        test catalogue, synthetic reports, trained model coefficients
 docs/        documentation and diagram sources
 compose.yaml all services
 ```

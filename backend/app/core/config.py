@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://nabz:nabz@localhost:5433/nabz"
     upload_dir: str = "/data/uploads"
     data_dir: str = "/srv/data"
+    # Until accounts exist (Sprint 6) every API request acts as one local development user.
+    # Only honoured when app_env == "development"; the app refuses to start otherwise.
+    dev_auth: bool = False
 
     # Explanations and safety judge (ADR-0007). gpt-oss-120b is text-only, so the
     # consent-gated photo fallback uses a separate vision model.

@@ -2,7 +2,7 @@
 #   docker compose up --build                      # db + api
 #   docker compose --profile local-llm up --build  # + local small LLM (Ollama)
 #   docker compose exec api pytest                 # run the test suite
-# Services are added here as each sprint lands (web: Sprint 3).
+#   web app: http://localhost:5173 · API docs: http://localhost:8000/docs
 # See docs/03-system-architecture.md §5 for the full target topology.
 name: nabz
 
@@ -38,7 +38,8 @@ services:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nabz}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nabz}
       UPLOAD_DIR: /data/uploads
       DATA_DIR: /srv/data
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+      DEV_AUTH: "true"   # single development user until accounts land (Sprint 6); refused outside development
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "app"]
     volumes:
       - ./backend:/app              # source, tests and migrations (hot reload)
       - ./data:/srv/data            # catalogue CSVs, synthetic reports
@@ -72,6 +73,21 @@ services:
       db:
         condition: service_healthy
 
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    restart: unless-stopped
+    environment:
+      API_TARGET: http://api:8000   # Vite proxies /v1 to the API inside the Compose network
+    command: ["sh", "-c", "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"]
+    volumes:
+      - ./frontend:/app
+      - web_node_modules:/app/node_modules   # Linux binaries stay out of the Windows checkout
+    ports:
+      - "127.0.0.1:${WEB_HOST_PORT:-5173}:5173"
+    depends_on:
+      - api
+
   ollama:
     image: ollama/ollama:latest   # pin to a specific tag once the model choice is final
     profiles: ["local-llm"]
@@ -85,3 +101,4 @@ volumes:
   pgdata:
   uploads:
   ollama:
+  web_node_modules:
