@@ -38,7 +38,8 @@ services:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nabz}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nabz}
       UPLOAD_DIR: /data/uploads
       DATA_DIR: /srv/data
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+      DEV_AUTH: "true"   # single development user until accounts land (Sprint 6); refused outside development
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "app"]
     volumes:
       - ./backend:/app              # source, tests and migrations (hot reload)
       - ./data:/srv/data            # catalogue CSVs, synthetic reports
