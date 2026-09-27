@@ -20,6 +20,8 @@
 
 ![Entity–relationship diagram](diagrams/er-diagram.svg)
 
+Account, role and session tables planned for Sprint 6 are specified in [12 §3](12-ux-and-access-design.md#3-authentication).
+
 ## 3. Table catalogue
 
 | Domain | Table | Purpose | Approx. rows (demo) |
@@ -88,6 +90,8 @@ Indexes: `(profile_id, collected_at DESC)`; unique `(profile_id, source_sha256)`
 | `report_page_id` | uuid | yes | FK → `report_page.id`; null for rows added by hand |
 | `test_id` | int | yes | FK → `lab_test.id`; null = not recognised |
 | `raw_name`, `raw_value`, `raw_unit`, `raw_range` | text | yes | Exactly as read |
+| `raw_flag` | text | yes | Flag printed on the report (`H` / `L`); cross-checked against the computed status |
+| `section` | text | yes | Panel code of the report section the row appeared in (`cbc`, `lipid`, …); context for the catalogue matcher |
 | `value_num` | numeric | yes | Parsed value in canonical unit |
 | `unit` | text | yes | Canonical unit |
 | `ref_low`, `ref_high` | numeric | yes | Range in canonical unit |

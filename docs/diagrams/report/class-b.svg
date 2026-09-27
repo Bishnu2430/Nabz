@@ -31,7 +31,7 @@
 <rect x="9.0" y="274.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
 <rect x="9.0" y="274.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
 <rect x="9.0" y="274.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="291.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">PaddleOCREngine</text>
+<text x="75.0" y="291.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">RapidOCREngine</text>
 <line x1="9.0" y1="298.0" x2="141.0" y2="298.0" stroke="#8FBCBB" stroke-width="1"/>
 <line x1="9.0" y1="304.0" x2="141.0" y2="304.0" stroke="#8FBCBB" stroke-width="1"/>
 <text x="16.0" y="317.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image)</text>

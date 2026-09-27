@@ -38,7 +38,7 @@
 | **Worker** | Runs pipeline stages: extract → (await review) → analyse → explain → narrate | Python 3.12 process, same image as the API |
 | **PostgreSQL** | System of record, job queue (`FOR UPDATE SKIP LOCKED`), fuzzy alias search (`pg_trgm`), vector search (`pgvector`) | PostgreSQL 17 + pgvector 0.8 |
 | **Uploads volume** | Original files and page images, addressed by random keys | Docker named volume |
-| **Models (in-process)** | OCR and embedding models loaded by the worker | PaddleOCR PP-OCRv5, multilingual-e5-small |
+| **Models (in-process)** | OCR and embedding models loaded by the worker | RapidOCR (PP-OCR models on ONNX Runtime), multilingual-e5-small |
 | **Ollama** *(optional)* | Local 3–4B model for structuring ambiguous rows | Qwen3-4B-Instruct (Q4) |
 | **LLM API** | Grounded explanations; safety judge; consent-gated vision fallback (separate vision model) | Groq API: `openai/gpt-oss-120b`; vision model for the fallback |
 | **TTS API** *(optional)* | Narration in Indian languages | ElevenLabs, `eleven_multilingual_v2` ([ADR-0008](adr/0008-elevenlabs-for-narration.md)) |
@@ -94,7 +94,7 @@ Health checks: `GET http://localhost:8000/health` (liveness) and `GET /health/re
 | ORM / migrations | SQLAlchemy 2 + Alembic | Explicit SQL control (needed for SKIP LOCKED, pgvector) |
 | Packaging | uv | Fast, reproducible lockfile (`backend/uv.lock`) |
 | Database | PostgreSQL 17 + pgvector, pg_trgm, pgcrypto, citext | One store for records, queue, fuzzy search and vectors ([ADR-0002](adr/0002-postgresql-single-datastore.md)) |
-| OCR | PaddleOCR PP-OCRv5 + OpenCV | Strong accuracy on printed tables, runs on CPU, Apache-2.0 |
+| PDF text + OCR | pypdfium2 text layer first; RapidOCR (PaddleOCR models on ONNX Runtime) + OpenCV for scans and photos | Digital PDFs are read exactly; OCR only where needed, CPU-only, Apache-2.0 ([ADR-0009](adr/0009-text-layer-first-and-rapidocr.md)) |
 | ML / DS | scikit-learn, SciPy, statsmodels, pandas, rapidfuzz | Calibrated classifiers, robust statistics, fuzzy matching |
 | Embeddings | intfloat/multilingual-e5-small (384-d) | Multilingual (EN/HI/OR), 118 M parameters, runs on CPU |
 | LLM (explanations) | Groq API, `openai/gpt-oss-120b` | See §7 and [ADR-0007](adr/0007-groq-gpt-oss-for-explanations.md) |
@@ -108,7 +108,7 @@ Health checks: `GET http://localhost:8000/health` (liveness) and `GET /health/re
 
 | Task | What it needs | Smallest model that does it well | Runs where | Decision |
 |---|---|---|---|---|
-| Read text from the report image | Text detection and recognition, table layout | Not an LLM: PaddleOCR models (tens of MB) | Worker, CPU, about 2–6 s per page | **Local** |
+| Read text from the report | PDF text layer; for scans and photos, text detection and recognition | Not an LLM: PDFium text layer, else PaddleOCR models via RapidOCR (tens of MB) | Worker, CPU: text layer < 0.1 s, OCR about 7–10 s per page | **Local** |
 | Structure ambiguous rows ("S. Creat 1.1 mg/dl 0.7-1.3") into JSON; resolve unknown aliases | Short text in, schema-constrained JSON out | **3–4B instruct model** (Qwen3-4B-Instruct, about 2.5 GB at 4-bit) | Ollama, CPU, about 20–60 s per batch of rows | **Local (optional)**: rules and fuzzy matching handle most rows first |
 | Read a table straight from a hard photo (skewed, folded, multi-column) | Vision-language understanding | About **7–8B vision-language model** (Qwen2.5-VL-7B / Qwen3-VL-8B class), roughly 6–8 GB of GPU memory | Not practical on this CPU | **API vision model on Groq** (`VISION_MODEL`), only after per-report consent; gpt-oss-120b is text-only |
 | Explain results in English, Hindi and Odia; write doctor questions | Faithful grounding, medical nuance, fluent Indic output, reliable JSON | Frontier-class. Open models below about 30B are noticeably weaker in Hindi and weak in Odia | — | **API** (`openai/gpt-oss-120b` on Groq) |
@@ -128,7 +128,7 @@ Full reasoning is in [ADR-0004](adr/0004-hybrid-llm-strategy.md).
 | Component | Technique | Trained on or configured from | Output |
 |---|---|---|---|
 | Image quality score | Laplacian variance (blur), Hough-line skew, highlight ratio | Thresholds tuned on the photo evaluation set | 0–1 score and retake tips |
-| Row parser | Layout rules over OCR boxes (column clustering, regex for value/unit/range) | Synthetic reports | Draft rows |
+| Row parser | Line grouping + segment classification (name, value, flag, unit, range); no fixed columns, so any layout works | Synthetic reports | Draft rows |
 | Catalogue matcher | Alias lookup → trigram similarity (`pg_trgm`) → local LLM fallback | Test catalogue aliases | LOINC code and match score |
 | Confidence model | Calibrated logistic regression over OCR confidence, match score, plausibility and unit agreement | Synthetic + photographed set, labelled automatically from ground truth | Probability the row is correct; rows below τ are reviewed first |
 | Change detector | Reference change value from analytical and within-subject biological variation (EFLM data) | Biological-variation table in the catalogue | Significant / not significant |

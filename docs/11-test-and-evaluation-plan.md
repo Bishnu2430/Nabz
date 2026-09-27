@@ -126,8 +126,33 @@ Defects are GitHub issues labelled `bug` with severity:
 
 Any S1 blocks the gate.
 
+## 9. Sprint 2 extraction results
+
+Measured with `python -m tools.eval.extraction` on synthetic reports (seed 7). Rows are matched to ground truth by page and position. Field accuracy is over matched rows; names are compared ignoring spaces and case. Times are on the reference laptop (i5-1235U, CPU only).
+
+| Mode | Reports · rows | Recall | Precision | Name | Value | Unit | Range | Flag | Time per report |
+|---|---|---|---|---|---|---|---|---|---|
+| PDF text layer | 75 · 2,228 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.02 s |
+| OCR, clean render (200 dpi) | 18 · 848 | 0.986 | 1.000 | 0.994 | 0.995 | 0.993 | 0.994 | 1.000 | 13–22 s |
+| OCR, simulated phone photo | 18 · 848 | 0.946 | 1.000 | 0.983 | 0.995 | 0.961 | 0.984 | 0.999 | 17 s |
+
+"Simulated phone photo" means the rendered page is rotated ±2.5°, blurred, unevenly lit, given sensor noise and JPEG-compressed before OCR.
+
+**Against the targets in §4:**
+- Digital PDFs are exact.
+- Clean scans meet the ≥ 95 % target.
+- Simulated photos exceed 90 % on every field; row recall is 94.6 %.
+
+**Findings that shape Sprint 3:**
+- OCR occasionally misreads a digit ("94" read as "944"). The confidence model must down-weight values that are far outside the row's own printed range and values that fail plausibility bounds, so these rows appear first in review.
+- OCR drops spaces in names ("MeanCorpuscularVolume"), so the catalogue matcher compares names with spaces removed.
+- The remaining photo misses are mostly dotted-leader layouts where leaders merge into values. Keep watching them on real photos (risk R-01).
+
+These are **synthetic** results. The real-photo evaluation set (§4) is collected by the team and reported separately.
+
 ## Revision history
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 21 test cases |
+| 0.2 | 2026-09-27 | §9 Sprint 2 extraction results |

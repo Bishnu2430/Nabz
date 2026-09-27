@@ -185,8 +185,8 @@
 <text x="650.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">low</text>
 <text x="800.0" y="937.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">2 uvicorn workers in demo mode</text>
 <text x="50.0" y="955.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">worker</text>
-<text x="230.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">PaddleOCR + e5-small + pandas</text>
-<text x="520.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">1.2–1.8 GB</text>
+<text x="230.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">RapidOCR + e5-small + pandas</text>
+<text x="520.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">1.0–1.5 GB</text>
 <text x="650.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">burst 100%</text>
 <text x="800.0" y="955.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">one job at a time on a 10-core laptop CPU</text>
 <text x="50.0" y="973.0" font-size="11" font-weight="600" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">ollama</text>
