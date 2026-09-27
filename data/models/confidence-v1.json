@@ -1,0 +1,52 @@
+{
+  "version": "v1-2026-09-27",
+  "intercept": -4.9181417629123825,
+  "weights": {
+    "ocr_conf": 0.3486447714505502,
+    "text_layer": 0.9554799003930712,
+    "match_score": -0.053587701743330364,
+    "matched": 0.015661990192346355,
+    "unit_ok": 7.903549594889274,
+    "plausible": 1.6682282368619876,
+    "has_range": 0.6244818249969126,
+    "range_excess": -1.6206519489426048,
+    "flag_mismatch": -2.523062897603715
+  },
+  "threshold": 0.9,
+  "target_recall_of_wrong_rows": 0.9,
+  "metrics": {
+    "train": {
+      "rows": 3780,
+      "wrong_rows": 108,
+      "auc": 0.9877224037763254,
+      "ece": 0.005358469072710209,
+      "recall_of_wrong_rows": 0.9722222222222222,
+      "flagged_share": 0.028042328042328042
+    },
+    "eval": {
+      "rows": 2140,
+      "wrong_rows": 70,
+      "auc": 0.982705314009662,
+      "ece": 0.007156576185578134,
+      "recall_of_wrong_rows": 0.9714285714285714,
+      "flagged_share": 0.03177570093457944
+    },
+    "eval_hand_weights": {
+      "rows": 2140,
+      "wrong_rows": 70,
+      "auc": 0.9824706694271911,
+      "ece": 0.027136003180134254,
+      "recall_of_wrong_rows": 0.11428571428571428,
+      "flagged_share": 0.003738317757009346
+    }
+  },
+  "trained_on": {
+    "train_dir": "/srv/data/synthetic/train",
+    "eval_dir": "/srv/data/synthetic/eval",
+    "modes": [
+      "photo",
+      "ocr",
+      "text(15)"
+    ]
+  }
+}
