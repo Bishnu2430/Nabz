@@ -44,7 +44,7 @@ _CLAIM = text("""
     UPDATE processing_job
        SET status = 'running', locked_at = now(), locked_by = :worker, attempts = attempts + 1
      WHERE id = (SELECT id FROM processing_job
-                  WHERE status = 'queued' AND run_after <= now()
+                  WHERE status = 'queued' AND run_after <= now() AND stage = ANY(CAST(:stages AS job_stage[]))
                   ORDER BY id
                   FOR UPDATE SKIP LOCKED
                   LIMIT 1)
@@ -52,8 +52,10 @@ _CLAIM = text("""
 """)
 
 
-def claim(session: Session, worker_id: str) -> Job | None:
-    row = session.execute(_CLAIM, {"worker": worker_id}).first()
+def claim(session: Session, worker_id: str, stages: list[JobStage] | None = None) -> Job | None:
+    """Claim the oldest ready job of one of `stages` (default: any stage)."""
+    wanted = [s.value for s in (stages or list(JobStage))]
+    row = session.execute(_CLAIM, {"worker": worker_id, "stages": wanted}).first()
     return Job(row.id, row.report_id, JobStage(row.stage), row.attempts) if row else None
 
 

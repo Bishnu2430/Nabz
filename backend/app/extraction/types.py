@@ -32,6 +32,7 @@ class Page:
     source: str  # "text-layer" or "ocr"
     tokens: list[Token] = field(default_factory=list)
     quality: float | None = None  # 0–1 image quality score (OCR pages only)
+    skew: float = 0.0  # degrees the image was rotated before OCR; token boxes are in the rotated frame
 
 
 @dataclass

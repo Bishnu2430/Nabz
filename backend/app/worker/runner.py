@@ -34,7 +34,7 @@ class Worker:
     def run_once(self) -> bool:
         """Process at most one job. Returns True if a job was claimed."""
         with self.sessions.begin() as s:
-            job = queue.claim(s, self.worker_id)
+            job = queue.claim(s, self.worker_id, list(self.handlers))
             if job is None:
                 return False
             if (status := RUNNING_STATUS.get(job.stage)) and (report := s.get(Report, job.report_id)):

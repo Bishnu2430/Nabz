@@ -129,7 +129,11 @@ class Observation(Base):
     ref_source: Mapped[str] = mapped_column(Text, default="report")
     status: Mapped[ObsStatus] = mapped_column(pg_enum(ObsStatus, "obs_status"), default=ObsStatus.UNKNOWN)
     bbox: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
-    confidence: Mapped[float] = mapped_column(REAL, default=0.0)
+    confidence: Mapped[float] = mapped_column(REAL, default=0.0)  # model's probability the row is right
+    ocr_confidence: Mapped[float | None] = mapped_column(REAL)  # reader confidence (1.0 for PDF text layer)
+    match_score: Mapped[float | None] = mapped_column(REAL)
+    match_method: Mapped[str | None] = mapped_column(Text)  # exact | fuzzy | resolver | manual | none
+    match_candidates: Mapped[list[Any] | None] = mapped_column(JSONB)  # [[test_code, score], ...] for review
     edited: Mapped[bool] = mapped_column(Boolean, default=False)
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = created_at()

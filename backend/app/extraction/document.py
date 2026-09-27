@@ -66,7 +66,7 @@ def _text_layer_tokens(page: pdfium.PdfPage, page_height: float) -> list[Token]:
 
 def _ocr_page(number: int, image: np.ndarray, ocr: OCREngine, dpi: int | None,
               size_pt: tuple[float, float] | None = None) -> Page:
-    image, _angle = deskew(image)
+    image, angle = deskew(image)
     quality = quality_score(image)
     # Photos have no physical size: treat them as 150 dpi so coordinates stay in a familiar range.
     scale = (dpi or 150) / 72
@@ -74,4 +74,4 @@ def _ocr_page(number: int, image: np.ndarray, ocr: OCREngine, dpi: int | None,
     width, height = size_pt or (w_px / scale, h_px / scale)
     tokens = [Token(t.text, t.x0 / scale, t.top / scale, t.x1 / scale, t.bottom / scale, t.conf)
               for t in ocr.read(image)]
-    return Page(number, width, height, "ocr", tokens, quality)
+    return Page(number, width, height, "ocr", tokens, quality, angle)

@@ -46,10 +46,16 @@ def deskew(image: np.ndarray) -> tuple[np.ndarray, float]:
     angle = estimate_skew(image)
     if abs(angle) < 0.2:
         return image, 0.0
+    return rotate(image, angle), angle
+
+
+def rotate(image: np.ndarray, angle: float) -> np.ndarray:
+    """Rotate about the centre, keeping the size; used by deskew and to redraw a page at its stored angle."""
+    if angle == 0.0:
+        return image
     h, w = image.shape[:2]
     matrix = cv2.getRotationMatrix2D((w / 2, h / 2), angle, 1.0)
-    rotated = cv2.warpAffine(image, matrix, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
-    return rotated, angle
+    return cv2.warpAffine(image, matrix, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
 
 
 def quality_score(image: np.ndarray) -> float:
