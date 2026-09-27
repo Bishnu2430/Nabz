@@ -37,9 +37,9 @@ Derived values are computed so each report is internally consistent: Friedewald 
   "rows": [{
     "test_code": "glucose_fasting",       // catalogue code
     "printed_name": "FPG", "printed_value": "4.2", "printed_unit": "mmol/L",
-    "printed_range": "3.9 to 5.4", "flag": "",
+    "printed_range": "3.9 to 5.5", "flag": "",
     "value_canonical": "75.6672",         // canonical unit (mg/dL)
-    "ref_low": "70.2624", "ref_high": "97.2864",
+    "ref_low": "70.2624", "ref_high": "99.0880",
     "page": 0, "bbox": [40, 449.0, 555.3, 461.0]   // x0, top, x1, bottom in PDF points, top-left origin
   }]
 }
