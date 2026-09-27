@@ -31,7 +31,7 @@ Account, role and session tables planned for Sprint 6 are specified in [12 §3](
 | | `consent` | Per-profile, per-purpose consent with policy version | 100s |
 | Reports & extraction | `report` | One uploaded lab report and its lifecycle status | 100s |
 | | `report_file` | Original file metadata; the file itself is on the volume | 100s |
-| | `report_page` | Page image dimensions and raw OCR output (JSONB) | 100s |
+| | `report_page` | Page size in points and reader output (JSONB: `source`, `quality`, `skew` angle, tokens) | 100s |
 | | `processing_job` | Durable queue item per pipeline stage | 1,000s |
 | | `observation` | One result row: raw text, typed value, range, status, confidence | 10,000s |
 | Clinical catalogue | `organ_system` | Organ systems and their 3D mesh IDs | ~15 |
@@ -97,8 +97,12 @@ Indexes: `(profile_id, collected_at DESC)`; unique `(profile_id, source_sha256)`
 | `ref_low`, `ref_high` | numeric | yes | Range in canonical unit |
 | `ref_source` | text | no | `report` or `catalogue` |
 | `status` | obs_status | no | From the classifier |
-| `bbox` | jsonb | yes | `{x, y, w, h}` in page pixels for highlighting |
-| `confidence` | real | no | Calibrated probability, 0–1 |
+| `bbox` | jsonb | yes | `{page, x0, top, x1, bottom}` in page points (OCR'd pages: the deskewed frame); the review screen draws it as fractions of the page |
+| `confidence` | real | no | Calibrated probability that the row is right, 0–1, from the row-confidence model; 1.0 after a consistent manual edit |
+| `ocr_confidence` | real | yes | Reader confidence for the row (1.0 for the PDF text layer); a model input, kept separate from `confidence` |
+| `match_score` | real | yes | Catalogue-matcher score for the chosen test, 0–1 |
+| `match_method` | text | yes | `exact`, `fuzzy`, `resolver`, `manual` or `none` |
+| `match_candidates` | jsonb | yes | Up to three `[test_code, score]` pairs offered on the review screen when the match is not certain |
 | `verified_at` | timestamptz | yes | Set when the user confirms the report |
 | `edited` | boolean | no | True if the user changed any field |
 
@@ -173,3 +177,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 22 tables |
+| 0.2 | 2026-09-27 | `observation`: `raw_flag`, `section` (Sprint 2); `ocr_confidence`, `match_score`, `match_method`, `match_candidates` and the `bbox` format (Sprint 3); `report_page.ocr.skew` |

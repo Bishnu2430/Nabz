@@ -150,9 +150,55 @@ Measured with `python -m tools.eval.extraction` on synthetic reports (seed 7). R
 
 These are **synthetic** results. The real-photo evaluation set (§4) is collected by the team and reported separately.
 
+## 10. Sprint 3 mapping and confidence results
+
+**Mapping and normalisation.**
+- Measured end to end: extraction, catalogue mapping and conversion to the canonical unit, on the same synthetic evaluation set (seed 7).
+- "Test" is the share of matched rows mapped to the right catalogue test (and so the right LOINC code).
+- "Canonical" is the share whose value, converted to the test's canonical unit, equals the ground truth converted the same way.
+
+| Mode | Reports · rows | Recall | Name | Value | Unit | Range | Test | Canonical |
+|---|---|---|---|---|---|---|---|---|
+| PDF text layer | 75 · 2,228 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| OCR, clean render | 30 · 1,098 | 0.988 | 0.994 | 0.996 | 0.992 | 0.994 | 0.997 | 0.994 |
+| OCR, simulated phone photo | 30 · 1,098 | 0.961 | 0.980 | 0.996 | 0.955 | 0.986 | 0.997 | 0.981 |
+
+Mapping meets the ≥ 97 % target in every mode. The canonical value is only as good as the unit read, so photos lose most there (unit 95.5 %).
+
+**Row-confidence model.**
+- **Model:** logistic regression over nine features: OCR confidence, text layer, match score, mapped, unit known for the test, plausible, printed range present, how far outside its own printed range the value is, and printed flag disagreeing with the value.
+- **Training data:** a separate synthetic set (seed 11, 59 reports: photo and OCR modes, plus 15 text-layer reports).
+- **Labels:** a row counts as correct only if its test, value, unit and canonical value are all right; parser rows with no ground-truth row count as wrong.
+- **Code and output:** trained by `python -m tools.train.confidence`, which saves the coefficients as JSON in `data/models/confidence-v1.json`.
+
+| Held-out rows (photo + OCR, 2,140 rows, 70 wrong) | AUC | ECE | Wrong rows flagged | Rows flagged |
+|---|---|---|---|---|
+| Trained model, τ = 0.90 | 0.983 | 0.007 | **97.1 %** | 3.2 % |
+| Hand-set weights used before training, τ = 0.80 | 0.982 | 0.027 | 11.4 % | 0.4 % |
+
+**Threshold policy.**
+- The probabilities are calibrated (ECE 0.007), so τ is a policy rather than a tuning knob: **any row with more than a 10 % chance of being wrong is flagged.**
+- The recall rule alone (flag 90 % of wrong training rows) would have chosen τ = 0.09. That leaves rows with even odds unflagged, so the floor of 0.90 applies.
+- Raising τ from 0.09 to 0.90 raises the wrong rows caught from 88.6 % to 97.1 % and costs only 0.3 points of flagged share.
+- Against §4, the target was ≥ 90 % recall at ≤ 25 % flagged; the result is 97.1 % recall at 3.2 % flagged.
+
+**What the model cannot see.**
+- On photos, OCR sometimes doubles a digit: 2 → 22, 34 → 344, 136 → 1366, 6.9 → 6.99.
+- When the doubled value falls outside its printed range, `range_excess` pulls confidence down and the row is flagged.
+- When it stays plausible and inside the range (folate 6.99 in 2.9–20.3), nothing in the row distinguishes it, and it scores 0.996. Two of the 70 wrong rows are like this.
+- The mitigation is the review screen: every value sits beside a box on the page image, and nothing is explained until the person confirms.
+- Real photos (§4) will show how often this happens outside the simulator.
+
+**Other Sprint 3 checks.**
+- **API tests:** upload, duplicate (409), edit and re-mapping, manual rows, confirm gate (409 while rows are unmapped, then locked), ownership (404), SSE status and page image.
+- **Frontend tests (Vitest):** weakest-first ordering, confirm blocked while unmapped, suggestion picks send a PATCH, consent required before a profile is created, value display rules.
+- **Accessibility:** every status is colour + icon + word. All light-theme text colours pass WCAG AA (≥ 4.5 : 1) on paper, raised and sunken surfaces after darkening jade, ochre and gold (doc 12 §5.1). All dark-theme pairs pass at ≥ 5.8 : 1.
+- **Page image:** a 12-megapixel phone photo went from 22 s and 2.3 MB (full-size PNG) to about 1 s and 264 KB. The display copy is downscaled and sent as JPEG, and the stored deskew angle is reused instead of being re-estimated.
+
 ## Revision history
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 21 test cases |
 | 0.2 | 2026-09-27 | §9 Sprint 2 extraction results |
+| 0.3 | 2026-09-27 | §10 Sprint 3 mapping, confidence model and threshold policy |
