@@ -12,6 +12,10 @@ dependencies = [
     "pydantic-settings>=2.4",
     "pgvector>=0.3",
     "rapidfuzz>=3.9",
+    "rapidocr-onnxruntime>=1.4.4",
+    "pypdfium2>=5.13.0",
+    "opencv-python-headless>=5.0.0.93",
+    "pillow>=12.3.0",
 ]
 
 [dependency-groups]
@@ -37,4 +41,8 @@ ignore = ["S101", "S311"]  # asserts in tests; non-crypto random in synthetic da
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-markers = ["db: needs a PostgreSQL server (DATABASE_URL)"]
+markers = ["db: needs a PostgreSQL server (DATABASE_URL)", "slow: runs OCR models (tens of seconds)"]
+
+[tool.uv]
+# rapidocr pulls in desktop OpenCV (needs X11 libraries); the headless build provides cv2 instead.
+override-dependencies = ["opencv-python; sys_platform == 'never'"]
