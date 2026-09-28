@@ -176,7 +176,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-35 | Administrators shall manage tests, aliases, unit conversions, reference ranges and critical limits. Every change is logged. | S | UC-14 |
 | FR-36 | Administrators shall add knowledge documents with source, URL and licence, and trigger re-embedding. | S | UC-15 |
 | FR-37 | The system shall log every read and write of health data in `audit_log`. | S | UC-16 |
-| FR-38 | The system shall provide an offline demo mode that replays cached explanations and audio for the bundled sample reports. | M | — |
+| FR-38 | The system shall provide an offline mode that replays cached explanations and audio for the bundled sample reports. | M | — |
 
 ## 5. Non-functional requirements
 

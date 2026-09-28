@@ -22,7 +22,7 @@ const rows: Observation[] = [
 ];
 
 const report = (over: Partial<Report> = {}): Report => ({
-  id: "r1", profile_id: "p1", status: "needs_review", lab_name: "Demo Diagnostics", collected_at: "2026-09-01",
+  id: "r1", profile_id: "p1", status: "needs_review", lab_name: "Anvaya Diagnostics", collected_at: "2026-09-01",
   created_at: "2026-09-02T10:00:00Z", pages: [{ page_no: 0, width: 595, height: 842, source: "text-layer", quality: null }],
   observations: rows, needs_attention: 2, unmapped: 1, confidence_threshold: 0.8, ...over,
 });

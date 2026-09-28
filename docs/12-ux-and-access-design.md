@@ -13,8 +13,8 @@
 | D1 | Visual theme | **Sumi-e scroll** (ink on washi paper) for light mode; **urushi lacquer** (black lacquer and gold) for dark mode and for the 3D stage |
 | D2 | Roles | Member · Clinician · Clinical reviewer · Admin |
 | D3 | Sign-in | Email and password only; authenticator-app codes (TOTP) for staff; no social login |
-| D4 | Doctors | Real clinician accounts. The demo uses fictional, clearly labelled doctor accounts |
-| D5 | Demo data | Demo profiles use open-source synthetic patients (Synthea) plus the Nabz report generator; no real people |
+| D4 | Doctors | Real clinician accounts; the seeded accounts use fictional doctors |
+| D5 | Seeded data | Seeded profiles use open-source synthetic patients (Synthea) plus the Nabz report generator; no real people |
 | D6 | Build order | Unchanged from the [project plan](07-project-plan.md); accounts are built in Sprint 6 |
 
 ## 2. Roles and permissions
@@ -47,11 +47,11 @@ Clinicians are verified by an admin against a medical-council registration numbe
 - New tables: `user_session`, `auth_token` (verify and reset, hashed), `clinician_verification` (council, number, verified by and at), `profile_member` (owner, editor or viewer co-access to a profile), `clinician_note`.
 - `app_user.totp_secret` (encrypted with `pgcrypto`).
 
-## 4. Demo data
+## 4. Seeded data
 
-- **Clinicians:** 2–3 fictional doctor accounts, e.g. "Dr. Demo Clinician (demo account)". They have fictional registration numbers and are marked as demo in the UI. No real doctor's name or identity is used.
+- **Clinicians:** 2–3 fictional doctor accounts with fictional names and registration numbers. No real doctor's name or identity is used.
 - **Members and profiles:** fictional families (the "Priya and Ramesh" persona and a few others).
-- **Lab histories:** Synthea, an open-source synthetic patient generator, produces multi-year records with LOINC-coded lab observations. Nabz imports them by matching `lab_test.loinc_code`, and the Nabz generator renders some of those histories as printable reports for the upload demo. Everything is synthetic and labelled as such.
+- **Lab histories:** Synthea, an open-source synthetic patient generator, produces multi-year records with LOINC-coded lab observations. Nabz imports them by matching `lab_test.loinc_code`, and the Nabz generator renders some of those histories as printable reports for uploading. All of it is synthetic; no real person's data is used.
 
 ## 5. Visual design
 
@@ -133,7 +133,7 @@ Brush lettering is decorative only and never carries information.
 | Reviewer | `/review` | Safety queue and sign-offs | reviewer | Should |
 | Admin | `/admin/users` | Users, roles, clinician verification | admin | Must |
 | | `/admin` `/admin/catalogue` `/admin/knowledge` `/admin/jobs` `/admin/audit` | Health, catalogue, knowledge base, job monitor, audit log | admin | Should |
-| System | — | 404, error boundary, offline and demo-mode banner | all | Must |
+| System | — | 404, error boundary, offline banner | all | Must |
 
 ## Revision history
 

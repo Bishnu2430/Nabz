@@ -22,12 +22,12 @@ from tools.synthetic.values import Persona, random_persona, sample_baseline, sam
 
 # Fictional laboratories. Each has a fixed layout and unit style so every combination appears.
 LABS = [
-    ("Anvaya Diagnostics (Demo)", "Plot 12, Saheed Nagar, Bhubaneswar 751007", "table", "conventional"),
-    ("Mahanadi Clinical Laboratory (Demo)", "Link Road, Cuttack 753012", "boxed", "international"),
-    ("Sanjeevani Path Lab (Demo)", "MG Road, Bengaluru 560001", "leaders", "conventional"),
-    ("Prakriti Diagnostic Centre (Demo)", "Sector 18, Noida 201301", "table", "si"),
-    ("Nirmaya Health Labs (Demo)", "Salt Lake Sector V, Kolkata 700091", "boxed", "conventional"),
-    ("Kalinga Test House (Demo)", "Janpath, Bhubaneswar 751001", "leaders", "international"),
+    ("Anvaya Diagnostics", "Plot 12, Saheed Nagar, Bhubaneswar 751007", "table", "conventional"),
+    ("Mahanadi Clinical Laboratory", "Link Road, Cuttack 753012", "boxed", "international"),
+    ("Sanjeevani Path Lab", "MG Road, Bengaluru 560001", "leaders", "conventional"),
+    ("Prakriti Diagnostic Centre", "Sector 18, Noida 201301", "table", "si"),
+    ("Nirmaya Health Labs", "Salt Lake Sector V, Kolkata 700091", "boxed", "conventional"),
+    ("Kalinga Test House", "Janpath, Bhubaneswar 751001", "leaders", "international"),
 ]
 
 # Planted yearly drifts for history mode (canonical units per year).

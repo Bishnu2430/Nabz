@@ -24,7 +24,7 @@ Account, role and session tables planned for Sprint 6 are specified in [12 §3](
 
 ## 3. Table catalogue
 
-| Domain | Table | Purpose | Approx. rows (demo) |
+| Domain | Table | Purpose | Approx. rows (pilot) |
 |---|---|---|---|
 | Identity & consent | `app_user` | Account holder; login identity | 10s |
 | | `profile` | Person whose reports are managed (self, parent, child) | 10s |
