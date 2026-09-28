@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from app.catalogue.data import CatalogueData
 from app.catalogue.units import normalize_unit
+from app.extraction.dates import find_collection_date
 from app.extraction.document import load_pages
 from app.extraction.layout import group_lines
 from app.extraction.ocr import OCREngine, default_engine
@@ -26,8 +27,11 @@ def extract(data: bytes, mime: str, catalogue: CatalogueData, ocr: OCREngine | N
     rows: list[ParsedRow] = []
     lab_name: str | None = None
     section: str | None = None
+    header: list[str] = []
     for page in pages:
         for line in group_lines(page.tokens):
+            if page.number == 0:
+                header.append(line.text)
             if lab_name is None and page.number == 0 and line.tokens and line.text.strip():
                 lab_name = line.text.strip()
             found = detect_section(line)
@@ -37,7 +41,7 @@ def extract(data: bytes, mime: str, catalogue: CatalogueData, ocr: OCREngine | N
             row = parse_line(line, page.number, section, units)
             if row is not None:
                 rows.append(row)
-    return ExtractionResult(pages, rows, lab_name)
+    return ExtractionResult(pages, rows, lab_name, find_collection_date(header))
 
 
 class _LazyOCR:

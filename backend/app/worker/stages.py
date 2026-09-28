@@ -45,7 +45,6 @@ class ExtractionStage:
                                 .order_by(ReportFile.created_at)).all()
         profile = session.get(Profile, report.profile_id)
         sex = profile.sex.value if profile else None
-        age = age_on(profile, report.collected_at) if profile else None
         ids = lab_test_ids(session)
 
         session.execute(delete(Observation).where(Observation.report_id == report.id))
@@ -54,6 +53,11 @@ class ExtractionStage:
 
         for f in files:
             result = extract(self.storage.get(f.storage_key), f.mime_type, self.catalogue, ocr=self.ocr)
+            if report.lab_name is None and result.lab_name:
+                report.lab_name = result.lab_name[:200]
+            if report.collected_at is None and result.collected_at:
+                report.collected_at = result.collected_at
+            age = age_on(profile, report.collected_at) if profile else None  # picks the catalogue range
             page_ids = {}
             for page in result.pages:
                 rp = ReportPage(
@@ -80,6 +84,4 @@ class ExtractionStage:
                              row.confidence, sources.get(row.page, "ocr"))
                 apply(obs, self.interpreter.interpret(raw, sex, age), ids)
                 session.add(obs)
-            if report.lab_name is None and result.lab_name:
-                report.lab_name = result.lab_name[:200]
         report.status = ReportStatus.NEEDS_REVIEW
