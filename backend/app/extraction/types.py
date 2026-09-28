@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import date
 from decimal import Decimal
 
 
@@ -57,3 +58,4 @@ class ExtractionResult:
     pages: list[Page]
     rows: list[ParsedRow]
     lab_name: str | None = None
+    collected_at: date | None = None  # sample collection date read from the header

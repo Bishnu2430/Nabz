@@ -94,14 +94,22 @@ class ExplanationCitation(Base):
 
 
 class TrendInsight(Base):
+    """The latest analysis per profile × test, kept for the profile page. Recomputed whenever a report is
+    confirmed or deleted; the per-report detail lives in observation.analysis."""
+
     __tablename__ = "trend_insight"
     __table_args__ = (UniqueConstraint("profile_id", "test_id", name="uq_trend_insight_profile_test"),)
 
     id: Mapped[uuid.UUID] = uuid_pk()
     profile_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("profile.id", ondelete="CASCADE"))
     test_id: Mapped[int] = mapped_column(Integer, ForeignKey("lab_test.id"))
+    last_observation_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("observation.id", ondelete="CASCADE")
+    )
     n_points: Mapped[int] = mapped_column(SmallInteger)
     slope_per_year: Mapped[Decimal | None] = mapped_column(Numeric)
+    direction: Mapped[str | None] = mapped_column(Text)  # rising | falling | flat; None below three results
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
     rcv_significant: Mapped[bool | None] = mapped_column(Boolean)
     projected_crossing: Mapped[date | None] = mapped_column(Date)
     percentile: Mapped[float | None] = mapped_column(REAL)

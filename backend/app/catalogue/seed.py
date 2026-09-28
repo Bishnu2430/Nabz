@@ -3,15 +3,17 @@
 from dataclasses import dataclass
 
 from sqlalchemy import delete, select
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.dialects.postgresql import Range, insert
 from sqlalchemy.orm import Session
 
 from app.catalogue.data import CatalogueData
 from app.catalogue.units import normalize_unit
-from app.models import CriticalLimit, LabTest, OrganSystem, ReferenceRange, UnitConversion
+from app.models import CriticalLimit, LabTest, OrganSystem, PopulationPercentile, ReferenceRange, UnitConversion
 
 RANGE_SOURCE = "Nabz catalogue default (adult, educational); the report's printed range takes precedence"
 LIMIT_SOURCE = "Commonly published adult critical limits (draft, pending clinical review)"
+PERCENTILE_SOURCE = ("NHANES 2017–March 2020, US population (CDC/NCHS); survey-weighted, adults, "
+                     "pregnancy excluded")
 
 
 @dataclass(frozen=True)
@@ -21,6 +23,7 @@ class SeedResult:
     conversions: int
     ranges: int
     limits: int
+    percentiles: int = 0
 
 
 def seed_catalogue(session: Session, data: CatalogueData) -> SeedResult:
@@ -47,7 +50,7 @@ def seed_catalogue(session: Session, data: CatalogueData) -> SeedResult:
 
     # Child rows are replaced wholesale for the tests in the CSV.
     ids = [test_ids[t.code] for t in data.tests]
-    for model in (UnitConversion, ReferenceRange, CriticalLimit):
+    for model in (UnitConversion, ReferenceRange, CriticalLimit, PopulationPercentile):
         session.execute(delete(model).where(model.test_id.in_(ids)))
     session.add_all(
         UnitConversion(test_id=test_ids[c.test_code], from_unit=normalize_unit(c.from_unit), factor=c.factor,
@@ -64,6 +67,12 @@ def seed_catalogue(session: Session, data: CatalogueData) -> SeedResult:
                       source=LIMIT_SOURCE)
         for m in data.limits
     )
+    session.add_all(
+        PopulationPercentile(test_id=test_ids[p.test_code], sex=p.sex, age_band=Range(p.age_min, p.age_max + 1),
+                             p05=p.cuts[0], p25=p.cuts[1], p50=p.cuts[2], p75=p.cuts[3], p95=p.cuts[4], n=p.n,
+                             source=PERCENTILE_SOURCE)
+        for p in data.percentiles
+    )
     session.flush()
     return SeedResult(len(data.organs), len(data.tests), len(data.conversions), len(data.ranges),
-                      len(data.limits))
+                      len(data.limits), len(data.percentiles))

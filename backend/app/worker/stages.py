@@ -13,8 +13,10 @@ from app.extraction.interpret import Interpreter, RawRow
 from app.extraction.ocr import OCREngine
 from app.models import Observation, Profile, Report, ReportFile, ReportPage
 from app.models.enums import JobStage, ObsStatus, ReportStatus
+from app.services.analysis import analyse_profile
 from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids
 from app.storage import StorageBackend
+from app.worker import queue
 from app.worker.queue import Job
 
 
@@ -45,7 +47,6 @@ class ExtractionStage:
                                 .order_by(ReportFile.created_at)).all()
         profile = session.get(Profile, report.profile_id)
         sex = profile.sex.value if profile else None
-        age = age_on(profile, report.collected_at) if profile else None
         ids = lab_test_ids(session)
 
         session.execute(delete(Observation).where(Observation.report_id == report.id))
@@ -54,6 +55,11 @@ class ExtractionStage:
 
         for f in files:
             result = extract(self.storage.get(f.storage_key), f.mime_type, self.catalogue, ocr=self.ocr)
+            if report.lab_name is None and result.lab_name:
+                report.lab_name = result.lab_name[:200]
+            if report.collected_at is None and result.collected_at:
+                report.collected_at = result.collected_at
+            age = age_on(profile, report.collected_at) if profile else None  # picks the catalogue range
             page_ids = {}
             for page in result.pages:
                 rp = ReportPage(
@@ -80,6 +86,24 @@ class ExtractionStage:
                              row.confidence, sources.get(row.page, "ocr"))
                 apply(obs, self.interpreter.interpret(raw, sex, age), ids)
                 session.add(obs)
-            if report.lab_name is None and result.lab_name:
-                report.lab_name = result.lab_name[:200]
         report.status = ReportStatus.NEEDS_REVIEW
+
+
+class AnalysisStage:
+    """Confirmed values → status, critical limits, change since last time, trend and percentile (FR-16 – FR-20).
+
+    The report's tests are recomputed across the person's whole history, so a report confirmed out of date
+    order corrects the later reports' analysis too. The explanation stage (Sprint 5) is queued next.
+    """
+
+    stage = JobStage.ANALYSE
+
+    def handle(self, job: Job, session: Session) -> None:
+        report = session.get(Report, job.report_id)
+        if report is None or report.deleted_at is not None:
+            return
+        test_ids = set(session.scalars(select(Observation.test_id).where(
+            Observation.report_id == report.id, Observation.test_id.is_not(None))))
+        analyse_profile(session, report.profile_id, test_ids)
+        report.status = ReportStatus.EXPLAINING
+        queue.enqueue(session, report.id, JobStage.EXPLAIN)

@@ -44,7 +44,7 @@
 | Unrecognised rate | Rows correctly flagged "not recognised" instead of mis-mapped | Rows with off-catalogue tests | ≥ 90 % |
 | Confidence calibration | Expected calibration error of the row-confidence model | Held-out 20 % | ≤ 0.05 |
 | Review efficiency | Share of wrong rows that fall below τ (and so are shown first) | Photo set | ≥ 90 % recall at ≤ 25 % of rows flagged |
-| Trend correctness | Planted slope recovered within tolerance; RCV decision correct | 50 synthetic histories | 100 % |
+| Trend and change analysis | (a) RCV, Theil–Sen and Mann–Kendall agree with reference implementations; (b) on synthetic histories with a planted drift: other tests' trends falsely confirmed, and the planted trend confirmed at five visits | Unit tests; 50 synthetic histories | (a) exact; (b) false alarms ≤ 5 %, planted trend confirmed ≥ 80 % |
 | Critical-value recall | Critical values that raise the fixed alert | Rule table × boundary cases | 100 % |
 | Safety | Red-team cases producing an unsafe final output | ≥ 60 red-team cases | 0 |
 | Faithfulness | Explanations whose numbers and statuses all match the input | 100 generated explanations | 100 % after the validator |
@@ -195,6 +195,42 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 - **Accessibility:** every status is colour + icon + word. All light-theme text colours pass WCAG AA (≥ 4.5 : 1) on paper, raised and sunken surfaces after darkening jade, ochre and gold (doc 12 §5.1). All dark-theme pairs pass at ≥ 5.8 : 1.
 - **Page image:** a 12-megapixel phone photo went from 22 s and 2.3 MB (full-size PNG) to about 1 s and 264 KB. The display copy is downscaled and sent as JPEG, and the stored deskew angle is reused instead of being re-estimated.
 
+## 11. Sprint 4 analysis results
+
+**Method checks (unit tests).**
+- Theil–Sen slope and Sen's 90 % interval equal `scipy.stats.theilslopes` on random series, with and without ties.
+- The exact Mann–Kendall p equals a brute-force permutation test.
+- The log-normal RCV matches worked values: haemoglobin, CVi 2.7 % and CVa 1.0 %, gives +8.3 % / −7.7 %.
+- Status boundaries and critical limits are tested at, above and below each limit, including a critical value with no printed range (FR-17).
+
+**Trends and change significance.**
+- **Data:** 50 synthetic people, each with 5 yearly reports (seed 21). Values vary around a personal baseline by each test's within-subject variation, and one test per person drifts at a planted slope.
+- **Isolation:** the analysis runs on ground-truth values, so it is measured separately from extraction.
+- **Tool:** `python -m tools.eval.trends`.
+
+| Visits used | Planted trend confirmed | Planted slope inside 90 % interval | Median slope error | Other tests falsely confirmed |
+|---|---|---|---|---|
+| 3 | 0 % (never, by design) | 70 % | 22 % | 0 % |
+| 4 | 72 % | 92 % | 11 % | 1.1 % |
+| 5 | **88 %** | 86 % | 7 % | **1.0 %** |
+
+- **Single-step changes on stable tests:** flagged as "more than normal variation" 3.7 % of the time (4,000 pairs). This is inside the 5 % the 95 % RCV is designed for; the generator adds within-subject variation only.
+- **Detection by test at five visits:** ALT, creatinine and HbA1c 100 %, TSH 89 %, total cholesterol 77 %, haemoglobin 75 %. The slowest drifts relative to normal variation (haemoglobin −0.5 g/dL a year against a CVi of 2.7 %) need the most results.
+- **Against §4:** false alarms 1.0 % (target ≤ 5 %), planted trends confirmed 88 % at five visits (target ≥ 80 %).
+- **Caveat on derived tests:** headline rates cover primary tests. The generator computes some tests from independently varying components (MCV = Hct / RBC, Friedewald LDL, the differential), so they vary more than in a real person. Across all tests, single-step flags reach 5.8 % (MCV alone 52 %) and trend false alarms 1.0 %. This is a generator limit, not an analysis one.
+- **In one person:** alongside the planted creatinine trend, two unplanted tests (post-prandial glucose, ALP) were confirmed. That is consistent with a 1 % false-alarm rate over about 50 tests.
+
+**Collection date** (needed for every trend): read correctly from the header of 134 of 134 synthetic reports (text layer; dates labelled "Collected", with "Registered" and "Reported" on nearby lines). It has not yet been measured on photographs.
+
+**Population percentiles.**
+- Source: NHANES 2017–March 2020, 966 cells for 46 tests; see [`data/external.md`](../data/external.md).
+- Spot checks against published NHANES summaries look right: US men aged 40–49 have a median haemoglobin of 15.1 g/dL and a median HbA1c of 5.5 %, and eGFR falls with age as expected.
+
+**End to end.** Five history reports were uploaded through the API for one person, then read, confirmed and analysed by the worker.
+- Every collection date was read from its report.
+- All 53 rows per report were mapped.
+- The planted creatinine rise was confirmed, and projected to reach the upper limit (1.3 mg/dL) about seven months after the last report.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -202,3 +238,4 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 | 0.1 | 2026-09-26 | First draft: 21 test cases |
 | 0.2 | 2026-09-27 | §9 Sprint 2 extraction results |
 | 0.3 | 2026-09-27 | §10 Sprint 3 mapping, confidence model and threshold policy |
+| 0.4 | 2026-09-28 | §4 trend target restated as measurable parts; §11 Sprint 4 analysis results |

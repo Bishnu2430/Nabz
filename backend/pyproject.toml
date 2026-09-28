@@ -29,6 +29,7 @@ dev = [
     "faker>=30.0",
     "pypdf>=5.0",
     "scikit-learn>=1.9.1",
+    "pandas>=2.3",
 ]
 
 [tool.ruff]

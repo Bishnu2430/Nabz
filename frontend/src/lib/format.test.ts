@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { formatComputed, formatDate, formatRange, formatUnit, position, trimDecimal } from "./format";
+import {
+  formatComputed, formatDate, formatPercent, formatRange, formatUnit, formatValue, ordinal, position, spanYears, trimDecimal,
+} from "./format";
 
 describe("trimDecimal", () => {
   it.each([
@@ -60,5 +62,18 @@ describe("position", () => {
 describe("formatDate", () => {
   it("never shifts a calendar date across time zones", () => {
     expect(formatDate("2026-09-01", "en")).toBe("1 Sept 2026");
+  });
+});
+
+describe("analysis formatting", () => {
+  it("formats values, changes and ordinals", () => {
+    expect(formatValue("1.1", 2)).toBe("1.10");
+    expect(formatValue("79.2704", 0)).toBe("79");
+    expect(formatPercent(0.1234)).toBe("+12 %");
+    expect(formatPercent(-0.045)).toBe("−4.5 %");
+    expect(formatPercent(0)).toBe("0.0 %");
+    expect([1, 2, 3, 4, 11, 12, 13, 21, 52, 95].map(ordinal)).toEqual(
+      ["1st", "2nd", "3rd", "4th", "11th", "12th", "13th", "21st", "52nd", "95th"]);
+    expect(spanYears("2022-06-01", "2025-06-01")).toBeCloseTo(3, 1);
   });
 });

@@ -136,4 +136,6 @@ class Observation(Base):
     match_candidates: Mapped[list[Any] | None] = mapped_column(JSONB)  # [[test_code, score], ...] for review
     edited: Mapped[bool] = mapped_column(Boolean, default=False)
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # As of this report's date: change since the previous result, trend, population percentile (app.services.analysis)
+    analysis: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     created_at: Mapped[datetime] = created_at()

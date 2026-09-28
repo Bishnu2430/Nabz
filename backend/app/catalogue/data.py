@@ -65,6 +65,16 @@ class LimitRow:
     message_key: str
 
 
+@dataclass(frozen=True)
+class PercentileRow:
+    test_code: str
+    sex: str
+    age_min: int
+    age_max: int
+    cuts: tuple[Decimal, ...]  # p05, p25, p50, p75, p95
+    n: int
+
+
 @dataclass
 class CatalogueData:
     organs: list[OrganRow] = field(default_factory=list)
@@ -72,6 +82,7 @@ class CatalogueData:
     conversions: list[ConversionRow] = field(default_factory=list)
     ranges: list[RangeRow] = field(default_factory=list)
     limits: list[LimitRow] = field(default_factory=list)
+    percentiles: list[PercentileRow] = field(default_factory=list)
 
     def test(self, code: str) -> TestRow:
         return next(t for t in self.tests if t.code == code)
@@ -154,6 +165,19 @@ def read_catalogue(directory: Path) -> CatalogueData:
         if row.test_code not in known:
             errors.append(f"critical limit for unknown test {row.test_code!r}")
         data.limits.append(row)
+
+    # Optional: built from NHANES by tools.nhanes (FR-20).
+    percentile_file = directory / "population_percentiles.csv"
+    for r in _rows(percentile_file) if percentile_file.exists() else []:
+        cuts = tuple(Decimal(r[k]) for k in ("p05", "p25", "p50", "p75", "p95"))
+        prow = PercentileRow(r["test_code"], r["sex"], int(r["age_min"]), int(r["age_max"]), cuts, int(r["n"]))
+        if prow.test_code not in known:
+            errors.append(f"percentiles for unknown test {prow.test_code!r}")
+        if prow.sex not in SEXES:
+            errors.append(f"{prow.test_code}: invalid percentile sex {prow.sex!r}")
+        if list(cuts) != sorted(cuts):
+            errors.append(f"{prow.test_code} {prow.sex} {prow.age_min}-{prow.age_max}: percentiles must ascend")
+        data.percentiles.append(prow)
 
     if errors:
         raise CatalogueError("catalogue has problems:\n  " + "\n  ".join(errors))

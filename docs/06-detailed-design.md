@@ -104,8 +104,9 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | PATCH / DELETE | `/observations/{id}` | Correct a row (value, unit, range, name or test) / remove it; the row is re-interpreted | FR-14 | ✓ |
 | POST | `/reports/{id}/observations` | Add a row the reader missed | FR-14 | ✓ |
 | POST | `/reports/{id}/confirm` | Confirm (optionally correcting the collection date) → verified, analyse queued; 409 while any row has no test or no number | FR-14, FR-15 | ✓ |
-| GET | `/reports/{id}/insights?lang=` | Organ statuses, observations, trends, explanation, audio | FR-16–FR-28 | |
-| GET | `/profiles/{id}/trends/{test_id}` | Full series + trend insight | FR-18, FR-19 | |
+| GET | `/reports/{id}/insights` | Critical results first, then organ systems worst first, each result with status, change, trend and percentile; explanation and audio from Sprint 5 | FR-16–FR-20 | ✓ |
+| GET | `/profiles/{id}/tests/{code}` | One test over time with each result's as-of analysis and the test's RCV | FR-18, FR-19 | ✓ |
+| GET | `/profiles/{id}/watch` | Tests whose latest result has a confirmed trend or a significant change | FR-18, FR-19 | ✓ |
 | POST | `/reports/{id}/share` · DELETE `/shares/{id}` | Create / revoke a share link | FR-34 | |
 | GET | `/shared/{token}` | Doctor's read-only view (no session) | FR-34 | |
 | GET | `/profiles/{id}/export?format=json\|pdf` | Data export | FR-32 | |
@@ -164,6 +165,8 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/components/review/` | `PageViewer` (page image with value boxes drawn as fractions of the page; selecting a row selects its box and the reverse), `ValueRow` (display and inline edit), `TestPicker` (matcher suggestions, then catalogue search) | 3 |
 | `src/i18n/` | `en`, `hi`, `or` bundles. Hindi and Odia are drafts pending native-speaker review (T2.5); missing keys fall back to English | 3 |
 | `src/lib/` | Formatting (printed precision kept, converted values to four significant figures, `×10⁶/µL` units, calendar dates without time-zone shifts), theme hook | 3 |
+| `src/routes/` (Sprint 4) | `Insights` (`/r/:id`: critical banner, organ cards, explanation placeholder), `TestHistory` (`/p/:id/tests/:code`: latest value, chart, trend statement, table) | 4 |
+| `src/components/insights/` | `StatusMark` (colour + icon + word), `RangeBar`, `CriticalBanner` (fixed FR-17 text), `ResultRow`, `OrganCard` (out-of-range first, the rest folded), `TrendChart` (range band, status points, gold kintsugi segment where a value returns to range, dashed projection, crosshair tooltip, focusable points) | 4 |
 | `src/features/body/` | `<BodyScene>` (R3F canvas), `<Organ>` meshes with status material, camera rig with fly-to, detail card | 5 |
 | `src/features/timeline/` | Report scrubber driving the body scene and trend charts | 4–5 |
 | `src/features/explain/` | Explanation reader, language switch, audio player, doctor questions (print view) | 4 |
@@ -186,3 +189,4 @@ All configuration comes from environment variables (see `.env.example`) through 
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-27 | §4 built endpoints, development auth, error details; §6 frontend structure as built in Sprint 3 |
+| 0.3 | 2026-09-28 | §4 insights, test history and watch endpoints; §6 insights screens |

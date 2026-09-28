@@ -33,7 +33,8 @@ def cmd_seed_catalogue(args: argparse.Namespace) -> int:
     with SessionLocal.begin() as session:
         result = seed_catalogue(session, data)
     print(f"seeded {result.organs} organ systems, {result.tests} tests, {result.conversions} unit conversions, "
-          f"{result.ranges} reference ranges, {result.limits} critical limits")
+          f"{result.ranges} reference ranges, {result.limits} critical limits, "
+          f"{result.percentiles} population percentile cells")
     return 0
 
 

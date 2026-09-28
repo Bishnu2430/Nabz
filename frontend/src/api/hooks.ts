@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 import { api } from "./client";
 import type {
-  CatalogueTest, Observation, ObservationPatch, Profile, ProfileIn, Report, ReportStatus, ReportSummary,
+  CatalogueTest, Insights, Observation, ObservationPatch, Profile, ProfileIn, Report, ReportStatus, ReportSummary,
+  TestHistory, Watch,
 } from "./types";
 
 export const useProfiles = () => useQuery({ queryKey: ["profiles"], queryFn: () => api.get<Profile[]>("/v1/profiles") });
@@ -99,3 +100,24 @@ export const useConfirm = (reportId: string) =>
   useReportMutation(reportId, (collected_at: string | null) =>
     api.post<{ report_id: string; status: ReportStatus }>(`/v1/reports/${reportId}/confirm`,
       collected_at ? { collected_at } : {}));
+
+// --- Analysis -------------------------------------------------------------------------------------------------
+
+const ANALYSING: ReadonlySet<ReportStatus> = new Set(["verified", "analysing"]);
+
+/** Polls while the analysis stage hasn't run yet. */
+export const useInsights = (reportId: string) =>
+  useQuery({
+    queryKey: ["insights", reportId],
+    queryFn: () => api.get<Insights>(`/v1/reports/${reportId}/insights`),
+    refetchInterval: (q) => (q.state.data && !q.state.data.analysed && ANALYSING.has(q.state.data.report.status) ? 2000 : false),
+  });
+
+export const useTestHistory = (profileId: string, code: string) =>
+  useQuery({
+    queryKey: ["history", profileId, code],
+    queryFn: () => api.get<TestHistory>(`/v1/profiles/${profileId}/tests/${code}`),
+  });
+
+export const useWatch = (profileId: string) =>
+  useQuery({ queryKey: ["watch", profileId], queryFn: () => api.get<Watch[]>(`/v1/profiles/${profileId}/watch`) });

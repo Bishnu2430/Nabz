@@ -186,6 +186,9 @@ function ConfirmPanel({ report }: { report: Report }) {
         <div className="pr-24" aria-live="polite">
           <h2 className="font-display text-2xl font-bold">{t("review.confirmed")}</h2>
           <p className="mt-2 text-muted">{t("review.confirmed_body")}</p>
+          <Link to={`/r/${report.id}`} className="mt-4 inline-flex rounded-md bg-accent px-4 py-2 font-medium text-accent-ink no-underline hover:brightness-110">
+            {t("review.see_results")}
+          </Link>
         </div>
       ) : (
         <div className="space-y-4 pr-4">

@@ -131,9 +131,9 @@ Full reasoning is in [ADR-0004](adr/0004-hybrid-llm-strategy.md).
 | Row parser | Line grouping + segment classification (name, value, flag, unit, range); no fixed columns, so any layout works | Synthetic reports | Draft rows |
 | Catalogue matcher | Names squashed (case, spaces, punctuation, `S.`/`Serum` prefixes) → exact alias lookup → fuzzy similarity (RapidFuzz) with context bonuses for the report section and a unit the test accepts; accepted at ≥ 0.86 with a 0.04 margin, otherwise the top candidates go to the review screen. A `NameResolver` hook leaves room for a local-LLM tie-breaker | Test catalogue aliases (70 tests, LOINC-coded) | Test code, match score, method and candidates |
 | Confidence model | Logistic regression over nine row features (OCR confidence, text layer, match score, mapped, unit known, plausible, range printed, distance outside the printed range, printed flag disagreeing); coefficients stored as JSON, no pickles | Synthetic reports read as text, OCR and simulated photos, labelled automatically from ground truth (doc 11 §10) | Probability the row is correct; rows below τ = 0.90 are flagged and shown first |
-| Change detector | Reference change value from analytical and within-subject biological variation (EFLM data) | Biological-variation table in the catalogue | Significant / not significant |
-| Trend analyser | Theil–Sen slope, projection to range limits, bootstrap interval | The profile's own history | Slope per year, projected crossing date |
-| Percentile service | Survey-weighted percentiles by age band and sex | NHANES laboratory files | Percentile and population label |
+| Change detector | Log-normal, asymmetric reference change value from analytical and within-subject variation ([ADR-0010](adr/0010-analysis-methods.md)) | Biological-variation values in the catalogue (EFLM) | Change since the previous result: more than, or within, normal variation |
+| Trend analyser | Theil–Sen slope with Sen's 90 % interval and an exact Mann–Kendall test; confirmed only when significant, over ≥ 180 days and beyond the RCV; projection ≤ 5 years | The person's own history, as of each report's date | Slope per year, confirmed or not (with the reason), projected crossing date |
+| Percentile service | Survey-weighted 5th–95th percentiles by sex and age band, linear interpolation between them | NHANES 2017–March 2020 (`tools.nhanes`) | Percentile with the population named (US) |
 | Retriever | Dense retrieval (e5-small) + test-ID filter, top-k | Curated knowledge base | Cited passages |
 | Explainer | Structured-output generation with citations | Prompt + passages + values | JSON explanation |
 | Safety validator | Rules (banned intents, number match, required disclaimers) + LLM judge | Red-team suite | Pass / fallback |
@@ -167,3 +167,4 @@ The threat model is in [10 §5](10-safety-privacy-compliance.md#5-threat-model-s
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-27 | §8: catalogue matcher and confidence model as built in Sprint 3 |
+| 0.3 | 2026-09-28 | §8: change detector, trend analyser and percentile service as built in Sprint 4 |
