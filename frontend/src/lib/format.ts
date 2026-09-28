@@ -59,3 +59,40 @@ export function position(value: string | null, low: string | null, high: string 
   if (low == null && high == null) return "unknown";
   return "normal";
 }
+
+/** A value at the test's display precision (catalogue `decimals`): "1.10", "14.0", "194". */
+export function formatValue(value: string | number, decimals: number): string {
+  const n = Number(value);
+  return Number.isFinite(n) ? n.toFixed(decimals) : String(value);
+}
+
+/** A change as a signed percentage: +12 %, −4.5 %. */
+export function formatPercent(fraction: number): string {
+  const pct = fraction * 100;
+  const digits = Math.abs(pct) >= 10 ? 0 : 1;
+  const sign = pct > 0 ? "+" : pct < 0 ? "−" : "";
+  return `${sign}${Math.abs(pct).toFixed(digits)} %`;
+}
+
+export function formatMonth(iso: string, lang: string): string {
+  const d = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
+  return new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, { month: "short", year: "numeric", timeZone: "UTC" })
+    .format(d);
+}
+
+/** Whole years or months between two ISO dates, for "over 3 years". */
+export function spanYears(first: string, last: string): number {
+  return (Date.parse(last) - Date.parse(first)) / (365.25 * 24 * 3600 * 1000);
+}
+
+/** 1 → "1st", 52 → "52nd", 13 → "13th". */
+export function ordinal(n: number): string {
+  const r = Math.round(n);
+  const tail = r % 100 >= 11 && r % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[r % 10] ?? "th";
+  return `${r}${tail}`;
+}
+
+/** An NHANES age band: [40, 49] → "40–49", [80, 120] → "80+". */
+export function ageBand([lo, hi]: [number, number]): string {
+  return hi >= 120 ? `${lo}+` : `${lo}–${hi}`;
+}

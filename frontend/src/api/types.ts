@@ -87,3 +87,101 @@ export interface ObservationPatch {
   raw_range?: string;
   test_code?: string;
 }
+
+// --- Analysis (Sprint 4); mirrors the analysis section of backend/app/schemas.py ---------------------------------
+
+export type ObsStatus = "low" | "normal" | "high" | "critical_low" | "critical_high" | "unknown";
+
+export interface Previous { value: number; date: string; report_id: string }
+
+export interface Change {
+  fraction: number | null;
+  direction: "up" | "down" | "none";
+  significant: boolean | null;
+  rcv_down: number | null;
+  rcv_up: number | null;
+}
+
+export interface Projection { kind: "leave" | "enter"; limit: "low" | "high"; value: number; on: string }
+
+export type TrendReason = "" | "too_few" | "short_span" | "not_significant" | "no_variation_data" | "within_variation";
+
+export interface Trend {
+  n: number;
+  first: string;
+  last: string;
+  slope_per_year: number;
+  intercept: number;
+  slope_low: number | null;
+  slope_high: number | null;
+  p_value: number;
+  change_fraction: number | null;
+  direction: "rising" | "falling" | "flat";
+  confirmed: boolean;
+  reason: TrendReason;
+  projection: Projection | null;
+}
+
+export interface Percentile { value: number; side: "below" | "within" | "above"; population: string; sex: string; age_band: [number, number] }
+
+export interface Result {
+  observation_id: string;
+  report_id: string;
+  date: string;
+  test_code: string;
+  test_name: string;
+  short_name: string;
+  organ: string;
+  value: string;
+  unit: string | null;
+  decimals: number;
+  ref_low: string | null;
+  ref_high: string | null;
+  ref_source: string;
+  status: ObsStatus;
+  critical: boolean;
+  flag_disagrees: boolean;
+  previous: Previous | null;
+  change: Change | null;
+  trend: Trend | null;
+  percentile: Percentile | null;
+}
+
+export interface Organ { code: string; names: Record<string, string>; status: ObsStatus; results: Result[] }
+
+export interface Person { id: string; display_name: string; sex: Sex; age: number | null }
+
+export interface Insights {
+  report: ReportSummary;
+  person: Person;
+  analysed: boolean;
+  critical: Result[];
+  organs: Organ[];
+  explanation: Record<string, unknown> | null;
+}
+
+export interface TestInfo {
+  code: string;
+  name: string;
+  short_name: string;
+  unit: string;
+  decimals: number;
+  organ: string;
+  rcv_down: number | null;
+  rcv_up: number | null;
+}
+
+export interface TestHistory { test: TestInfo; person: Person; results: Result[] }
+
+export interface Watch {
+  test_code: string;
+  test_name: string;
+  organ: string;
+  n_points: number;
+  direction: Trend["direction"] | null;
+  confirmed: boolean;
+  rcv_significant: boolean | null;
+  projected_crossing: string | null;
+  percentile: number | null;
+  latest: Result;
+}
