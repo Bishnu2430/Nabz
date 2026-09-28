@@ -32,7 +32,7 @@
 | **Open references for default ranges** | Fallback ranges when a report prints none, by age and sex | Cite each range's source; clinician review | `reference_range` |
 | **Published critical-limit lists** | Critical thresholds (e.g. potassium, sodium, glucose, haemoglobin, platelets) | Cite the source; must be **reviewed by the project's clinical advisor** before use | `critical_limit` |
 | **EFLM Biological Variation Database** | Within-subject (CVI) and analytical (CVA) variation per test, for the reference change value | Free online access; check the terms before redistributing values, cite in the UI | `lab_test.cv_within_subject`, `cv_analytical` |
-| **NHANES laboratory data** (US CDC / NCHS) | Survey-weighted percentiles of common tests by age and sex | Public domain | `population_percentile` (labelled "US population, NHANES") |
+| **NHANES laboratory data** (US CDC / NCHS) | Survey-weighted percentiles of common tests by age and sex | Public domain | `population_percentile` (labelled "US population, NHANES"). Files, checksums and method: [`data/external.md`](../data/external.md) |
 | **ICMR guidelines** (e.g. type 2 diabetes management) | Indian thresholds and wording for context (e.g. HbA1c bands) | Government publication; cite, don't copy wholesale | Knowledge base + validator reference |
 
 **Indian reference intervals.** Robust public datasets of Indian population reference intervals are limited. That is why Nabz always prefers the lab's printed range and labels any NHANES-based comparison as a US population (risk R-14).
@@ -104,3 +104,4 @@ The About page will list: LOINC ("This material contains content from LOINC®…
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
+| 0.2 | 2026-09-28 | NHANES files in use; sources and checksums in `data/external.md` |

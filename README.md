@@ -8,7 +8,7 @@ Nabz reads a photo or PDF of a blood-test report and asks you to confirm the val
 
 ## Status
 
-Sprint 3 is done: you can upload a report in the web app, watch it being read, check every value against the page image, and confirm it. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
+Sprint 4 is done: after you confirm a report, Nabz says where each value sits against its range, flags critical values first, tells you whether a change since last time is bigger than normal variation, and follows each test over the years with a trend chart and a US population percentile. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
 | Component | State |
 |---|---|
@@ -19,7 +19,8 @@ Sprint 3 is done: you can upload a report in the web app, watch it being read, c
 | Worker + job queue, PDF/OCR extraction and row parser | ✅ Sprint 2 |
 | Catalogue matching, unit normalisation, row-confidence model | ✅ Sprint 3 |
 | Web app: family, upload with live progress, review and confirm | ✅ Sprint 3 |
-| Analysis (status, trends, change significance); explanations and narration | Sprints 4–5 |
+| Analysis: status, critical values, change significance (RCV), trends, NHANES percentiles | ✅ Sprint 4 |
+| Explanations and narration | Sprint 5 |
 | 3D body map; sign-in and roles | Sprints 5–6 |
 
 ## Quick start
@@ -80,6 +81,26 @@ Measure extraction, mapping and canonical-value accuracy against synthetic groun
 
 ```bash
 docker compose exec api python -m tools.eval.extraction --mode photo --limit 10
+```
+
+Measure trend detection on synthetic histories with a planted drift:
+
+```bash
+docker compose exec api python -m tools.synthetic --count 0 --histories 50 --visits 5 --seed 21 --out /srv/data/synthetic/histories
+```
+
+```bash
+docker compose exec api python -m tools.eval.trends --dir /srv/data/synthetic/histories
+```
+
+Rebuild the population percentiles from NHANES (sources and checksums in [`data/external.md`](data/external.md)):
+
+```bash
+docker compose exec api python -m tools.nhanes fetch
+```
+
+```bash
+docker compose exec api python -m tools.nhanes build
 ```
 
 Retrain the row-confidence model (reads cached extractions from `data/synthetic/train` and `eval`, writes `data/models/confidence-v1.json`):

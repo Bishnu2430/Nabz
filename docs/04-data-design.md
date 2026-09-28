@@ -39,12 +39,12 @@ Account, role and session tables planned for Sprint 6 are specified in [12 §3](
 | | `unit_conversion` | Unit → canonical unit factors per test | ~200 |
 | | `reference_range` | Default ranges by sex and age when the report has none | ~300 |
 | | `critical_limit` | Clinician-reviewed critical thresholds | ~40 |
-| | `population_percentile` | NHANES percentiles by sex and age band | ~2,000 |
+| | `population_percentile` | NHANES percentiles by sex and age band (966 cells, 46 tests) | ~1,000 |
 | Knowledge, AI & analytics | `kb_document` | Knowledge source with licence and URL | ~150 |
 | | `kb_chunk` | Retrieval passage with 384-d embedding | ~3,000 |
 | | `explanation` | Generated explanation (JSON), model and prompt version, safety status | 100s |
 | | `explanation_citation` | Which passages an explanation cited | 1,000s |
-| | `trend_insight` | Computed change, trend and percentile per profile × test | 1,000s |
+| | `trend_insight` | Latest change, trend (direction, confirmed, projected crossing) and percentile per profile × test, linked to the latest result | 1,000s |
 | Governance | `share_link` | Expiring read-only links for doctors | 10s |
 | | `feedback` | Thumbs up/down and comments on explanations | 100s |
 | | `audit_log` | Append-only access and change log | 10,000s |
@@ -105,6 +105,7 @@ Indexes: `(profile_id, collected_at DESC)`; unique `(profile_id, source_sha256)`
 | `match_candidates` | jsonb | yes | Up to three `[test_code, score]` pairs offered on the review screen when the match is not certain |
 | `verified_at` | timestamptz | yes | Set when the user confirms the report |
 | `edited` | boolean | no | True if the user changed any field |
+| `analysis` | jsonb | yes | Analysis as of this report's date: previous result, change and RCV verdict, trend, percentile, printed-flag disagreement. Written by the analysis stage (schema version 1, `app/services/analysis.py`) |
 
 Indexes: `(report_id)`; `(test_id)`; history query uses `report.profile_id` + `test_id` via a join on the indexed report columns.
 
@@ -169,7 +170,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 ## 7. Migrations and seed data
 
 - Alembic revision per change, named `YYYYMMDD_short_description`.
-- Seed data comes from CSV files in [`data/catalogue/`](../data/catalogue/README.md) (10 organ systems, 70 tests, unit conversions, default ranges, critical limits). It is validated on load (LOINC check digits, units, bounds) and loaded by an idempotent command: `python -m app.cli seed-catalogue`. The catalogue CSV is reviewed like code.
+- Seed data comes from CSV files in [`data/catalogue/`](../data/catalogue/README.md) (10 organ systems, 70 tests, unit conversions, default ranges, critical limits, population percentiles). It is validated on load (LOINC check digits, units, bounds) and loaded by an idempotent command: `python -m app.cli seed-catalogue`. The catalogue CSV is reviewed like code.
 - The knowledge base is loaded by an ingestion command that records licence and checksum in `kb_document`, chunks the text (about 300 tokens with 15 % overlap), embeds it and writes to `kb_chunk`.
 
 ## Revision history
@@ -178,3 +179,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 22 tables |
 | 0.2 | 2026-09-27 | `observation`: `raw_flag`, `section` (Sprint 2); `ocr_confidence`, `match_score`, `match_method`, `match_candidates` and the `bbox` format (Sprint 3); `report_page.ocr.skew` |
+| 0.3 | 2026-09-28 | `observation.analysis`; `trend_insight.direction`, `confirmed`, `last_observation_id`; percentiles seeded from NHANES |

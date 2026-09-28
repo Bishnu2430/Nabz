@@ -13,5 +13,6 @@ An ADR captures one significant decision: its context, the options considered, t
 | [0007](0007-groq-gpt-oss-for-explanations.md) | Groq `openai/gpt-oss-120b` for explanations (supersedes the provider in 0004) | Accepted | 2026-09-26 |
 | [0008](0008-elevenlabs-for-narration.md) | ElevenLabs for narration | Accepted | 2026-09-26 |
 | [0009](0009-text-layer-first-and-rapidocr.md) | Text layer first, then RapidOCR | Accepted | 2026-09-27 |
+| [0010](0010-analysis-methods.md) | How Nabz judges change and trends | Accepted | 2026-09-28 |
 
 Template: copy `0001` and follow the sections Context → Decision → Alternatives → Consequences.
