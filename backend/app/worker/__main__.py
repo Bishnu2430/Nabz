@@ -10,13 +10,13 @@ from app.core.config import settings
 from app.db import SessionLocal
 from app.storage import default_storage
 from app.worker.runner import Worker
-from app.worker.stages import ExtractionStage
+from app.worker.stages import AnalysisStage, ExtractionStage
 
 
 def main() -> None:
     logging.basicConfig(level=settings.log_level.upper(), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     catalogue = read_catalogue(Path(settings.data_dir) / "catalogue")
-    worker = Worker(SessionLocal, [ExtractionStage(default_storage(), catalogue)])
+    worker = Worker(SessionLocal, [ExtractionStage(default_storage(), catalogue), AnalysisStage()])
     stop = threading.Event()
     for sig in (signal.SIGINT, signal.SIGTERM):
         signal.signal(sig, lambda *_: stop.set())

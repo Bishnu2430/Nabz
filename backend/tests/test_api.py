@@ -17,7 +17,7 @@ from app.models import AppUser, AuditLog, Observation, ProcessingJob
 from app.models.enums import JobStage
 from app.storage import LocalVolumeStorage
 from app.worker.runner import Worker
-from app.worker.stages import ExtractionStage
+from app.worker.stages import AnalysisStage, ExtractionStage
 
 pytestmark = pytest.mark.db
 SAMPLES = Path(settings.data_dir) / "synthetic" / "samples"
@@ -165,3 +165,49 @@ def test_sign_in_is_required_without_dev_auth(client: TestClient, monkeypatch: p
     monkeypatch.setattr(settings, "dev_auth", False)
     r = client.get("/v1/profiles")
     assert r.status_code == 401 and r.json()["title"] == "Not signed in"
+
+
+def _read_and_confirm(client: TestClient, sessions, storage, catalogue: CatalogueData, pid: str, sample: str) -> str:
+    rid = _upload(client, pid, sample)
+    _process(sessions, storage, catalogue)
+    assert client.post(f"/v1/reports/{rid}/confirm", json={}).status_code == 202
+    assert Worker(sessions, [AnalysisStage()]).run_once()
+    return rid
+
+
+def test_insights_history_and_watch_list(client: TestClient, sessions, storage, catalogue: CatalogueData) -> None:
+    pid = _profile(client)
+    rids = [_read_and_confirm(client, sessions, storage, catalogue, pid, f"hist-2026-00-v{k}") for k in range(3)]
+
+    insights = client.get(f"/v1/reports/{rids[2]}/insights").json()
+    assert insights["analysed"] and insights["report"]["status"] == "explaining"
+    assert insights["report"]["collected_at"] == "2026-07-04"  # read from the report header
+    assert insights["person"]["display_name"] == "Ramesh" and insights["person"]["age"] == 58
+    severities = [o["status"] for o in insights["organs"]]
+    assert severities[0] != "normal" or set(severities) <= {"normal", "unknown"}  # worst organ first
+    creat = next(r for o in insights["organs"] for r in o["results"] if r["test_code"] == "creatinine")
+    assert creat["previous"]["date"] == "2025-06-04" and creat["change"]["rcv_up"] > 0
+    assert creat["trend"]["n"] == 3 and creat["trend"]["reason"] in ("too_few", "short_span")
+    assert creat["percentile"]["population"].startswith("US population")
+
+    history = client.get(f"/v1/profiles/{pid}/tests/creatinine").json()
+    assert [r["date"] for r in history["results"]] == ["2024-07-02", "2025-06-04", "2026-07-04"]
+    assert history["test"]["unit"] == "mg/dL" and history["test"]["rcv_up"] > 0
+    assert client.get(f"/v1/profiles/{pid}/tests/no_such_test").status_code == 404
+    for w in client.get(f"/v1/profiles/{pid}/watch").json():
+        assert w["confirmed"] or w["rcv_significant"]
+
+    # Deleting the middle report makes the first one the latest report's "previous" result.
+    assert client.delete(f"/v1/reports/{rids[1]}").status_code == 204
+    creat = next(r for o in client.get(f"/v1/reports/{rids[2]}/insights").json()["organs"]
+                 for r in o["results"] if r["test_code"] == "creatinine")
+    assert creat["previous"]["date"] == "2024-07-02" and creat["trend"] is None
+
+
+def test_insights_are_private(client: TestClient, as_user, sessions, storage, catalogue: CatalogueData) -> None:
+    pid = _profile(client)
+    rid = _upload(client, pid)
+    as_user("mallory")
+    assert client.get(f"/v1/reports/{rid}/insights").status_code == 404
+    assert client.get(f"/v1/profiles/{pid}/tests/hb").status_code == 404
+    assert client.get(f"/v1/profiles/{pid}/watch").status_code == 404

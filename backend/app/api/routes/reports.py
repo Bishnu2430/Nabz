@@ -26,6 +26,7 @@ from app.schemas import (
     ReportSummary,
 )
 from app.services import audit
+from app.services.analysis import analyse_profile
 from app.services.ingest import DuplicateReport, IngestError, ingest_report
 from app.services.interpretation import age_on, apply, default_interpreter, lab_test_ids, raw_row_of
 from app.services.pages import render_page
@@ -266,8 +267,12 @@ def delete_report(report_id: uuid.UUID, session: Session = Depends(get_session),
     """Hard delete (FR-33): files and rows go; an audit entry remains."""
     report = owned_report(session, user, report_id)
     keys = session.scalars(select(ReportFile.storage_key).where(ReportFile.report_id == report.id)).all()
+    test_ids = set(session.scalars(select(Observation.test_id).where(
+        Observation.report_id == report.id, Observation.test_id.is_not(None), Observation.verified_at.is_not(None))))
     audit.record(session, user.id, "report.delete", "report", report.id)
     session.execute(delete(Report).where(Report.id == report.id))
+    if test_ids:  # later reports may have used this one as their "previous" result
+        analyse_profile(session, report.profile_id, test_ids)
     session.commit()
     for key in keys:
         storage.delete(key)

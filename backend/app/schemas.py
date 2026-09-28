@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import Lang, Relationship, ReportStatus, Sex
+from app.models.enums import Lang, ObsStatus, Relationship, ReportStatus, Sex
 
 
 class ProfileIn(BaseModel):
@@ -125,3 +125,132 @@ class CatalogueTest(BaseModel):
     panel: str
     unit: str
     organ: str
+
+
+# --- Analysis (Sprint 4) ---------------------------------------------------------------------------------------
+
+
+class PreviousOut(BaseModel):
+    value: float
+    date: date
+    report_id: uuid.UUID
+
+
+class ChangeOut(BaseModel):
+    fraction: float | None = Field(description="current / previous − 1")
+    direction: str
+    significant: bool | None = Field(description="Beyond the reference change value; None when the test has no RCV")
+    rcv_down: float | None
+    rcv_up: float | None
+
+
+class ProjectionOut(BaseModel):
+    kind: str = Field(description="leave: heading out of range; enter: heading back into range")
+    limit: str
+    value: float
+    on: date
+
+
+class TrendOut(BaseModel):
+    n: int
+    first: date
+    last: date
+    slope_per_year: float
+    intercept: float
+    slope_low: float | None
+    slope_high: float | None
+    p_value: float
+    change_fraction: float | None
+    direction: str
+    confirmed: bool
+    reason: str = Field(description="Why it isn't confirmed: too_few, short_span, not_significant, "
+                                    "no_variation_data, within_variation; empty when confirmed")
+    projection: ProjectionOut | None
+
+
+class PercentileOut(BaseModel):
+    value: float
+    side: str = Field(description="below (under the 5th), within, above (over the 95th)")
+    population: str
+    sex: str
+    age_band: list[int]
+
+
+class ResultOut(BaseModel):
+    """One confirmed result with its analysis as of the report's date."""
+
+    observation_id: uuid.UUID
+    report_id: uuid.UUID
+    date: date
+    test_code: str
+    test_name: str
+    short_name: str
+    organ: str
+    value: Decimal
+    unit: str | None
+    decimals: int
+    ref_low: Decimal | None
+    ref_high: Decimal | None
+    ref_source: str
+    status: ObsStatus
+    critical: bool
+    flag_disagrees: bool = False
+    previous: PreviousOut | None = None
+    change: ChangeOut | None = None
+    trend: TrendOut | None = None
+    percentile: PercentileOut | None = None
+
+
+class OrganOut(BaseModel):
+    code: str
+    names: dict[str, str] = Field(description="Display name by language code (en, hi, or)")
+    status: ObsStatus = Field(description="Worst status among its tests")
+    results: list[ResultOut]
+
+
+class PersonOut(BaseModel):
+    id: uuid.UUID
+    display_name: str
+    sex: Sex
+    age: int | None
+
+
+class InsightsOut(BaseModel):
+    report: ReportSummary
+    person: PersonOut
+    analysed: bool = Field(description="False until the analysis stage has run")
+    critical: list[ResultOut] = Field(description="Results beyond a critical limit; shown before anything else")
+    organs: list[OrganOut] = Field(description="Worst organ first")
+    explanation: dict | None = None
+
+
+class TestInfoOut(BaseModel):
+    code: str
+    name: str
+    short_name: str
+    unit: str
+    decimals: int
+    organ: str
+    rcv_down: float | None
+    rcv_up: float | None
+
+
+class TestHistoryOut(BaseModel):
+    test: TestInfoOut
+    person: PersonOut
+    results: list[ResultOut] = Field(description="Oldest first")
+
+
+class WatchOut(BaseModel):
+    """A test worth a look on the profile page: a confirmed trend or a significant change."""
+
+    test_code: str
+    test_name: str
+    organ: str
+    n_points: int
+    direction: str | None
+    confirmed: bool
+    rcv_significant: bool | None
+    projected_crossing: date | None
+    percentile: float | None
+    latest: ResultOut

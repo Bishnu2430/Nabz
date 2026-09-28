@@ -13,8 +13,10 @@ from app.extraction.interpret import Interpreter, RawRow
 from app.extraction.ocr import OCREngine
 from app.models import Observation, Profile, Report, ReportFile, ReportPage
 from app.models.enums import JobStage, ObsStatus, ReportStatus
+from app.services.analysis import analyse_profile
 from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids
 from app.storage import StorageBackend
+from app.worker import queue
 from app.worker.queue import Job
 
 
@@ -85,3 +87,23 @@ class ExtractionStage:
                 apply(obs, self.interpreter.interpret(raw, sex, age), ids)
                 session.add(obs)
         report.status = ReportStatus.NEEDS_REVIEW
+
+
+class AnalysisStage:
+    """Confirmed values → status, critical limits, change since last time, trend and percentile (FR-16 – FR-20).
+
+    The report's tests are recomputed across the person's whole history, so a report confirmed out of date
+    order corrects the later reports' analysis too. The explanation stage (Sprint 5) is queued next.
+    """
+
+    stage = JobStage.ANALYSE
+
+    def handle(self, job: Job, session: Session) -> None:
+        report = session.get(Report, job.report_id)
+        if report is None or report.deleted_at is not None:
+            return
+        test_ids = set(session.scalars(select(Observation.test_id).where(
+            Observation.report_id == report.id, Observation.test_id.is_not(None))))
+        analyse_profile(session, report.profile_id, test_ids)
+        report.status = ReportStatus.EXPLAINING
+        queue.enqueue(session, report.id, JobStage.EXPLAIN)
