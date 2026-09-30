@@ -379,3 +379,22 @@ class TotpSetupOut(BaseModel):
     secret: str
     uri: str
     qr_svg: str = Field(description="The otpauth URI as an SVG QR code (data URI)")
+
+
+# --- Body map (Sprint 6) ------------------------------------------------------------------------------------------
+
+
+class BodyMapOrgan(BaseModel):
+    code: str
+    status: ObsStatus = Field(description="Worst status among the organ system's tests in this report")
+    out_of_range: int
+    results: int
+
+
+class BodyMapFrame(BaseModel):
+    """One analysed report as the body map shows it; the timeline replays these in date order (FR-29)."""
+
+    report_id: uuid.UUID
+    date: date
+    lab_name: str | None
+    organs: list[BodyMapOrgan]

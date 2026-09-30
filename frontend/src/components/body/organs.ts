@@ -1,4 +1,4 @@
-import type { ObsStatus, Organ } from "../../api/types";
+import type { ObsStatus } from "../../api/types";
 
 /**
  * Organ systems on the body map, in drawing order (back to front). The codes are `organ_system.code` from the
@@ -90,21 +90,6 @@ export const FOCUS_3D: Record<OrganCode, [number, number, number]> = {
   prostate: [0, 0.84, 0.02],
 };
 
-/** Worst first, so one line of the body map tells the most important thing. */
-const SEVERITY: Record<ObsStatus, number> = {
-  critical_high: 5, critical_low: 5, high: 3, low: 3, unknown: 1, normal: 2,
-};
-
-export const worse = (a: ObsStatus, b: ObsStatus) => (SEVERITY[b] > SEVERITY[a] ? b : a);
-
 export type OrganStatus = Partial<Record<OrganCode, ObsStatus>>;
-
-export function organStatuses(organs: Organ[]): OrganStatus {
-  const out: OrganStatus = {};
-  for (const o of organs) {
-    if ((ORGAN_ORDER as string[]).includes(o.code)) out[o.code as OrganCode] = o.status;
-  }
-  return out;
-}
 
 export const isOrganCode = (code: string): code is OrganCode => (ORGAN_ORDER as string[]).includes(code);

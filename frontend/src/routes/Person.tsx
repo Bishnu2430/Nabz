@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useProfiles, useReports, useWatch } from "../api/hooks";
 import type { ReportSummary, Watch } from "../api/types";
 import { StatusBadge } from "../components/Badges";
+import { BodyTimeline } from "../components/body/BodyTimeline";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
 import { PrivacyChoices } from "../components/PrivacyChoices";
@@ -37,6 +38,7 @@ export default function Person() {
         <EmptyState title={t("person.empty_title")} body={t("person.empty_body")} action={upload} />
       ) : (
         <>
+        <BodyTimeline profileId={id} />
         <WatchList profileId={id} />
         <section aria-labelledby="reports-h">
           <h2 id="reports-h" className="mb-4 font-display text-xl font-bold">{t("person.reports")}</h2>

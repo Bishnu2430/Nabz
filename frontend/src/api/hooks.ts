@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "./client";
 import type {
-  CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
+  BodyMapFrame, CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
   Report, ReportStatus, ReportSummary,
   TestHistory, Watch,
 } from "./types";
@@ -173,4 +173,10 @@ export const useFeedback = () =>
   useMutation({
     mutationFn: ({ id, helpful }: { id: string; helpful: boolean }) =>
       api.post(`/v1/explanations/${id}/feedback`, { helpful }),
+  });
+
+export const useBodyMap = (profileId: string) =>
+  useQuery({
+    queryKey: ["body-map", profileId],
+    queryFn: () => api.get<BodyMapFrame[]>(`/v1/profiles/${profileId}/body-map`),
   });

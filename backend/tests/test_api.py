@@ -198,6 +198,14 @@ def test_insights_history_and_watch_list(client: TestClient, sessions, storage, 
     for w in client.get(f"/v1/profiles/{pid}/watch").json():
         assert w["confirmed"] or w["rcv_significant"]
 
+    frames = client.get(f"/v1/profiles/{pid}/body-map").json()
+    assert [f["date"] for f in frames] == ["2024-07-02", "2025-06-04", "2026-07-04"]
+    assert [f["report_id"] for f in frames] == rids
+    kidney = next(o for o in frames[2]["organs"] if o["code"] == "kidney")
+    assert kidney["results"] >= 1 and kidney["status"] == next(
+        o["status"] for o in insights["organs"] if o["code"] == "kidney")
+    assert frames[2]["organs"][0]["out_of_range"] > 0 or all(o["out_of_range"] == 0 for o in frames[2]["organs"])
+
     # Deleting the middle report makes the first one the latest report's "previous" result.
     assert client.delete(f"/v1/reports/{rids[1]}").status_code == 204
     creat = next(r for o in client.get(f"/v1/reports/{rids[2]}/insights").json()["organs"]
@@ -212,6 +220,7 @@ def test_insights_are_private(client: TestClient, as_user, sessions, storage, ca
     assert client.get(f"/v1/reports/{rid}/insights").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/tests/hb").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/watch").status_code == 404
+    assert client.get(f"/v1/profiles/{pid}/body-map").status_code == 404
 
 
 class FakeTTS:

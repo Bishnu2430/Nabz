@@ -146,3 +146,9 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The lacquer stage under the 3D body, in both themes (docs/12 §5.1 D1): black lacquer with a warm pool of light. */
+.lacquer-stage {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 42%, #2b221b 0%, #1a1511 55%, #100d0a 100%);
+}

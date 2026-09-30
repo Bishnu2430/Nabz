@@ -187,7 +187,8 @@
     "values_as_read": "Values as read from the report",
     "years_one": "{{count}} year",
     "years_other": "{{count}} years",
-    "months_other": "{{count}} months"
+    "months_other": "{{count}} months",
+    "all_results": "All results"
   },
   "history": {
     "latest": "Latest result",
@@ -414,5 +415,38 @@
     "safety_critical": "If a result is beyond a critical limit, Nabz shows only a fixed message asking you to contact a doctor today. If you feel very unwell, go to the nearest emergency department.",
     "safety_doctor_h": "Your doctor decides",
     "safety_doctor": "Only a doctor who knows you can say what your results mean for you. Use Nabz's questions to make the most of the visit."
+  },
+  "organs": {
+    "blood": "Blood",
+    "heart": "Heart and blood vessels",
+    "liver": "Liver",
+    "kidney": "Kidneys",
+    "urinary": "Urinary tract",
+    "pancreas": "Pancreas and blood sugar",
+    "thyroid": "Thyroid",
+    "bone": "Bones and minerals",
+    "immune": "Immune system and inflammation",
+    "prostate": "Prostate"
+  },
+  "body": {
+    "title": "Body map",
+    "systems": "Organ systems",
+    "view_3d": "3D view",
+    "view_2d": "Flat view",
+    "whole": "Whole body",
+    "hint_3d": "Drag to turn the body. Choose an organ system to look closer.",
+    "hint_2d": "Choose an organ system to see its results.",
+    "no_webgl": "This device can't show the 3D body, so the flat map is shown.",
+    "label_3d": "3D body map. {{summary}}",
+    "out_of_range_one": "{{n}} of {{count}} result out of range",
+    "out_of_range_other": "{{n}} of {{count}} results out of range",
+    "read_explanation": "Read the full explanation",
+    "on_date": "On {{date}}",
+    "open_report": "Open this report",
+    "timeline": "Reports by date",
+    "play": "Play",
+    "pause": "Pause",
+    "all_in_range_one": "1 result, in range",
+    "all_in_range_other": "All {{count}} results in range"
   }
 }

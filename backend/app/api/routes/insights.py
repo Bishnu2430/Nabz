@@ -13,7 +13,10 @@ from app.analysis.change import rcv
 from app.analysis.status import CRITICAL, SEVERITY, worst
 from app.api.deps import current_user, get_session, owned_profile, owned_report
 from app.models import AppUser, LabTest, Observation, OrganSystem, Profile, Report, TrendInsight
+from app.models.enums import ObsStatus, ReportStatus
 from app.schemas import (
+    BodyMapFrame,
+    BodyMapOrgan,
     InsightsOut,
     OrganOut,
     PersonOut,
@@ -136,3 +139,36 @@ def watch_list(profile_id: uuid.UUID, session: Session = Depends(get_session),  
     ]
     items.sort(key=lambda w: (not w.confirmed, -SEVERITY[w.latest.status], w.test_name))
     return items
+
+
+ANALYSED = (ReportStatus.VERIFIED, ReportStatus.ANALYSING, ReportStatus.EXPLAINING, ReportStatus.EXPLAINED)
+
+
+@router.get("/v1/profiles/{profile_id}/body-map", response_model=list[BodyMapFrame])
+def body_map(profile_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+             user: AppUser = Depends(current_user)):  # noqa: B008
+    """Each confirmed report's organ systems and their worst status, oldest first (FR-27, FR-29)."""
+    profile = owned_profile(session, user, profile_id)
+    cat = _Catalogue(session)
+    rows = session.execute(
+        select(Report, Observation.test_id, Observation.status)
+        .join(Observation, Observation.report_id == Report.id)
+        .where(Report.profile_id == profile.id, Report.deleted_at.is_(None), Report.status.in_(ANALYSED),
+               Observation.test_id.is_not(None), Observation.value_num.is_not(None),
+               Observation.verified_at.is_not(None))
+    ).all()
+    reports: dict[uuid.UUID, Report] = {}
+    statuses: dict[uuid.UUID, dict[str, list[ObsStatus]]] = {}
+    for report, test_id, obs_status in rows:
+        reports[report.id] = report
+        statuses.setdefault(report.id, {}).setdefault(cat.organ_code(cat.tests[test_id]), []).append(obs_status)
+    frames = []
+    for rid, by_organ in statuses.items():
+        organs = [BodyMapOrgan(code=code, status=worst(items), results=len(items),
+                               out_of_range=sum(SEVERITY[s] > 0 for s in items))
+                  for code, items in by_organ.items()]
+        organs.sort(key=lambda o: (-SEVERITY[o.status], o.code))
+        report = reports[rid]
+        frames.append(BodyMapFrame(report_id=rid, date=result_date(report), lab_name=report.lab_name, organs=organs))
+    frames.sort(key=lambda f: (f.date, reports[f.report_id].created_at))
+    return frames
