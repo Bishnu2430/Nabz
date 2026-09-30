@@ -220,5 +220,42 @@
     "chart_label": "{{test}} over time, with the range from the latest report",
     "range_band": "Range",
     "back_to_results": "Back to the report"
+  },
+  "explain": {
+    "title": "What this means",
+    "writing": "Writing the explanation…",
+    "write_in": "Explain in {{language}}",
+    "none": "The explanation hasn't been written in this language yet.",
+    "measures": "What it measures",
+    "means": "What your result means",
+    "questions": "Questions to ask your doctor",
+    "sources": "Sources",
+    "source_note": "Test information from MedlinePlus, US National Library of Medicine (public domain).",
+    "disclaimer": "This explanation helps you understand your results. It is not a diagnosis. Talk to your doctor about what they mean for you.",
+    "template_note": "This explanation is built from your values only.",
+    "reason_no_consent": "Nabz can write a fuller explanation with an AI service. It sends only your test values, age group and sex: no name, no dates, nothing else from your report.",
+    "allow_ai": "Allow and write it",
+    "reason_validation": "A fuller explanation was written, but it didn't pass Nabz's safety checks, so this safer one is shown.",
+    "reason_provider_error": "The AI service didn't respond, so this explanation is built from your values only.",
+    "reason_critical": "Because a result is beyond a critical limit, Nabz shows only this fixed explanation.",
+    "listen": "Listen",
+    "preparing_audio": "Preparing audio…",
+    "voice_consent": "Listening sends the explanation's text (no name or report details) to ElevenLabs to turn it into speech.",
+    "allow_voice": "Allow and listen",
+    "audio_failed": "The audio couldn't be made just now. Try again later.",
+    "helpful": "Was this helpful?",
+    "yes": "Yes",
+    "no": "No",
+    "thanks": "Thank you for telling us.",
+    "rewrite": "Write it again"
+  },
+  "privacy": {
+    "title": "Privacy choices",
+    "external_ai": "Explain with an AI service",
+    "external_ai_note": "Sends test values, age group and sex. Never your name or dates.",
+    "voice": "Read explanations aloud",
+    "voice_note": "Sends the explanation text to ElevenLabs to make audio.",
+    "on": "On",
+    "off": "Off"
   }
 }

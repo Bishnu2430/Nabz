@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 import { api } from "./client";
 import type {
-  CatalogueTest, Insights, Observation, ObservationPatch, Profile, ProfileIn, Report, ReportStatus, ReportSummary,
+  CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
+  Report, ReportStatus, ReportSummary,
   TestHistory, Watch,
 } from "./types";
 
@@ -121,3 +122,43 @@ export const useTestHistory = (profileId: string, code: string) =>
 
 export const useWatch = (profileId: string) =>
   useQuery({ queryKey: ["watch", profileId], queryFn: () => api.get<Watch[]>(`/v1/profiles/${profileId}/watch`) });
+
+// --- Consent and explanations ----------------------------------------------------------------------------------
+
+export const useConsents = (profileId: string) =>
+  useQuery({ queryKey: ["consents", profileId], queryFn: () => api.get<Consent[]>(`/v1/profiles/${profileId}/consents`) });
+
+export function useSetConsent(profileId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ purpose, granted }: { purpose: ConsentPurpose; granted: boolean }) =>
+      api.put<Consent>(`/v1/profiles/${profileId}/consents/${purpose}`, { granted }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["consents", profileId] }),
+  });
+}
+
+/** Polls while the explanation is being written. */
+export const useExplanation = (reportId: string, lang: string) =>
+  useQuery({
+    queryKey: ["explanation", reportId, lang],
+    queryFn: () => api.get<ExplanationState>(`/v1/reports/${reportId}/explanation?lang=${lang}`),
+    refetchInterval: (q) => (q.state.data?.state === "pending" ? 3000 : false),
+  });
+
+export function useRequestExplanation(reportId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ language, regenerate = false }: { language: string; regenerate?: boolean }) =>
+      api.post<ExplanationState>(`/v1/reports/${reportId}/explanation`, { language, regenerate }),
+    onSuccess: (_, v) => qc.invalidateQueries({ queryKey: ["explanation", reportId, v.language] }),
+  });
+}
+
+export const useNarrate = () =>
+  useMutation({ mutationFn: (explanationId: string) => api.post<{ url: string }>(`/v1/explanations/${explanationId}/audio`) });
+
+export const useFeedback = () =>
+  useMutation({
+    mutationFn: ({ id, helpful }: { id: string; helpful: boolean }) =>
+      api.post(`/v1/explanations/${id}/feedback`, { helpful }),
+  });

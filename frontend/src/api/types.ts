@@ -185,3 +185,37 @@ export interface Watch {
   percentile: number | null;
   latest: Result;
 }
+
+// --- Consent and explanations (Sprint 5) -----------------------------------------------------------------------
+
+export type ConsentPurpose = "processing" | "external_ai" | "voice" | "research";
+
+export interface Consent { purpose: ConsentPurpose; granted: boolean; granted_at: string | null }
+
+export interface TestExplanation {
+  test_code: string;
+  status: ObsStatus;
+  what_it_measures: string;
+  what_this_result_means: string;
+  citations: string[];
+}
+
+export interface Source { label: string; title: string; url: string | null; organisation: string; license: string }
+
+export type TemplateReason = "critical" | "no_consent" | "no_model" | "no_knowledge" | "validation" | "provider_error";
+
+export interface Explanation {
+  id: string;
+  language: Lang;
+  source: "model" | "template";
+  reason: TemplateReason | null;
+  summary: string;
+  per_test: TestExplanation[];
+  doctor_questions: string[];
+  disclaimer_key: string;
+  sources: Source[];
+  has_audio: boolean;
+  created_at: string;
+}
+
+export interface ExplanationState { state: "ready" | "pending" | "none"; explanation: Explanation | null }
