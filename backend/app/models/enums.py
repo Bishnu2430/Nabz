@@ -81,6 +81,16 @@ class TokenPurpose(StrEnum):
     RESET_PASSWORD = "reset_password"  # noqa: S105 - a token purpose, not a password
 
 
+class RecordKind(StrEnum):
+    """Other health records a person keeps with their lab reports; stored and shown, not analysed."""
+
+    IMAGING = "imaging"  # X-ray, MRI, CT, ultrasound reports
+    PRESCRIPTION = "prescription"
+    DISCHARGE = "discharge"  # discharge summaries
+    VACCINATION = "vaccination"
+    OTHER = "other"
+
+
 class Relationship(StrEnum):
     SELF = "self"
     PARENT = "parent"

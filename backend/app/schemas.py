@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import ConsentPurpose, Lang, ObsStatus, Relationship, ReportStatus, Sex
+from app.models.enums import ConsentPurpose, Lang, ObsStatus, RecordKind, Relationship, ReportStatus, Sex
 
 
 class ProfileIn(BaseModel):
@@ -18,6 +18,22 @@ class ProfileIn(BaseModel):
     relationship: Relationship = Relationship.SELF
     preferred_language: Lang = Lang.EN
     consent_processing: bool = Field(description="Consent to read and store this person's reports")
+
+
+class ResultBrief(BaseModel):
+    """One result in a line: enough to say "Creatinine 1.62 mg/dL, above 0.60–1.30" anywhere in the app."""
+
+    test_code: str
+    test_name: str
+    short_name: str
+    value: Decimal
+    unit: str | None
+    decimals: int
+    status: ObsStatus
+    ref_low: Decimal | None
+    ref_high: Decimal | None
+    date: date
+    report_id: uuid.UUID
 
 
 class ProfileOut(BaseModel):
@@ -30,6 +46,9 @@ class ProfileOut(BaseModel):
     preferred_language: Lang
     reports: int = 0
     latest_report_at: datetime | None = None
+    last_tested: date | None = Field(default=None, description="Date of the latest confirmed report")
+    attention: list[ResultBrief] = Field(default_factory=list,
+                                         description="Tests whose latest result is outside its range, worst first")
 
 
 class Box(BaseModel):
@@ -92,6 +111,9 @@ class ReportSummary(BaseModel):
     collected_at: date | None
     created_at: datetime
     rows: int
+    note: str | None = None
+    out_of_range: list[ResultBrief] = Field(default_factory=list,
+                                            description="Confirmed results outside their range, worst first")
 
 
 class Accepted(BaseModel):
@@ -389,6 +411,7 @@ class BodyMapOrgan(BaseModel):
     status: ObsStatus = Field(description="Worst status among the organ system's tests in this report")
     out_of_range: int
     results: int
+    tests: list[ResultBrief] = Field(description="Every result of this system in the report, worst first")
 
 
 class BodyMapFrame(BaseModel):
@@ -398,3 +421,47 @@ class BodyMapFrame(BaseModel):
     date: date
     lab_name: str | None
     organs: list[BodyMapOrgan]
+
+
+# --- Other health records (Sprint 7) --------------------------------------------------------------------------------
+
+
+class RecordOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: uuid.UUID
+    profile_id: uuid.UUID
+    kind: RecordKind
+    title: str
+    record_date: date | None
+    facility: str | None
+    notes: str | None
+    mime_type: str
+    size_bytes: int
+    created_at: datetime
+
+
+class RecordPatch(BaseModel):
+    kind: RecordKind | None = None
+    title: str | None = Field(default=None, min_length=1, max_length=120)
+    record_date: date | None = None
+    facility: str | None = Field(default=None, max_length=120)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class ReportNoteIn(BaseModel):
+    note: str | None = Field(default=None, max_length=500, description="The person's own note; empty clears it")
+
+
+
+class OrganTestHistory(BaseModel):
+    test: TestInfoOut
+    results: list[ResultOut] = Field(description="Oldest first")
+
+
+class OrganHistoryOut(BaseModel):
+    """One organ system over time: every test with each result's as-of analysis (the body map's organ panel)."""
+
+    code: str
+    names: dict[str, str]
+    person: PersonOut
+    tests: list[OrganTestHistory] = Field(description="Worst latest status first, then catalogue order")

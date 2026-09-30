@@ -1,5 +1,7 @@
 """Data rights (docs/10 §3): export everything held about a person (FR-32) and erase it (FR-33).
 
+Everything includes the other health records (imaging reports, prescriptions) and the person's own notes.
+
 Erasure is a hard delete. Rows go through the foreign-key cascades (report → files, pages, observations,
 explanations; profile → reports, consents, trend insights), and the stored objects are listed first so they can be
 removed once the transaction has committed. Only a minimal audit entry, with no health data, remains.
@@ -17,6 +19,7 @@ from sqlalchemy.orm import Session
 from app.models import (
     Consent,
     Explanation,
+    HealthRecord,
     LabTest,
     Observation,
     OrganSystem,
@@ -36,6 +39,11 @@ def stored_keys(session: Session, reports: ColumnElement[bool]) -> list[str]:
     audio = (select(Explanation.audio_key.label("key")).join(Report, Report.id == Explanation.report_id)
              .where(reports, Explanation.audio_key.is_not(None)))
     return list(session.scalars(select(union(files, audio).subquery().c.key)))
+
+
+def record_keys(session: Session, records: ColumnElement[bool]) -> list[str]:
+    """The stored files of the other health records matching `records`."""
+    return list(session.scalars(select(HealthRecord.storage_key).where(records)))
 
 
 def remove_objects(storage: StorageBackend, keys: list[str]) -> None:
@@ -75,6 +83,7 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
             "collected_at": _iso(r.collected_at),
             "uploaded_at": _iso(r.created_at),
             "status": r.status.value,
+            "your_note": r.note,
             "files": [{"mime_type": f.mime_type, "size_bytes": f.size_bytes, "sha256": f.sha256} for f in files],
             "results": [{
                 "test_code": code,
@@ -101,6 +110,8 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
                 "content": e.content,
             } for e in explanations],
         })
+    records = session.scalars(select(HealthRecord).where(HealthRecord.profile_id == profile.id)
+                              .order_by(HealthRecord.record_date.asc().nulls_last(), HealthRecord.created_at)).all()
     return {
         "format": EXPORT_FORMAT,
         "version": EXPORT_VERSION,
@@ -117,6 +128,10 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
         "consents": [{"purpose": c.purpose.value, "policy_version": c.policy_version,
                       "granted_at": _iso(c.granted_at), "withdrawn_at": _iso(c.revoked_at)} for c in consents],
         "reports": out_reports,
+        "other_records": [{
+            "kind": r.kind.value, "title": r.title, "date": _iso(r.record_date), "facility": r.facility,
+            "notes": r.notes, "file": {"mime_type": r.mime_type, "size_bytes": r.size_bytes, "sha256": r.sha256},
+        } for r in records],
     }
 
 
@@ -129,5 +144,13 @@ def profile_reports(profile_id: uuid.UUID) -> ColumnElement[bool]:
     return Report.profile_id == profile_id
 
 
+def profile_records(profile_id: uuid.UUID) -> ColumnElement[bool]:
+    return HealthRecord.profile_id == profile_id
+
+
 def account_reports(user_id: uuid.UUID) -> ColumnElement[bool]:
     return Report.profile_id.in_(select(Profile.id).where(Profile.owner_user_id == user_id))
+
+
+def account_records(user_id: uuid.UUID) -> ColumnElement[bool]:
+    return HealthRecord.profile_id.in_(select(Profile.id).where(Profile.owner_user_id == user_id))

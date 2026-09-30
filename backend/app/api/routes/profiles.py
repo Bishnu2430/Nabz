@@ -7,10 +7,12 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from app.api.deps import current_user, get_session, get_storage, owned_profile
-from app.models import AppUser, Consent, Profile, Report
-from app.models.enums import ConsentPurpose
+from app.models import AppUser, Consent, LabTest, Observation, Profile, Report, TrendInsight
+from app.models.enums import ConsentPurpose, ObsStatus, ReportStatus
 from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut
 from app.services import audit, data_rights
+from app.services.analysis import result_date
+from app.services.briefs import brief, worst_first
 from app.storage import StorageBackend
 
 router = APIRouter(prefix="/v1/profiles", tags=["profiles"])
@@ -25,8 +27,24 @@ def list_profiles(session: Session = Depends(get_session), user: AppUser = Depen
         select(Profile, stats.c.n, stats.c.latest).outerjoin(stats, stats.c.profile_id == Profile.id)
         .where(Profile.owner_user_id == user.id, Profile.deleted_at.is_(None)).order_by(Profile.created_at)
     ).all()
-    return [ProfileOut.model_validate(p).model_copy(update={"reports": n or 0, "latest_report_at": latest})
-            for p, n, latest in rows]
+    ids = [p.id for p, _, _ in rows]
+    confirmed = (ReportStatus.VERIFIED, ReportStatus.ANALYSING, ReportStatus.EXPLAINING, ReportStatus.EXPLAINED)
+    last_tested: dict = {}
+    for r in session.scalars(select(Report).where(Report.profile_id.in_(ids), Report.deleted_at.is_(None),
+                                                  Report.status.in_(confirmed))):
+        last_tested[r.profile_id] = max(last_tested.get(r.profile_id, result_date(r)), result_date(r))
+    attention: dict = {}
+    for t, obs, test, report in session.execute(
+        select(TrendInsight, Observation, LabTest, Report)
+        .join(Observation, Observation.id == TrendInsight.last_observation_id)
+        .join(LabTest, LabTest.id == Observation.test_id).join(Report, Report.id == Observation.report_id)
+        .where(TrendInsight.profile_id.in_(ids), Observation.status.notin_([ObsStatus.NORMAL, ObsStatus.UNKNOWN]))
+    ):
+        attention.setdefault(t.profile_id, []).append(brief(obs, test, report))
+    return [ProfileOut.model_validate(p).model_copy(update={
+        "reports": n or 0, "latest_report_at": latest, "last_tested": last_tested.get(p.id),
+        "attention": worst_first(attention.get(p.id, [])),
+    }) for p, n, latest in rows]
 
 
 @router.post("", response_model=ProfileOut, status_code=status.HTTP_201_CREATED)
@@ -100,7 +118,8 @@ def delete_profile(profile_id: uuid.UUID, session: Session = Depends(get_session
                    storage: StorageBackend = Depends(get_storage)):  # noqa: B008
     """Hard delete (FR-33): the person, their reports, files, audio, results, explanations and consents."""
     profile = owned_profile(session, user, profile_id)
-    keys = data_rights.stored_keys(session, data_rights.profile_reports(profile.id))
+    keys = (data_rights.stored_keys(session, data_rights.profile_reports(profile.id))
+            + data_rights.record_keys(session, data_rights.profile_records(profile.id)))
     audit.record(session, user.id, "profile.delete", "profile", profile.id, files=len(keys))
     session.execute(delete(Profile).where(Profile.id == profile.id))
     session.commit()

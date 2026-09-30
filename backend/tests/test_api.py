@@ -317,3 +317,57 @@ def test_export_and_delete_a_person(client: TestClient, as_user, sessions, stora
         assert s.scalars(select(Observation)).all() == []
         entry = s.scalars(select(AuditLog).where(AuditLog.action == "profile.delete")).one()
         assert entry.meta == {"files": 2}
+
+
+def test_other_records_are_private_exported_and_erased(client: TestClient, as_user, sessions, storage) -> None:
+    pid = _profile(client)
+    jpeg = b"\xff\xd8\xff\xe0" + b"0" * 2000
+    r = client.post(f"/v1/profiles/{pid}/records", data={"kind": "imaging", "title": "X-ray left knee",
+                                                          "record_date": "2025-04-12", "facility": "Utkal Imaging"},
+                    files={"file": ("knee.jpg", jpeg, "image/jpeg")})
+    assert r.status_code == 201, r.text
+    rec = r.json()
+    assert rec["mime_type"] == "image/jpeg" and rec["record_date"] == "2025-04-12"
+    assert client.post(f"/v1/profiles/{pid}/records", data={"kind": "other", "title": "x"},
+                       files={"file": ("a.txt", b"hello", "text/plain")}).status_code == 400
+    assert client.get(f"/v1/records/{rec['id']}/file").content == jpeg
+    assert client.patch(f"/v1/records/{rec['id']}", json={"title": ""}).status_code == 422
+    edited = client.patch(f"/v1/records/{rec['id']}", json={"notes": "  pain climbing stairs "}).json()
+    assert edited["notes"] == "pain climbing stairs" and edited["title"] == "X-ray left knee"
+    assert [x["title"] for x in client.get(f"/v1/profiles/{pid}/records").json()] == ["X-ray left knee"]
+    assert client.get(f"/v1/profiles/{pid}/export").json()["other_records"][0]["facility"] == "Utkal Imaging"
+
+    as_user("mallory")
+    assert client.get(f"/v1/records/{rec['id']}/file").status_code == 404
+    assert client.delete(f"/v1/records/{rec['id']}").status_code == 404
+    as_user("alice")
+    assert client.delete(f"/v1/profiles/{pid}").status_code == 204
+    assert not any(p.is_file() for p in storage.root.rglob("*"))
+
+
+def test_exact_values_everywhere(client: TestClient, sessions, storage, catalogue: CatalogueData) -> None:
+    pid = _profile(client)
+    rids = [_read_and_confirm(client, sessions, storage, catalogue, pid, f"hist-2026-00-v{k}") for k in range(2)]
+
+    reports = {r["id"]: r for r in client.get(f"/v1/profiles/{pid}/reports").json()}
+    flagged = reports[rids[1]]["out_of_range"]
+    assert flagged and all(f["status"] not in ("normal", "unknown") for f in flagged)
+    assert {"test_name", "value", "unit", "ref_low", "ref_high", "date"} <= flagged[0].keys()
+
+    note = client.patch(f"/v1/reports/{rids[1]}", json={"note": " Not fasting "}).json()
+    assert note["note"] == "Not fasting"
+    listed = client.get(f"/v1/profiles/{pid}/reports").json()
+    assert next(r for r in listed if r["id"] == rids[1])["note"] == "Not fasting"
+
+    person = client.get("/v1/profiles").json()[0]
+    assert person["last_tested"] == "2025-06-04"
+    assert {a["test_code"] for a in person["attention"]} == {f["test_code"] for f in flagged}
+
+    frame = client.get(f"/v1/profiles/{pid}/body-map").json()[-1]
+    kidney = next(o for o in frame["organs"] if o["code"] == "kidney")
+    assert len(kidney["tests"]) == kidney["results"] and kidney["tests"][0]["value"]
+
+    organ = client.get(f"/v1/profiles/{pid}/organs/kidney").json()
+    creat = next(t for t in organ["tests"] if t["test"]["code"] == "creatinine")
+    assert organ["names"]["en"] == "Kidneys" and [r["date"] for r in creat["results"]] == ["2024-07-02", "2025-06-04"]
+    assert client.get(f"/v1/profiles/{pid}/organs/spleen").status_code == 404

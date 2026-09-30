@@ -23,7 +23,7 @@ from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, created_at, pg_enum, uuid_pk
-from app.models.enums import JobStage, JobStatus, ObsStatus, ReportStatus
+from app.models.enums import JobStage, JobStatus, ObsStatus, RecordKind, ReportStatus
 
 
 class Report(Base):
@@ -48,6 +48,7 @@ class Report(Base):
         pg_enum(ReportStatus, "report_status"), default=ReportStatus.UPLOADED
     )
     source_sha256: Mapped[str] = mapped_column(Text)
+    note: Mapped[str | None] = mapped_column(Text)  # the person's own note, e.g. "not fasting", "new medicine"
     created_at: Mapped[datetime] = created_at()
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
@@ -139,4 +140,28 @@ class Observation(Base):
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     # As of this report's date: change since the previous result, trend, population percentile (app.services.analysis)
     analysis: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = created_at()
+
+
+class HealthRecord(Base):
+    """A document kept with a person's reports (imaging, prescription, discharge summary…). Stored and listed on
+    the timeline; Nabz does not read or analyse it."""
+
+    __tablename__ = "health_record"
+    __table_args__ = (Index("ix_health_record_profile_date", "profile_id", text("record_date DESC")),)
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    profile_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("profile.id", ondelete="CASCADE"))
+    uploaded_by: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("app_user.id", ondelete="SET NULL")
+    )
+    kind: Mapped[RecordKind] = mapped_column(pg_enum(RecordKind, "record_kind"))
+    title: Mapped[str] = mapped_column(Text)
+    record_date: Mapped[date | None] = mapped_column(Date)
+    facility: Mapped[str | None] = mapped_column(Text)
+    notes: Mapped[str | None] = mapped_column(Text)
+    storage_key: Mapped[str] = mapped_column(Text)
+    mime_type: Mapped[str] = mapped_column(Text)
+    size_bytes: Mapped[int] = mapped_column(Integer)
+    sha256: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = created_at()
