@@ -76,8 +76,11 @@ Real samples are stored only in `data/private/`, which is git-ignored and on an 
 | Vision fallback | Groq API, vision model set in `VISION_MODEL` | Groq API terms; model licence | Only with per-report consent |
 | Translation aid | AI4Bharat IndicTrans2 | MIT | Fallback when direct generation in Odia is weak (R-03) |
 | Text-to-speech | ElevenLabs API, `eleven_multilingual_v2` ([ADR-0008](adr/0008-elevenlabs-for-narration.md)); AI4Bharat Indic Parler-TTS as the Odia fallback | ElevenLabs terms; open source for the fallback | Odia support checked in Sprint 5 |
-| 3D anatomy | Z-Anatomy (derived from BodyParts3D) | CC BY-SA 4.0 | Attribution on the About screen; modified meshes are shared under the same licence |
+| 3D body | Drawn in code from primitives (three.js, react-three-fiber, drei) | MIT (libraries); the figure is Nabz's own | Sprint 6 ([ADR-0012](adr/0012-procedural-body-model.md)); no anatomy data used yet |
+| 3D anatomy (planned upgrade) | Z-Anatomy (derived from BodyParts3D) | CC BY-SA 4.0 | Once used: attribution on the About screen; modified meshes shared under the same licence |
 | Fonts | Noto Sans, Noto Sans Devanagari, Noto Sans Oriya | SIL OFL 1.1 | UI in all three scripts |
+| Accounts | argon2-cffi, pyotp, segno (QR codes), cryptography (Fernet) | MIT, MIT, BSD-3-Clause, Apache-2.0 / BSD | Password hashing, two-step sign-in, encrypted TOTP secrets |
+| Development email | Mailpit | MIT | Captures every email locally; never used to send real mail |
 
 ## 6. Attribution screen (to ship in the app)
 
@@ -108,3 +111,4 @@ The About page will list: LOINC ("This material contains content from LOINC®…
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-28 | NHANES files in use; sources and checksums in `data/external.md` |
 | 0.3 | 2026-09-30 | §3 knowledge base as built from MedlinePlus Connect |
+| 0.4 | 2026-09-30 | §5 the 3D body as built (no anatomy data yet), account libraries, Mailpit |

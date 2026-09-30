@@ -20,13 +20,15 @@
 
 ![Entity–relationship diagram](diagrams/er-diagram.svg)
 
-Account, role and session tables planned for Sprint 6 are specified in [12 §3](12-ux-and-access-design.md#3-authentication).
+The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `app_user` columns) are in §5.7; the design behind them is in [12 §3](12-ux-and-access-design.md#3-authentication).
 
 ## 3. Table catalogue
 
 | Domain | Table | Purpose | Approx. rows (pilot) |
 |---|---|---|---|
-| Identity & consent | `app_user` | Account holder; login identity | 10s |
+| Identity & consent | `app_user` | Account holder; login identity, role, email confirmation, two-step sign-in, lockout | 10s |
+| | `user_session` | Server-side session: token hash, CSRF token, last seen, revoked | 100s |
+| | `auth_token` | Single-use email tokens (confirm email, reset password), hashed, with expiry | 100s |
 | | `profile` | Person whose reports are managed (self, parent, child) | 10s |
 | | `consent` | Per-profile, per-purpose consent with policy version | 100s |
 | Reports & extraction | `report` | One uploaded lab report and its lifecycle status | 100s |
@@ -61,7 +63,8 @@ Account, role and session tables planned for Sprint 6 are specified in [12 §3](
 | `safety_status` | `passed`, `fallback`, `blocked` |
 | `sex` | `female`, `male`, `other`, `unknown` (reference ranges fall back to sex-neutral when not `female`/`male`) |
 | `lang` | `en`, `hi`, `or` |
-| `user_role` | `user`, `admin` |
+| `user_role` | `user`, `clinician`, `reviewer`, `admin` (reviewer and admin are staff: two-step sign-in required, 1-day sessions) |
+| `token_purpose` | `verify_email`, `reset_password` |
 
 ## 5. Data dictionary: core tables
 
@@ -158,11 +161,25 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | `test_id` | int | Optional filter so retrieval stays on-topic |
 | `language` | lang | Passages can be English originals or reviewed translations |
 
+### 5.7 Accounts and sessions (Sprint 6)
+
+| Table · column | Type | Description |
+|---|---|---|
+| `app_user.password_hash` | text | Argon2id (argon2-cffi defaults); rehashed on sign-in when the parameters change |
+| `app_user.email_verified_at` | timestamptz | Set by the emailed link; uploads are refused until then |
+| `app_user.totp_secret_enc` · `totp_enabled_at` | text · timestamptz | TOTP secret encrypted with Fernet (key derived from `SECRET_KEY`); the secret is set at set-up and counts only once enabled |
+| `app_user.failed_logins` · `locked_until` | smallint · timestamptz | Five wrong passwords lock the account for 15 minutes |
+| `user_session.token_hash` | text, unique | SHA-256 of the cookie token; the token itself is never stored |
+| `user_session.csrf_token` | text | Sent back in `X-CSRF-Token` on every change |
+| `user_session.last_seen_at` · `revoked_at` | timestamptz | Idle expiry (14 days, 1 day for staff) and sign-out; `last_seen_at` is written at most every 5 minutes |
+| `auth_token.token_hash` · `purpose` · `expires_at` · `used_at` | text · token_purpose · timestamptz | Emailed tokens, SHA-256 at rest, single use (confirm: 24 hours; reset: 30 minutes) |
+
 ## 6. Retention and deletion
 
 | Data | Retention | Mechanism |
 |---|---|---|
-| Report files, pages, observations, explanations | Until the user deletes them or the account | Immediate delete of content; purge job clears rows within 30 days |
+| Report files, pages, observations, explanations, narration audio | Until the user deletes the report, the person or the account | Hard delete at once (FR-33): rows through foreign-key cascades, then the stored uploads and audio; only an audit entry without health data remains |
+| Sessions and email tokens | Until sign-out, expiry or account deletion | Revoked rows are kept for the account's lifetime; deleted with the account |
 | Consent records | Account lifetime + 1 year (evidence of consent) | Kept after withdrawal, marked `revoked_at` |
 | `audit_log` | 1 year | Monthly partition drop |
 | Evaluation datasets (synthetic) | Project lifetime | In the repository (`data/synthetic`) |
@@ -182,3 +199,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.2 | 2026-09-27 | `observation`: `raw_flag`, `section` (Sprint 2); `ocr_confidence`, `match_score`, `match_method`, `match_candidates` and the `bbox` format (Sprint 3); `report_page.ocr.skew` |
 | 0.3 | 2026-09-28 | `observation.analysis`; `trend_insight.direction`, `confirmed`, `last_observation_id`; percentiles seeded from NHANES |
 | 0.4 | 2026-09-30 | `processing_job.args`; `explanation.content` sources and meta; knowledge base loaded (46 documents, 436 passages) |
+| 0.5 | 2026-09-30 | §5.7 accounts and sessions: `user_session`, `auth_token`, `app_user` columns, `user_role` and `token_purpose` values; §6 hard deletion as built |

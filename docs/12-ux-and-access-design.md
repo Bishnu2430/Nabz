@@ -42,10 +42,19 @@ Clinicians are verified by an admin against a medical-council registration numbe
 - **Abuse protection:** per-IP and per-account rate limits; a 15-minute lockout after 5 failed attempts; generic error messages that don't reveal whether an email is registered.
 - **No social login** (D3), which keeps the scope small and avoids sending data to a third-party identity provider.
 
-**Schema additions (Sprint 6 migration):**
+**Schema additions (Sprint 6 migration `20260930_accounts_sessions_tokens`, details in [04 §5.7](04-data-design.md#57-accounts-and-sessions-sprint-6)):**
 - `user_role` gains `clinician` and `reviewer`.
-- New tables: `user_session`, `auth_token` (verify and reset, hashed), `clinician_verification` (council, number, verified by and at), `profile_member` (owner, editor or viewer co-access to a profile), `clinician_note`.
-- `app_user.totp_secret` (encrypted with `pgcrypto`).
+- New tables: `user_session` (token hash, CSRF token, last seen, revoked) and `auth_token` (confirm-email and reset tokens, hashed, single use).
+- `app_user` gains `email_verified_at`, `totp_secret_enc`, `totp_enabled_at`, `failed_logins` and `locked_until`. The TOTP secret is encrypted in the application with Fernet, keyed from `SECRET_KEY`, rather than with `pgcrypto`: the key then never reaches the database or its logs.
+- Deferred with the clinician features (Should): `clinician_verification`, `profile_member`, `clinician_note`.
+
+**As built (Sprint 6).**
+- **Rate limits:** 20 account requests per minute per IP address (sign-up, sign-in, resend, forgot password), held in memory in the API process; this is enough for one API instance and moves to PostgreSQL if the API is scaled out.
+- **Same answer for every email:** sign-up and forgot-password answer 202 with the same words whether or not the email has an account. An existing owner gets an email saying someone tried to sign up. Sign-in with an unknown email still runs Argon2 on a dummy hash, so timing doesn't reveal it either.
+- **One-click confirmation:** the emailed link opens a page with a button; nothing is confirmed on page load, so a mail scanner that opens links cannot use up the token.
+- **Session rules:** a password reset signs out every device; a password change signs out the other devices; a new session is issued at every sign-in.
+- **Staff:** a reviewer or admin without two-step sign-in can reach only its set-up (API 403 with `"setup": "totp"`; the web app redirects to Settings), and cannot turn it off.
+- **Deletion (FR-33):** deleting a report, a person or the account removes the rows, the uploaded files and the narration audio at once; account deletion needs the password.
 
 ## 4. Seeded data
 
@@ -100,7 +109,7 @@ Brush lettering is decorative only and never carries information.
 | **Hanging scroll** | The explanation unrolls section by section |
 | **Handscroll** | The multi-year timeline scrolls horizontally |
 | **Kintsugi** | Gold seam on a trend line where a value moved back into range |
-| **Rice-paper body** | 3D body with ink contour lines and pigment-tinted organs on the lacquer stage |
+| **Rice-paper body** | 3D body with ink contour lines and pigment-tinted organs on the lacquer stage. As built: a translucent figure whose shader draws a gold rim and faint contour lines every 5 cm; organ systems use the dark-theme status colours whatever the page theme, and abnormal ones breathe slowly (not with reduced motion). The flat SVG body, used when WebGL 2 is missing and on the landing page, is drawn with the same organ IDs |
 
 ### 5.4 What to avoid
 
@@ -135,9 +144,12 @@ Brush lettering is decorative only and never carries information.
 | | `/admin` `/admin/catalogue` `/admin/knowledge` `/admin/jobs` `/admin/audit` | Health, catalogue, knowledge base, job monitor, audit log | admin | Should |
 | System | — | 404, error boundary, offline banner | all | Must |
 
+**Built by the end of Sprint 6:** the public pages (`/`, the sign-in flows, `/privacy`, `/safety`), `/home`, `/p/:id` (with the body-map timeline), `/p/:id/upload`, `/r/:id/review`, `/r/:id` (with the body map), `/p/:id/tests/:code` and `/settings` (which also holds each person's export and deletion). Not yet: `/welcome`, `/r/:id/print`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, and the clinician, reviewer and admin areas.
+
 ## Revision history
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-27 | Decisions D1–D6, roles, authentication, visual design and page map |
 | 0.2 | 2026-09-27 | §5.1 light-theme status colours adjusted to pass WCAG AA; contrast results |
+| 0.3 | 2026-09-30 | §3 accounts as built in Sprint 6 (schema, rate limits, enumeration resistance, session rules, staff, deletion); §5.3 rice-paper body as built; §6 build status |

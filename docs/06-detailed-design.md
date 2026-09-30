@@ -88,13 +88,19 @@ Implementations are chosen in one place, `app/core/wiring.py`, from settings. No
 
 Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE) and page images. Every endpoint except auth and the catalogue needs a session. Every `profile_id`, `report_id` and observation is checked for ownership, and a resource someone else owns answers **404**, not 403, so its existence is not revealed.
 
-**Until Sprint 6** there are no sessions. With `DEV_AUTH=true` every request acts as one local development user (`dev@nabz.local`). The API refuses to start with `DEV_AUTH` on unless `APP_ENV=development`, and Compose sets it only for local development. Endpoints marked ✓ exist; the rest are the design.
+**Sessions (Sprint 6).** Signing in sets the `nabz_session` cookie (`HttpOnly`, `SameSite=Strict`, `Secure` behind HTTPS) holding a random token; the database keeps only its SHA-256. Every `POST`, `PUT`, `PATCH` and `DELETE` must also send the session's CSRF token, returned by `/auth/login` and `/auth/me`, in the `X-CSRF-Token` header (403 otherwise). A missing or expired session answers 401. A reviewer or admin without two-step sign-in gets 403 with `"setup": "totp"` everywhere except the account endpoints. Account errors carry a stable `code` (`invalid`, `locked`, `totp_required`, `totp_invalid`, `token`, `password`, `current_password`, `verify_email`) so the web app can word them in the reader's language. Endpoints marked ✓ exist; the rest are the design.
 
 | Method | Path | Purpose | FR | Built |
 |---|---|---|---|---|
-| POST | `/auth/register`, `/auth/login`, `/auth/logout` | Account and session | FR-01 | |
+| POST | `/auth/register` · `/auth/verify-email` · `/auth/resend-verification` | Sign up (always 202, the same answer for a taken email) / confirm the email with the emailed token / send the link again | FR-01 | ✓ |
+| POST | `/auth/login` · `/auth/logout` · `/auth/logout-all` | Sign in (with `totp_code` when two-step sign-in is on) / sign out here / everywhere | FR-01 | ✓ |
+| GET · PATCH | `/auth/me` | The account, its CSRF token and whether two-step sign-in is required / change the language | FR-01 | ✓ |
+| POST | `/auth/forgot-password` · `/auth/reset-password` · `/auth/change-password` | Email a reset link (always 202) / set a new password with it (signs out everywhere) / change it while signed in (signs out other devices) | FR-01 | ✓ |
+| POST | `/auth/totp/setup` · `/auth/totp/enable` · `/auth/totp/disable` | Two-step sign-in: a new secret and its QR code / turn on with a code / turn off with the password (not for staff) | FR-01 | ✓ |
+| DELETE | `/auth/account` | Delete the account, every profile, report and stored file (password required) | FR-33 | ✓ |
 | GET / POST | `/profiles` | List / create profiles; creating one records processing consent | FR-02, FR-03 | ✓ |
-| PATCH / DELETE | `/profiles/{id}` | Edit / hard-delete a profile | FR-02, FR-33 | |
+| PATCH | `/profiles/{id}` | Edit a profile | FR-02 | |
+| DELETE | `/profiles/{id}` | Hard-delete a profile: reports, files, narration audio, results, explanations, consents | FR-33 | ✓ |
 | GET · PUT | `/profiles/{id}/consents` · `/profiles/{id}/consents/{purpose}` | Read every purpose / give or withdraw one (processing is withdrawn by deleting data) | FR-03 | ✓ |
 | POST | `/profiles/{id}/reports` | Upload a report → 202 with `report_id`; 409 with the existing `report_id` for a duplicate | FR-06 | ✓ |
 | GET | `/profiles/{id}/reports` | List reports (timeline) | FR-29 | ✓ |
@@ -107,10 +113,11 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET | `/reports/{id}/insights` | Critical results first, then organ systems worst first, each result with status, change, trend and percentile; explanation and audio from Sprint 5 | FR-16–FR-20 | ✓ |
 | GET | `/profiles/{id}/tests/{code}` | One test over time with each result's as-of analysis and the test's RCV | FR-18, FR-19 | ✓ |
 | GET | `/profiles/{id}/watch` | Tests whose latest result has a confirmed trend or a significant change | FR-18, FR-19 | ✓ |
+| GET | `/profiles/{id}/body-map` | Each confirmed report's organ systems with their worst status and counts, oldest first (the body-map timeline) | FR-27, FR-29 | ✓ |
 | POST | `/reports/{id}/share` · DELETE `/shares/{id}` | Create / revoke a share link | FR-34 | |
 | GET | `/shared/{token}` | Doctor's read-only view (no session) | FR-34 | |
-| GET | `/profiles/{id}/export?format=json\|pdf` | Data export | FR-32 | |
-| DELETE | `/reports/{id}` | Hard delete a report and its stored files | FR-33 | ✓ |
+| GET | `/profiles/{id}/export` | Everything held about the person as one JSON file (`nabz-export` version 1): person, consents, reports with results as printed and as confirmed, analysis, explanations; files listed with checksums. The printable PDF summary is the planned `/r/{id}/print` page | FR-32 | ✓ (JSON) |
+| DELETE | `/reports/{id}` | Hard delete a report, its stored files and narration audio | FR-33 | ✓ |
 | GET · POST | `/reports/{id}/explanation?lang=` · `/reports/{id}/explanation` | Read the explanation (ready, pending or none) / request one in another language or again after consent | FR-21 – FR-24 | ✓ |
 | POST · GET | `/explanations/{id}/audio` | Narrate on first play (voice consent; 409 names the missing consent) / stream the MP3 | FR-26 | ✓ |
 | POST | `/explanations/{id}/feedback` | Helpful or not, with an optional comment | — | ✓ |
@@ -169,11 +176,13 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/lib/` | Formatting (printed precision kept, converted values to four significant figures, `×10⁶/µL` units, calendar dates without time-zone shifts), theme hook | 3 |
 | `src/routes/` (Sprint 4) | `Insights` (`/r/:id`: critical banner, organ cards, explanation placeholder), `TestHistory` (`/p/:id/tests/:code`: latest value, chart, trend statement, table) | 4 |
 | `src/components/insights/` | `StatusMark` (colour + icon + word), `RangeBar`, `CriticalBanner` (fixed FR-17 text), `ResultRow`, `OrganCard` (out-of-range first, the rest folded), `TrendChart` (range band, status points, gold kintsugi segment where a value returns to range, dashed projection, crosshair tooltip, focusable points) | 4 |
-| `src/features/body/` | `<BodyScene>` (R3F canvas), `<Organ>` meshes with status material, camera rig with fly-to, detail card | 5 |
-| `src/features/timeline/` | Report scrubber driving the body scene and trend charts | 4–5 |
+| `src/components/body/` | `organs.ts` (one table of organ systems: 2D shapes and 3D focus points, so both views show the same thing), `Body3D` (lazy-loaded react-three-fiber scene: paper figure with a rim-and-contour shader, organ systems tinted by worst status and breathing when abnormal, camera fly-to), `BodyDiagram` (the SVG ink body: WebGL 2 fallback and landing figure), `BodyMap` (3D or flat view, organ list as buttons, chosen system's card), `OrganDetail` (values, trends, explanation excerpt), `BodyTimeline` (handscroll of report dates with Play) | 6 |
 | `src/components/insights/ExplanationCard.tsx` | Explanation in the app's language: summary, per-test sections with numbered citations, doctor questions, sources (NLM MedlinePlus), fixed disclaimer, narration with voice consent, feedback; says when and why the template is shown, and offers "Allow and write it" when consent is missing | 5 |
 | `src/components/PrivacyChoices.tsx` | Per-purpose consent switches on the person page (external AI, voice) | 5 |
-| `src/features/admin/` | Catalogue and knowledge-base tables | 6 |
+| `src/api/auth.ts`, `src/api/queryClient.ts` | Account hooks (sign-in, sign-up, verification, reset, two-step sign-in, deletion) that keep the CSRF token current; a 401 on any request clears the account so the guard sends the person to sign-in | 6 |
+| `src/routes/account/`, `Landing`, `Legal` | Sign in, sign up, confirm email, forgot and reset password, settings; landing page; privacy notice and "what Nabz is and is not" | 6 |
+| `src/components/RequireAuth.tsx` | Guard for signed-in pages (`next` follows same-site paths only); staff without two-step sign-in reach only its set-up | 6 |
+| `src/features/admin/` | Catalogue and knowledge-base tables | 7 |
 
 **Review screen rules.**
 - Rows the model flags (confidence below τ, or no test) come first, weakest first. The order is fixed when the page loads, so a row doesn't jump away while it is being corrected.
@@ -194,3 +203,4 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.2 | 2026-09-27 | §4 built endpoints, development auth, error details; §6 frontend structure as built in Sprint 3 |
 | 0.3 | 2026-09-28 | §4 insights, test history and watch endpoints; §6 insights screens |
 | 0.4 | 2026-09-30 | §4 consent, explanation, narration and feedback endpoints; §6 explanation and privacy components |
+| 0.5 | 2026-09-30 | §4 sessions, CSRF and account endpoints, profile export and deletion, body-map timeline; §6 account screens and body map as built in Sprint 6 |
