@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ApiError } from "../api/client";
@@ -58,9 +58,9 @@ export function EmptyState({ title, body, action }: { title: string; body: strin
   );
 }
 
-export function ErrorNote({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
+export function ErrorNote({ error, message, onRetry }: { error?: unknown; message?: string; onRetry?: () => void }) {
   const { t } = useTranslation();
-  const message = error instanceof ApiError ? error.message : t("common.error");
+  message ??= error instanceof ApiError ? error.message : t("common.error");
   return (
     <div role="alert" className="rounded-md border border-abnormal/40 bg-abnormal/5 px-4 py-3 text-abnormal">
       <p>{message}</p>
@@ -78,3 +78,27 @@ export function Loading() {
 
 export const fieldClass =
   "w-full rounded-md border border-hairline bg-surface px-3 py-2 text-ink placeholder:text-muted/70 focus:border-ink/50";
+
+/** A labelled input with an optional hint and error, wired up for screen readers. */
+export function Field({ id, label, hint, error, className, ...input }: InputHTMLAttributes<HTMLInputElement> & {
+  id: string;
+  label: string;
+  hint?: ReactNode;
+  error?: string;
+}) {
+  const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(" ") || undefined;
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="mb-1 block font-medium">{label}</label>
+      <input id={id} {...input} aria-invalid={error ? true : undefined} aria-describedby={describedBy}
+        className={clsx(fieldClass, error && "border-abnormal")} />
+      {hint && <p id={`${id}-hint`} className="mt-1 text-sm text-muted">{hint}</p>}
+      {error && <p id={`${id}-error`} className="mt-1 text-sm text-abnormal">{error}</p>}
+    </div>
+  );
+}
+
+/** A quiet confirmation line, e.g. "Your password is changed." */
+export function Notice({ children }: { children: ReactNode }) {
+  return <p role="status" className="rounded-md border border-normal/40 bg-normal/5 px-4 py-3 text-normal">{children}</p>;
+}

@@ -40,6 +40,18 @@ export function useCreateProfile() {
   });
 }
 
+/** Hard delete (FR-33): the person, every report and file, and everything derived from them. */
+export function useDeleteProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (profileId: string) => api.delete(`/v1/profiles/${profileId}`),
+    onSuccess: (_, profileId) => {
+      qc.removeQueries({ queryKey: ["reports", profileId] });
+      return qc.invalidateQueries({ queryKey: ["profiles"] });
+    },
+  });
+}
+
 export function useUpload(profileId: string) {
   return useMutation({
     mutationFn: (file: File) => {
