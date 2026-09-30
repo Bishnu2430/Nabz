@@ -96,3 +96,42 @@ export function ordinal(n: number): string {
 export function ageBand([lo, hi]: [number, number]): string {
   return hi >= 120 ? `${lo}+` : `${lo}–${hi}`;
 }
+
+/** The fields every result shape shares (Result, ResultBrief). */
+export interface ValueLike {
+  test_code: string;
+  test_name: string;
+  short_name: string;
+  value: string;
+  unit: string | null;
+  decimals: number;
+  status: string;
+  ref_low: string | null;
+  ref_high: string | null;
+}
+
+/** How far a value is outside its range, as a fraction of the bound it crossed; null when inside or no range. */
+export function deviation(v: ValueLike): { side: "above" | "below"; fraction: number; bound: string } | null {
+  const value = Number(v.value);
+  if (v.ref_high != null && value > Number(v.ref_high)) {
+    const hi = Number(v.ref_high);
+    return { side: "above", fraction: hi ? value / hi - 1 : 0, bound: formatComputed(v.ref_high) };
+  }
+  if (v.ref_low != null && value < Number(v.ref_low)) {
+    const lo = Number(v.ref_low);
+    return { side: "below", fraction: lo ? 1 - value / lo : 0, bound: formatComputed(v.ref_low) };
+  }
+  return null;
+}
+
+/** A value with its unit at the test's precision: "1.62 mg/dL". */
+export function formatWithUnit(v: Pick<ValueLike, "value" | "decimals" | "unit">): string {
+  const unit = formatUnit(v.unit);
+  return unit ? `${formatValue(v.value, v.decimals)} ${unit}` : formatValue(v.value, v.decimals);
+}
+
+/** Percentage without a sign, one decimal below 10: "25 %", "4.5 %". */
+export function formatShare(fraction: number): string {
+  const pct = Math.abs(fraction) * 100;
+  return `${pct >= 10 ? pct.toFixed(0) : pct.toFixed(1)} %`;
+}

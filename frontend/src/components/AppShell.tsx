@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 
 import { useLogout, useMe, useResendVerification, useUpdateLanguage, type Me } from "../api/auth";
 import type { Lang } from "../api/types";
@@ -25,10 +25,10 @@ export function AppShell() {
       </a>
 
       {import.meta.env.DEV && (
-        <p className="bg-sunken px-4 py-1.5 text-center text-sm text-muted">{t("app.dev_banner")}</p>
+        <p className="bg-sunken px-4 py-1.5 text-center text-sm text-muted print:hidden">{t("app.dev_banner")}</p>
       )}
 
-      <header className="border-b border-hairline">
+      <header className="border-b border-hairline print:hidden">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
           <Link to={me ? "/home" : "/"} className="flex items-center gap-2.5 no-underline">
             <img src="/seal.svg" alt="" className="size-8" />
@@ -70,13 +70,15 @@ export function AppShell() {
         </div>
       </header>
 
-      {me && !me.email_verified && <VerifyBanner me={me} />}
+      {me && !me.email_verified && <div className="print:hidden"><VerifyBanner me={me} /></div>}
 
       <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
         <Outlet />
       </main>
+      {/* new pages open at the top; going back returns to where the person was */}
+      <ScrollRestoration />
 
-      <footer className="border-t border-hairline">
+      <footer className="border-t border-hairline print:hidden">
         <div className="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-6 gap-y-2 px-4 py-4 text-sm text-muted">
           <p className="mr-auto">{t("app.disclaimer")}</p>
           <span className="flex gap-x-6">

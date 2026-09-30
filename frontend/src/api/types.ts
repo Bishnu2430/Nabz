@@ -17,6 +17,10 @@ export interface Profile {
   preferred_language: Lang;
   reports: number;
   latest_report_at: string | null;
+  /** Date of the latest confirmed report. */
+  last_tested?: string | null;
+  /** Tests whose latest result is outside its range, worst first. */
+  attention?: ResultBrief[];
 }
 
 export interface ProfileIn {
@@ -76,6 +80,24 @@ export interface ReportSummary {
   collected_at: string | null;
   created_at: string;
   rows: number;
+  note?: string | null;
+  /** Confirmed results outside their range, worst first. */
+  out_of_range?: ResultBrief[];
+}
+
+/** One result in a line: "Creatinine 1.62 mg/dL, above 0.60 – 1.30". */
+export interface ResultBrief {
+  test_code: string;
+  test_name: string;
+  short_name: string;
+  value: string;
+  unit: string | null;
+  decimals: number;
+  status: ObsStatus;
+  ref_low: string | null;
+  ref_high: string | null;
+  date: string;
+  report_id: string;
 }
 
 export interface CatalogueTest { code: string; name: string; short_name: string; panel: string; unit: string; organ: string }
@@ -222,6 +244,30 @@ export interface ExplanationState { state: "ready" | "pending" | "none"; explana
 
 // --- Body map (Sprint 6) -------------------------------------------------------------------------------------------
 
-export interface BodyMapOrgan { code: string; status: ObsStatus; out_of_range: number; results: number }
+export interface BodyMapOrgan { code: string; status: ObsStatus; out_of_range: number; results: number; tests: ResultBrief[] }
 
 export interface BodyMapFrame { report_id: string; date: string; lab_name: string | null; organs: BodyMapOrgan[] }
+
+export interface OrganHistory {
+  code: string;
+  names: Record<string, string>;
+  person: Person;
+  tests: { test: TestInfo; results: Result[] }[];
+}
+
+// --- Other health records (Sprint 7) ---------------------------------------------------------------------------
+
+export type RecordKind = "imaging" | "prescription" | "discharge" | "vaccination" | "other";
+
+export interface HealthRecord {
+  id: string;
+  profile_id: string;
+  kind: RecordKind;
+  title: string;
+  record_date: string | null;
+  facility: string | null;
+  notes: string | null;
+  mime_type: string;
+  size_bytes: number;
+  created_at: string;
+}

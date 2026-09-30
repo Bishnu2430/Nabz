@@ -93,7 +93,8 @@ def report_insights(report_id: uuid.UUID, session: Session = Depends(get_session
 
     return InsightsOut(
         report=ReportSummary(id=report.id, status=report.status, lab_name=report.lab_name,
-                             collected_at=report.collected_at, created_at=report.created_at, rows=len(rows)),
+                             collected_at=report.collected_at, created_at=report.created_at, rows=len(rows),
+                             note=report.note),
         person=_person(profile, report),
         analysed=any(o.analysis is not None for o in rows),
         critical=[r for r in results if r.critical],

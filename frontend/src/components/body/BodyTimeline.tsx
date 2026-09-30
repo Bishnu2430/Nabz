@@ -6,26 +6,31 @@ import { Link } from "react-router-dom";
 import { useBodyMap } from "../../api/hooks";
 import type { BodyMapFrame } from "../../api/types";
 import { formatDate } from "../../lib/format";
-import { STATUS_COLOR, StatusMark } from "../insights/StatusMark";
-import { Button, Card } from "../ui";
-import { BodyMap, useCountNote } from "./BodyMap";
+import { useOrganNote } from "../exact/exact";
+import { STATUS_COLOR } from "../insights/StatusMark";
+import { Button } from "../ui";
+import { BodyMap } from "./BodyMap";
+import { OrganPanel } from "./OrganPanel";
 import { isOrganCode, type OrganCode } from "./organs";
 
 const STEP_MS = 1400;
 
 /**
  * The body map across a person's reports (FR-29). The dates run along a handscroll; Play replays the body from
- * the first report to the latest.
+ * the first report to the latest. The chosen organ system is shared with the page, which filters its reports.
  */
-export function BodyTimeline({ profileId }: { profileId: string }) {
+export function BodyTimeline({ profileId, organ, onOrgan }: {
+  profileId: string;
+  organ: OrganCode | null;
+  onOrgan: (code: OrganCode | null) => void;
+}) {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? "en";
   const frames = useBodyMap(profileId).data ?? [];
   const [index, setIndex] = useState<number | null>(null);
-  const [organ, setOrgan] = useState<OrganCode | null>(null);
   const [playing, setPlaying] = useState(false);
   const scroller = useRef<HTMLOListElement>(null);
-  const countNote = useCountNote();
+  const organNote = useOrganNote();
 
   const current = index ?? frames.length - 1;
   const frame: BodyMapFrame | undefined = frames[current];
@@ -40,9 +45,11 @@ export function BodyTimeline({ profileId }: { profileId: string }) {
     return () => clearTimeout(timer);
   }, [playing, current, frames.length]);
 
+  // centre the current date in the handscroll without moving the page itself
   useEffect(() => {
-    scroller.current?.querySelector<HTMLElement>(`[data-index="${current}"]`)
-      ?.scrollIntoView?.({ inline: "center", block: "nearest", behavior: "smooth" });
+    const list = scroller.current;
+    const item = list?.querySelector<HTMLElement>(`[data-index="${current}"]`);
+    if (list && item) list.scrollTo?.({ left: item.offsetLeft - list.clientWidth / 2 + item.clientWidth / 2, behavior: "smooth" });
   }, [current]);
 
   if (!frame) return null;
@@ -58,22 +65,16 @@ export function BodyTimeline({ profileId }: { profileId: string }) {
         code: o.code as OrganCode,
         status: o.status,
         name: t(`organs.${o.code}`),
-        note: countNote(o.out_of_range, o.results),
+        note: organNote(o.tests),
       }))}
       selected={organ}
-      onSelect={setOrgan}
+      onSelect={onOrgan}
       detail={chosen && (
-        <Card className="p-5">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h3 className="font-display text-xl font-bold">{t(`organs.${chosen.code}`)}</h3>
-            <StatusMark status={chosen.status} />
-          </div>
-          <p className="mt-2 text-muted">
-            {t("body.on_date", { date: formatDate(frame.date, lang) })} ·{" "}
-            {countNote(chosen.out_of_range, chosen.results)}
-          </p>
-          <Link to={`/r/${frame.report_id}`} className="mt-3 inline-block text-link">{t("body.open_report")}</Link>
-        </Card>
+        <OrganPanel profileId={profileId} organ={chosen.code as OrganCode} name={t(`organs.${chosen.code}`)}
+          reportId={frame.report_id} onBack={() => onOrgan(null)}
+          extra={<Link to={`/r/${frame.report_id}`} className="text-link">
+            {t("body.open_report_on", { date: formatDate(frame.date, lang) })} →
+          </Link>} />
       )}
       footer={frames.length > 1 && (
         <div className="mt-4 flex items-center gap-3">
@@ -81,7 +82,7 @@ export function BodyTimeline({ profileId }: { profileId: string }) {
             {playing ? t("body.pause") : t("body.play")}
           </Button>
           <ol ref={scroller} aria-label={t("body.timeline")}
-            className="flex flex-1 gap-2 overflow-x-auto border-y border-hairline py-2 [scrollbar-width:thin]">
+            className="relative flex flex-1 gap-2 overflow-x-auto border-y border-hairline py-2 [scrollbar-width:thin]">
             {frames.map((f, i) => {
               const worst = f.organs[0]?.status ?? "unknown";
               return (
