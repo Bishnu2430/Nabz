@@ -13,15 +13,8 @@ export interface BodyMapItem {
   code: OrganCode;
   status: ObsStatus;
   name: string;
-  /** e.g. "2 of 5 out of range" */
+  /** The worst result exactly, e.g. "Creatinine 1.85 mg/dL, 42 % above the upper limit 1.30". */
   note?: string;
-}
-
-/** "2 of 5 results out of range", or "All 5 results in range". */
-export function useCountNote() {
-  const { t } = useTranslation();
-  return (out: number, total: number) =>
-    out > 0 ? t("body.out_of_range", { n: out, count: total }) : t("body.all_in_range", { count: total });
 }
 
 type View = "3d" | "2d";
@@ -115,7 +108,8 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
               <div role="img" aria-label={t("body.label_3d", { summary })} className="size-full">
                 <WebGLBoundary fallback={flat}>
                   <Suspense fallback={<p className="grid size-full place-items-center text-sm text-[#a89a82]">{t("common.loading")}</p>}>
-                    <Body3D statuses={statuses} selected={selected} onSelect={toggle} reducedMotion={reduced} />
+                    <Body3D statuses={statuses} selected={selected} onSelect={toggle} reducedMotion={reduced}
+                      names={Object.fromEntries(items.map((i) => [i.code, i.name]))} />
                   </Suspense>
                 </WebGLBoundary>
               </div>
@@ -138,6 +132,8 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
         </div>
 
         <div>
+          {/* the chosen system's panel replaces the list; its back button returns to it */}
+          {selected && detail ? detail : (
           <ul className="grid gap-2" aria-label={t("body.systems")}>
             {items.map((i) => (
               <li key={i.code}>
@@ -145,11 +141,11 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
                   className={clsx("flex w-full items-center gap-3 overflow-hidden rounded-md border bg-raised text-left transition",
                     selected === i.code ? "border-ink/60" : "border-hairline hover:border-ink/40")}>
                   <span aria-hidden="true" className="w-1.5 self-stretch" style={{ background: STATUS_COLOR[i.status] }} />
-                  <span className="flex-1 py-2.5">
+                  <span className="min-w-0 flex-1 py-2.5">
                     <span className="block font-medium">{i.name}</span>
-                    {i.note && <span className="block text-sm text-muted">{i.note}</span>}
+                    {i.note && <span className="tabular block text-sm text-muted">{i.note}</span>}
                   </span>
-                  <span className={clsx("flex items-center gap-1 pr-3 text-sm",
+                  <span className={clsx("flex shrink-0 items-center gap-1 pr-3 text-sm",
                     i.status === "normal" ? "text-normal" : i.status === "unknown" ? "text-muted" : "text-abnormal")}>
                     <StatusIcon status={i.status} />
                     {t(`result_status.${i.status}`)}
@@ -158,7 +154,7 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
               </li>
             ))}
           </ul>
-          {detail && <div className="mt-4">{detail}</div>}
+          )}
         </div>
       </div>
       {footer}

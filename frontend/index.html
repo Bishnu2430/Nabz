@@ -13,11 +13,14 @@
     />
     <title>Nabz</title>
     <script>
-      // Apply the saved or system theme before first paint to avoid a flash.
+      // Apply the saved theme and text size before first paint to avoid a flash.
       (function () {
         try {
           var t = localStorage.getItem("nabz.theme");
           if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+          var z = localStorage.getItem("nabz.textSize");
+          if (z === "large") document.documentElement.style.fontSize = "19px";
+          if (z === "larger") document.documentElement.style.fontSize = "21px";
         } catch (e) {}
       })();
     </script>

@@ -9,6 +9,8 @@ import ResetPassword from "./account/ResetPassword";
 import Settings from "./account/Settings";
 import Signup from "./account/Signup";
 import VerifyEmail from "./account/VerifyEmail";
+import AllTests from "./AllTests";
+import Compare from "./Compare";
 import Home from "./Home";
 import Insights from "./Insights";
 import Landing from "./Landing";
@@ -16,6 +18,7 @@ import Legal from "./Legal";
 import NotFound from "./NotFound";
 import Person from "./Person";
 import Review from "./Review";
+import Summary from "./Summary";
 import TestHistory from "./TestHistory";
 import Upload from "./Upload";
 
@@ -39,7 +42,10 @@ export const routes: RouteObject[] = [
           { path: "/home", element: <Home /> },
           { path: "/p/:id", element: <Person /> },
           { path: "/p/:id/upload", element: <Upload /> },
+          { path: "/p/:id/tests", element: <AllTests /> },
           { path: "/p/:id/tests/:code", element: <TestHistory /> },
+          { path: "/p/:id/summary", element: <Summary /> },
+          { path: "/p/:id/compare", element: <Compare /> },
           { path: "/r/:id", element: <Insights /> },
           { path: "/r/:id/review", element: <Review /> },
           { path: "/settings", element: <Settings /> },

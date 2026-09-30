@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from app.api.deps import current_user, get_session, get_sessionmaker, get_storage, owned_profile, owned_report
 from app.extraction.interpret import Interpreter
 from app.models import AppUser, LabTest, Observation, Profile, Report, ReportFile, ReportPage
-from app.models.enums import JobStage, ReportStatus
+from app.models.enums import JobStage, ObsStatus, ReportStatus
 from app.schemas import (
     Accepted,
     Box,
@@ -22,11 +22,13 @@ from app.schemas import (
     ObservationOut,
     ObservationPatch,
     PageOut,
+    ReportNoteIn,
     ReportOut,
     ReportSummary,
 )
 from app.services import audit, data_rights
 from app.services.analysis import analyse_profile
+from app.services.briefs import brief, worst_first
 from app.services.ingest import DuplicateReport, IngestError, ingest_report
 from app.services.interpretation import age_on, apply, default_interpreter, lab_test_ids, raw_row_of
 from app.services.pages import render_page
@@ -112,8 +114,30 @@ def list_reports(profile_id: uuid.UUID, session: Session = Depends(get_session),
         .where(Report.profile_id == profile_id, Report.deleted_at.is_(None))
         .order_by(Report.collected_at.desc().nulls_last(), Report.created_at.desc())
     ).all()
+    flagged: dict[uuid.UUID, list] = {}
+    for obs, test, report in session.execute(
+        select(Observation, LabTest, Report).join(LabTest, LabTest.id == Observation.test_id)
+        .join(Report, Report.id == Observation.report_id)
+        .where(Report.profile_id == profile_id, Report.deleted_at.is_(None), Observation.verified_at.is_not(None),
+               Observation.value_num.is_not(None), Observation.status.notin_([ObsStatus.NORMAL, ObsStatus.UNKNOWN]))
+    ):
+        flagged.setdefault(report.id, []).append(brief(obs, test, report))
     return [ReportSummary(id=r.id, status=r.status, lab_name=r.lab_name, collected_at=r.collected_at,
-                          created_at=r.created_at, rows=n or 0) for r, n in rows]
+                          created_at=r.created_at, rows=n or 0, note=r.note,
+                          out_of_range=worst_first(flagged.get(r.id, []))) for r, n in rows]
+
+
+@router.patch("/v1/reports/{report_id}", response_model=ReportSummary)
+def set_report_note(report_id: uuid.UUID, body: ReportNoteIn, session: Session = Depends(get_session),  # noqa: B008
+                    user: AppUser = Depends(current_user)):  # noqa: B008
+    """The person's own note on a report ("not fasting", "started a new medicine"), shown with its results."""
+    report = owned_report(session, user, report_id)
+    report.note = (body.note or "").strip() or None
+    audit.record(session, user.id, "report.note", "report", report.id)
+    session.commit()
+    n = session.scalar(select(func.count()).select_from(Observation).where(Observation.report_id == report.id))
+    return ReportSummary(id=report.id, status=report.status, lab_name=report.lab_name,
+                         collected_at=report.collected_at, created_at=report.created_at, rows=n or 0, note=report.note)
 
 
 @router.get("/v1/reports/{report_id}", response_model=ReportOut)

@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
-import { useProfiles, useReports, useWatch } from "../api/hooks";
-import type { ReportSummary, Watch } from "../api/types";
+import { useBodyMap, useProfiles, useReports, useWatch } from "../api/hooks";
+import type { ReportSummary, ResultBrief, Watch } from "../api/types";
 import { StatusBadge } from "../components/Badges";
 import { BodyTimeline } from "../components/body/BodyTimeline";
+import type { OrganCode } from "../components/body/organs";
+import { ValueChips } from "../components/exact/exact";
+import { OtherRecords } from "../components/records/OtherRecords";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
 import { PrivacyChoices } from "../components/PrivacyChoices";
@@ -17,6 +21,8 @@ export default function Person() {
   const { t } = useTranslation();
   const profiles = useProfiles();
   const reports = useReports(id);
+  const frames = useBodyMap(id).data ?? [];
+  const [organ, setOrgan] = useState<OrganCode | null>(null);
 
   if (profiles.isPending || reports.isPending) return <Loading />;
   if (profiles.isError) return <ErrorNote error={profiles.error} />;
@@ -34,18 +40,43 @@ export default function Person() {
     <>
       <Link to="/home" className="text-link">← {t("nav.family")}</Link>
       <PageTitle title={profile.display_name} action={reports.data.length > 0 && upload} />
+      {reports.data.length > 0 && (
+        <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
+          {[["tests", "person.all_tests"], ["summary", "person.summary"], ["compare", "person.compare"]].map(([path, key]) => (
+            <Link key={path} to={`/p/${id}/${path}`}
+              className="rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
+              {t(key)}
+            </Link>
+          ))}
+        </nav>
+      )}
       {reports.data.length === 0 ? (
         <EmptyState title={t("person.empty_title")} body={t("person.empty_body")} action={upload} />
       ) : (
         <>
-        <BodyTimeline profileId={id} />
+        <BodyTimeline profileId={id} organ={organ} onOrgan={setOrgan} />
         <WatchList profileId={id} />
         <section aria-labelledby="reports-h">
-          <h2 id="reports-h" className="mb-4 font-display text-xl font-bold">{t("person.reports")}</h2>
+          <div className="mb-4 flex flex-wrap items-baseline gap-3">
+            <h2 id="reports-h" className="font-display text-xl font-bold">{t("person.reports")}</h2>
+            {organ && (
+              <p className="text-sm">
+                <span className="rounded-full bg-sunken px-3 py-1">{t("organ.showing", { organ: t(`organs.${organ}`) })}</span>{" "}
+                <button type="button" className="text-link hover:underline" onClick={() => setOrgan(null)}>
+                  {t("organ.show_all")}
+                </button>
+              </p>
+            )}
+          </div>
           <ul className="space-y-3">
-            {reports.data.map((r) => <li key={r.id}><ReportRow report={r} /></li>)}
+            {reports.data.map((r) => {
+              if (!organ) return <li key={r.id}><ReportRow report={r} profileId={id} /></li>;
+              const tests = frames.find((f) => f.report_id === r.id)?.organs.find((o) => o.code === organ)?.tests;
+              return tests ? <li key={r.id}><ReportRow report={r} profileId={id} values={tests} /></li> : null;
+            })}
           </ul>
         </section>
+        <OtherRecords profileId={id} />
         </>
       )}
       <PrivacyChoices profileId={id} />
@@ -94,21 +125,33 @@ function WatchList({ profileId }: { profileId: string }) {
   );
 }
 
-function ReportRow({ report }: { report: ReportSummary }) {
+function ReportRow({ report, profileId, values }: { report: ReportSummary; profileId: string; values?: ResultBrief[] }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? "en";
+  const shown = values ?? report.out_of_range ?? [];
+  const analysed = ANALYSED.has(report.status);
   return (
-    <Link to={ANALYSED.has(report.status) ? `/r/${report.id}` : `/r/${report.id}/review`} className="group block no-underline">
-      <Card className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 py-4 transition group-hover:border-ink/40">
-        <div className="min-w-40">
-          <p className="font-medium">
+    <Card className="px-5 py-4">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <Link to={analysed ? `/r/${report.id}` : `/r/${report.id}/review`} className="min-w-40 no-underline">
+          <span className="block font-medium text-ink hover:text-link">
             {report.collected_at ? formatDate(report.collected_at, lang) : t("person.undated")}
-          </p>
-          <p className="text-sm text-muted">{report.lab_name ?? formatDate(report.created_at, lang)}</p>
-        </div>
+          </span>
+          <span className="block text-sm text-muted">{report.lab_name ?? formatDate(report.created_at, lang)}</span>
+        </Link>
         <p className="text-muted tabular">{t("person.values", { count: report.rows })}</p>
         <div className="ml-auto"><StatusBadge status={report.status} /></div>
-      </Card>
-    </Link>
+      </div>
+      {analysed && (
+        <div className="mt-2">
+          {shown.length > 0 ? (
+            <ValueChips values={shown} max={values ? 12 : 5} linkTo={(v) => `/p/${profileId}/tests/${v.test_code}`} />
+          ) : (
+            <p className="text-sm text-normal">{t("person.all_in_range", { count: report.rows })}</p>
+          )}
+        </div>
+      )}
+      {report.note && <p className="mt-2 text-sm text-muted">“{report.note}”</p>}
+    </Card>
   );
 }

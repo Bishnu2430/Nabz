@@ -10,6 +10,7 @@ import { useDeleteProfile, useProfiles } from "../../api/hooks";
 import type { Lang, Profile } from "../../api/types";
 import { Button, Card, ErrorNote, Field, fieldClass, Loading, Notice, PageTitle } from "../../components/ui";
 import { LANGUAGES } from "../../i18n";
+import { TEXT_SIZES, useTextSize, type TextSize } from "../../lib/theme";
 import { MIN_PASSWORD_LENGTH, passwordProblem, useAuthMessage } from "../../lib/account";
 
 export default function Settings() {
@@ -96,6 +97,7 @@ function AccountSection({ me }: { me: Me }) {
         </select>
         <p className="mt-1 text-sm text-muted">{t("settings.language_note")}</p>
       </div>
+      <TextSizeChoice />
     </Section>
   );
 }
@@ -313,5 +315,24 @@ function DeleteAccountSection() {
         </form>
       )}
     </Section>
+  );
+}
+
+function TextSizeChoice() {
+  const { t } = useTranslation();
+  const [size, setSize] = useTextSize();
+  return (
+    <fieldset>
+      <legend className="mb-1 font-medium">{t("settings.text_size")}</legend>
+      <div className="flex flex-wrap gap-2">
+        {(Object.keys(TEXT_SIZES) as TextSize[]).map((s) => (
+          <label key={s} className="flex cursor-pointer items-center gap-2 rounded-md border border-hairline px-3 py-1.5 has-[:checked]:border-ink has-[:checked]:bg-sunken">
+            <input type="radio" name="text-size" checked={size === s} onChange={() => setSize(s)}
+              className="accent-[var(--accent)]" />
+            <span style={{ fontSize: TEXT_SIZES[s] }}>{t(`settings.size_${s}`)}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }

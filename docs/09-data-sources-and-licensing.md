@@ -80,6 +80,7 @@ Real samples are stored only in `data/private/`, which is git-ignored and on an 
 | 3D anatomy (planned upgrade) | Z-Anatomy (derived from BodyParts3D) | CC BY-SA 4.0 | Once used: attribution on the About screen; modified meshes shared under the same licence |
 | Fonts | Noto Sans, Noto Sans Devanagari, Noto Sans Oriya | SIL OFL 1.1 | UI in all three scripts |
 | Accounts | argon2-cffi, pyotp, segno (QR codes), cryptography (Fernet) | MIT, MIT, BSD-3-Clause, Apache-2.0 / BSD | Password hashing, two-step sign-in, encrypted TOTP secrets |
+| Sample X-ray and MRI images | Wikimedia Commons (five files; authors and checksums in `data/imaging/README.md`) | CC0, public domain, CC BY 2.0, CC BY-SA 4.0 | Used in the sample family's imaging reports; the credit is printed under each image and shown in the viewer |
 | Development email | Mailpit | MIT | Captures every email locally; never used to send real mail |
 
 ## 6. Attribution screen (to ship in the app)
@@ -111,4 +112,5 @@ The About page will list: LOINC ("This material contains content from LOINC®…
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-28 | NHANES files in use; sources and checksums in `data/external.md` |
 | 0.3 | 2026-09-30 | §3 knowledge base as built from MedlinePlus Connect |
+| 0.5 | 2026-09-30 | §5 sample X-ray and MRI images |
 | 0.4 | 2026-09-30 | §5 the 3D body as built (no anatomy data yet), account libraries, Mailpit |

@@ -94,6 +94,23 @@ def cmd_set_password(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_extract_imaging(args: argparse.Namespace) -> int:
+    """Take the study image and report text out of imaging records stored before the viewer existed."""
+    from app.api.routes.records import attach_study
+    from app.models import HealthRecord
+    from app.models.enums import RecordKind
+
+    storage = default_storage()
+    done = 0
+    with SessionLocal.begin() as s:
+        for record in s.scalars(select(HealthRecord).where(HealthRecord.kind == RecordKind.IMAGING,
+                                                           HealthRecord.image_key.is_(None))):
+            attach_study(record, storage.get(record.storage_key), storage)
+            done += record.image_key is not None
+    print(f"study images taken from {done} imaging records")
+    return 0
+
+
 def cmd_ingest(args: argparse.Namespace) -> int:
     """Development helper until the upload API exists: queue a file for a local dev profile."""
     data = Path(args.file).read_bytes()
@@ -154,6 +171,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--email", required=True)
     p.add_argument("--password", required=True)
     p.set_defaults(func=cmd_set_password)
+    p = sub.add_parser("extract-imaging", help="take study images and report text out of older imaging records")
+    p.set_defaults(func=cmd_extract_imaging)
     p = sub.add_parser("ingest", help="queue a report file for a local development profile")
     p.add_argument("file")
     p.add_argument("--email", default="dev@nabz.local")

@@ -13,12 +13,14 @@ from app.analysis.change import rcv
 from app.analysis.status import CRITICAL, SEVERITY, worst
 from app.api.deps import current_user, get_session, owned_profile, owned_report
 from app.models import AppUser, LabTest, Observation, OrganSystem, Profile, Report, TrendInsight
-from app.models.enums import ObsStatus, ReportStatus
+from app.models.enums import ReportStatus
 from app.schemas import (
     BodyMapFrame,
     BodyMapOrgan,
     InsightsOut,
+    OrganHistoryOut,
     OrganOut,
+    OrganTestHistory,
     PersonOut,
     ReportSummary,
     ResultOut,
@@ -27,6 +29,7 @@ from app.schemas import (
     WatchOut,
 )
 from app.services.analysis import history, result_date
+from app.services.briefs import brief, worst_first
 from app.services.interpretation import age_on
 
 router = APIRouter(tags=["insights"])
@@ -90,7 +93,8 @@ def report_insights(report_id: uuid.UUID, session: Session = Depends(get_session
 
     return InsightsOut(
         report=ReportSummary(id=report.id, status=report.status, lab_name=report.lab_name,
-                             collected_at=report.collected_at, created_at=report.created_at, rows=len(rows)),
+                             collected_at=report.collected_at, created_at=report.created_at, rows=len(rows),
+                             note=report.note),
         person=_person(profile, report),
         analysed=any(o.analysis is not None for o in rows),
         critical=[r for r in results if r.critical],
@@ -151,24 +155,51 @@ def body_map(profile_id: uuid.UUID, session: Session = Depends(get_session),  # 
     profile = owned_profile(session, user, profile_id)
     cat = _Catalogue(session)
     rows = session.execute(
-        select(Report, Observation.test_id, Observation.status)
+        select(Report, Observation)
         .join(Observation, Observation.report_id == Report.id)
         .where(Report.profile_id == profile.id, Report.deleted_at.is_(None), Report.status.in_(ANALYSED),
                Observation.test_id.is_not(None), Observation.value_num.is_not(None),
                Observation.verified_at.is_not(None))
     ).all()
     reports: dict[uuid.UUID, Report] = {}
-    statuses: dict[uuid.UUID, dict[str, list[ObsStatus]]] = {}
-    for report, test_id, obs_status in rows:
+    results: dict[uuid.UUID, dict[str, list]] = {}
+    for report, obs in rows:
         reports[report.id] = report
-        statuses.setdefault(report.id, {}).setdefault(cat.organ_code(cat.tests[test_id]), []).append(obs_status)
+        test = cat.tests[obs.test_id]
+        results.setdefault(report.id, {}).setdefault(cat.organ_code(test), []).append(brief(obs, test, report))
     frames = []
-    for rid, by_organ in statuses.items():
-        organs = [BodyMapOrgan(code=code, status=worst(items), results=len(items),
-                               out_of_range=sum(SEVERITY[s] > 0 for s in items))
+    for rid, by_organ in results.items():
+        organs = [BodyMapOrgan(code=code, status=worst(b.status for b in items), results=len(items),
+                               out_of_range=sum(SEVERITY[b.status] > 0 for b in items), tests=worst_first(items))
                   for code, items in by_organ.items()]
         organs.sort(key=lambda o: (-SEVERITY[o.status], o.code))
         report = reports[rid]
         frames.append(BodyMapFrame(report_id=rid, date=result_date(report), lab_name=report.lab_name, organs=organs))
     frames.sort(key=lambda f: (f.date, reports[f.report_id].created_at))
     return frames
+
+
+@router.get("/v1/profiles/{profile_id}/organs/{organ_code}", response_model=OrganHistoryOut)
+def organ_history(profile_id: uuid.UUID, organ_code: str, session: Session = Depends(get_session),  # noqa: B008
+                  user: AppUser = Depends(current_user)):  # noqa: B008
+    """Every test of one organ system with all its confirmed results and their as-of analysis (FR-28)."""
+    profile = owned_profile(session, user, profile_id)
+    cat = _Catalogue(session)
+    organ = next((o for o in cat.organs.values() if o.code == organ_code), None)
+    if organ is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Organ system not found.")
+    test_ids = {t.id for t in cat.tests.values() if t.organ_system_id == organ.id}
+    tests = []
+    for test_id, series in history(session, profile.id, test_ids).items():
+        test = cat.tests[test_id]
+        limits = rcv(test.cv_analytical, test.cv_within_subject)
+        tests.append(OrganTestHistory(
+            test=TestInfoOut(code=test.code, name=test.canonical_name, short_name=test.short_name,
+                             unit=test.canonical_unit, decimals=test.decimals, organ=organ.code,
+                             rcv_down=limits.down if limits else None, rcv_up=limits.up if limits else None),
+            results=[_result(r.obs, r.report, cat) for r in series],
+        ))
+    order = {t.code: t.id for t in cat.tests.values()}
+    tests.sort(key=lambda h: (-SEVERITY[h.results[-1].status], order[h.test.code]))
+    return OrganHistoryOut(code=organ.code, names={"en": organ.name_en, "hi": organ.name_hi, "or": organ.name_or},
+                           person=_person(profile), tests=tests)

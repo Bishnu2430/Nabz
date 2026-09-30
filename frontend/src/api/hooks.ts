@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "./client";
 import type {
-  BodyMapFrame, CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
+  BodyMapFrame, CatalogueTest, HealthRecord, OrganHistory, RecordKind, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
   Report, ReportStatus, ReportSummary,
   TestHistory, Watch,
 } from "./types";
@@ -180,3 +180,67 @@ export const useBodyMap = (profileId: string) =>
     queryKey: ["body-map", profileId],
     queryFn: () => api.get<BodyMapFrame[]>(`/v1/profiles/${profileId}/body-map`),
   });
+
+/** Every test of one organ system with its whole history (the body map's organ panel). */
+export const useOrganHistory = (profileId: string, organ: string | null) =>
+  useQuery({
+    queryKey: ["organ", profileId, organ],
+    enabled: Boolean(profileId && organ),
+    queryFn: () => api.get<OrganHistory>(`/v1/profiles/${profileId}/organs/${organ}`),
+  });
+
+export function useReportNote(reportId: string, profileId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (note: string) => api.patch<ReportSummary>(`/v1/reports/${reportId}`, { note }),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ["reports", profileId] });
+      void qc.invalidateQueries({ queryKey: ["insights", reportId] });
+    },
+  });
+}
+
+// --- Other health records ----------------------------------------------------------------------------------------
+
+export const useRecords = (profileId: string) =>
+  useQuery({
+    queryKey: ["records", profileId],
+    queryFn: () => api.get<HealthRecord[]>(`/v1/profiles/${profileId}/records`),
+  });
+
+export interface RecordIn {
+  file: File;
+  kind: RecordKind;
+  title: string;
+  record_date?: string;
+  facility?: string;
+  notes?: string;
+}
+
+export function useAddRecord(profileId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (r: RecordIn) => {
+      const form = new FormData();
+      form.append("file", r.file);
+      form.append("kind", r.kind);
+      form.append("title", r.title);
+      if (r.record_date) form.append("record_date", r.record_date);
+      if (r.facility) form.append("facility", r.facility);
+      if (r.notes) form.append("notes", r.notes);
+      return api.post<HealthRecord>(`/v1/profiles/${profileId}/records`, form);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["records", profileId] }),
+  });
+}
+
+export function useDeleteRecord(profileId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/v1/records/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["records", profileId] }),
+  });
+}
+
+export const recordFileUrl = (id: string) => `/v1/records/${id}/file`;
+export const recordImageUrl = (id: string) => `/v1/records/${id}/image`;

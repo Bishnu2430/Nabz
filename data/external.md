@@ -70,3 +70,7 @@ Location: `data/external/models/multilingual-e5-small/`, downloaded 2026-09-29.
 | `tokenizer.json` | `https://huggingface.co/Xenova/multilingual-e5-small/resolve/main/tokenizer.json` | 17,082,730 | `0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39` |
 | `onnx/model_quantized.onnx` | `https://huggingface.co/Xenova/multilingual-e5-small/resolve/main/onnx/model_quantized.onnx` | 118,308,185 | `f80102d3f2a1229f387d3c81909990d8945513e347b0eab049f7de3c6f98c193` |
 | `MODEL_CARD.md` | `https://huggingface.co/intfloat/multilingual-e5-small/resolve/main/README.md` | 497,538 | model card, licence: MIT |
+
+## Wikimedia Commons medical images (sample family)
+
+Five openly licensed X-ray and MRI images (CC0, public domain, CC BY 2.0, CC BY-SA 4.0), used in the imaging reports that `python -m tools.family` gives the sample family. They are committed in [`data/imaging/`](imaging/README.md), which lists each file's author, licence, size and SHA-256. Downloaded 2026-09-30.

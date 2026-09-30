@@ -113,7 +113,12 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET | `/reports/{id}/insights` | Critical results first, then organ systems worst first, each result with status, change, trend and percentile; explanation and audio from Sprint 5 | FR-16–FR-20 | ✓ |
 | GET | `/profiles/{id}/tests/{code}` | One test over time with each result's as-of analysis and the test's RCV | FR-18, FR-19 | ✓ |
 | GET | `/profiles/{id}/watch` | Tests whose latest result has a confirmed trend or a significant change | FR-18, FR-19 | ✓ |
-| GET | `/profiles/{id}/body-map` | Each confirmed report's organ systems with their worst status and counts, oldest first (the body-map timeline) | FR-27, FR-29 | ✓ |
+| GET | `/profiles/{id}/body-map` | Each confirmed report's organ systems with their worst status, counts and every result as a one-line brief, oldest first (the timeline, all tests, compare, summary) | FR-27, FR-29 | ✓ |
+| GET | `/profiles/{id}/organs/{code}` | Every test of one organ system with all its results and their as-of analysis (the organ panel) | FR-28 | ✓ |
+| PATCH | `/reports/{id}` | The person's own note on a report | — | ✓ |
+| GET · POST | `/profiles/{id}/records` | Other records: list / add (multipart: file, kind, title, date, facility, notes). Imaging keeps its study image and the report's findings and impression | — | ✓ |
+| GET | `/records/{id}/file` · `/records/{id}/image` | The stored file / the study image | — | ✓ |
+| PATCH · DELETE | `/records/{id}` | Edit / delete a record (file and study image) | FR-33 | ✓ |
 | POST | `/reports/{id}/share` · DELETE `/shares/{id}` | Create / revoke a share link | FR-34 | |
 | GET | `/shared/{token}` | Doctor's read-only view (no session) | FR-34 | |
 | GET | `/profiles/{id}/export` | Everything held about the person as one JSON file (`nabz-export` version 1): person, consents, reports with results as printed and as confirmed, analysis, explanations; files listed with checksums. The printable PDF summary is the planned `/r/{id}/print` page | FR-32 | ✓ (JSON) |
@@ -181,6 +186,10 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/components/PrivacyChoices.tsx` | Per-purpose consent switches on the person page (external AI, voice) | 5 |
 | `src/api/auth.ts`, `src/api/queryClient.ts` | Account hooks (sign-in, sign-up, verification, reset, two-step sign-in, deletion) that keep the CSRF token current; a 401 on any request clears the account so the guard sends the person to sign-in | 6 |
 | `src/routes/account/`, `Landing`, `Legal` | Sign in, sign up, confirm email, forgot and reset password, settings; landing page; privacy notice and "what Nabz is and is not" | 6 |
+| `src/components/exact/`, `src/lib/series.ts` | Exact wording for any result (value, unit, the lab's range, how far outside it is), value chips, sparklines; results grouped by test across reports | 7 |
+| `src/components/body/OrganPanel.tsx` | The chosen organ system on one report: each test as a small chart card, beyond-critical first | 7 |
+| `src/components/records/` | Other records, and the imaging viewer (zoom, pan, window/level, invert, rotate, magnifier, full screen) beside the report's findings and impression | 7 |
+| `src/routes/` (after Sprint 6) | `AllTests` (`/p/:id/tests`), `Summary` (`/p/:id/summary`, printable), `Compare` (`/p/:id/compare`) | 7 |
 | `src/components/RequireAuth.tsx` | Guard for signed-in pages (`next` follows same-site paths only); staff without two-step sign-in reach only its set-up | 6 |
 | `src/features/admin/` | Catalogue and knowledge-base tables | 7 |
 
@@ -203,4 +212,5 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.2 | 2026-09-27 | §4 built endpoints, development auth, error details; §6 frontend structure as built in Sprint 3 |
 | 0.3 | 2026-09-28 | §4 insights, test history and watch endpoints; §6 insights screens |
 | 0.4 | 2026-09-30 | §4 consent, explanation, narration and feedback endpoints; §6 explanation and privacy components |
+| 0.6 | 2026-09-30 | §4 organ history, report notes, other records and study images; §6 organ panel, exact values, records and viewer, new pages |
 | 0.5 | 2026-09-30 | §4 sessions, CSRF and account endpoints, profile export and deletion, body-map timeline; §6 account screens and body map as built in Sprint 6 |

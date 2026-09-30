@@ -103,6 +103,13 @@ class Lab:
     unit_style: str
     layout: str
     range_seed: int
+    phone: str = ""
+    email: str = ""
+    tagline: str = "Pathology · Biochemistry · Haematology · Clinical Pathology"
+    colour: str = "#1f5f8b"  # logo and rule colour
+    technologist: str = ""
+    referrer: str = "Self"  # printed as "Ref. By": the doctor who asked for the test
+    collection_point: str = "Main Centre"
 
 
 @dataclass
@@ -211,8 +218,8 @@ def build_sections(values: dict[str, float], persona: Persona, package: str, lab
             # Labs differ slightly: shift each bound by up to 4 % of the range width (3 % of the
             # bound itself when the range is one-sided), so narrow ranges never invert.
             width = (hi - lo) if lo is not None and hi is not None else None
-            if lo is not None:
-                lo += jitter[code][0] * (0.04 * width if width else 0.03 * lo)
+            if lo:  # a lower bound of 0 stays 0: labs print "0 - 39", never "-1 to 39"
+                lo = max(lo + jitter[code][0] * (0.04 * width if width else 0.03 * lo), 0.0)
             if hi is not None:
                 hi += jitter[code][1] * (0.04 * width if width else 0.03 * hi)
 

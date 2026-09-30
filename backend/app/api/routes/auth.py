@@ -221,7 +221,8 @@ def delete_account(body: PasswordIn, response: Response, found: Found = Depends(
     if not security.verify_password(user.password_hash, body.password):
         raise HTTPException(status.HTTP_400_BAD_REQUEST, {"detail": "Your password is wrong.",
                                                           "code": "current_password"})
-    keys = data_rights.stored_keys(session, data_rights.account_reports(user.id))
+    keys = (data_rights.stored_keys(session, data_rights.account_reports(user.id))
+            + data_rights.record_keys(session, data_rights.account_records(user.id)))
     audit.record(session, None, "account.delete", "app_user", user.id, files=len(keys))
     session.delete(user)
     session.commit()
