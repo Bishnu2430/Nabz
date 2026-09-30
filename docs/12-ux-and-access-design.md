@@ -144,7 +144,11 @@ Brush lettering is decorative only and never carries information.
 | | `/admin` `/admin/catalogue` `/admin/knowledge` `/admin/jobs` `/admin/audit` | Health, catalogue, knowledge base, job monitor, audit log | admin | Should |
 | System | — | 404, error boundary, offline banner | all | Must |
 
-**Built by the end of Sprint 6:** the public pages (`/`, the sign-in flows, `/privacy`, `/safety`), `/home`, `/p/:id` (with the body-map timeline), `/p/:id/upload`, `/r/:id/review`, `/r/:id` (with the body map), `/p/:id/tests/:code` and `/settings` (which also holds each person's export and deletion). Not yet: `/welcome`, `/r/:id/print`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, and the clinician, reviewer and admin areas.
+**Built by the end of Sprint 6:** the public pages (`/`, the sign-in flows, `/privacy`, `/safety`), `/home`, `/p/:id` (with the body-map timeline), `/p/:id/upload`, `/r/:id/review`, `/r/:id` (with the body map), `/p/:id/tests/:code` and `/settings` (which also holds each person's export and deletion). Added after Sprint 6: `/p/:id/tests` (every test, searchable), `/p/:id/summary` (a printable summary for the doctor, which replaces `/r/:id/print`), `/p/:id/compare`, and other records with an imaging viewer on the person page.
+
+**Exact values.** Wherever results are summarised, Nabz names the value, its unit, the lab's range and how far outside it is ("Creatinine 1.85 mg/dL, 42 % above the upper limit 1.30"), never only a count such as "2 of 3 out of range". This applies to family cards, report rows, the organ list and the organ panel.
+
+Not yet: `/welcome`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, and the clinician, reviewer and admin areas.
 
 ## Revision history
 
@@ -152,4 +156,5 @@ Brush lettering is decorative only and never carries information.
 |---|---|---|
 | 0.1 | 2026-09-27 | Decisions D1–D6, roles, authentication, visual design and page map |
 | 0.2 | 2026-09-27 | §5.1 light-theme status colours adjusted to pass WCAG AA; contrast results |
+| 0.4 | 2026-09-30 | §6 new pages, exact-values rule, imaging viewer |
 | 0.3 | 2026-09-30 | §3 accounts as built in Sprint 6 (schema, rate limits, enumeration resistance, session rules, staff, deletion); §5.3 rice-paper body as built; §6 build status |

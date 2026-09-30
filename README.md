@@ -8,7 +8,11 @@ Nabz reads a photo or PDF of a blood-test report and asks you to confirm the val
 
 ## Status
 
-Sprint 5 is done: after analysis, Nabz writes a plain-language explanation in English, Hindi or Odia, grounded in MedlinePlus passages and checked by deterministic rules and an LLM judge before anyone sees it. It can read the explanation aloud. Without consent to external AI, for critical values, or whenever a check fails, it shows an explanation built only from the computed values. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
+Sprint 6 is done: accounts with two-step sign-in for staff; data export and deletion; and a 3D body map whose organ panels give each result's exact value, range and history. Since then:
+- other records (X-ray and scan reports with an image viewer, prescriptions);
+- a printable summary for the doctor;
+- report comparison and search across all tests;
+- a sample family, the Mohantys, with five years of reports. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
 | Component | State |
 |---|---|
@@ -21,7 +25,8 @@ Sprint 5 is done: after analysis, Nabz writes a plain-language explanation in En
 | Web app: family, upload with live progress, review and confirm | ✅ Sprint 3 |
 | Analysis: status, critical values, change significance (RCV), trends, NHANES percentiles | ✅ Sprint 4 |
 | Explanations (Groq gpt-oss-120b, MedlinePlus retrieval, validator + judge, template fallback) and narration (ElevenLabs) | ✅ Sprint 5 |
-| 3D body map; sign-in and roles | Sprints 5–6 |
+| Accounts, sessions, two-step sign-in; export and deletion; 3D body map with organ panels and timeline | ✅ Sprint 6 |
+| Other records with an imaging viewer; doctor summary; compare; all tests; sample family | ✅ after Sprint 6 |
 
 ## Quick start
 
@@ -63,7 +68,13 @@ Staff and seeded accounts are created from the command line (reviewers and admin
 docker compose exec api python -m app.cli create-user --email reviewer@nabz.local --password "<password>" --role reviewer
 ```
 
-Development data from before Sprint 6 belongs to `dev@nabz.local`. Choose a password for it (keep it in your own `.env` as `DEV_ACCOUNT_PASSWORD`, never in `.env.example`) and set it:
+Load the sample family (five people, 38 lab reports and 5 X-ray and MRI reports from 2021 to 2026, uploaded and confirmed through the API as a person would) into an account. `--replace` first deletes everyone on that account:
+
+```bash
+docker compose exec api python -m tools.family --email dev@nabz.local --replace
+```
+
+The development account is `dev@nabz.local`. Choose a password for it (keep it in your own `.env` as `DEV_ACCOUNT_PASSWORD`, never in `.env.example`) and set it:
 
 ```bash
 docker compose exec api python -m app.cli set-password --email dev@nabz.local --password "<DEV_ACCOUNT_PASSWORD>"

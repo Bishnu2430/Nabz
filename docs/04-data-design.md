@@ -35,6 +35,7 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | | `report_file` | Original file metadata; the file itself is on the volume | 100s |
 | | `report_page` | Page size in points and reader output (JSONB: `source`, `quality`, `skew` angle, tokens) | 100s |
 | | `processing_job` | Durable queue item per pipeline stage | 1,000s |
+| | `health_record` | Other records kept with the reports (imaging, prescription, discharge, vaccination): the file, and for imaging the study image and the report's title, findings, impression and image credit (`study` JSONB). Stored, never analysed | 100s |
 | | `observation` | One result row: raw text, typed value, range, status, confidence | 10,000s |
 | Clinical catalogue | `organ_system` | Organ systems and their 3D mesh IDs | ~15 |
 | | `lab_test` | Supported tests: LOINC code, aliases, canonical unit, biological variation | ~60 → 150 |
@@ -65,6 +66,7 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | `lang` | `en`, `hi`, `or` |
 | `user_role` | `user`, `clinician`, `reviewer`, `admin` (reviewer and admin are staff: two-step sign-in required, 1-day sessions) |
 | `token_purpose` | `verify_email`, `reset_password` |
+| `record_kind` | `imaging`, `prescription`, `discharge`, `vaccination`, `other` |
 
 ## 5. Data dictionary: core tables
 
@@ -179,6 +181,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | Data | Retention | Mechanism |
 |---|---|---|
 | Report files, pages, observations, explanations, narration audio | Until the user deletes the report, the person or the account | Hard delete at once (FR-33): rows through foreign-key cascades, then the stored uploads and audio; only an audit entry without health data remains |
+| Other records (files, study images) | Until the user deletes the record, the person or the account | Hard delete with the person or account; both the file and the study image go |
 | Sessions and email tokens | Until sign-out, expiry or account deletion | Revoked rows are kept for the account's lifetime; deleted with the account |
 | Consent records | Account lifetime + 1 year (evidence of consent) | Kept after withdrawal, marked `revoked_at` |
 | `audit_log` | 1 year | Monthly partition drop |
@@ -199,4 +202,5 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.2 | 2026-09-27 | `observation`: `raw_flag`, `section` (Sprint 2); `ocr_confidence`, `match_score`, `match_method`, `match_candidates` and the `bbox` format (Sprint 3); `report_page.ocr.skew` |
 | 0.3 | 2026-09-28 | `observation.analysis`; `trend_insight.direction`, `confirmed`, `last_observation_id`; percentiles seeded from NHANES |
 | 0.4 | 2026-09-30 | `processing_job.args`; `explanation.content` sources and meta; knowledge base loaded (46 documents, 436 passages) |
+| 0.6 | 2026-09-30 | `health_record` and `record_kind`; `report.note` (the person's own note) |
 | 0.5 | 2026-09-30 | §5.7 accounts and sessions: `user_session`, `auth_token`, `app_user` columns, `user_role` and `token_purpose` values; §6 hard deletion as built |

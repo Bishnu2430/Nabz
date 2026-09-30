@@ -328,6 +328,26 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 - **Bundle:** the 3D code is a separate chunk loaded only when shown: 965 kB, 255 kB gzipped. The main bundle is 539 kB, 164 kB gzipped.
 - **NFR-03 (≥ 45 fps at 1080p) is not measured yet.** The embedded browser used for development reports itself as hidden, so frame timing there is throttled. Measure with the Chrome performance panel on the reference laptop, with the 3D view open and an abnormal organ breathing.
 
+## 14. Sample family and records (after Sprint 6)
+
+**The Mohanty family** (`python -m tools.family`): 38 lab reports and 5 imaging reports, 2021–2026.
+- Each lab report was uploaded through the API, 35 as PDFs and 3 as phone photos, then read by the worker.
+- It was then checked against its ground truth and confirmed, as a person would do on the review screen.
+- **PDFs:** every value, unit and range was read correctly; no row needed correcting.
+- **Phone photos:** each missed rows that had to be typed in (2, 6 and 2 rows). None was misread.
+
+**Generator fix.** A range starting at 0 used to be shifted below zero ("-1 to 39", for GGT, PSA and urine albumin). It now stays at 0, and `tests/test_synthetic.py` checks it.
+
+**Automated tests:**
+- **Backend:** 366 tests.
+  - Other records: privacy, export and erasure.
+  - The study image and report text taken from an imaging PDF.
+  - Exact values on report lists, family cards and body-map frames; the organ history; report notes.
+- **Web app:** 56 tests.
+  - The organ panel's exact wording ("23 % above the upper limit 1.3", "+33 % since 4 Jun 2025 (was 1.2 mg/dL)").
+  - The report list filtered by organ; family cards; all tests and search; compare; records.
+  - The imaging viewer: the findings, impression and credit; invert, the magnifier and Escape.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -339,3 +359,4 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 | 0.5 | 2026-09-30 | §12 Sprint 5 explanation results (red-team, live runs, prompt iterations) |
 | 0.6 | 2026-09-30 | §12 summary format with symptoms (explain-v5) |
 | 0.7 | 2026-09-30 | §13 Sprint 6 accounts, data rights and body map; TC-01, TC-18–TC-20 status |
+| 0.8 | 2026-09-30 | §14 sample family, records, imaging viewer and exact values |

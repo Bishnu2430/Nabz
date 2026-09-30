@@ -1,7 +1,7 @@
 """Live evaluation of explanations (docs/11 §4): how often the model's text is shown, why the template is used
 otherwise, latency, tokens, cost and readability.
 
-    python -m tools.eval.explanations --profile "Explanation eval" --languages en,hi \
+    python -m tools.eval.explanations --profile "Ramesh Mohanty" --languages en,hi \
         --out /srv/data/eval/explanations.jsonl
 
 Each report and language runs through the real pipeline (Groq, E5 retrieval, validator, judge) inside a transaction
@@ -127,7 +127,7 @@ def summarise(records: list[dict]) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser(prog="python -m tools.eval.explanations")
-    ap.add_argument("--profile", default="Explanation eval")
+    ap.add_argument("--profile", default="Ramesh Mohanty", help="a person on the account, e.g. from tools.family")
     ap.add_argument("--languages", default="en,hi")
     ap.add_argument("--limit", type=int, default=8)
     ap.add_argument("--pause", type=float, default=20.0, help="seconds between explanations (rate limits)")
