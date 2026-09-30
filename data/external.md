@@ -38,3 +38,35 @@ Source: `https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/<file>.xpt`
 - A cell needs at least 100 participants.
 - Urea, non-HDL, TC/HDL, VLDL, eAG and eGFR (CKD-EPI 2021) are computed per participant first.
 - Result: 966 cells for 46 tests.
+
+## MedlinePlus Connect (knowledge base)
+
+US National Library of Medicine. NLM-authored MedlinePlus content is **in the public domain**. Pages carrying licensed third-party content (A.D.A.M.) are rejected by the build.
+
+```bash
+docker compose exec api python -m tools.knowledge fetch
+```
+
+```bash
+docker compose exec api python -m tools.knowledge build
+```
+
+```bash
+docker compose exec api python -m app.cli load-knowledge
+```
+
+- **fetch:** queries `https://connect.medlineplus.gov/service` once per catalogue LOINC code, at one request a second (Connect allows 100 a minute). Raw JSON responses go to `data/external/medlineplus/<loinc>.json`; 70 responses were retrieved on 2026-09-29.
+- **build:** writes `data/knowledge/chunks.jsonl` (436 passages) and `data/knowledge/manifest.csv` (46 documents, each with its URL, the tests it serves, its licence and the SHA-256 of its content). Both files are committed.
+- **load-knowledge:** embeds the passages and loads them into `kb_document` and `kb_chunk`.
+
+## multilingual-e5-small (embedding model)
+
+`intfloat/multilingual-e5-small`, **MIT licence**, as the int8 ONNX export published by Xenova on Hugging Face. It's used for retrieval only, on ONNX Runtime.
+
+Location: `data/external/models/multilingual-e5-small/`, downloaded 2026-09-29.
+
+| File | Source | Bytes | SHA-256 |
+|---|---|---|---|
+| `tokenizer.json` | `https://huggingface.co/Xenova/multilingual-e5-small/resolve/main/tokenizer.json` | 17,082,730 | `0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39` |
+| `onnx/model_quantized.onnx` | `https://huggingface.co/Xenova/multilingual-e5-small/resolve/main/onnx/model_quantized.onnx` | 118,308,185 | `f80102d3f2a1229f387d3c81909990d8945513e347b0eab049f7de3c6f98c193` |
+| `MODEL_CARD.md` | `https://huggingface.co/intfloat/multilingual-e5-small/resolve/main/README.md` | 497,538 | model card, licence: MIT |

@@ -38,6 +38,21 @@ def cmd_seed_catalogue(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_load_knowledge(args: argparse.Namespace) -> int:
+    from app.knowledge.embed import default_embedder
+    from app.knowledge.store import load_knowledge
+
+    embedder = default_embedder()
+    if embedder is None:
+        print("embedding model not found in data/external/models (see data/external.md)", file=sys.stderr)
+        return 1
+    path = Path(args.file or Path(settings.data_dir) / "knowledge" / "chunks.jsonl")
+    with SessionLocal.begin() as session:
+        result = load_knowledge(session, embedder, path)
+    print(f"loaded {result.documents} documents, {result.chunks} passages ({embedder.name})")
+    return 0
+
+
 def cmd_ingest(args: argparse.Namespace) -> int:
     """Development helper until the upload API exists: queue a file for a local dev profile."""
     data = Path(args.file).read_bytes()
@@ -86,6 +101,9 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("seed-catalogue", help="load data/catalogue/*.csv into the database")
     p.add_argument("--dir", help="catalogue directory (default: $DATA_DIR/catalogue)")
     p.set_defaults(func=cmd_seed_catalogue)
+    p = sub.add_parser("load-knowledge", help="embed data/knowledge/chunks.jsonl into the knowledge base")
+    p.add_argument("--file")
+    p.set_defaults(func=cmd_load_knowledge)
     p = sub.add_parser("ingest", help="queue a report file for a local development profile")
     p.add_argument("file")
     p.add_argument("--email", default="dev@nabz.local")
