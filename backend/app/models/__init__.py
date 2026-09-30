@@ -10,13 +10,13 @@ from app.models.catalogue import (
     UnitConversion,
 )
 from app.models.governance import AuditLog, Feedback, ShareLink
-from app.models.identity import AppUser, Consent, Profile
+from app.models.identity import AppUser, AuthToken, Consent, Profile, UserSession
 from app.models.knowledge import Explanation, ExplanationCitation, KbChunk, KbDocument, TrendInsight
 from app.models.reports import Observation, ProcessingJob, Report, ReportFile, ReportPage
 
 __all__ = [
-    "AppUser", "AuditLog", "Base", "Consent", "CriticalLimit", "Explanation", "ExplanationCitation",
+    "AppUser", "AuditLog", "AuthToken", "Base", "Consent", "CriticalLimit", "Explanation", "ExplanationCitation",
     "Feedback", "KbChunk", "KbDocument", "LabTest", "Observation", "OrganSystem", "PopulationPercentile",
     "ProcessingJob", "Profile", "ReferenceRange", "Report", "ReportFile", "ReportPage", "ShareLink",
-    "TrendInsight", "UnitConversion",
+    "TrendInsight", "UnitConversion", "UserSession",
 ]

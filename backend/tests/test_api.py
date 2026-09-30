@@ -1,6 +1,7 @@
 """REST API: upload → worker → review → confirm, ownership and error format, on a throwaway database."""
 
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -36,7 +37,8 @@ def as_user(sessions: sessionmaker[Session]):
     def switch(name: str) -> AppUser:
         if name not in users:
             with sessions.begin() as s:
-                u = AppUser(email=f"{name}@nabz.local", password_hash=UNUSABLE_PASSWORD_HASH)
+                u = AppUser(email=f"{name}@nabz.local", password_hash=UNUSABLE_PASSWORD_HASH,
+                            email_verified_at=datetime.now(UTC))
                 s.add(u)
             users[name] = u
         app.dependency_overrides[deps.current_user] = lambda: users[name]
@@ -160,9 +162,8 @@ def test_catalogue_is_public(client: TestClient) -> None:
         t for t in tests if t["code"] == "hba1c").items()
 
 
-def test_sign_in_is_required_without_dev_auth(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_sign_in_is_required(client: TestClient) -> None:
     app.dependency_overrides.pop(deps.current_user)
-    monkeypatch.setattr(settings, "dev_auth", False)
     r = client.get("/v1/profiles")
     assert r.status_code == 401 and r.json()["title"] == "Not signed in"
 
@@ -272,3 +273,38 @@ def test_explanations_are_private(client: TestClient, as_user, sessions, storage
     assert client.get(f"/v1/reports/{rid}/explanation").status_code == 404
     assert client.post(f"/v1/explanations/{eid}/audio").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/consents").status_code == 404
+
+
+def test_export_and_delete_a_person(client: TestClient, as_user, sessions, storage, catalogue: CatalogueData) -> None:
+    from app.api.routes import explanations
+
+    pid = _profile(client)
+    rid = _read_and_confirm(client, sessions, storage, catalogue, pid, "syn-2026-0002")
+    Worker(sessions, [ExplanationStage(None, None)]).run_once()
+    eid = client.get(f"/v1/reports/{rid}/explanation?lang=en").json()["explanation"]["id"]
+    app.dependency_overrides[explanations.get_tts] = FakeTTS
+    client.put(f"/v1/profiles/{pid}/consents/voice", json={"granted": True})
+    client.post(f"/v1/explanations/{eid}/audio")
+    assert {p.suffix for p in storage.root.rglob("*") if p.is_file()} == {".pdf", ".mp3"}
+
+    r = client.get(f"/v1/profiles/{pid}/export")
+    assert r.status_code == 200 and r.headers["content-disposition"].startswith('attachment; filename="nabz-ramesh-')
+    data = r.json()
+    assert data["format"] == "nabz-export" and data["person"]["display_name"] == "Ramesh"
+    assert {c["purpose"] for c in data["consents"]} == {"processing", "voice"}
+    report = data["reports"][0]
+    hb = next(x for x in report["results"] if x["test_code"] == "hb")
+    assert hb["organ_system"] == "blood" and hb["as_printed"]["value"] and hb["confirmed_at"]
+    assert report["explanations"][0]["content"]["summary"] and report["files"][0]["sha256"]
+
+    as_user("mallory")
+    assert client.get(f"/v1/profiles/{pid}/export").status_code == 404
+    assert client.delete(f"/v1/profiles/{pid}").status_code == 404
+    as_user("alice")
+    assert client.delete(f"/v1/profiles/{pid}").status_code == 204
+    assert client.get(f"/v1/reports/{rid}").status_code == 404 and client.get("/v1/profiles").json() == []
+    assert not any(p.is_file() for p in storage.root.rglob("*"))  # the upload and the narration audio
+    with sessions() as s:
+        assert s.scalars(select(Observation)).all() == []
+        entry = s.scalars(select(AuditLog).where(AuditLog.action == "profile.delete")).one()
+        assert entry.meta == {"files": 2}

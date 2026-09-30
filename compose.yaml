@@ -38,7 +38,7 @@ services:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nabz}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-nabz}
       UPLOAD_DIR: /data/uploads
       DATA_DIR: /srv/data
-      DEV_AUTH: "true"   # single development user until accounts land (Sprint 6); refused outside development
+      SMTP_HOST: mailpit              # every email lands in the Mailpit inbox (http://localhost:8025)
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "app"]
     volumes:
       - ./backend:/app              # source, tests and migrations (hot reload)
@@ -87,6 +87,12 @@ services:
       - "127.0.0.1:${WEB_HOST_PORT:-5173}:5173"
     depends_on:
       - api
+
+  mailpit:
+    image: axllent/mailpit:v1.27   # catches outgoing email in development; web inbox on :8025
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_HOST_PORT:-8025}:8025"
 
   ollama:
     image: ollama/ollama:latest   # pin to a specific tag once the model choice is final

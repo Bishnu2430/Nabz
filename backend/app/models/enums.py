@@ -67,8 +67,18 @@ class Lang(StrEnum):
 
 
 class UserRole(StrEnum):
-    USER = "user"
+    USER = "user"  # member: manages their family's reports
+    CLINICIAN = "clinician"
+    REVIEWER = "reviewer"  # clinical reviewer: safety queue, sign-offs
     ADMIN = "admin"
+
+
+STAFF_ROLES = frozenset({UserRole.REVIEWER, UserRole.ADMIN})  # TOTP required, 1-day sessions
+
+
+class TokenPurpose(StrEnum):
+    VERIFY_EMAIL = "verify_email"
+    RESET_PASSWORD = "reset_password"  # noqa: S105 - a token purpose, not a password
 
 
 class Relationship(StrEnum):

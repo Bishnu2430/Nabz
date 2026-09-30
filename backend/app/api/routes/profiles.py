@@ -2,14 +2,16 @@ import uuid
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import func, select
+from fastapi.responses import JSONResponse
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
-from app.api.deps import current_user, get_session, owned_profile
+from app.api.deps import current_user, get_session, get_storage, owned_profile
 from app.models import AppUser, Consent, Profile, Report
 from app.models.enums import ConsentPurpose
 from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut
-from app.services import audit
+from app.services import audit, data_rights
+from app.storage import StorageBackend
 
 router = APIRouter(prefix="/v1/profiles", tags=["profiles"])
 POLICY_VERSION = "2026-09-draft"
@@ -76,3 +78,30 @@ def set_consent(profile_id: uuid.UUID, purpose: ConsentPurpose, body: ConsentIn,
     audit.record(session, user.id, "consent.set", "profile", profile_id, purpose=purpose.value, granted=body.granted)
     session.commit()
     return ConsentOut(purpose=purpose, granted=current is not None, granted_at=current.granted_at if current else None)
+
+
+@router.get("/{profile_id}/export")
+def export_profile(profile_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                   user: AppUser = Depends(current_user)):  # noqa: B008
+    """Everything Nabz holds about this person, as one JSON file (FR-32)."""
+    profile = owned_profile(session, user, profile_id)
+    body = data_rights.export_profile(session, profile)
+    audit.record(session, user.id, "profile.export", "profile", profile.id, reports=len(body["reports"]))
+    session.commit()
+    return JSONResponse(body, headers={
+        "Content-Disposition": f'attachment; filename="{data_rights.export_filename(profile)}"',
+        "Cache-Control": "no-store",
+    })
+
+
+@router.delete("/{profile_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_profile(profile_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                   user: AppUser = Depends(current_user),  # noqa: B008
+                   storage: StorageBackend = Depends(get_storage)):  # noqa: B008
+    """Hard delete (FR-33): the person, their reports, files, audio, results, explanations and consents."""
+    profile = owned_profile(session, user, profile_id)
+    keys = data_rights.stored_keys(session, data_rights.profile_reports(profile.id))
+    audit.record(session, user.id, "profile.delete", "profile", profile.id, files=len(keys))
+    session.execute(delete(Profile).where(Profile.id == profile.id))
+    session.commit()
+    data_rights.remove_objects(storage, keys)

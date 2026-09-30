@@ -4,14 +4,16 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.api.routes import catalogue, explanations, insights, profiles, reports
+from app.api.routes import auth, catalogue, explanations, insights, profiles, reports
 from app.core.config import settings
 from app.db import engine
 
-if settings.dev_auth and settings.app_env != "development":
-    raise RuntimeError("DEV_AUTH is only allowed when APP_ENV=development")
+_weak_key = len(settings.secret_key) < 32 or settings.secret_key.startswith("development-only")
+if settings.app_env != "development" and _weak_key:
+    raise RuntimeError("Set SECRET_KEY (32+ characters) outside development")
 
 app = FastAPI(title="Nabz API", version="0.3.0")
+app.include_router(auth.router)
 app.include_router(profiles.router)
 app.include_router(reports.router)
 app.include_router(catalogue.router)

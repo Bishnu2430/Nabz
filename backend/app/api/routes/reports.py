@@ -25,7 +25,7 @@ from app.schemas import (
     ReportOut,
     ReportSummary,
 )
-from app.services import audit
+from app.services import audit, data_rights
 from app.services.analysis import analyse_profile
 from app.services.ingest import DuplicateReport, IngestError, ingest_report
 from app.services.interpretation import age_on, apply, default_interpreter, lab_test_ids, raw_row_of
@@ -87,6 +87,9 @@ async def upload_report(profile_id: uuid.UUID, file: UploadFile = File(...),  # 
                         session: Session = Depends(get_session), user: AppUser = Depends(current_user),  # noqa: B008
                         storage: StorageBackend = Depends(get_storage)):  # noqa: B008
     profile = owned_profile(session, user, profile_id)
+    if user.email_verified_at is None:
+        raise HTTPException(status.HTTP_403_FORBIDDEN,
+                            {"detail": "Confirm your email before uploading a report.", "code": "verify_email"})
     data = await file.read()
     try:
         report = ingest_report(session, storage, profile_id=profile.id, uploaded_by=user.id, data=data)
@@ -266,7 +269,7 @@ def delete_report(report_id: uuid.UUID, session: Session = Depends(get_session),
                   user: AppUser = Depends(current_user), storage: StorageBackend = Depends(get_storage)):  # noqa: B008
     """Hard delete (FR-33): files and rows go; an audit entry remains."""
     report = owned_report(session, user, report_id)
-    keys = session.scalars(select(ReportFile.storage_key).where(ReportFile.report_id == report.id)).all()
+    keys = data_rights.stored_keys(session, Report.id == report.id)
     test_ids = set(session.scalars(select(Observation.test_id).where(
         Observation.report_id == report.id, Observation.test_id.is_not(None), Observation.verified_at.is_not(None))))
     audit.record(session, user.id, "report.delete", "report", report.id)
@@ -274,5 +277,4 @@ def delete_report(report_id: uuid.UUID, session: Session = Depends(get_session),
     if test_ids:  # later reports may have used this one as their "previous" result
         analyse_profile(session, report.profile_id, test_ids)
     session.commit()
-    for key in keys:
-        storage.delete(key)
+    data_rights.remove_objects(storage, keys)

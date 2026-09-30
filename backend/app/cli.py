@@ -53,6 +53,47 @@ def cmd_load_knowledge(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_create_user(args: argparse.Namespace) -> int:
+    """Create a verified account (e.g. staff or seeded clinicians). Members normally sign up in the app."""
+    from datetime import UTC, datetime
+
+    from app.core.security import hash_password, password_problem
+    from app.models.enums import UserRole
+
+    if problem := password_problem(args.password, args.email):
+        print(problem, file=sys.stderr)
+        return 1
+    with SessionLocal.begin() as s:
+        if s.scalar(select(AppUser).where(AppUser.email == args.email.lower())):
+            print(f"{args.email} already has an account", file=sys.stderr)
+            return 1
+        s.add(AppUser(email=args.email.lower(), password_hash=hash_password(args.password), role=UserRole(args.role),
+                      email_verified_at=datetime.now(UTC)))
+    print(f"created {args.role} {args.email}")
+    return 0
+
+
+def cmd_set_password(args: argparse.Namespace) -> int:
+    """Set a password (and confirm the email) for an existing account, e.g. the pre-Sprint-6 development account."""
+    from datetime import UTC, datetime
+
+    from app.core.security import hash_password, password_problem
+
+    if problem := password_problem(args.password, args.email):
+        print(problem, file=sys.stderr)
+        return 1
+    with SessionLocal.begin() as s:
+        user = s.scalar(select(AppUser).where(AppUser.email == args.email.lower()))
+        if user is None:
+            print(f"no account for {args.email}", file=sys.stderr)
+            return 1
+        user.password_hash = hash_password(args.password)
+        user.email_verified_at = user.email_verified_at or datetime.now(UTC)
+        user.failed_logins, user.locked_until = 0, None
+    print(f"password set for {args.email}")
+    return 0
+
+
 def cmd_ingest(args: argparse.Namespace) -> int:
     """Development helper until the upload API exists: queue a file for a local dev profile."""
     data = Path(args.file).read_bytes()
@@ -104,6 +145,15 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("load-knowledge", help="embed data/knowledge/chunks.jsonl into the knowledge base")
     p.add_argument("--file")
     p.set_defaults(func=cmd_load_knowledge)
+    p = sub.add_parser("create-user", help="create a verified account (staff, seeded clinicians)")
+    p.add_argument("--email", required=True)
+    p.add_argument("--password", required=True)
+    p.add_argument("--role", default="user", choices=["user", "clinician", "reviewer", "admin"])
+    p.set_defaults(func=cmd_create_user)
+    p = sub.add_parser("set-password", help="set the password of an existing account and confirm its email")
+    p.add_argument("--email", required=True)
+    p.add_argument("--password", required=True)
+    p.set_defaults(func=cmd_set_password)
     p = sub.add_parser("ingest", help="queue a report file for a local development profile")
     p.add_argument("file")
     p.add_argument("--email", default="dev@nabz.local")
