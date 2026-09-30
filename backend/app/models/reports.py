@@ -164,4 +164,7 @@ class HealthRecord(Base):
     mime_type: Mapped[str] = mapped_column(Text)
     size_bytes: Mapped[int] = mapped_column(Integer)
     sha256: Mapped[str] = mapped_column(Text)
+    # for imaging: the study image taken out of the report, and the report's own title, findings and impression
+    image_key: Mapped[str | None] = mapped_column(Text)
+    study: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     created_at: Mapped[datetime] = created_at()

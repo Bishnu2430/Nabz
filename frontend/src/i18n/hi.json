@@ -280,5 +280,21 @@
     "print": "प्रिंट करें या PDF सहेजें",
     "latest": "नवीनतम परिणाम",
     "now": "अभी सीमा से बाहर"
+  },
+  "viewer": {
+    "view": "छवि देखें",
+    "close": "बंद करें",
+    "tool_move": "खिसकाएँ",
+    "tool_adjust": "चमक",
+    "tool_loupe": "आवर्धक",
+    "zoom_in": "बड़ा करें",
+    "zoom_out": "छोटा करें",
+    "rotate": "घुमाएँ",
+    "invert": "उलटें",
+    "reset": "रीसेट",
+    "brightness": "चमक",
+    "contrast": "कंट्रास्ट",
+    "findings": "निष्कर्ष",
+    "impression": "राय"
   }
 }

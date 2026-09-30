@@ -371,3 +371,33 @@ def test_exact_values_everywhere(client: TestClient, sessions, storage, catalogu
     creat = next(t for t in organ["tests"] if t["test"]["code"] == "creatinine")
     assert organ["names"]["en"] == "Kidneys" and [r["date"] for r in creat["results"]] == ["2024-07-02", "2025-06-04"]
     assert client.get(f"/v1/profiles/{pid}/organs/spleen").status_code == 404
+
+
+def test_imaging_record_keeps_its_study_image_and_report_text(client: TestClient, storage, tmp_path: Path) -> None:
+    from datetime import date
+
+    from tools.family.story import CREDITS, FAMILY, IMAGING_CENTRES
+    from tools.synthetic.imaging import ImagingCentre, ImagingSpec, render_imaging_pdf
+
+    study = FAMILY[4].imaging[0]  # knee MRI
+    pdf = tmp_path / "mri.pdf"
+    render_imaging_pdf(ImagingSpec(ImagingCentre(study.centre, **IMAGING_CENTRES[study.centre]), "Test Person", 26,
+                                   "male", "Dr. Test", date(2023, 11, 9), "RAD0001", study.title, study.history,
+                                   study.technique, study.findings, study.impression,
+                                   Path(settings.data_dir) / "imaging" / study.image, CREDITS[study.image]), pdf)
+    pid = _profile(client)
+    rec = client.post(f"/v1/profiles/{pid}/records", data={"kind": "imaging", "title": "MRI right knee"},
+                      files={"file": ("mri.pdf", pdf.read_bytes(), "application/pdf")}).json()
+    assert rec["has_image"] and rec["study_title"] == "MRI RIGHT KNEE"
+    assert rec["findings"][1] == "Cruciate and collateral ligaments are intact."
+    assert rec["impression"] == study.impression and rec["image_credit"].startswith("Image: Pil Kang")
+    image = client.get(f"/v1/records/{rec['id']}/image")
+    assert image.headers["content-type"] == "image/jpeg" and image.content.startswith(b"\xff\xd8")
+
+    plain = client.post(f"/v1/profiles/{pid}/records", data={"kind": "prescription", "title": "Rx"},
+                        files={"file": ("rx.pdf", pdf.read_bytes(), "application/pdf")}).json()
+    assert not plain["has_image"] and client.get(f"/v1/records/{plain['id']}/image").status_code == 404
+
+    assert client.delete(f"/v1/records/{rec['id']}").status_code == 204
+    assert client.delete(f"/v1/records/{plain['id']}").status_code == 204
+    assert not any(p.is_file() for p in storage.root.rglob("*"))

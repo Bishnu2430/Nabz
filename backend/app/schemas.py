@@ -438,6 +438,11 @@ class RecordOut(BaseModel):
     mime_type: str
     size_bytes: int
     created_at: datetime
+    has_image: bool = False
+    study_title: str | None = None
+    findings: list[str] = Field(default_factory=list, description="As written in the report, not interpreted")
+    impression: list[str] = Field(default_factory=list)
+    image_credit: str | None = Field(default=None, description="The image's author and licence, shown with it")
 
 
 class RecordPatch(BaseModel):

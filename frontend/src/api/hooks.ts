@@ -243,3 +243,4 @@ export function useDeleteRecord(profileId: string) {
 }
 
 export const recordFileUrl = (id: string) => `/v1/records/${id}/file`;
+export const recordImageUrl = (id: string) => `/v1/records/${id}/image`;

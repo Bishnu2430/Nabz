@@ -110,3 +110,34 @@ describe("report notes", () => {
     await waitFor(() => expect(calls.find((c) => c.method === "PATCH")?.body).toEqual({ note: "Not fasting" }));
   });
 });
+
+describe("imaging viewer", () => {
+  it("opens the study with the radiologist's words and responds to the keyboard", async () => {
+    mockApi({
+      "GET /v1/profiles": () => [person],
+      "GET /v1/profiles/p1/reports": () => [{ id: "r1", status: "explained", lab_name: null, collected_at: "2025-08-20",
+        created_at: "2025-08-20T10:00:00Z", rows: 3, note: null, out_of_range: [] }],
+      "GET /v1/profiles/p1/body-map": () => [],
+      "GET /v1/profiles/p1/watch": () => [],
+      "GET /v1/profiles/p1/consents": () => [],
+      "GET /v1/profiles/p1/records": () => [{ id: "x1", profile_id: "p1", kind: "imaging", title: "X-ray left knee",
+        record_date: "2025-04-12", facility: "Utkal Imaging & Diagnostics", notes: null, mime_type: "application/pdf",
+        size_bytes: 640000, created_at: "2025-04-12T10:00:00Z", has_image: true,
+        study_title: "X-RAY LEFT KNEE (AP VIEW)", findings: ["Reduction of the joint space."],
+        impression: ["Degenerative changes of the left knee."], image_credit: "Image: J. Author · CC BY-SA 4.0" }],
+    });
+    renderRoute("/p/p1");
+    await userEvent.click(await screen.findByRole("button", { name: "View the image: X-ray left knee" }));
+    const dialog = screen.getByRole("dialog", { name: "X-RAY LEFT KNEE (AP VIEW)" });
+    expect(within(dialog).getByText("Reduction of the joint space.")).toBeInTheDocument();
+    expect(within(dialog).getByText("Degenerative changes of the left knee.")).toBeInTheDocument();
+    expect(within(dialog).getByText("Image: J. Author · CC BY-SA 4.0")).toBeInTheDocument();
+
+    await userEvent.keyboard("i");
+    expect(within(dialog).getByRole("button", { name: "Invert" })).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Magnifier" }));
+    expect(within(dialog).getByText("Move over the image to magnify a spot.")).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+});

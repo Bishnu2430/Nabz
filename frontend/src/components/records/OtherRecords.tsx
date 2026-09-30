@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 
-import { recordFileUrl, useAddRecord, useDeleteRecord, useRecords } from "../../api/hooks";
+import { recordFileUrl, recordImageUrl, useAddRecord, useDeleteRecord, useRecords } from "../../api/hooks";
 import type { HealthRecord, RecordKind } from "../../api/types";
 import { formatDate } from "../../lib/format";
 import { Button, Card, ErrorNote, fieldClass } from "../ui";
+import { ImagingViewer } from "./ImagingViewer";
 
 const KINDS: RecordKind[] = ["imaging", "prescription", "discharge", "vaccination", "other"];
 
@@ -39,9 +40,21 @@ function RecordCard({ record, profileId }: { record: HealthRecord; profileId: st
   const lang = i18n.resolvedLanguage ?? "en";
   const remove = useDeleteRecord(profileId);
   const [confirming, setConfirming] = useState(false);
+  const [viewing, setViewing] = useState(false);
   return (
-    <Card className="h-full p-4">
-      <div className="flex items-start gap-3">
+    <Card className="h-full overflow-hidden">
+      {record.has_image && (
+        <button type="button" onClick={() => setViewing(true)} aria-label={t("viewer.open", { title: record.title })}
+          className="group relative block h-44 w-full overflow-hidden bg-black">
+          <img src={recordImageUrl(record.id)} alt="" loading="lazy"
+            className="size-full object-contain opacity-90 transition group-hover:scale-105 group-hover:opacity-100" />
+          <span className="absolute bottom-2 right-2 rounded-full bg-black/70 px-3 py-1 text-sm text-[#ede3d1]">
+            {t("viewer.view")}
+          </span>
+        </button>
+      )}
+      {viewing && <ImagingViewer record={record} onClose={() => setViewing(false)} />}
+      <div className="flex items-start gap-3 p-4">
         <KindIcon kind={record.kind} />
         <div className="min-w-0 flex-1">
           <p className="text-sm text-muted">{t(`records.kind_${record.kind}`)}</p>
@@ -49,6 +62,7 @@ function RecordCard({ record, profileId }: { record: HealthRecord; profileId: st
           <p className="text-sm text-muted">
             {[record.record_date && formatDate(record.record_date, lang), record.facility].filter(Boolean).join(" · ")}
           </p>
+          {record.impression?.[0] && <p className="mt-1 text-sm font-medium">{record.impression[0]}</p>}
           {record.notes && <p className="mt-1 text-sm">{record.notes}</p>}
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
             <a href={recordFileUrl(record.id)} target="_blank" rel="noreferrer" className="text-link">

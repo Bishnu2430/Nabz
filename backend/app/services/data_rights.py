@@ -42,8 +42,11 @@ def stored_keys(session: Session, reports: ColumnElement[bool]) -> list[str]:
 
 
 def record_keys(session: Session, records: ColumnElement[bool]) -> list[str]:
-    """The stored files of the other health records matching `records`."""
-    return list(session.scalars(select(HealthRecord.storage_key).where(records)))
+    """The stored files of the other health records matching `records`, with the study images taken from them."""
+    keys: set[str] = set()
+    for file_key, image_key in session.execute(select(HealthRecord.storage_key, HealthRecord.image_key).where(records)):
+        keys.update(k for k in (file_key, image_key) if k)
+    return sorted(keys)
 
 
 def remove_objects(storage: StorageBackend, keys: list[str]) -> None:
@@ -131,6 +134,7 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
         "other_records": [{
             "kind": r.kind.value, "title": r.title, "date": _iso(r.record_date), "facility": r.facility,
             "notes": r.notes, "file": {"mime_type": r.mime_type, "size_bytes": r.size_bytes, "sha256": r.sha256},
+            "report_text": r.study,
         } for r in records],
     }
 

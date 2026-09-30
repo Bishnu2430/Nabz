@@ -270,4 +270,10 @@ export interface HealthRecord {
   mime_type: string;
   size_bytes: number;
   created_at: string;
+  /** Imaging: the study image, and the report's own title, findings and impression. */
+  has_image?: boolean;
+  study_title?: string | null;
+  findings?: string[];
+  impression?: string[];
+  image_credit?: string | null;
 }
