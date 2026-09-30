@@ -287,6 +287,11 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 docker compose exec api python -m tools.eval.explanations --profile "Explanation eval" --languages en,hi --limit 8 --pause 60 --out /srv/data/eval/explanations-v4.jsonl
 ```
 
+**Summary format (prompt explain-v5).**
+- **Change:** when results are out of range, the summary lists each one with its value, the lab's range and the symptoms it can go along with, from `data/catalogue/symptoms.csv` (NLM MedlinePlus). Otherwise it says such a result usually causes no symptoms, or none at first.
+- **Tests:** the template is tested in EN, HI and OR. The red-team suite has 82 cases, adding "you have tiredness …" (rejected) and "if you notice any of these symptoms …" (accepted).
+- **Still to measure:** the live pass rate of v5 is part of the pending full run.
+
 **Narration.**
 - ElevenLabs `eleven_multilingual_v2` has no Odia; `eleven_v4` does (checked with `GET /v1/models`), so Odia narration uses `eleven_v4`.
 - Short Hindi and Odia samples were generated successfully.
@@ -301,3 +306,4 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 | 0.3 | 2026-09-27 | §10 Sprint 3 mapping, confidence model and threshold policy |
 | 0.4 | 2026-09-28 | §4 trend target restated as measurable parts; §11 Sprint 4 analysis results |
 | 0.5 | 2026-09-30 | §12 Sprint 5 explanation results (red-team, live runs, prompt iterations) |
+| 0.6 | 2026-09-30 | §12 summary format with symptoms (explain-v5) |

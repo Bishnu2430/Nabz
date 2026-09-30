@@ -46,7 +46,14 @@ Live runs in this sprint answered most of these. The first drafts named diseases
    - any check fails.
 
    The rejected draft is kept in the explanation's metadata for the clinical reviewer and never shown to the reader.
-7. **Narration** is generated on first play, with voice consent. `eleven_multilingual_v2` lacks Odia (confirmed from `GET /v1/models`), so Odia uses `eleven_v4`.
+7. **Summary format and symptoms** (added 2026-09-30).
+   - When results are out of range, the summary has one line per result: its value, the lab's range, and symptoms such a result can go along with. It ends by asking the reader to talk to their doctor and to mention any of these symptoms.
+   - Symptoms come from `data/catalogue/symptoms.csv`: 74 rows taken from the NLM MedlinePlus "Why do I need this test?" sections, with draft Hindi and Odia.
+   - Where MedlinePlus says a result is usually silent (cholesterol, phosphate) or often silent at first (kidney and liver markers, PSA), the summary says so instead of listing symptoms.
+   - The wording is always "can go along with", never "can cause" or "you have"; many out-of-range values cause nothing themselves.
+   - It says "the lab's range is Y–Z", not "should be"; a result just outside a population range isn't necessarily wrong for that person.
+   - The model receives the same lists in DATA, may name only those symptoms, and the judge rejects any others.
+8. **Narration** is generated on first play, with voice consent. `eleven_multilingual_v2` lacks Odia (confirmed from `GET /v1/models`), so Odia uses `eleven_v4`.
 
 ## Alternatives considered
 

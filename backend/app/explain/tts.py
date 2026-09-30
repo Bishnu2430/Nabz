@@ -36,7 +36,8 @@ def narration_text(content: dict, language: str) -> str:
     if content.get("doctor_questions"):
         parts.append(questions)
         parts += content["doctor_questions"]
-    return "\n".join(p.strip() for p in parts if p and p.strip())
+    lines = (line.strip().removeprefix("• ") for p in parts if p for line in p.splitlines())
+    return "\n".join(line for line in lines if line)
 
 
 class ElevenLabsProvider:

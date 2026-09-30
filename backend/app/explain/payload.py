@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 
 from app.analysis.percentile import age_band
 from app.analysis.status import CRITICAL, SEVERITY
+from app.catalogue.symptoms import symptoms_for
 from app.models import LabTest, Observation, OrganSystem, Profile, Report
 from app.models.enums import ObsStatus
 from app.services.analysis import result_date
@@ -41,6 +42,12 @@ class TestItem:
     change: dict[str, Any] | None = None
     trend: dict[str, Any] | None = None
     percentile: dict[str, Any] | None = None
+    # For out-of-range results: {"kind": symptoms|often_none|none, "can_go_along_with": [...]} (MedlinePlus)
+    symptoms: dict[str, Any] | None = None
+
+    @property
+    def out_of_range(self) -> bool:
+        return self.status not in (ObsStatus.NORMAL, ObsStatus.UNKNOWN)
 
     @property
     def is_focus(self) -> bool:
@@ -116,6 +123,8 @@ def build_payload(session: Session, report: Report) -> Payload:
                                             "months_ahead": _months(when, date.fromisoformat(pj["on"]))}
         if pc := a.get("percentile"):
             item.percentile = {"value": round(pc["value"]), "side": pc["side"], "population": _population(pc)}
+        if item.out_of_range and (sy := symptoms_for(item.test_code, item.status)):
+            item.symptoms = {"kind": sy.kind, "can_go_along_with": list(sy.for_language("en"))}
         items.append(item)
 
     items.sort(key=lambda i: (-SEVERITY[ObsStatus(i.status)], i.test))

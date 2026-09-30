@@ -17,7 +17,7 @@ from app.explain.prompt import DISCLAIMER_KEY, Passage
 _DIGITS = str.maketrans("०१२३४५६७८९୦୧୨୩୪୫୬୭୮୯", "01234567890123456789")
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:[.,]\d+)?")
 
-MAX_SUMMARY = 900
+MAX_SUMMARY = 1800  # a line per out-of-range test, with its symptoms
 MAX_FIELD = 700
 MAX_QUESTION = 220
 
@@ -30,9 +30,9 @@ class Problem:
 
 _EN = {
     "diagnosis": [
-        r"\byou (?:have|may have|might have|probably have|likely have|could have) "
+        r"(?<!\bif )(?<!\bwhen )\byou (?:have|may have|might have|probably have|likely have|could have) "
         r"(?!(?:a |an |the |your |some |any |\d+ )?"
-        r"(?:results?|tests?|reports?|values?|questions?|range|doctor|appointment)\b"
+        r"(?:results?|tests?|reports?|values?|questions?|range|doctor|appointment|symptoms?|of these|these)\b"
         r"|\d|been\b|to\b|not\b|more\b|less\b|confirmed\b|checked\b|shared\b|uploaded\b|given\b|entered\b|done\b)\w+",
         r"\byou are (?:a )?(?:diabetic|pre-?diabetic|anaemic|anemic|hypothyroid|hyperthyroid|obese|ill|sick)\b",
         r"\b(?:this|these|it) (?:confirms?|proves?|shows? that you have|means you have)\b",

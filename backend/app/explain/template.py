@@ -7,13 +7,23 @@ renders both the same way. Hindi and Odia wording are drafts pending the native-
 
 from __future__ import annotations
 
+from app.catalogue.symptoms import symptoms_for
 from app.explain.payload import Payload, TestItem
 from app.explain.prompt import DISCLAIMER_KEY
 
 T = {
     "en": {
-        "summary_outside": "{n} of {total} results are outside their range: {names}. A result outside its range is a "
-                           "reason to talk to your doctor, who can read it together with your health history.",
+        "summary_intro": "These results are outside the lab's range:",
+        "line_lab": "{test} is {value}; the lab's range is {range}.",
+        "line_typical": "{test} is {value}; the typical range is {range}.",
+        "sym_symptoms": " A {dir} {test} result can go along with symptoms such as {list}.",
+        "sym_often_none": " A {dir} {test} result often causes no symptoms at first; it can go along with {list}.",
+        "sym_none": " A {dir} {test} result usually doesn't cause symptoms.",
+        "dir_low": "low", "dir_high": "high", "list_last": " or ",
+        "more": "{n} more results are outside their range; you can see them on the results page.",
+        "close_symptoms": "Please talk to your doctor about these results, and tell them if you notice any of these "
+                          "symptoms.",
+        "close": "Please talk to your doctor about these results.",
         "summary_all_in": "All {total} results are within their range. Ranges are a guide; your doctor reads them "
                           "together with your health history.",
         "summary_changes": " Some results have changed more than normal day-to-day variation since last time.",
@@ -39,8 +49,16 @@ T = {
         "list_join": ", ",
     },
     "hi": {
-        "summary_outside": "{total} में से {n} परिणाम अपनी सीमा से बाहर हैं: {names}। सीमा से बाहर का परिणाम डॉक्टर से बात "
-                           "करने का कारण है, जो इसे आपके स्वास्थ्य इतिहास के साथ समझ सकते हैं।",
+        "summary_intro": "ये परिणाम लैब की सीमा से बाहर हैं:",
+        "line_lab": "{test} {value} है; लैब की सीमा {range} है।",
+        "line_typical": "{test} {value} है; सामान्य सीमा {range} है।",
+        "sym_symptoms": " {test} {dir} होने पर {list} जैसे लक्षण हो सकते हैं।",
+        "sym_often_none": " {test} {dir} होने पर शुरुआत में अक्सर कोई लक्षण नहीं होते; बाद में {list} जैसे लक्षण हो सकते हैं।",
+        "sym_none": " {test} {dir} होने पर आमतौर पर कोई लक्षण नहीं होते।",
+        "dir_low": "कम", "dir_high": "अधिक", "list_last": " या ",
+        "more": "{n} और परिणाम अपनी सीमा से बाहर हैं; उन्हें परिणाम पेज पर देखें।",
+        "close_symptoms": "इन परिणामों के बारे में अपने डॉक्टर से बात करें, और इनमें से कोई लक्षण दिखे तो उन्हें बताएँ।",
+        "close": "इन परिणामों के बारे में अपने डॉक्टर से बात करें।",
         "summary_all_in": "सभी {total} परिणाम अपनी सीमा के भीतर हैं। सीमाएँ एक मार्गदर्शक हैं; आपके डॉक्टर इन्हें आपके "
                           "स्वास्थ्य इतिहास के साथ देखते हैं।",
         "summary_changes": " पिछली बार से कुछ परिणाम सामान्य रोज़ाना बदलाव से ज़्यादा बदले हैं।",
@@ -66,8 +84,16 @@ T = {
         "list_join": ", ",
     },
     "or": {
-        "summary_outside": "{total}ଟି ମଧ୍ୟରୁ {n}ଟି ଫଳାଫଳ ସେମାନଙ୍କ ସୀମା ବାହାରେ ଅଛି: {names}। ସୀମା ବାହାରେ ଥିବା ଫଳାଫଳ "
-                           "ଡାକ୍ତରଙ୍କ ସହ କଥା ହେବାର କାରଣ।",
+        "summary_intro": "ଏହି ଫଳାଫଳଗୁଡ଼ିକ ଲ୍ୟାବର ସୀମା ବାହାରେ ଅଛି:",
+        "line_lab": "{test} {value}; ଲ୍ୟାବର ସୀମା {range}।",
+        "line_typical": "{test} {value}; ସାଧାରଣ ସୀମା {range}।",
+        "sym_symptoms": " {test} {dir} ହେଲେ {list} ଭଳି ଲକ୍ଷଣ ଦେଖାଯାଇପାରେ।",
+        "sym_often_none": " {test} {dir} ହେଲେ ଆରମ୍ଭରେ ପ୍ରାୟତଃ କୌଣସି ଲକ୍ଷଣ ଦେଖାଯାଏ ନାହିଁ; ପରେ {list} ଭଳି ଲକ୍ଷଣ ଦେଖାଯାଇପାରେ।",
+        "sym_none": " {test} {dir} ହେଲେ ସାଧାରଣତଃ କୌଣସି ଲକ୍ଷଣ ଦେଖାଯାଏ ନାହିଁ।",
+        "dir_low": "କମ୍", "dir_high": "ଅଧିକ", "list_last": " ବା ",
+        "more": "ଆଉ {n}ଟି ଫଳାଫଳ ସୀମା ବାହାରେ ଅଛି; ଫଳାଫଳ ପୃଷ୍ଠାରେ ଦେଖନ୍ତୁ।",
+        "close_symptoms": "ଏହି ଫଳାଫଳ ବିଷୟରେ ଆପଣଙ୍କ ଡାକ୍ତରଙ୍କ ସହ କଥା ହୁଅନ୍ତୁ, ଏବଂ ଏଥିମଧ୍ୟରୁ କୌଣସି ଲକ୍ଷଣ ଦେଖିଲେ ତାଙ୍କୁ ଜଣାନ୍ତୁ।",
+        "close": "ଏହି ଫଳାଫଳ ବିଷୟରେ ଆପଣଙ୍କ ଡାକ୍ତରଙ୍କ ସହ କଥା ହୁଅନ୍ତୁ।",
         "summary_all_in": "ସମସ୍ତ {total}ଟି ଫଳାଫଳ ସେମାନଙ୍କ ସୀମା ମଧ୍ୟରେ ଅଛି। ସୀମା ଏକ ମାର୍ଗଦର୍ଶକ; ଆପଣଙ୍କ ଡାକ୍ତର ଏହାକୁ "
                           "ଆପଣଙ୍କ ସ୍ୱାସ୍ଥ୍ୟ ଇତିହାସ ସହ ଦେଖନ୍ତି।",
         "summary_changes": " ଗତଥର ଠାରୁ କିଛି ଫଳାଫଳ ସାଧାରଣ ଦୈନିକ ପରିବର୍ତ୍ତନଠାରୁ ଅଧିକ ବଦଳିଛି।",
@@ -130,18 +156,45 @@ def _sentence(t: TestItem, s: dict[str, str]) -> str:
     return text
 
 
+def _join(items: list[str], s: dict[str, str]) -> str:
+    return items[0] if len(items) == 1 else s["list_join"].join(items[:-1]) + s["list_last"] + items[-1]
+
+
+def _line(t: TestItem, s: dict[str, str], language: str) -> tuple[str, bool]:
+    """One summary line for an out-of-range result, and whether it names symptoms."""
+    value = f"{fmt(t.value)} {t.unit or ''}".strip()
+    text = s["line_lab" if t.range_source == "lab" else "line_typical"].format(test=t.test, value=value,
+                                                                              range=_range(t, s))
+    sy = symptoms_for(t.test_code, t.status)
+    if sy is None:
+        return text, False
+    words = list(sy.for_language(language))[:4]
+    direction = s["dir_low" if t.status.endswith("low") else "dir_high"]
+    text += s[f"sym_{sy.kind}"].format(dir=direction, test=t.test, list=_join(words, s) if words else "")
+    return text, bool(words)
+
+
 def template_explanation(payload: Payload, language: str) -> dict:
     s = T.get(language, T["en"])
-    outside = [t for t in payload.focus if t.status not in ("normal", "unknown")]
-    if payload.critical:
-        summary = s["summary_critical"]
-    elif payload.outside_range:
-        names = s["list_join"].join(t.test for t in outside) or s["list_join"].join(payload.others[:3])
-        summary = s["summary_outside"].format(n=payload.outside_range, total=payload.results_total, names=names)
+    outside = [t for t in payload.focus if t.out_of_range]
+    if outside:
+        lines = [s["summary_critical"]] if payload.critical else []
+        lines.append(s["summary_intro"])
+        named = False
+        for t in outside:
+            line, has_symptoms = _line(t, s, language)
+            lines.append("• " + line)
+            named = named or has_symptoms
+        if payload.outside_range > len(outside):
+            lines.append(s["more"].format(n=payload.outside_range - len(outside)))
+        if any(t.change and t.change.get("significant") for t in payload.focus):
+            lines.append(s["summary_changes"].strip())
+        lines.append(s["close_symptoms" if named else "close"])
+        summary = "\n".join(lines)
     else:
         summary = s["summary_all_in"].format(total=payload.results_total)
-    if any(t.change and t.change.get("significant") for t in payload.focus):
-        summary += s["summary_changes"]
+        if any(t.change and t.change.get("significant") for t in payload.focus):
+            summary += s["summary_changes"]
 
     questions = [s["q_general"]]
     if payload.focus:
