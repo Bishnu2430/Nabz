@@ -6,9 +6,10 @@ import { useInsights } from "../api/hooks";
 import { StatusBadge } from "../components/Badges";
 import { Enso } from "../components/Enso";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
+import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
 import { isAbnormal } from "../components/insights/StatusMark";
-import { Card, ErrorNote, Loading } from "../components/ui";
+import { ErrorNote, Loading } from "../components/ui";
 import { formatDate } from "../lib/format";
 import NotFound from "./NotFound";
 
@@ -60,10 +61,9 @@ export default function Insights() {
         {data.organs.map((o) => <OrganCard key={o.code} organ={o} profileId={data.person.id} />)}
       </div>
 
-      <Card className="mt-8 p-6">
-        <h2 className="font-display text-xl font-bold">{t("insights.explanation_title")}</h2>
-        <p className="mt-2 text-muted">{t("insights.explanation_pending")}</p>
-      </Card>
+      <div className="mt-8">
+        <ExplanationCard reportId={id} profileId={data.person.id} results={all} />
+      </div>
 
       <p className="mt-6">
         <Link to={`/r/${id}/review`} className="text-link">{t("insights.values_as_read")}</Link>

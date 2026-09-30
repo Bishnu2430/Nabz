@@ -6,6 +6,7 @@ import type { ReportSummary, Watch } from "../api/types";
 import { StatusBadge } from "../components/Badges";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
+import { PrivacyChoices } from "../components/PrivacyChoices";
 import { Card, EmptyState, ErrorNote, Loading, PageTitle } from "../components/ui";
 import { formatDate, formatPercent, formatUnit, formatValue } from "../lib/format";
 import NotFound from "./NotFound";
@@ -45,6 +46,7 @@ export default function Person() {
         </section>
         </>
       )}
+      <PrivacyChoices profileId={id} />
     </>
   );
 }

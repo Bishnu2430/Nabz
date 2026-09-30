@@ -1,11 +1,14 @@
-from fastapi import APIRouter, Depends, status
+import uuid
+from datetime import UTC, datetime
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.api.deps import current_user, get_session
+from app.api.deps import current_user, get_session, owned_profile
 from app.models import AppUser, Consent, Profile, Report
 from app.models.enums import ConsentPurpose
-from app.schemas import ProfileIn, ProfileOut
+from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut
 from app.services import audit
 
 router = APIRouter(prefix="/v1/profiles", tags=["profiles"])
@@ -36,3 +39,40 @@ def create_profile(body: ProfileIn, session: Session = Depends(get_session),  # 
     audit.record(session, user.id, "profile.create", "profile", profile.id, consent_processing=body.consent_processing)
     session.commit()
     return ProfileOut.model_validate(profile)
+
+
+def _active(session: Session, profile_id: uuid.UUID, purpose: ConsentPurpose) -> Consent | None:
+    return session.scalar(select(Consent).where(Consent.profile_id == profile_id, Consent.purpose == purpose,
+                                                Consent.revoked_at.is_(None)).order_by(Consent.granted_at.desc()))
+
+
+@router.get("/{profile_id}/consents", response_model=list[ConsentOut])
+def list_consents(profile_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                  user: AppUser = Depends(current_user)):  # noqa: B008
+    """Current state of every purpose (FR-03): processing, external AI, voice, research."""
+    owned_profile(session, user, profile_id)
+    out = []
+    for purpose in ConsentPurpose:
+        c = _active(session, profile_id, purpose)
+        out.append(ConsentOut(purpose=purpose, granted=c is not None, granted_at=c.granted_at if c else None))
+    return out
+
+
+@router.put("/{profile_id}/consents/{purpose}", response_model=ConsentOut)
+def set_consent(profile_id: uuid.UUID, purpose: ConsentPurpose, body: ConsentIn,
+                session: Session = Depends(get_session), user: AppUser = Depends(current_user)):  # noqa: B008
+    """Give or withdraw one consent. Withdrawing is as easy as giving (DPDP); records are kept as evidence."""
+    owned_profile(session, user, profile_id)
+    if purpose is ConsentPurpose.PROCESSING and not body.granted:
+        raise HTTPException(status.HTTP_409_CONFLICT,
+                            "Processing consent is withdrawn by deleting this person's reports or profile.")
+    current = _active(session, profile_id, purpose)
+    if body.granted and current is None:
+        current = Consent(user_id=user.id, profile_id=profile_id, purpose=purpose, policy_version=POLICY_VERSION)
+        session.add(current)
+    elif not body.granted and current is not None:
+        current.revoked_at = datetime.now(UTC)
+        current = None
+    audit.record(session, user.id, "consent.set", "profile", profile_id, purpose=purpose.value, granted=body.granted)
+    session.commit()
+    return ConsentOut(purpose=purpose, granted=current is not None, granted_at=current.granted_at if current else None)

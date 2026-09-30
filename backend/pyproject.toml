@@ -17,6 +17,7 @@ dependencies = [
     "opencv-python-headless>=5.0.0.93",
     "pillow>=12.3.0",
     "python-multipart>=0.0.32",
+    "tokenizers>=0.22",
 ]
 
 [dependency-groups]

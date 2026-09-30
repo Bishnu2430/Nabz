@@ -136,6 +136,7 @@ Indexes: `(report_id)`; `(test_id)`; history query uses `report.profile_id` + `t
 | `run_after` | timestamptz | Back-off: `now() + 2^attempts × 10 s` |
 | `locked_at` | timestamptz | Stale-lock recovery after 10 min |
 | `error` | text | Last error message (no health data) |
+| `args` | jsonb | Stage options, e.g. `{"lang": "hi"}` for an explanation in another language; never health data |
 
 Partial index: `(run_after) WHERE status = 'queued'`.
 
@@ -143,7 +144,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 
 | Column | Type | Description |
 |---|---|---|
-| `content` | jsonb | `{summary, per_test[], doctor_questions[], disclaimer}`; schema versioned by `prompt_version` |
+| `content` | jsonb | `{language, summary, per_test[], doctor_questions[], disclaimer_key, sources[], meta}`; schema versioned by `prompt_version`. `meta` records the source (`model` or `template`), why the template was used, the problem codes, and any rejected draft for the clinical reviewer (never shown to the reader) |
 | `model_id` | text | e.g. `openai/gpt-oss-120b` or `template` for the safe fallback |
 | `safety_status` | safety_status | Validator result |
 | `input_tokens`, `output_tokens`, `latency_ms` | int | Cost and performance accounting |
@@ -180,3 +181,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.1 | 2026-09-26 | First draft: 22 tables |
 | 0.2 | 2026-09-27 | `observation`: `raw_flag`, `section` (Sprint 2); `ocr_confidence`, `match_score`, `match_method`, `match_candidates` and the `bbox` format (Sprint 3); `report_page.ocr.skew` |
 | 0.3 | 2026-09-28 | `observation.analysis`; `trend_insight.direction`, `confirmed`, `last_observation_id`; percentiles seeded from NHANES |
+| 0.4 | 2026-09-30 | `processing_job.args`; `explanation.content` sources and meta; knowledge base loaded (46 documents, 436 passages) |

@@ -14,5 +14,6 @@ An ADR captures one significant decision: its context, the options considered, t
 | [0008](0008-elevenlabs-for-narration.md) | ElevenLabs for narration | Accepted | 2026-09-26 |
 | [0009](0009-text-layer-first-and-rapidocr.md) | Text layer first, then RapidOCR | Accepted | 2026-09-27 |
 | [0010](0010-analysis-methods.md) | How Nabz judges change and trends | Accepted | 2026-09-28 |
+| [0011](0011-grounded-explanations.md) | Grounded, checked explanations | Accepted | 2026-09-30 |
 
 Template: copy `0001` and follow the sections Context → Decision → Alternatives → Consequences.

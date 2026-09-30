@@ -18,10 +18,10 @@ Nabz is an **informational and educational tool**. It helps people understand re
 |---|---|---|---|---|
 | S-01 | Wrong value extracted and explained | Mandatory human review before any analysis; confidence-ordered review; source highlighting | Process + UI | FR-13–FR-15 · TC-06 |
 | S-02 | Critical result missed or softened | Rule-based critical-limit table (clinician-reviewed); fixed alert shown first; LLM text cannot override it | Deterministic | FR-17 · TC-10 |
-| S-03 | Model states a diagnosis or treatment | System-prompt prohibitions; structured output; banned-intent rules; LLM judge; safe-template fallback | Layered | FR-24 · TC-13, red-team suite |
+| S-03 | Model states a diagnosis or treatment | System-prompt prohibitions (no disease names at all); structured output; banned-intent rules in EN/HI/OR; LLM judge; safe-template fallback; never any generated prose around a critical value | Layered | FR-24 · TC-13, red-team suite |
 | S-04 | Hallucinated numbers | Validator checks every number in the text against the confirmed input | Deterministic | FR-24 · TC-14 |
 | S-05 | Unsupported claims | Citations required per test; retrieval only from curated sources | Design | FR-21 · TC-15 |
-| S-06 | Prompt injection through text on the report | OCR text is placed only in a data field, never in instructions; the model is told to treat it as data; validator catches instruction-like output | Design | Red-team suite |
+| S-06 | Prompt injection through text on the report | Text read from the report never reaches the model: the payload uses catalogue test names and computed values only (tested with an injection in a row's printed name); passages and data are marked as data; validator catches instruction-like output | Design | Red-team suite |
 | S-07 | Misleading comparison with foreign populations | Source labels on every range and percentile; the lab's printed range is preferred | UI | FR-16, FR-20 |
 | S-08 | False reassurance | "Normal" results still carry the standard disclaimer; no "you are healthy" statements (banned phrase list) | Rules | TC-13 |
 
@@ -80,3 +80,4 @@ Nabz is an **informational and educational tool**. It helps people understand re
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
+| 0.2 | 2026-09-30 | S-03 and S-06 as implemented in Sprint 5 |

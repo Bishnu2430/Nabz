@@ -8,7 +8,7 @@ Nabz reads a photo or PDF of a blood-test report and asks you to confirm the val
 
 ## Status
 
-Sprint 4 is done: after you confirm a report, Nabz says where each value sits against its range, flags critical values first, tells you whether a change since last time is bigger than normal variation, and follows each test over the years with a trend chart and a US population percentile. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
+Sprint 5 is done: after analysis, Nabz writes a plain-language explanation in English, Hindi or Odia, grounded in MedlinePlus passages and checked by deterministic rules and an LLM judge before anyone sees it. It can read the explanation aloud. Without consent to external AI, for critical values, or whenever a check fails, it shows an explanation built only from the computed values. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
 | Component | State |
 |---|---|
@@ -20,7 +20,7 @@ Sprint 4 is done: after you confirm a report, Nabz says where each value sits ag
 | Catalogue matching, unit normalisation, row-confidence model | ✅ Sprint 3 |
 | Web app: family, upload with live progress, review and confirm | ✅ Sprint 3 |
 | Analysis: status, critical values, change significance (RCV), trends, NHANES percentiles | ✅ Sprint 4 |
-| Explanations and narration | Sprint 5 |
+| Explanations (Groq gpt-oss-120b, MedlinePlus retrieval, validator + judge, template fallback) and narration (ElevenLabs) | ✅ Sprint 5 |
 | 3D body map; sign-in and roles | Sprints 5–6 |
 
 ## Quick start
@@ -101,6 +101,26 @@ docker compose exec api python -m tools.nhanes fetch
 
 ```bash
 docker compose exec api python -m tools.nhanes build
+```
+
+Build the knowledge base for explanations (MedlinePlus Connect → passages → embeddings; sources and checksums in [`data/external.md`](data/external.md)). The passages are committed, so after a fresh clone only the embedding model and the last command are needed:
+
+```bash
+docker compose exec api python -m tools.knowledge fetch
+```
+
+```bash
+docker compose exec api python -m tools.knowledge build
+```
+
+```bash
+docker compose exec api python -m app.cli load-knowledge
+```
+
+Evaluate explanations live against Groq (uses your `GROQ_API_KEY`; about 30 minutes on the free tier):
+
+```bash
+docker compose exec api python -m tools.eval.explanations --languages en,hi --pause 60
 ```
 
 Retrain the row-confidence model (reads cached extractions from `data/synthetic/train` and `eval`, writes `data/models/confidence-v1.json`):

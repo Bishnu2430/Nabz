@@ -95,7 +95,7 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | POST | `/auth/register`, `/auth/login`, `/auth/logout` | Account and session | FR-01 | |
 | GET / POST | `/profiles` | List / create profiles; creating one records processing consent | FR-02, FR-03 | ✓ |
 | PATCH / DELETE | `/profiles/{id}` | Edit / hard-delete a profile | FR-02, FR-33 | |
-| GET / PUT | `/profiles/{id}/consents` | Read / set consent per purpose | FR-03 | |
+| GET · PUT | `/profiles/{id}/consents` · `/profiles/{id}/consents/{purpose}` | Read every purpose / give or withdraw one (processing is withdrawn by deleting data) | FR-03 | ✓ |
 | POST | `/profiles/{id}/reports` | Upload a report → 202 with `report_id`; 409 with the existing `report_id` for a duplicate | FR-06 | ✓ |
 | GET | `/profiles/{id}/reports` | List reports (timeline) | FR-29 | ✓ |
 | GET | `/reports/{id}` | Status, pages and draft observations with confidence, `needs_attention` and match candidates | FR-12, FR-13 | ✓ |
@@ -111,7 +111,9 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET | `/shared/{token}` | Doctor's read-only view (no session) | FR-34 | |
 | GET | `/profiles/{id}/export?format=json\|pdf` | Data export | FR-32 | |
 | DELETE | `/reports/{id}` | Hard delete a report and its stored files | FR-33 | ✓ |
-| POST | `/explanations/{id}/feedback` | Rating + comment | — | |
+| GET · POST | `/reports/{id}/explanation?lang=` · `/reports/{id}/explanation` | Read the explanation (ready, pending or none) / request one in another language or again after consent | FR-21 – FR-24 | ✓ |
+| POST · GET | `/explanations/{id}/audio` | Narrate on first play (voice consent; 409 names the missing consent) / stream the MP3 | FR-26 | ✓ |
+| POST | `/explanations/{id}/feedback` | Helpful or not, with an optional comment | — | ✓ |
 | GET | `/catalogue/tests` | Test catalogue for the review screen's test picker (public) | FR-14 | ✓ |
 | CRUD | `/admin/tests`, `/admin/ranges`, `/admin/critical-limits`, `/admin/kb` | Catalogue and knowledge base | FR-35, FR-36 | |
 | GET | `/health`, `/health/ready` | Liveness / readiness (outside `/v1`) | — | ✓ |
@@ -169,7 +171,8 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/components/insights/` | `StatusMark` (colour + icon + word), `RangeBar`, `CriticalBanner` (fixed FR-17 text), `ResultRow`, `OrganCard` (out-of-range first, the rest folded), `TrendChart` (range band, status points, gold kintsugi segment where a value returns to range, dashed projection, crosshair tooltip, focusable points) | 4 |
 | `src/features/body/` | `<BodyScene>` (R3F canvas), `<Organ>` meshes with status material, camera rig with fly-to, detail card | 5 |
 | `src/features/timeline/` | Report scrubber driving the body scene and trend charts | 4–5 |
-| `src/features/explain/` | Explanation reader, language switch, audio player, doctor questions (print view) | 4 |
+| `src/components/insights/ExplanationCard.tsx` | Explanation in the app's language: summary, per-test sections with numbered citations, doctor questions, sources (NLM MedlinePlus), fixed disclaimer, narration with voice consent, feedback; says when and why the template is shown, and offers "Allow and write it" when consent is missing | 5 |
+| `src/components/PrivacyChoices.tsx` | Per-purpose consent switches on the person page (external AI, voice) | 5 |
 | `src/features/admin/` | Catalogue and knowledge-base tables | 6 |
 
 **Review screen rules.**
@@ -190,3 +193,4 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-27 | §4 built endpoints, development auth, error details; §6 frontend structure as built in Sprint 3 |
 | 0.3 | 2026-09-28 | §4 insights, test history and watch endpoints; §6 insights screens |
+| 0.4 | 2026-09-30 | §4 consent, explanation, narration and feedback endpoints; §6 explanation and privacy components |

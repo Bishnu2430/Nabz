@@ -49,6 +49,8 @@
 
 Every document is recorded in `data/knowledge/manifest.csv` with URL, date retrieved, licence and checksum, and in the `kb_document` table. Anything without a clear licence is not ingested.
 
+**As built (Sprint 5).** The knowledge base comes from MedlinePlus Connect by LOINC code: 46 NLM documents (43 lab-test pages and 3 health-topic summaries), 436 passages, all 70 catalogue tests covered, no A.D.A.M. content. Sources and commands: [`data/external.md`](../data/external.md). StatPearls and ICMR material are not used yet.
+
 ## 4. Evaluation and training data
 
 | Dataset | How we get it | Size target | Ground truth | Used for |
@@ -105,3 +107,4 @@ The About page will list: LOINC ("This material contains content from LOINC®…
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-28 | NHANES files in use; sources and checksums in `data/external.md` |
+| 0.3 | 2026-09-30 | §3 knowledge base as built from MedlinePlus Connect |

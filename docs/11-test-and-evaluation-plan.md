@@ -231,6 +231,67 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 - All 53 rows per report were mapped.
 - The planted creatinine rise was confirmed, and projected to reach the upper limit (1.3 mg/dL) about seven months after the last report.
 
+## 12. Sprint 5 explanation results
+
+**Offline checks (in CI).**
+- **Red-team suite** (`data/redteam/cases.jsonl`): 77 cases, 63 of them unsafe. The unsafe ones cover diagnosis, implied diagnosis, treatment and dosing, diet advice, reassurance, invented numbers (including Devanagari digits), prompt-injection echoes, URLs, stray scripts and passage labels in the prose, in English and Hindi. Every unsafe case is rejected by the rule it targets; all 14 benign look-alikes pass.
+- **Validator unit tests:** each rule is tested, and the template passes the validator in English, Hindi and Odia.
+- **Service tests on a database, with a scripted model:**
+  - No external-AI consent means the template is used and the model is never called.
+  - A critical value always gets the template; the model is never called.
+  - Unsafe text, invented numbers, a judge rejection or a model outage each fall back to the template, with the reason recorded.
+  - The request holds no name, no date, and nothing typed on the report: an injection placed in a row's printed name never reaches the model.
+- **API tests:** consent, explanation in another language, narration gated on voice consent (409 names the missing consent), feedback, and privacy (404 for other people's data).
+
+**Live runs** (Groq `openai/gpt-oss-120b` on the free tier; 8 synthetic reports for one person; English and Hindi; tool `python -m tools.eval.explanations`).
+
+| Prompt | Explanations | Shown from the model | Template because of … |
+|---|---|---|---|
+| explain-v2 | 16 | 3 (19 %) | judge 8 · invented number 3 · diagnosis rule 1 · rate limit 3 |
+| explain-v3 | 7 (run stopped) | 2 (29 %) | judge 2 · rate limit 3 |
+| explain-v4 (current) | not yet measured | — | — |
+
+**What the runs showed, and what changed:**
+- **Invented numbers.**
+  - Case: a Hindi draft wrote "less than 150 mg/dL" for triglycerides, a US threshold copied from the passage, instead of the lab's own range.
+  - Caught by: the number check.
+  - Change: prompt v3 says to use only the lab's range, and that passages describe US reference charts.
+- **Disease names.**
+  - Cases: drafts said a GGT one unit above range "can be a sign of liver damage", and listed diabetes, stroke and pancreatitis for one triglyceride value.
+  - Caught by: the judge.
+  - Change: prompt v3 forbids naming diseases and asks for possible causes in everyday words; new rules catch "which can suggest", "indicating …" and "seen in … disease".
+- **Stray characters and labels.**
+  - Cases: one Hindi draft contained a Chinese character inside a Hindi word; drafts wrote "according to P1".
+  - Change: the validator now rejects letters from any other script and passage labels in the prose.
+- **Judge false positive.**
+  - Case: the judge treated "your eGFR is below the lab's range" as a diagnosis.
+  - Change: prompt v4 tells the judge that stating a status and advising a doctor visit are required.
+- **Missing context.**
+  - Cases: v2 drafts left out significant changes and trends; v3 drafts leaked the field name ("not marked as significant").
+  - Change: prompts v3 and v4 require both, in plain words.
+- **Rate limit.**
+  - Problem: the free tier allows 8,000 tokens a minute, and an 8–10 test report with its judge needs about 10,000–12,500.
+  - Changes: one passage per test (≈110 words), eight focus tests at most, low reasoning effort for the writer, and up to 4 retries honouring `retry-after`. In the worker this only delays an explanation.
+
+**Cost and speed per explanation** (both calls, measured):
+- Tokens: 2,600–7,300 in and 700–2,000 out, which is **about US$0.001–0.002** at the list price. That is well within NFR-17 (≤ US$0.10).
+- Time: 2.5–10 s without rate-limit waits, and up to about 85 s with them on the free tier.
+
+**Against §4:**
+- **Met by construction:**
+  - Faithfulness: every shown explanation has only numbers from the input.
+  - Safety: no generated text reaches the reader without passing every rule and the judge; critical values never get generated text.
+- **Still to measure:** readability (Flesch–Kincaid is computed by the tool for English explanations shown from the model), Hindi and Odia quality (native-speaker review, T2.5) and clinical acceptability (20 explanations reviewed by the clinical advisor). They need a complete v4 run first. That run takes about 30 minutes on the free tier:
+
+```bash
+docker compose exec api python -m tools.eval.explanations --profile "Explanation eval" --languages en,hi --limit 8 --pause 60 --out /srv/data/eval/explanations-v4.jsonl
+```
+
+**Narration.**
+- ElevenLabs `eleven_multilingual_v2` has no Odia; `eleven_v4` does (checked with `GET /v1/models`), so Odia narration uses `eleven_v4`.
+- Short Hindi and Odia samples were generated successfully.
+- Without configured voices, a voice named as warm or reassuring is picked from the account.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -239,3 +300,4 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 | 0.2 | 2026-09-27 | §9 Sprint 2 extraction results |
 | 0.3 | 2026-09-27 | §10 Sprint 3 mapping, confidence model and threshold policy |
 | 0.4 | 2026-09-28 | §4 trend target restated as measurable parts; §11 Sprint 4 analysis results |
+| 0.5 | 2026-09-30 | §12 Sprint 5 explanation results (red-team, live runs, prompt iterations) |

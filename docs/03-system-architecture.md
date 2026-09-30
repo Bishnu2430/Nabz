@@ -134,9 +134,9 @@ Full reasoning is in [ADR-0004](adr/0004-hybrid-llm-strategy.md).
 | Change detector | Log-normal, asymmetric reference change value from analytical and within-subject variation ([ADR-0010](adr/0010-analysis-methods.md)) | Biological-variation values in the catalogue (EFLM) | Change since the previous result: more than, or within, normal variation |
 | Trend analyser | Theil–Sen slope with Sen's 90 % interval and an exact Mann–Kendall test; confirmed only when significant, over ≥ 180 days and beyond the RCV; projection ≤ 5 years | The person's own history, as of each report's date | Slope per year, confirmed or not (with the reason), projected crossing date |
 | Percentile service | Survey-weighted 5th–95th percentiles by sex and age band, linear interpolation between them | NHANES 2017–March 2020 (`tools.nhanes`) | Percentile with the population named (US) |
-| Retriever | Dense retrieval (e5-small) + test-ID filter, top-k | Curated knowledge base | Cited passages |
-| Explainer | Structured-output generation with citations | Prompt + passages + values | JSON explanation |
-| Safety validator | Rules (banned intents, number match, required disclaimers) + LLM judge | Red-team suite | Pass / fallback |
+| Retriever | multilingual-e5-small (int8 ONNX) embeddings in pgvector; filtered by test, ranked by cosine; one passage per test, trimmed to ~130 words ([ADR-0011](adr/0011-grounded-explanations.md)) | 436 passages from MedlinePlus Connect (NLM, public domain) | Labelled passages P1, P2, … |
+| Explainer | `gpt-oss-120b` with a strict JSON schema (test codes and citation labels pinned by enums); prompt `explain-v3`: no disease names, the lab's range only, significant changes and confirmed trends always mentioned | Prompt + passages + de-identified values | JSON explanation in EN/HI/OR |
+| Safety validator | Rules (numbers from the input only, statuses, coverage, citations, script, passage labels, banned intents in EN/HI/OR) + LLM judge; template fallback, and the template always for critical values or without external-AI consent | 74-case red-team suite; live evaluation ([11 §12](11-test-and-evaluation-plan.md#12-sprint-5-explanation-results)) | Checked model text, or the template with the reason |
 
 ## 9. Security architecture (summary)
 
@@ -168,3 +168,4 @@ The threat model is in [10 §5](10-safety-privacy-compliance.md#5-threat-model-s
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-27 | §8: catalogue matcher and confidence model as built in Sprint 3 |
 | 0.3 | 2026-09-28 | §8: change detector, trend analyser and percentile service as built in Sprint 4 |
+| 0.4 | 2026-09-30 | §8: retriever, explainer and safety validator as built in Sprint 5 |

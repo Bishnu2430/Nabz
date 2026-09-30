@@ -36,6 +36,7 @@ const creatinine = result({
 describe("Insights", () => {
   it("puts the critical message before anything else", async () => {
     mockApi({
+      "GET /v1/reports/r1/explanation?lang=en": () => ({ state: "none", explanation: null }),
       "GET /v1/reports/r1/insights": () => insights({
         critical: [potassium],
         organs: [
@@ -57,6 +58,7 @@ describe("Insights", () => {
 
   it("shows change significance and a labelled population percentile", async () => {
     mockApi({
+      "GET /v1/reports/r1/explanation?lang=en": () => ({ state: "none", explanation: null }),
       "GET /v1/reports/r1/insights": () => insights({
         organs: [{ code: "kidney", names: { en: "Kidneys" }, status: "normal", results: [creatinine] }],
       }),
@@ -72,6 +74,7 @@ describe("Insights", () => {
     const normals = ["hb", "wbc", "plt", "rbc"].map((c) => result({ test_code: c, test_name: c.toUpperCase() }));
     const low = result({ test_code: "mcv", test_name: "MCV", status: "low", ref_low: "83", ref_high: "101", value: "78" });
     mockApi({
+      "GET /v1/reports/r1/explanation?lang=en": () => ({ state: "none", explanation: null }),
       "GET /v1/reports/r1/insights": () => insights({
         organs: [{ code: "blood", names: { en: "Blood" }, status: "low", results: [low, ...normals] }],
       }),
