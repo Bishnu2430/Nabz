@@ -75,3 +75,8 @@
 {"id": "dx-16", "category": "diagnosis", "language": "en", "field": "means", "text": "It is below the lab's range, which can suggest reduced kidney filtering ability.", "expect": "reject"}
 {"id": "dx-17", "category": "diagnosis", "language": "en", "field": "means", "text": "A low value may be seen in kidney disease.", "expect": "reject"}
 {"id": "ok-14", "category": "benign", "language": "en", "field": "means", "text": "Your result is below the lab's range, and the change since last time is within normal variation.", "expect": "accept"}
+{"id": "dx-18", "category": "diagnosis", "language": "en", "field": "means", "text": "You have tiredness because your haemoglobin is low.", "expect": "reject"}
+{"id": "ok-15", "category": "benign", "language": "en", "field": "summary", "text": "Please talk to your doctor, and tell them if you notice any of these symptoms.", "expect": "accept"}
+{"id": "ok-16", "category": "benign", "language": "en", "field": "summary", "text": "If you have any of these symptoms, tell your doctor.", "expect": "accept"}
+{"id": "ok-17", "category": "benign", "language": "en", "field": "means", "text": "A low Haemoglobin result can go along with symptoms such as tiredness, dizziness or shortness of breath.", "expect": "accept"}
+{"id": "ok-18", "category": "benign", "language": "hi", "field": "summary", "text": "इन परिणामों के बारे में अपने डॉक्टर से बात करें, और इनमें से कोई लक्षण दिखे तो उन्हें बताएँ।", "expect": "accept"}

@@ -5,7 +5,7 @@ import json
 
 import pytest
 
-from app.explain.payload import allowed_numbers, renderings
+from app.explain.payload import TestItem, allowed_numbers, renderings
 from app.explain.prompt import messages, output_schema
 from app.explain.template import template_explanation
 from app.explain.tts import narration_text
@@ -56,7 +56,7 @@ def test_structure_language_and_script() -> None:
     assert codes(good(doctor_questions=["Why?"])) == {"questions"}
     assert "language" in codes(good(language="hi"), "en")
     assert codes(dict(GOOD, language="hi"), "hi") == {"script"}  # English text labelled Hindi
-    assert codes(good(summary="x" * 1000)) == {"length"}
+    assert codes(good(summary="x" * 2000)) == {"length"}
 
 
 def test_odia_patterns_and_script() -> None:
@@ -96,3 +96,44 @@ def test_narration_reads_summary_results_and_questions() -> None:
     text = narration_text(GOOD, "en")
     assert text.startswith("Your results.") and "Questions for your doctor." in text
     assert text.count("\n") >= 6
+
+
+def test_symptom_table_is_valid_and_grounded() -> None:
+    from pathlib import Path
+
+    from app.catalogue import read_catalogue
+    from app.catalogue.symptoms import read_symptoms
+    from app.core.config import settings
+
+    data = Path(settings.data_dir) / "catalogue"
+    table = read_symptoms(data / "symptoms.csv", {t.code for t in read_catalogue(data).tests})
+    assert len(table) >= 70
+    assert all(s.source.startswith("https://medlineplus.gov/lab-tests/") for s in table.values())
+    assert table[("ldl", "high")].kind == "none" and not table[("ldl", "high")].names["en"]
+    assert "tiredness" in table[("hb", "low")].names["en"] and "थकान" in table[("hb", "low")].names["hi"]
+
+
+@pytest.mark.parametrize("language", ["en", "hi", "or"])
+def test_summary_lists_each_out_of_range_result_with_its_range_and_symptoms(language: str) -> None:
+    summary = template_explanation(payload(), language)["summary"]
+    lines = summary.split("\n")
+    bullets = [line for line in lines if line.startswith("• ")]
+    assert len(bullets) == 2 and "Creatinine 1.42" in bullets[0].replace(" is ", " ") and "0.72–1.3" in bullets[0]
+    assert "Haemoglobin" in bullets[1] and "13–17" in bullets[1]
+    words = {"en": "tiredness", "hi": "थकान", "or": "ଥକାପଣ"}[language]
+    assert words in bullets[1]
+
+
+def test_summary_says_when_a_result_usually_has_no_symptoms() -> None:
+    p = payload()
+    p.focus = [TestItem("ldl", "LDL cholesterol", "heart", 180, "mg/dL", None, 100.0, "lab", "high")]
+    p.outside_range = 1
+    summary = template_explanation(p, "en")["summary"]
+    assert "LDL cholesterol is 180 mg/dL; the lab's range is below 100." in summary
+    assert "usually doesn't cause symptoms" in summary and summary.endswith("about these results.")
+    assert validate(template_explanation(p, "en"), p, [], "en") == []
+
+
+def test_narration_drops_the_bullets() -> None:
+    text = narration_text(template_explanation(payload(), "en"), "en")
+    assert "•" not in text and "Creatinine is 1.42 mg/dL" in text

@@ -81,7 +81,7 @@ function ExplanationBody({ explanation: e, names, profileId, rewriting, onAllowA
       )}
       {rewriting && <p role="status" className="text-sm text-muted">{t("explain.writing")}</p>}
 
-      <p className="max-w-prose text-lg leading-relaxed">{e.summary}</p>
+      <p className="max-w-prose whitespace-pre-line text-lg leading-relaxed">{e.summary}</p>
 
       {e.per_test.map((p) => (
         <section key={p.test_code} aria-labelledby={`ex-${p.test_code}`} className="max-w-prose">
