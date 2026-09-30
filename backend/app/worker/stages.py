@@ -8,12 +8,15 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.catalogue.data import CatalogueData
+from app.explain.llm import LLMProvider
 from app.extraction import extract
 from app.extraction.interpret import Interpreter, RawRow
 from app.extraction.ocr import OCREngine
+from app.knowledge.embed import Embedder
 from app.models import Observation, Profile, Report, ReportFile, ReportPage
 from app.models.enums import JobStage, ObsStatus, ReportStatus
 from app.services.analysis import analyse_profile
+from app.services.explanation import explain_report
 from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids
 from app.storage import StorageBackend
 from app.worker import queue
@@ -93,7 +96,7 @@ class AnalysisStage:
     """Confirmed values → status, critical limits, change since last time, trend and percentile (FR-16 – FR-20).
 
     The report's tests are recomputed across the person's whole history, so a report confirmed out of date
-    order corrects the later reports' analysis too. The explanation stage (Sprint 5) is queued next.
+    order corrects the later reports' analysis too. The explanation stage is queued next.
     """
 
     stage = JobStage.ANALYSE
@@ -107,3 +110,28 @@ class AnalysisStage:
         analyse_profile(session, report.profile_id, test_ids)
         report.status = ReportStatus.EXPLAINING
         queue.enqueue(session, report.id, JobStage.EXPLAIN)
+
+
+class ExplanationStage:
+    """Analysed report → plain-language explanation in the requested language (job args) or the person's own.
+
+    Generation needs external-AI consent, the model and the knowledge base; otherwise, and whenever the generated
+    text fails a check, the template built from computed values is stored (ADR-0005). The stage itself fails only
+    on database errors, so a model outage never leaves a report without an explanation.
+    """
+
+    stage = JobStage.EXPLAIN
+
+    def __init__(self, provider: LLMProvider | None, embedder: Embedder | None, judge: bool = True):
+        self.provider = provider
+        self.embedder = embedder
+        self.judge = judge
+
+    def handle(self, job: Job, session: Session) -> None:
+        report = session.get(Report, job.report_id)
+        if report is None or report.deleted_at is not None:
+            return
+        profile = session.get(Profile, report.profile_id)
+        language = job.args.get("lang") or (profile.preferred_language.value if profile else "en")
+        explain_report(session, report, language, self.provider, self.embedder, self.judge)
+        report.status = ReportStatus.EXPLAINED

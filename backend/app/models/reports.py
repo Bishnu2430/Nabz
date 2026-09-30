@@ -93,6 +93,7 @@ class ProcessingJob(Base):
         UUID(as_uuid=True), ForeignKey("report.id", ondelete="CASCADE"), index=True
     )
     stage: Mapped[JobStage] = mapped_column(pg_enum(JobStage, "job_stage"))
+    args: Mapped[dict[str, Any] | None] = mapped_column(JSONB)  # stage options, e.g. {"lang": "hi"}; no health data
     status: Mapped[JobStatus] = mapped_column(pg_enum(JobStatus, "job_status"), default=JobStatus.QUEUED)
     attempts: Mapped[int] = mapped_column(SmallInteger, default=0)
     run_after: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

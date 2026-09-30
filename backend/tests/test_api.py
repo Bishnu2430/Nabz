@@ -17,7 +17,7 @@ from app.models import AppUser, AuditLog, Observation, ProcessingJob
 from app.models.enums import JobStage
 from app.storage import LocalVolumeStorage
 from app.worker.runner import Worker
-from app.worker.stages import AnalysisStage, ExtractionStage
+from app.worker.stages import AnalysisStage, ExplanationStage, ExtractionStage
 
 pytestmark = pytest.mark.db
 SAMPLES = Path(settings.data_dir) / "synthetic" / "samples"
@@ -211,3 +211,64 @@ def test_insights_are_private(client: TestClient, as_user, sessions, storage, ca
     assert client.get(f"/v1/reports/{rid}/insights").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/tests/hb").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/watch").status_code == 404
+
+
+class FakeTTS:
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, str]] = []
+
+    def synthesize(self, text: str, language: str) -> bytes:
+        self.calls.append((text, language))
+        return b"ID3fake-mp3"
+
+
+def test_consents_explanations_narration_and_feedback(client: TestClient, sessions, storage,
+                                                      catalogue: CatalogueData) -> None:
+    from app.api.routes import explanations
+
+    pid = _profile(client)
+    consents = {c["purpose"]: c["granted"] for c in client.get(f"/v1/profiles/{pid}/consents").json()}
+    assert consents == {"processing": True, "external_ai": False, "voice": False, "research": False}
+    assert client.put(f"/v1/profiles/{pid}/consents/processing", json={"granted": False}).status_code == 409
+
+    rid = _read_and_confirm(client, sessions, storage, catalogue, pid, "syn-2026-0002")
+    assert client.get(f"/v1/reports/{rid}/explanation?lang=en").json()["state"] == "pending"  # queued by analysis
+    assert Worker(sessions, [ExplanationStage(None, None)]).run_once()
+    state = client.get(f"/v1/reports/{rid}/explanation?lang=en").json()
+    assert state["state"] == "ready" and client.get(f"/v1/reports/{rid}").json()["status"] == "explained"
+    ex = state["explanation"]
+    assert ex["source"] == "template" and ex["reason"] == "no_consent" and ex["disclaimer_key"] == "not_a_diagnosis_v1"
+
+    # Another language is written on request.
+    assert client.post(f"/v1/reports/{rid}/explanation", json={"language": "hi"}).json()["state"] == "pending"
+    assert Worker(sessions, [ExplanationStage(None, None)]).run_once()
+    hi = client.get(f"/v1/reports/{rid}/explanation?lang=hi").json()["explanation"]
+    assert hi["language"] == "hi" and "सीमा" in hi["summary"]
+
+    # Narration needs voice consent; then it's generated once and reused.
+    tts = FakeTTS()
+    app.dependency_overrides[explanations.get_tts] = lambda: tts
+    r = client.post(f"/v1/explanations/{ex['id']}/audio")
+    assert r.status_code == 409 and r.json()["consent"] == "voice"
+    assert client.put(f"/v1/profiles/{pid}/consents/voice", json={"granted": True}).json()["granted"] is True
+    url = client.post(f"/v1/explanations/{ex['id']}/audio").json()["url"]
+    client.post(f"/v1/explanations/{ex['id']}/audio")
+    audio = client.get(url)
+    assert audio.headers["content-type"] == "audio/mpeg" and audio.content == b"ID3fake-mp3" and len(tts.calls) == 1
+    assert tts.calls[0][0].startswith("Your results.")
+
+    assert client.post(f"/v1/explanations/{ex['id']}/feedback", json={"helpful": True}).status_code == 201
+    assert client.put(f"/v1/profiles/{pid}/consents/voice", json={"granted": False}).json()["granted"] is False
+    with sessions() as s:
+        assert {"consent.set", "explanation.request", "explanation.narrate"} <= set(s.scalars(select(AuditLog.action)))
+
+
+def test_explanations_are_private(client: TestClient, as_user, sessions, storage, catalogue: CatalogueData) -> None:
+    pid = _profile(client)
+    rid = _read_and_confirm(client, sessions, storage, catalogue, pid, "syn-2026-0002")
+    Worker(sessions, [ExplanationStage(None, None)]).run_once()
+    eid = client.get(f"/v1/reports/{rid}/explanation?lang=en").json()["explanation"]["id"]
+    as_user("mallory")
+    assert client.get(f"/v1/reports/{rid}/explanation").status_code == 404
+    assert client.post(f"/v1/explanations/{eid}/audio").status_code == 404
+    assert client.get(f"/v1/profiles/{pid}/consents").status_code == 404

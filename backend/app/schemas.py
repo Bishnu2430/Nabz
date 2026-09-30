@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import Lang, ObsStatus, Relationship, ReportStatus, Sex
+from app.models.enums import ConsentPurpose, Lang, ObsStatus, Relationship, ReportStatus, Sex
 
 
 class ProfileIn(BaseModel):
@@ -254,3 +254,66 @@ class WatchOut(BaseModel):
     projected_crossing: date | None
     percentile: float | None
     latest: ResultOut
+
+
+# --- Consent and explanations (Sprint 5) -------------------------------------------------------------------------
+
+
+class ConsentIn(BaseModel):
+    granted: bool
+
+
+class ConsentOut(BaseModel):
+    purpose: ConsentPurpose
+    granted: bool
+    granted_at: datetime | None
+
+
+class TestExplanationOut(BaseModel):
+    test_code: str
+    status: str
+    what_it_measures: str
+    what_this_result_means: str
+    citations: list[str]
+
+
+class SourceOut(BaseModel):
+    label: str
+    title: str
+    url: str | None
+    organisation: str
+    license: str
+
+
+class ExplanationOut(BaseModel):
+    id: uuid.UUID
+    language: Lang
+    source: str = Field(description="model: generated and checked; template: built only from computed values")
+    reason: str | None = Field(description="Why the template was used: critical, no_consent, no_model, "
+                                           "no_knowledge, validation, provider_error")
+    summary: str
+    per_test: list[TestExplanationOut]
+    doctor_questions: list[str]
+    disclaimer_key: str
+    sources: list[SourceOut]
+    has_audio: bool
+    created_at: datetime
+
+
+class ExplanationState(BaseModel):
+    state: str = Field(description="ready, pending (being written) or none")
+    explanation: ExplanationOut | None = None
+
+
+class ExplainIn(BaseModel):
+    language: Lang
+    regenerate: bool = Field(default=False, description="Write it again, e.g. after consent to external AI is given")
+
+
+class AudioOut(BaseModel):
+    url: str
+
+
+class FeedbackIn(BaseModel):
+    helpful: bool
+    comment: str | None = Field(default=None, max_length=1000)

@@ -8,8 +8,9 @@ transaction as the report change that caused it, so jobs are never lost.
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import timedelta
+from typing import Any
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -28,10 +29,12 @@ class Job:
     report_id: uuid.UUID
     stage: JobStage
     attempts: int
+    args: dict[str, Any] = field(default_factory=dict)
 
 
-def enqueue(session: Session, report_id: uuid.UUID, stage: JobStage, delay: timedelta = timedelta(0)) -> None:
-    job = ProcessingJob(report_id=report_id, stage=stage)
+def enqueue(session: Session, report_id: uuid.UUID, stage: JobStage, delay: timedelta = timedelta(0),
+            args: dict[str, Any] | None = None) -> None:
+    job = ProcessingJob(report_id=report_id, stage=stage, args=args)
     session.add(job)
     session.flush()
     if delay:
@@ -48,7 +51,7 @@ _CLAIM = text("""
                   ORDER BY id
                   FOR UPDATE SKIP LOCKED
                   LIMIT 1)
- RETURNING id, report_id, stage, attempts
+ RETURNING id, report_id, stage, attempts, args
 """)
 
 
@@ -56,7 +59,7 @@ def claim(session: Session, worker_id: str, stages: list[JobStage] | None = None
     """Claim the oldest ready job of one of `stages` (default: any stage)."""
     wanted = [s.value for s in (stages or list(JobStage))]
     row = session.execute(_CLAIM, {"worker": worker_id, "stages": wanted}).first()
-    return Job(row.id, row.report_id, JobStage(row.stage), row.attempts) if row else None
+    return Job(row.id, row.report_id, JobStage(row.stage), row.attempts, row.args or {}) if row else None
 
 
 def complete(session: Session, job_id: int) -> None:

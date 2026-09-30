@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     llm_model: str = "openai/gpt-oss-120b"
     vision_model: str = "meta-llama/llama-4-scout-17b-16e-instruct"
     groq_api_key: str = ""
+    # gpt-oss reasoning effort for the explanation writer; reasoning tokens count against the rate limit.
+    llm_reasoning_effort: str = "low"
     local_llm_base_url: str = "http://ollama:11434"
     local_llm_model: str = "qwen3:4b"
 
@@ -28,6 +30,8 @@ class Settings(BaseSettings):
     tts_provider: str = "elevenlabs"
     elevenlabs_api_key: str = ""
     elevenlabs_model: str = "eleven_multilingual_v2"
+    # eleven_multilingual_v2 has no Odia; eleven_v4 does (checked with GET /v1/models, 2026-09-30).
+    elevenlabs_model_or: str = "eleven_v4"
     elevenlabs_voice_en: str = ""
     elevenlabs_voice_hi: str = ""
     elevenlabs_voice_or: str = ""
