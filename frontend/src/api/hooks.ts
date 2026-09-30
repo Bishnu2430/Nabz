@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { api } from "./client";
 import type {
-  CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
+  BodyMapFrame, CatalogueTest, Consent, ConsentPurpose, ExplanationState, Insights, Observation, ObservationPatch, Profile, ProfileIn,
   Report, ReportStatus, ReportSummary,
   TestHistory, Watch,
 } from "./types";
@@ -37,6 +37,18 @@ export function useCreateProfile() {
   return useMutation({
     mutationFn: (body: ProfileIn) => api.post<Profile>("/v1/profiles", body),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["profiles"] }),
+  });
+}
+
+/** Hard delete (FR-33): the person, every report and file, and everything derived from them. */
+export function useDeleteProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (profileId: string) => api.delete(`/v1/profiles/${profileId}`),
+    onSuccess: (_, profileId) => {
+      qc.removeQueries({ queryKey: ["reports", profileId] });
+      return qc.invalidateQueries({ queryKey: ["profiles"] });
+    },
   });
 }
 
@@ -161,4 +173,10 @@ export const useFeedback = () =>
   useMutation({
     mutationFn: ({ id, helpful }: { id: string; helpful: boolean }) =>
       api.post(`/v1/explanations/${id}/feedback`, { helpful }),
+  });
+
+export const useBodyMap = (profileId: string) =>
+  useQuery({
+    queryKey: ["body-map", profileId],
+    queryFn: () => api.get<BodyMapFrame[]>(`/v1/profiles/${profileId}/body-map`),
   });

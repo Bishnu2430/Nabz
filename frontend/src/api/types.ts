@@ -219,3 +219,9 @@ export interface Explanation {
 }
 
 export interface ExplanationState { state: "ready" | "pending" | "none"; explanation: Explanation | null }
+
+// --- Body map (Sprint 6) -------------------------------------------------------------------------------------------
+
+export interface BodyMapOrgan { code: string; status: ObsStatus; out_of_range: number; results: number }
+
+export interface BodyMapFrame { report_id: string; date: string; lab_name: string | null; organs: BodyMapOrgan[] }

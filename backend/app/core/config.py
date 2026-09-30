@@ -11,9 +11,17 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://nabz:nabz@localhost:5433/nabz"
     upload_dir: str = "/data/uploads"
     data_dir: str = "/srv/data"
-    # Until accounts exist (Sprint 6) every API request acts as one local development user.
-    # Only honoured when app_env == "development"; the app refuses to start otherwise.
-    dev_auth: bool = False
+
+    # Accounts (docs/12 §3). SECRET_KEY encrypts TOTP secrets; it must be set outside development.
+    secret_key: str = "development-only-secret-change-me"  # noqa: S105 - refused outside development (main.py)
+    app_base_url: str = "http://localhost:5173"  # links in emails
+    session_idle_days: int = 14
+    staff_session_hours: int = 24
+    cookie_secure: bool = False  # True behind HTTPS
+    mail_backend: str = "smtp"  # smtp | memory (tests)
+    smtp_host: str = "mailpit"
+    smtp_port: int = 1025
+    mail_from: str = "Nabz <no-reply@nabz.local>"
 
     # Explanations and safety judge (ADR-0007). gpt-oss-120b is text-only, so the
     # consent-gated photo fallback uses a separate vision model.

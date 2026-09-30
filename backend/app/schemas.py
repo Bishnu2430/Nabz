@@ -317,3 +317,84 @@ class AudioOut(BaseModel):
 class FeedbackIn(BaseModel):
     helpful: bool
     comment: str | None = Field(default=None, max_length=1000)
+
+
+# --- Accounts (Sprint 6) -----------------------------------------------------------------------------------------
+
+
+class RegisterIn(BaseModel):
+    email: str = Field(max_length=254)
+    password: str = Field(max_length=200)
+    preferred_language: Lang = Lang.EN
+
+
+class LoginIn(BaseModel):
+    email: str = Field(max_length=254)
+    password: str = Field(max_length=200)
+    totp_code: str | None = Field(default=None, max_length=10)
+
+
+class TokenIn(BaseModel):
+    token: str = Field(max_length=200)
+
+
+class ResetIn(BaseModel):
+    token: str = Field(max_length=200)
+    password: str = Field(max_length=200)
+
+
+class EmailIn(BaseModel):
+    email: str = Field(max_length=254)
+
+
+class ChangePasswordIn(BaseModel):
+    current_password: str = Field(max_length=200)
+    new_password: str = Field(max_length=200)
+
+
+class CodeIn(BaseModel):
+    code: str = Field(max_length=10)
+
+
+class PasswordIn(BaseModel):
+    password: str = Field(max_length=200)
+
+
+class MeOut(BaseModel):
+    id: uuid.UUID
+    email: str
+    role: str
+    preferred_language: Lang
+    email_verified: bool
+    totp_enabled: bool
+    totp_required: bool = Field(description="Staff must turn on two-step sign-in before anything else")
+    csrf_token: str = Field(description="Send as the X-CSRF-Token header on every POST, PUT, PATCH and DELETE")
+
+
+class MePatch(BaseModel):
+    preferred_language: Lang
+
+
+class TotpSetupOut(BaseModel):
+    secret: str
+    uri: str
+    qr_svg: str = Field(description="The otpauth URI as an SVG QR code (data URI)")
+
+
+# --- Body map (Sprint 6) ------------------------------------------------------------------------------------------
+
+
+class BodyMapOrgan(BaseModel):
+    code: str
+    status: ObsStatus = Field(description="Worst status among the organ system's tests in this report")
+    out_of_range: int
+    results: int
+
+
+class BodyMapFrame(BaseModel):
+    """One analysed report as the body map shows it; the timeline replays these in date order (FR-29)."""
+
+    report_id: uuid.UUID
+    date: date
+    lab_name: str | None
+    organs: list[BodyMapOrgan]

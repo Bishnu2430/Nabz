@@ -31,14 +31,14 @@ Nabz is an **informational and educational tool**. It helps people understand re
 
 | Principle | How Nabz implements it |
 |---|---|
-| Notice | A plain-language privacy notice in EN/HI/OR before sign-up and before the first upload: what is collected, why, where it goes, how to delete it |
+| Notice | A plain-language privacy notice in EN/HI/OR before sign-up and before the first upload: what is collected, why, where it goes, how to delete it. Built in Sprint 6 at `/privacy`, linked from sign-up and every page footer; Hindi and Odia are drafts pending review (T2.5) |
 | Consent (free, specific, informed, unambiguous) | Separate toggles per purpose: processing, external AI, voice, research. Stored with policy version and time. Withdrawal is as easy as giving consent |
 | Purpose limitation | Health data is used only to produce the user's own explanations; "research" is off by default and unused in the MVP |
 | Data minimisation | External APIs receive only de-identified values; images only through the consent-gated vision fallback |
 | Children's data | Profiles of minors require the account holder to confirm parental or guardian status (FR-05); no tracking or profiling of children |
 | Accuracy | The user reviews and can correct every value |
 | Storage limitation | Retention table in [04 §6](04-data-design.md#6-retention-and-deletion); consented real samples deleted after M3 + 30 days |
-| Rights of the data principal | Access and export (FR-32), correction (FR-14), erasure (FR-33), withdrawal of consent (FR-03) |
+| Rights of the data principal | Access and export (FR-32), correction (FR-14), erasure (FR-33), withdrawal of consent (FR-03). Export and erasure per person and for the whole account are in Settings (Sprint 6); erasure also removes narration audio |
 | Security safeguards | See §4 |
 | Breach handling | Incident log; revoke keys; inform affected people and, where required, the Data Protection Board within the time the Rules prescribe |
 
@@ -46,7 +46,7 @@ Nabz is an **informational and educational tool**. It helps people understand re
 
 | Area | Control |
 |---|---|
-| Authentication | Argon2id; rate limiting on login; session cookie `HttpOnly`, `Secure`, `SameSite=Strict` |
+| Authentication | Argon2id; confirmed email before uploads; per-IP rate limit and a 15-minute lockout after 5 failures; the same answers whether or not an email is registered; server-side sessions behind an `HttpOnly`, `SameSite=Strict` cookie (`Secure` behind HTTPS) with a CSRF token on every change; 14-day idle expiry (1 day for staff); sign out everywhere; TOTP required for staff, its secret encrypted with a key from `SECRET_KEY` (docs/12 §3) |
 | Authorisation | Ownership checks in the service layer for every profile and report; admin role for catalogue and knowledge endpoints |
 | Transport | HTTPS for all external calls; services bind to 127.0.0.1 |
 | Storage | Encrypted host disk; `pgcrypto` for direct identifiers; random storage keys; files never served from a public path |
@@ -81,3 +81,4 @@ Nabz is an **informational and educational tool**. It helps people understand re
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-30 | S-03 and S-06 as implemented in Sprint 5 |
+| 0.3 | 2026-09-30 | §3 notice and data rights, §4 authentication as built in Sprint 6 |

@@ -1,21 +1,22 @@
-"""Request dependencies: database session, current user, storage."""
+"""Request dependencies: database session, current user (session cookie + CSRF), storage."""
 
 from __future__ import annotations
 
 import uuid
 from collections.abc import Iterator
 
-from fastapi import Depends, HTTPException, status
-from sqlalchemy import select
+from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session, sessionmaker
 
-from app.core.config import settings
-from app.core.security import UNUSABLE_PASSWORD_HASH
 from app.db import SessionLocal
-from app.models import AppUser, Profile, Report
+from app.models import AppUser, Profile, Report, UserSession
+from app.models.enums import STAFF_ROLES
+from app.services.auth import session_user
 from app.storage import StorageBackend, default_storage
 
-DEV_EMAIL = "dev@nabz.local"
+COOKIE = "nabz_session"
+CSRF_HEADER = "X-CSRF-Token"
+SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
 
 
 def get_sessionmaker() -> sessionmaker[Session]:
@@ -31,15 +32,24 @@ def get_storage() -> StorageBackend:
     return default_storage()
 
 
-def current_user(session: Session = Depends(get_session)) -> AppUser:  # noqa: B008
-    """Development stand-in for authentication (replaced by real sessions in Sprint 6)."""
-    if not (settings.dev_auth and settings.app_env == "development"):
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Sign-in isn't available yet.")
-    user = session.scalar(select(AppUser).where(AppUser.email == DEV_EMAIL))
-    if user is None:
-        user = AppUser(email=DEV_EMAIL, password_hash=UNUSABLE_PASSWORD_HASH)
-        session.add(user)
-        session.commit()
+def current_session(request: Request,
+                    session: Session = Depends(get_session)) -> tuple[UserSession, AppUser]:  # noqa: B008
+    """The signed-in session. State-changing requests must also carry the session's CSRF token in a header."""
+    found = session_user(session, request.cookies.get(COOKIE))
+    if found is None:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Please sign in.")
+    row, user = found
+    if request.method not in SAFE_METHODS and request.headers.get(CSRF_HEADER) != row.csrf_token:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "The request couldn't be verified. Reload the page.")
+    return row, user
+
+
+def current_user(found: tuple[UserSession, AppUser] = Depends(current_session)) -> AppUser:  # noqa: B008
+    """The signed-in user, for everything outside /v1/auth. Staff must turn on two-step sign-in first."""
+    _, user = found
+    if user.role in STAFF_ROLES and user.totp_enabled_at is None:
+        raise HTTPException(status.HTTP_403_FORBIDDEN,
+                            {"detail": "Turn on two-step sign-in to continue.", "setup": "totp"})
     return user
 
 

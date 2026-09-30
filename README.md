@@ -55,7 +55,21 @@ docker compose exec api python -m app.cli seed-catalogue
 docker compose exec api pytest
 ```
 
-Open the web app at <http://localhost:5173>. Add a person, upload a PDF or photo of a report (samples are in `data/synthetic/samples/`), and check the values. Until sign-in arrives in Sprint 6, the development stack uses one local account (`DEV_AUTH=true`, allowed only when `APP_ENV=development`).
+Open the web app at <http://localhost:5173> and create an account. Every email (the confirmation link, password resets) lands in the Mailpit inbox at <http://localhost:8025>; nothing is sent to real addresses. Then add a person, upload a PDF or photo of a report (samples are in `data/synthetic/samples/`), check the values and open the results with the body map.
+
+Staff and seeded accounts are created from the command line (reviewers and admins must then turn on two-step sign-in in Settings):
+
+```bash
+docker compose exec api python -m app.cli create-user --email reviewer@nabz.local --password "<password>" --role reviewer
+```
+
+Development data from before Sprint 6 belongs to `dev@nabz.local`. Choose a password for it (keep it in your own `.env` as `DEV_ACCOUNT_PASSWORD`, never in `.env.example`) and set it:
+
+```bash
+docker compose exec api python -m app.cli set-password --email dev@nabz.local --password "<DEV_ACCOUNT_PASSWORD>"
+```
+
+Outside development, set `SECRET_KEY` (32+ characters; the API refuses to start without it) and `COOKIE_SECURE=true` behind HTTPS.
 
 Frontend checks run in the `web` container:
 

@@ -15,6 +15,7 @@ from app.catalogue.seed import seed_catalogue
 from app.core.config import settings
 
 ROOT = Path(__file__).resolve().parents[1]
+settings.mail_backend = "memory"  # tests read emails from app.services.mail.outbox
 
 
 @pytest.fixture(scope="session")

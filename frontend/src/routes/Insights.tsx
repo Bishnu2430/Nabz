@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Navigate, useParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
 import { useInsights } from "../api/hooks";
 import { StatusBadge } from "../components/Badges";
+import { BodyMap, useCountNote } from "../components/body/BodyMap";
+import { OrganDetail } from "../components/body/OrganDetail";
+import { isOrganCode, type OrganCode } from "../components/body/organs";
 import { Enso } from "../components/Enso";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
@@ -19,6 +23,8 @@ export default function Insights() {
   const { id = "" } = useParams();
   const { t, i18n } = useTranslation();
   const insights = useInsights(id);
+  const [organ, setOrgan] = useState<OrganCode | null>(null);
+  const countNote = useCountNote();
 
   if (insights.isPending) return <Loading />;
   if (insights.isError) {
@@ -34,6 +40,7 @@ export default function Insights() {
   const all = data.organs.flatMap((o) => o.results);
   const outside = all.filter((r) => isAbnormal(r.status)).length;
   const lang = i18n.resolvedLanguage ?? "en";
+  const chosen = data.organs.find((o) => o.code === organ);
 
   return (
     <>
@@ -57,11 +64,24 @@ export default function Insights() {
           : t("insights.all_in_range", { total: all.length })}
       </p>
 
+      <BodyMap
+        items={data.organs.filter((o) => isOrganCode(o.code)).map((o) => ({
+          code: o.code as OrganCode,
+          status: o.status,
+          name: o.names[lang] ?? o.names.en,
+          note: countNote(o.results.filter((r) => isAbnormal(r.status)).length, o.results.length),
+        }))}
+        selected={organ}
+        onSelect={setOrgan}
+        detail={chosen && <OrganDetail organ={chosen} reportId={id} profileId={data.person.id} />}
+      />
+
+      <h2 className="mb-4 font-display text-2xl font-bold">{t("insights.all_results")}</h2>
       <div className="grid gap-5 lg:grid-cols-2">
         {data.organs.map((o) => <OrganCard key={o.code} organ={o} profileId={data.person.id} />)}
       </div>
 
-      <div className="mt-8">
+      <div id="explanation" className="mt-8 scroll-mt-6">
         <ExplanationCard reportId={id} profileId={data.person.id} results={all} />
       </div>
 

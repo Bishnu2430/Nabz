@@ -85,7 +85,7 @@ Written in the college report format. *Status* is filled in when each case is ex
 
 | Test ID | Test case title | Test condition | System behaviour | Expected result | Status |
 |---|---|---|---|---|---|
-| TC-01 | Register and sign in | New email + valid password; then wrong password 5 times | Creates account; locks out after repeated failures | Session cookie set; 429 after the limit | Planned |
+| TC-01 | Register and sign in | New email + valid password; then wrong password 5 times | Creates account; locks out after repeated failures | Session cookie set; 429 after the limit | Pass (automated, §13) |
 | TC-02 | Minor profile needs guardian confirmation | Create profile with DOB < 18 years ago | Blocks consent until guardian box is ticked | Consent saved only after confirmation | Planned |
 | TC-03 | Upload without processing consent | Profile with processing consent off; upload PDF | Rejects upload | 403 problem response; no job created | Planned |
 | TC-04 | No external call without AI consent | External-AI consent off; confirm report | Uses template explanation only | No outbound LLM request (mock asserts zero calls) | Planned |
@@ -102,9 +102,9 @@ Written in the college report format. *Status* is filled in when each case is ex
 | TC-15 | Citations required | Mock LLM omits citations for one test | Validator fails | Fallback used | Planned |
 | TC-16 | Doctor questions present | Normal flow | Explanation JSON has 3–6 questions | Rendered in UI and print view | Planned |
 | TC-17 | Language switch | Switch EN → HI → OR on the insights page | Loads or generates each language | UI strings and explanation in the chosen script; no reload | Planned |
-| TC-18 | Body map status | Report with high ALT, normal creatinine | Colours organ systems | Liver amber, kidneys green; click flies to liver card | Planned |
-| TC-19 | Export | Request JSON and PDF export | Generates files | JSON validates against the export schema; PDF opens | Planned |
-| TC-20 | Hard delete | Delete a profile with reports | Removes rows and files | No rows or files remain; one audit entry exists | Planned |
+| TC-18 | Body map status | Report with high ALT, normal creatinine | Colours organ systems | Liver amber, kidneys green; click flies to liver card | Pass: flat view automated, 3D by hand (§13) |
+| TC-19 | Export | Request JSON and PDF export | Generates files | JSON validates against the export schema; PDF opens | JSON passes (§13); PDF not built |
+| TC-20 | Hard delete | Delete a profile with reports | Removes rows and files | No rows or files remain; one audit entry exists | Pass (automated, §13) |
 | TC-21 | Offline demo | Disconnect network; run demo script | Serves cached explanations and audio | Demo completes without errors | Planned |
 
 ## 7. Entry and exit criteria
@@ -297,6 +297,37 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 - Short Hindi and Odia samples were generated successfully.
 - Without configured voices, a voice named as warm or reassuring is picked from the account.
 
+## 13. Sprint 6 accounts, data rights and body map
+
+**Accounts** (`backend/tests/test_auth.py`, against a real database, with real cookies and CSRF):
+- sign-up → confirmation email → confirm → sign-in sets the cookie; a change without the CSRF header is refused (403) and passes with it;
+- a taken email gets the same 202 and no second account; weak passwords are refused with a reason;
+- an unknown email and a wrong password get the same 401 and wording; five failures lock the account (429);
+- an unconfirmed account cannot upload (403 `verify_email`);
+- a reset link works once, and signs out every device;
+- sign out, and sign out everywhere across two clients;
+- a session idle for longer than the limit is refused;
+- two-step sign-in: a wrong code is refused, the right one turns it on, and sign-in then asks for the code;
+- an admin without two-step sign-in is refused everywhere except its set-up, and can't turn it off once on;
+- deleting the account needs the password and removes the person's data.
+
+**Data rights** (`backend/tests/test_api.py::test_export_and_delete_a_person`):
+- The export holds the person, consents, results as printed and as confirmed, organ systems, analysis and explanations.
+- Another account gets 404 for both export and delete.
+- Deleting the person leaves no observations and no stored files, neither the upload nor the narration audio. One audit entry remains, recording only the file count.
+
+**Web app** (Vitest, 50 tests; new ones in `routes/account/Account.test.tsx` and `components/body/BodyMap.test.tsx`):
+- the sign-in guard and the return to the page asked for; the authenticator-code step; staff sent to set-up; `next` refuses other sites;
+- password reasons in the reader's language before anything is sent; confirmation only on a click; an expired reset link;
+- the CSRF header on changes; the QR code and the grouped key; deleting a person only after typing the name;
+- without WebGL 2, the flat map with a note. The organ list and the drawing both select a system, which opens its card with the explanation excerpt;
+- the timeline marks the latest report, switches report by date, and links to it.
+
+**3D view.**
+- **Checked by hand** in Chrome on the reference laptop (Intel Iris Xe): the figure, the status colours, the fly-to and the switch to the flat view.
+- **Bundle:** the 3D code is a separate chunk loaded only when shown: 965 kB, 255 kB gzipped. The main bundle is 539 kB, 164 kB gzipped.
+- **NFR-03 (≥ 45 fps at 1080p) is not measured yet.** The embedded browser used for development reports itself as hidden, so frame timing there is throttled. Measure with the Chrome performance panel on the reference laptop, with the 3D view open and an abnormal organ breathing.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -307,3 +338,4 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 | 0.4 | 2026-09-28 | §4 trend target restated as measurable parts; §11 Sprint 4 analysis results |
 | 0.5 | 2026-09-30 | §12 Sprint 5 explanation results (red-team, live runs, prompt iterations) |
 | 0.6 | 2026-09-30 | §12 summary format with symptoms (explain-v5) |
+| 0.7 | 2026-09-30 | §13 Sprint 6 accounts, data rights and body map; TC-01, TC-18–TC-20 status |
