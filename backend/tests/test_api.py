@@ -107,6 +107,23 @@ def test_upload_review_confirm(client: TestClient, sessions, storage, catalogue:
     assert locked.status_code == 409
 
 
+def test_a_sample_report_goes_through_the_same_steps(client: TestClient, sessions, storage,
+                                                      catalogue: CatalogueData) -> None:
+    pid = _profile(client)
+    r = client.post(f"/v1/profiles/{pid}/sample-report")
+    assert r.status_code == 202, r.text
+    rid = r.json()["report_id"]
+    _process(sessions, storage, catalogue)
+    report = client.get(f"/v1/reports/{rid}").json()
+    assert report["status"] == "needs_review" and len(report["observations"]) >= 40
+    assert report["lab_name"] == "Anvaya Diagnostics"
+    listed = client.get(f"/v1/profiles/{pid}/reports").json()
+    assert listed[0]["note"].startswith("Sample report from the walkthrough")
+    # trying it twice opens the first one
+    again = client.post(f"/v1/profiles/{pid}/sample-report")
+    assert again.status_code == 409 and again.json()["report_id"] == rid
+
+
 def test_confirm_needs_every_row_mapped(client: TestClient, sessions, storage, catalogue: CatalogueData) -> None:
     rid = _upload(client, _profile(client))
     _process(sessions, storage, catalogue)

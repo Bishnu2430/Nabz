@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useProfiles } from "../api/hooks";
 import type { Profile } from "../api/types";
 import { useDueText } from "../components/care/Reminders";
 import { ValueChips } from "../components/exact/exact";
 import { ProfileForm } from "../components/ProfileForm";
-import { Button, Card, EmptyState, ErrorNote, Loading, PageTitle } from "../components/ui";
+import { Button, Card, ErrorNote, Loading, PageTitle } from "../components/ui";
 import { formatDate } from "../lib/format";
 
 export default function Home() {
@@ -21,16 +21,8 @@ export default function Home() {
 
   const created = (p: Profile) => navigate(`/p/${p.id}/upload`);
 
-  if (profiles.data.length === 0) {
-    return (
-      <div className="mx-auto max-w-xl">
-        <EmptyState title={t("home.empty_title")} body={t("home.empty_body")} />
-        <Card className="p-6">
-          <ProfileForm onCreated={created} />
-        </Card>
-      </div>
-    );
-  }
+  // an account with no one in it yet starts with the walkthrough
+  if (profiles.data.length === 0) return <Navigate to="/welcome" replace />;
 
   return (
     <>

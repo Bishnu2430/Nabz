@@ -394,7 +394,8 @@
     "text_size": "Text size",
     "size_normal": "Standard",
     "size_large": "Large",
-    "size_larger": "Larger"
+    "size_larger": "Larger",
+    "walkthrough": "Take the walkthrough again"
   },
   "landing": {
     "lead": "Take a photo of a blood-test report. Nabz reads it, lets you check every value, and explains the results in English, Hindi or Odia, with a map of the body and your results over the years.",
@@ -836,5 +837,44 @@
     "updated": "Prepared with Nabz on {{date}}",
     "qr_shows": "What the QR code says",
     "note": "The card shows only what you typed and your confirmed lab values. Check it with your doctor, and print it again when something changes."
+  },
+  "welcome": {
+    "title": "Welcome to Nabz",
+    "step": "Step {{n}} of {{total}}",
+    "steps": {
+      "language": "Language",
+      "about": "What Nabz does",
+      "person": "First person",
+      "privacy": "Privacy",
+      "report": "First report"
+    },
+    "next": "Continue",
+    "language_title": "Choose your language",
+    "language_body": "The app, emails and explanations use it. You can change it at any time from the top of the page.",
+    "about_title": "What Nabz is, and is not",
+    "is_title": "Nabz does",
+    "is_1": "Read the values from a lab report and let you check every one.",
+    "is_2": "Explain what each test measures and how your result compares with the lab's range.",
+    "is_3": "Show how results change over the years, and prepare questions for your doctor.",
+    "not_title": "Nabz does not",
+    "not_1": "Diagnose, or name a disease.",
+    "not_2": "Suggest medicines, doses or treatment.",
+    "not_3": "Replace your doctor, or help in an emergency.",
+    "understand": "I understand that Nabz explains results and does not replace my doctor.",
+    "person_title": "Who is the first report for?",
+    "person_body": "Add yourself or the family member whose reports you look after. Each person's reports stay separate.",
+    "continue_with": "Continue with {{name}}",
+    "or_add": "Or add someone new:",
+    "privacy_title": "Two choices for {{name}}",
+    "privacy_body": "Both are off until you turn them on, and you can change them at any time on the person's page. Without them Nabz still explains every result, from your values alone.",
+    "report_title": "The first report",
+    "report_body": "Upload a report for {{name}}, or try Nabz with a sample first.",
+    "upload_title": "Upload a report",
+    "upload_body": "A photo or PDF of a blood-test report from any lab.",
+    "sample_title": "Try a sample report",
+    "sample_body": "A made-up health check goes through the same steps. It is marked as a sample, and you can delete it afterwards.",
+    "sample_start": "Use the sample",
+    "sample_exists": "The sample report is already here.",
+    "later": "Do this later"
   }
 }

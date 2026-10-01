@@ -25,6 +25,7 @@ import Story from "./Story";
 import Summary from "./Summary";
 import TestHistory from "./TestHistory";
 import Upload from "./Upload";
+import Welcome from "./Welcome";
 
 // Page map: docs/12-ux-and-access-design.md §6.
 export const routes: RouteObject[] = [
@@ -45,6 +46,7 @@ export const routes: RouteObject[] = [
         element: <RequireAuth />,
         children: [
           { path: "/home", element: <Home /> },
+          { path: "/welcome", element: <Welcome /> },
           { path: "/p/:id", element: <Person /> },
           { path: "/p/:id/upload", element: <Upload /> },
           { path: "/p/:id/tests", element: <AllTests /> },

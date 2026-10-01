@@ -14,7 +14,8 @@ describe("sign-in guard", () => {
         signedIn = true;
         return ME;
       },
-      "GET /v1/profiles": () => [],
+      "GET /v1/profiles": () => [{ id: "p1", display_name: "Asha", sex: "female", date_of_birth: null,
+        relationship: "self", preferred_language: "en", reports: 0, latest_report_at: null }],
     });
     const { router } = renderRoute("/home");
 
@@ -23,7 +24,7 @@ describe("sign-in guard", () => {
     await userEvent.type(screen.getByLabelText("Password"), "correct horse battery");
     await userEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
-    expect(await screen.findByRole("heading", { name: "Add the first person" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Your family" })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe("/home");
     expect(calls.find((c) => c.url === "/v1/auth/login")?.body).toEqual({
       email: "asha@example.com", password: "correct horse battery",

@@ -4,6 +4,7 @@ import asyncio
 import json
 import uuid
 from datetime import UTC, datetime
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, HTTPException, Request, Response, UploadFile, status
 from fastapi.responses import StreamingResponse
@@ -11,9 +12,10 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.api.deps import current_user, get_session, get_sessionmaker, get_storage, owned_profile, owned_report
+from app.core.config import settings
 from app.extraction.interpret import Interpreter
 from app.models import AppUser, LabTest, Observation, Profile, Report, ReportFile, ReportPage
-from app.models.enums import JobStage, ObsStatus, ReportStatus
+from app.models.enums import JobStage, ObsStatus, ReportStatus, Sex
 from app.schemas import (
     Accepted,
     Box,
@@ -39,6 +41,7 @@ router = APIRouter(tags=["reports"])
 EDITABLE = {ReportStatus.NEEDS_REVIEW}
 FINAL = {ReportStatus.NEEDS_REVIEW, ReportStatus.VERIFIED, ReportStatus.EXPLAINED, ReportStatus.FAILED,
          ReportStatus.REJECTED}
+SAMPLE_NOTE = "Sample report from the walkthrough: a made-up person's results. Delete it when you add your own."
 
 
 def get_interpreter() -> Interpreter:
@@ -84,24 +87,43 @@ def _report_out(session: Session, report: Report, interp: Interpreter) -> Report
     )
 
 
-@router.post("/v1/profiles/{profile_id}/reports", response_model=Accepted, status_code=status.HTTP_202_ACCEPTED)
-async def upload_report(profile_id: uuid.UUID, file: UploadFile = File(...),  # noqa: B008
-                        session: Session = Depends(get_session), user: AppUser = Depends(current_user),  # noqa: B008
-                        storage: StorageBackend = Depends(get_storage)):  # noqa: B008
-    profile = owned_profile(session, user, profile_id)
+def _accept(session: Session, storage: StorageBackend, user: AppUser, profile: Profile, data: bytes,
+            note: str | None = None) -> Accepted:
     if user.email_verified_at is None:
         raise HTTPException(status.HTTP_403_FORBIDDEN,
                             {"detail": "Confirm your email before uploading a report.", "code": "verify_email"})
-    data = await file.read()
     try:
         report = ingest_report(session, storage, profile_id=profile.id, uploaded_by=user.id, data=data)
     except DuplicateReport as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, {"detail": str(exc), "report_id": str(exc.report_id)}) from exc
     except IngestError as exc:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(exc)) from exc
-    audit.record(session, user.id, "report.upload", "report", report.id, bytes=len(data))
+    report.note = note
+    audit.record(session, user.id, "report.upload", "report", report.id, bytes=len(data), sample=note is not None)
     session.commit()
     return Accepted(report_id=report.id, status=report.status)
+
+
+@router.post("/v1/profiles/{profile_id}/reports", response_model=Accepted, status_code=status.HTTP_202_ACCEPTED)
+async def upload_report(profile_id: uuid.UUID, file: UploadFile = File(...),  # noqa: B008
+                        session: Session = Depends(get_session), user: AppUser = Depends(current_user),  # noqa: B008
+                        storage: StorageBackend = Depends(get_storage)):  # noqa: B008
+    profile = owned_profile(session, user, profile_id)
+    return _accept(session, storage, user, profile, await file.read())
+
+
+@router.post("/v1/profiles/{profile_id}/sample-report", response_model=Accepted,
+             status_code=status.HTTP_202_ACCEPTED)
+def try_sample_report(profile_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                      user: AppUser = Depends(current_user),  # noqa: B008
+                      storage: StorageBackend = Depends(get_storage)):  # noqa: B008
+    """Put a bundled sample report through the same steps as an upload, to try Nabz without a report at hand.
+    The report carries a note saying what it is, and is deleted like any other."""
+    profile = owned_profile(session, user, profile_id)
+    sample = Path(settings.data_dir) / "samples" / f"health-check-{'male' if profile.sex is Sex.MALE else 'female'}.pdf"
+    if not sample.is_file():
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No sample report is available.")
+    return _accept(session, storage, user, profile, sample.read_bytes(), note=SAMPLE_NOTE)
 
 
 @router.get("/v1/profiles/{profile_id}/reports", response_model=list[ReportSummary])

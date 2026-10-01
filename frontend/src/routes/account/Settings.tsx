@@ -98,6 +98,7 @@ function AccountSection({ me }: { me: Me }) {
         <p className="mt-1 text-sm text-muted">{t("settings.language_note")}</p>
       </div>
       <TextSizeChoice />
+      <p><Link to="/welcome" className="text-link">{t("settings.walkthrough")}</Link></p>
     </Section>
   );
 }
