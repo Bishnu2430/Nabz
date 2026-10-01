@@ -21,7 +21,8 @@
     "back": "Back",
     "cancel": "Cancel",
     "save": "Save",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "close": "Close"
   },
   "home": {
     "title": "Your family",
@@ -653,5 +654,41 @@
     "better": "{{test}} moved closer to its range: {{previous}} to {{value}}.",
     "clear": "All {{total}} results were within their range.",
     "noted": "The family's note: “{{note}}”"
+  },
+  "share": {
+    "button": "Share with a doctor",
+    "title": "Share this report with a doctor",
+    "intro": "The link opens this one report, read-only, without an account. It stops working when it expires, and you can withdraw it at any time.",
+    "for": "Who is it for? (optional)",
+    "for_placeholder": "e.g. Dr. Nayak",
+    "works_for": "The link works for",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "create": "Create the link",
+    "ready": "The link is ready",
+    "expires": "works until {{date}}",
+    "link": "Share link",
+    "copy": "Copy the link",
+    "copied": "Link copied",
+    "preview": "See what the doctor sees",
+    "once": "This link is shown only once. If you lose it, withdraw it and create another.",
+    "qr_alt": "QR code for the share link",
+    "links": "Links for this report",
+    "unnamed": "Link",
+    "state_withdrawn": "withdrawn",
+    "state_expired": "expired",
+    "opened_one": "opened {{count}} time",
+    "opened_other": "opened {{count}} times",
+    "withdraw": "Withdraw",
+    "withdrawn": "Link withdrawn"
+  },
+  "shared": {
+    "banner": "Shared with you through Nabz. Read-only; this link works until {{date}}.",
+    "note": "The family's note",
+    "questions": "Questions the family would like to ask",
+    "footer": "Values are as confirmed by the family from the lab's report. Nabz explains results; it does not diagnose.",
+    "gone_title": "This link no longer works",
+    "gone_body": "It has expired or was withdrawn. Ask the person who shared it for a new one.",
+    "try_later": "Try again in a moment."
   }
 }

@@ -404,3 +404,57 @@ def test_imaging_record_keeps_its_study_image_and_report_text(client: TestClient
     assert client.delete(f"/v1/records/{rec['id']}").status_code == 204
     assert client.delete(f"/v1/records/{plain['id']}").status_code == 204
     assert not any(p.is_file() for p in storage.root.rglob("*"))
+
+
+def test_sharing_a_report_with_a_doctor(client: TestClient, as_user, sessions, storage,
+                                        catalogue: CatalogueData) -> None:
+    from datetime import timedelta
+
+    from app.api.routes import shares
+    from app.models import ShareLink
+
+    shares.view_limiter.reset()
+    pid = _profile(client)
+    rid = _read_and_confirm(client, sessions, storage, catalogue, pid, "syn-2026-0002")
+    Worker(sessions, [ExplanationStage(None, None)]).run_once()
+    client.patch(f"/v1/reports/{rid}", json={"note": "Not fasting"})
+
+    made = client.post(f"/v1/reports/{rid}/shares", json={"days": 7, "label": "Dr. Nayak"})
+    assert made.status_code == 201
+    link = made.json()
+    token = link["url"].rsplit("/s/", 1)[1]
+    assert link["active"] and link["qr_svg"].startswith("data:image/svg+xml") and link["label"] == "Dr. Nayak"
+    with sessions() as s:  # only the hash is kept
+        stored = s.scalars(select(ShareLink)).one()
+        assert stored.token_hash != token and len(stored.token_hash) == 64
+
+    # no session is needed, and nothing but this report is shown
+    app.dependency_overrides.pop(deps.current_user)
+    shared = client.get(f"/v1/shared/{token}")
+    assert shared.status_code == 200
+    body = shared.json()
+    assert body["person"] == {"display_name": "Ramesh", "sex": "male", "age": body["person"]["age"]}
+    assert body["note"] == "Not fasting" and body["organs"] and len(body["questions"]) >= 2
+    assert "id" not in body["person"]
+    assert client.get("/v1/shared/not-a-token").status_code == 404
+    assert client.get("/v1/profiles").status_code == 401
+
+    as_user("mallory")
+    assert client.post(f"/v1/reports/{rid}/shares", json={"days": 7}).status_code == 404
+    assert client.delete(f"/v1/shares/{link['id']}").status_code == 404
+    as_user("alice")
+    listed = client.get(f"/v1/reports/{rid}/shares").json()
+    assert listed[0]["views"] == 1 and listed[0]["last_viewed_at"]
+
+    # an expired link and a withdrawn link both stop working, with the same answer
+    with sessions.begin() as s:
+        s.scalars(select(ShareLink)).one().expires_at -= timedelta(days=8)
+    assert client.get(f"/v1/shared/{token}").status_code == 404
+    second = client.post(f"/v1/reports/{rid}/shares", json={"days": 1}).json()
+    token2 = second["url"].rsplit("/s/", 1)[1]
+    assert client.get(f"/v1/shared/{token2}").status_code == 200
+    assert client.delete(f"/v1/shares/{second['id']}").status_code == 204
+    gone = client.get(f"/v1/shared/{token2}")
+    assert gone.status_code == 404 and "expired or was withdrawn" in gone.json()["detail"]
+    with sessions() as s:
+        assert {"share.create", "share.view", "share.revoke"} <= set(s.scalars(select(AuditLog.action)))

@@ -470,3 +470,47 @@ class OrganHistoryOut(BaseModel):
     names: dict[str, str]
     person: PersonOut
     tests: list[OrganTestHistory] = Field(description="Worst latest status first, then catalogue order")
+
+
+# --- Sharing with a doctor (FR-34) ----------------------------------------------------------------------------------
+
+
+class ShareIn(BaseModel):
+    days: int = Field(default=7, ge=1, le=30, description="How long the link works")
+    label: str | None = Field(default=None, max_length=80, description="Who it is for; only the owner sees this")
+
+
+class ShareOut(BaseModel):
+    id: uuid.UUID
+    label: str | None
+    created_at: datetime
+    expires_at: datetime
+    revoked: bool
+    active: bool
+    views: int
+    last_viewed_at: datetime | None
+
+
+class ShareCreated(ShareOut):
+    url: str = Field(description="Shown once: only the token's hash is stored")
+    qr_svg: str
+
+
+class SharedPerson(BaseModel):
+    display_name: str
+    sex: Sex
+    age: int | None
+
+
+class SharedReportOut(BaseModel):
+    """What someone holding the link sees: one report, read-only, with no account and no identifiers beyond the
+    person's name, age and sex."""
+
+    person: SharedPerson
+    lab_name: str | None
+    collected_at: date | None
+    note: str | None
+    critical: list[ResultOut]
+    organs: list[OrganOut]
+    questions: list[str]
+    expires_at: datetime

@@ -255,6 +255,32 @@ export interface OrganHistory {
   tests: { test: TestInfo; results: Result[] }[];
 }
 
+// --- Sharing with a doctor (FR-34) -----------------------------------------------------------------------------
+
+export interface ShareLink {
+  id: string;
+  label: string | null;
+  created_at: string;
+  expires_at: string;
+  revoked: boolean;
+  active: boolean;
+  views: number;
+  last_viewed_at: string | null;
+}
+
+export interface ShareCreated extends ShareLink { url: string; qr_svg: string }
+
+export interface SharedReport {
+  person: { display_name: string; sex: Sex; age: number | null };
+  lab_name: string | null;
+  collected_at: string | null;
+  note: string | null;
+  critical: Result[];
+  organs: Organ[];
+  questions: string[];
+  expires_at: string;
+}
+
 // --- Other health records (Sprint 7) ---------------------------------------------------------------------------
 
 export type RecordKind = "imaging" | "prescription" | "discharge" | "vaccination" | "other";

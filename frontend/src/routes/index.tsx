@@ -18,6 +18,7 @@ import Legal from "./Legal";
 import NotFound from "./NotFound";
 import Person from "./Person";
 import Review from "./Review";
+import Shared from "./Shared";
 import Story from "./Story";
 import Summary from "./Summary";
 import TestHistory from "./TestHistory";
@@ -37,6 +38,7 @@ export const routes: RouteObject[] = [
       { path: "/reset-password", element: <ResetPassword /> },
       { path: "/privacy", element: <Legal page="privacy" /> },
       { path: "/safety", element: <Legal page="safety" /> },
+      { path: "/s/:token", element: <Shared /> },
       {
         element: <RequireAuth />,
         children: [
