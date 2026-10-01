@@ -473,12 +473,16 @@ function OrganSystem({ code, status, selected, dimmed, onSelect, reducedMotion, 
   const material = useMemo(() => new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.05, transparent: true }), []);
   const hasData = Boolean(status);
 
+  const target = useMemo(() => new THREE.Color(colourFor(status)), [status]);
+  const first = useRef(true);
   useEffect(() => {
-    const colour = new THREE.Color(colourFor(status));
-    material.color.copy(colour);
-    material.emissive.copy(colour);
     material.depthWrite = hasData && !dimmed;
-  }, [material, status, hasData, dimmed]);
+    if (first.current || reducedMotion) {
+      material.color.copy(target);
+      material.emissive.copy(target);
+      first.current = false;
+    }
+  }, [material, target, hasData, dimmed, reducedMotion]);
 
   useEffect(() => {
     document.body.style.cursor = hovered && hasData ? "pointer" : "";
@@ -493,6 +497,14 @@ function OrganSystem({ code, status, selected, dimmed, onSelect, reducedMotion, 
     const breath = abnormal && !reducedMotion && !dimmed ? 0.35 * (0.5 + 0.5 * Math.sin(clock.elapsedTime * 2.2)) : 0;
     const next = base + breath + (hovered && hasData ? 0.25 : 0);
     const opacity = !hasData ? 0.18 : dimmed ? 0.28 : 0.95;
+    // the colour glides to a new status rather than snapping (the timeline and the story change it as you watch)
+    const drift = Math.abs(material.color.r - target.r) + Math.abs(material.color.g - target.g)
+      + Math.abs(material.color.b - target.b);
+    if (drift > 0.004) {
+      material.color.lerp(target, 0.09);
+      material.emissive.copy(material.color);
+      invalidate();
+    }
     if (Math.abs(material.emissiveIntensity - next) > 0.001 || Math.abs(material.opacity - opacity) > 0.005) {
       material.emissiveIntensity = next;
       material.opacity += (opacity - material.opacity) * (reducedMotion ? 1 : 0.2);

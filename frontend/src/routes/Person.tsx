@@ -42,9 +42,13 @@ export default function Person() {
       <PageTitle title={profile.display_name} action={reports.data.length > 0 && upload} />
       {reports.data.length > 0 && (
         <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
-          {[["tests", "person.all_tests"], ["summary", "person.summary"], ["compare", "person.compare"]].map(([path, key]) => (
+          <Link to={`/p/${id}/story`}
+            className="btn rounded-full border border-accent bg-accent px-3 py-1 text-sm font-medium text-accent-ink no-underline hover:brightness-110">
+            ▶ {t("person.story")}
+          </Link>
+          {TOOLS.map(([path, key]) => (
             <Link key={path} to={`/p/${id}/${path}`}
-              className="rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
+              className="btn rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
               {t(key)}
             </Link>
           ))}
@@ -83,6 +87,8 @@ export default function Person() {
     </>
   );
 }
+
+const TOOLS = [["tests", "person.all_tests"], ["summary", "person.summary"], ["compare", "person.compare"]] as const;
 
 const ANALYSED = new Set(["verified", "analysing", "explaining", "explained"]);
 

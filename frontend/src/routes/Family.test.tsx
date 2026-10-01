@@ -141,3 +141,26 @@ describe("imaging viewer", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });
+
+describe("story mode", () => {
+  it("steps through a person's reports with each turning point in words", async () => {
+    mockApi({
+      "GET /v1/profiles": () => [person],
+      "GET /v1/profiles/p1/body-map": () => frames,
+      "GET /v1/profiles/p1/records": () => [],
+      "GET /v1/profiles/p1/reports": () => [{ id: "r1", status: "explained", lab_name: null, collected_at: "2025-08-20",
+        created_at: "2025-08-20T10:00:00Z", rows: 2, note: "Walking daily since June", out_of_range: [] }],
+    });
+    renderRoute("/p/p1/story");
+    expect(await screen.findByRole("heading", { name: "Ramesh Mohanty: the story so far" })).toBeInTheDocument();
+    expect(screen.getByText("Chapter 1 of 2 · Mahanadi Clinical Laboratory")).toBeInTheDocument();
+    expect(screen.getByText(/The first report on record: 2 results, 2 outside their range/)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Next chapter" }));
+    expect(screen.getByRole("heading", { name: "20 Aug 2025" })).toBeInTheDocument();
+    expect(screen.getByText("Vitamin D came back into range: 31.0 ng/mL (it was 16.0 ng/mL).")).toBeInTheDocument();
+    expect(screen.getByText(/HbA1c reached its highest so far|HbA1c moved further from its range: 7.3 % to 7.6 %/)).toBeInTheDocument();
+    expect(screen.getByText("The family's note: “Walking daily since June”")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Play again" })).toBeInTheDocument();
+  });
+});

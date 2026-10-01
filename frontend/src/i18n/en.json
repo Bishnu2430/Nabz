@@ -74,7 +74,8 @@
     "summary": "Summary for the doctor",
     "compare": "Compare reports",
     "all_in_range_one": "The result is within its range.",
-    "all_in_range_other": "All {{count}} results are within their range."
+    "all_in_range_other": "All {{count}} results are within their range.",
+    "story": "Health story"
   },
   "status": {
     "uploaded": "Uploaded",
@@ -624,5 +625,33 @@
     "note_saved": "Note saved",
     "record_saved": "Record saved",
     "record_deleted": "Record deleted"
+  },
+  "story": {
+    "title": "{{name}}: the story so far",
+    "empty": "The story begins with the first confirmed report.",
+    "keys": "Space plays and pauses; the arrow keys step.",
+    "chapter": "Chapter {{n}} of {{total}}",
+    "chapters": "Chapters",
+    "previous": "Previous chapter",
+    "next": "Next chapter",
+    "replay": "Play again",
+    "speed": "Speed",
+    "read_aloud": "Read aloud",
+    "more_one": "And {{count}} more change in this report.",
+    "more_other": "And {{count}} more changes in this report.",
+    "note": "The story states what the confirmed results show: what left its range, what came back, what reached its highest. It doesn't say why. That is a question for the doctor.",
+    "first_out_one": "The first report on record: {{total}} results, {{count}} outside its range.",
+    "first_out_other": "The first report on record: {{total}} results, {{count}} outside their range. Furthest out:",
+    "first_clear": "The first report on record: all {{total}} results within their range.",
+    "critical": "{{test}} was beyond the critical limit: {{value}} (the lab's range is {{range}}).",
+    "out": "{{test}} was outside the lab's range: {{value}}, {{how}}.",
+    "out_from": "{{test}} left the lab's range: {{value}}, {{how}}. It was {{previous}} on {{date}}.",
+    "back": "{{test}} came back into range: {{value}} (it was {{previous}}).",
+    "highest": "{{test}} reached its highest so far: {{value}}, {{how}}.",
+    "lowest": "{{test}} reached its lowest so far: {{value}}, {{how}}.",
+    "worse": "{{test}} moved further from its range: {{previous}} to {{value}}.",
+    "better": "{{test}} moved closer to its range: {{previous}} to {{value}}.",
+    "clear": "All {{total}} results were within their range.",
+    "noted": "The family's note: “{{note}}”"
   }
 }

@@ -43,6 +43,15 @@ from tools.synthetic.spec import Lab, ReportSpec, Row, build_sections
 from tools.synthetic.values import HEALTHY, Persona, sample_baseline, sample_values
 
 DONE = {"explaining", "explained"}
+# calculated tests and the tests they are calculated from (tools/synthetic/values.py)
+DERIVED: dict[str, set[str]] = {
+    "hct": {"hb"}, "mcv": {"hb", "rbc"}, "mch": {"hb", "rbc"}, "mchc": {"hb"},
+    "neut_pct": set(), "lymph_pct": set(), "mono_pct": set(), "eos_pct": set(), "baso_pct": set(),
+    "eag": {"hba1c"}, "vldl": {"tg"}, "ldl": {"chol_total", "hdl", "tg"}, "non_hdl": {"chol_total", "hdl"},
+    "chol_hdl_ratio": {"chol_total", "hdl"}, "bun": {"urea"}, "egfr": {"creatinine"},
+    "bili_indirect": {"bili_total", "bili_direct"}, "globulin": {"protein_total", "albumin"},
+    "ag_ratio": {"protein_total", "albumin"}, "tsat": {"iron", "tibc"},
+}
 IMAGING_DIR = Path(settings.data_dir) / "imaging"
 
 
@@ -93,6 +102,11 @@ class Family:
         values = sample_values(persona, rng, baseline=base, cv={k: min(v, 2.5) for k, v in cv.items()})
         for code in visit.set:
             values[code] = visit.set[code]
+        # A calculated value follows the story only when the story sets what it is calculated from; otherwise it
+        # stays in range like the rest (no chance "MCH high" in a report about blood sugar).
+        for code, inputs in DERIVED.items():
+            if code in values and code not in visit.set and not (inputs & visit.set.keys()) and not visit.conditions:
+                values[code] = self._inside(code, person.sex, values[code])
         return values
 
     # -- reports ------------------------------------------------------------------------------------------------

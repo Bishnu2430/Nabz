@@ -40,7 +40,8 @@
     "empty_body": "ब्लड टेस्ट रिपोर्ट की फ़ोटो या PDF चलेगी।",
     "all_tests": "सभी जाँचें",
     "summary": "डॉक्टर के लिए सारांश",
-    "compare": "रिपोर्ट की तुलना"
+    "compare": "रिपोर्ट की तुलना",
+    "story": "स्वास्थ्य की कहानी"
   },
   "status": {
     "queued": "प्रतीक्षा में",
@@ -319,5 +320,22 @@
     "note_saved": "नोट सहेजा गया",
     "record_saved": "रिकॉर्ड सहेजा गया",
     "record_deleted": "रिकॉर्ड हटाया गया"
+  },
+  "story": {
+    "title": "{{name}}: अब तक की कहानी",
+    "chapter": "अध्याय {{n}} / {{total}}",
+    "replay": "फिर चलाएँ",
+    "speed": "गति",
+    "read_aloud": "पढ़कर सुनाएँ",
+    "critical": "{{test}} गंभीर सीमा से बाहर था: {{value}} (लैब की सीमा {{range}})।",
+    "out": "{{test}} लैब की सीमा से बाहर था: {{value}}।",
+    "out_from": "{{test}} लैब की सीमा से बाहर गया: {{value}}। {{date}} को यह {{previous}} था।",
+    "back": "{{test}} वापस सीमा में आया: {{value}} (पहले {{previous}})।",
+    "highest": "{{test}} अब तक के सबसे ऊँचे स्तर पर: {{value}}।",
+    "lowest": "{{test}} अब तक के सबसे निचले स्तर पर: {{value}}।",
+    "worse": "{{test}} सीमा से और दूर गया: {{previous}} से {{value}}।",
+    "better": "{{test}} सीमा के पास आया: {{previous}} से {{value}}।",
+    "clear": "सभी {{total}} परिणाम सीमा में थे।",
+    "noted": "परिवार का नोट: “{{note}}”"
   }
 }

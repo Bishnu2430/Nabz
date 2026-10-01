@@ -18,6 +18,7 @@ import Legal from "./Legal";
 import NotFound from "./NotFound";
 import Person from "./Person";
 import Review from "./Review";
+import Story from "./Story";
 import Summary from "./Summary";
 import TestHistory from "./TestHistory";
 import Upload from "./Upload";
@@ -44,6 +45,7 @@ export const routes: RouteObject[] = [
           { path: "/p/:id/upload", element: <Upload /> },
           { path: "/p/:id/tests", element: <AllTests /> },
           { path: "/p/:id/tests/:code", element: <TestHistory /> },
+          { path: "/p/:id/story", element: <Story /> },
           { path: "/p/:id/summary", element: <Summary /> },
           { path: "/p/:id/compare", element: <Compare /> },
           { path: "/r/:id", element: <Insights /> },
