@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useReportNote } from "../../api/hooks";
+import { useToast } from "../Toast";
 import { Button, fieldClass } from "../ui";
 
 /** The person's own note on a report ("not fasting", "new medicine"), shown with its results and on the timeline. */
@@ -10,10 +11,16 @@ export function ReportNote({ reportId, profileId, note }: { reportId: string; pr
   const save = useReportNote(reportId, profileId);
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(note ?? "");
+  const toast = useToast();
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    save.mutate(text, { onSuccess: () => setEditing(false) });
+    save.mutate(text, {
+      onSuccess: () => {
+        setEditing(false);
+        toast(t("toast.note_saved"));
+      },
+    });
   };
 
   if (!editing) {

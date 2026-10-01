@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { recordFileUrl, recordImageUrl, useAddRecord, useDeleteRecord, useRecords } from "../../api/hooks";
 import type { HealthRecord, RecordKind } from "../../api/types";
 import { formatDate } from "../../lib/format";
+import { useToast } from "../Toast";
 import { Button, Card, ErrorNote, fieldClass } from "../ui";
 import { ImagingViewer } from "./ImagingViewer";
 
@@ -28,7 +29,7 @@ export function OtherRecords({ profileId }: { profileId: string }) {
       {adding && <AddRecord profileId={profileId} onDone={() => setAdding(false)} />}
       {records.isError && <ErrorNote error={records.error} />}
       {records.data?.length === 0 && !adding && <p className="text-muted">{t("records.empty")}</p>}
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="stagger grid gap-3 sm:grid-cols-2">
         {records.data?.map((r) => <li key={r.id}><RecordCard record={r} profileId={profileId} /></li>)}
       </ul>
     </section>
@@ -39,10 +40,11 @@ function RecordCard({ record, profileId }: { record: HealthRecord; profileId: st
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? "en";
   const remove = useDeleteRecord(profileId);
+  const toast = useToast();
   const [confirming, setConfirming] = useState(false);
   const [viewing, setViewing] = useState(false);
   return (
-    <Card className="h-full overflow-hidden">
+    <Card className="lift h-full overflow-hidden">
       {record.has_image && (
         <button type="button" onClick={() => setViewing(true)} aria-label={t("viewer.open", { title: record.title })}
           className="group relative block h-44 w-full overflow-hidden bg-black">
@@ -72,7 +74,9 @@ function RecordCard({ record, profileId }: { record: HealthRecord; profileId: st
             {confirming ? (
               <>
                 <Button variant="danger" className="px-2 py-0.5 text-sm" disabled={remove.isPending}
-                  onClick={() => remove.mutate(record.id)}>{t("records.delete_confirm")}</Button>
+                  onClick={() => remove.mutate(record.id, { onSuccess: () => toast(t("toast.record_deleted")) })}>
+                  {t("records.delete_confirm")}
+                </Button>
                 <button type="button" className="text-muted hover:underline" onClick={() => setConfirming(false)}>
                   {t("common.cancel")}
                 </button>
@@ -91,6 +95,7 @@ function RecordCard({ record, profileId }: { record: HealthRecord; profileId: st
 function AddRecord({ profileId, onDone }: { profileId: string; onDone: () => void }) {
   const { t } = useTranslation();
   const add = useAddRecord(profileId);
+  const toast = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [kind, setKind] = useState<RecordKind>("imaging");
   const [title, setTitle] = useState("");
@@ -102,7 +107,12 @@ function AddRecord({ profileId, onDone }: { profileId: string; onDone: () => voi
     e.preventDefault();
     if (!file || !title.trim()) return;
     add.mutate({ file, kind, title: title.trim(), record_date: date || undefined, facility: facility.trim() || undefined,
-      notes: notes.trim() || undefined }, { onSuccess: onDone });
+      notes: notes.trim() || undefined }, {
+      onSuccess: () => {
+        toast(t("toast.record_saved"));
+        onDone();
+      },
+    });
   };
 
   return (

@@ -40,10 +40,11 @@ export function Sparkline({ points, low, high, width = 180, height = 44 }: {
       )}
       {points.length > 1 && (
         <polyline points={points.map((p) => `${x(p.date)},${y(p.value)}`).join(" ")} fill="none" stroke="var(--ink)"
-          strokeOpacity="0.45" strokeWidth="1.5" strokeLinejoin="round" />
+          strokeOpacity="0.45" strokeWidth="1.5" strokeLinejoin="round" pathLength={1} className="draw" />
       )}
       {points.map((p, i) => (
-        <circle key={p.date + i} cx={x(p.date)} cy={y(p.value)} r={i === points.length - 1 ? 4 : 2.6}
+        <circle key={p.date + i} className="dot-in" style={{ animationDelay: `${200 + i * 70}ms` }}
+          cx={x(p.date)} cy={y(p.value)} r={i === points.length - 1 ? 4 : 2.6}
           fill={STATUS_COLOR[p.status]} stroke="var(--surface-raised)" strokeWidth="1" />
       ))}
     </svg>

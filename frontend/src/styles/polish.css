@@ -1,0 +1,303 @@
+/* Atmosphere, surfaces and motion for every page, in both themes (docs/12 §5.5).
+   All of it is decoration: the reduced-motion rule in index.css switches the movement off. */
+
+/* ---- Atmosphere ------------------------------------------------------------------------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+:root {
+  --wash-a: color-mix(in srgb, #2e4a62 9%, transparent);
+  --wash-b: color-mix(in srgb, #b8412e 7%, transparent);
+  --shadow-soft: 0 1px 2px color-mix(in srgb, #1f1d1b 6%, transparent),
+    0 8px 24px -12px color-mix(in srgb, #1f1d1b 22%, transparent);
+  --shadow-lift: 0 2px 4px color-mix(in srgb, #1f1d1b 8%, transparent),
+    0 18px 40px -18px color-mix(in srgb, #1f1d1b 35%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wash-a: color-mix(in srgb, #c9a55a 9%, transparent);
+    --wash-b: color-mix(in srgb, #8e1f1b 12%, transparent);
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -14px rgb(0 0 0 / 0.7);
+    --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.5), 0 22px 46px -18px rgb(0 0 0 / 0.85),
+      0 0 0 1px color-mix(in srgb, #c9a55a 18%, transparent);
+  }
+}
+
+:root[data-theme="dark"] {
+  --wash-a: color-mix(in srgb, #c9a55a 9%, transparent);
+  --wash-b: color-mix(in srgb, #8e1f1b 12%, transparent);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -14px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.5), 0 22px 46px -18px rgb(0 0 0 / 0.85),
+    0 0 0 1px color-mix(in srgb, #c9a55a 18%, transparent);
+}
+
+/* Slow washes behind every page: diluted ink on paper in the light theme, a gold glow on lacquer in the dark. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -5%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vw 45vh at 8% -5%, var(--wash-a), transparent 70%),
+    radial-gradient(55vw 50vh at 100% 20%, var(--wash-b), transparent 70%),
+    radial-gradient(50vw 40vh at 40% 105%, var(--wash-a), transparent 70%);
+  animation: wash-drift 48s ease-in-out infinite alternate;
+}
+
+@keyframes wash-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-2%, 1.5%, 0) scale(1.06); }
+}
+
+/* ---- Surfaces and controls ------------------------------------------------------------------------------------- */
+
+/* cards rest on the page with a soft shadow; the ones that lead somewhere lift when pointed at */
+.card {
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 260ms ease, transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 200ms ease;
+}
+
+/* a card that is also scroll-revealed keeps both its entrance and its hover */
+.reveal.card {
+  transition: opacity 600ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 260ms ease,
+    border-color 200ms ease;
+}
+
+.lift:hover,
+.lift:focus-within {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* buttons press in; the primary one carries a faint sheen that crosses it on hover */
+.btn {
+  transition: transform 120ms ease, filter 160ms ease, border-color 160ms ease, background-color 160ms ease,
+    box-shadow 200ms ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 0 color-mix(in srgb, white 25%, transparent) inset, 0 8px 18px -10px var(--accent);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, color-mix(in srgb, white 30%, transparent) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 600ms ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover:not(:disabled)::after {
+  transform: translateX(120%);
+}
+
+input,
+select,
+textarea {
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent);
+}
+
+/* the header floats over the page on frosted paper (or lacquer), and gains a shadow once the page scrolls */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  transition: box-shadow 240ms ease;
+}
+
+.site-header[data-scrolled="true"] {
+  box-shadow: 0 10px 26px -20px color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+/* ---- Entrances ------------------------------------------------------------------------------------------------- */
+
+/* a page arriving */
+.page-enter {
+  animation: page-in 380ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* children of a list arriving one after another */
+.stagger > * {
+  animation: rise 460ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.stagger > *:nth-child(2) { animation-delay: 50ms; }
+.stagger > *:nth-child(3) { animation-delay: 100ms; }
+.stagger > *:nth-child(4) { animation-delay: 150ms; }
+.stagger > *:nth-child(5) { animation-delay: 200ms; }
+.stagger > *:nth-child(6) { animation-delay: 250ms; }
+.stagger > *:nth-child(7) { animation-delay: 300ms; }
+.stagger > *:nth-child(8) { animation-delay: 350ms; }
+.stagger > *:nth-child(n + 9) { animation-delay: 400ms; }
+
+/* menus and panels opening from where they hang */
+.pop {
+  animation: pop-in 180ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  transform-origin: top right;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.94) translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.slide-in {
+  animation: slide-in 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+.fade-in {
+  animation: fade-in 300ms ease both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* chart lines are drawn like a brush stroke (the paths carry pathLength="1") */
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 900ms cubic-bezier(0.5, 0.1, 0.2, 1) 120ms forwards;
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* chart points and range markers settle after the line */
+.dot-in {
+  animation: dot-in 360ms cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes dot-in {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* the brush underline beneath a headline */
+.brush-underline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1100ms cubic-bezier(0.6, 0.1, 0.2, 1) 350ms forwards;
+}
+
+/* out-of-range organs on the flat body breathe, like the 3D ones */
+.organ-breathe {
+  animation: organ-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes organ-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* the figure on the landing page floats very slightly */
+.float {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* the loading stroke at the top edge while data is on its way */
+.load-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent) no-repeat;
+  background-size: 40% 100%;
+  animation: load-bar 1.1s ease-in-out infinite;
+}
+
+@keyframes load-bar {
+  from { background-position: -70% 0; }
+  to { background-position: 170% 0; }
+}
+
+/* toasts rise from the bottom edge */
+.toast {
+  animation: toast-in 280ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+/* changing theme: the new one spreads from the switch (View Transitions API, where the browser has it) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-spread 520ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes theme-spread {
+  from { clip-path: circle(0 at var(--theme-x, 90%) var(--theme-y, 4%)); }
+  to { clip-path: circle(150vmax at var(--theme-x, 90%) var(--theme-y, 4%)); }
+}
+
+/* without that API, colours cross-fade */
+html.theme-fading,
+html.theme-fading * {
+  transition: background-color 360ms ease, color 360ms ease, border-color 360ms ease, fill 360ms ease,
+    stroke 360ms ease !important;
+}
+
+@media print {
+  body::before,
+  .load-bar {
+    display: none;
+  }
+
+  .card {
+    box-shadow: none;
+  }
+}

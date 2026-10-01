@@ -17,25 +17,42 @@ function savedTheme(): Theme | null {
   }
 }
 
-/** Sumi-e (light) or urushi (dark). Follows the system until the user picks one. */
-export function useTheme(): [Theme, () => void] {
+/**
+ * Sumi-e (light) or urushi (dark). Follows the system until the user picks one. The new theme spreads from the
+ * switch where the browser supports view transitions; elsewhere the colours cross-fade.
+ */
+export function useTheme(): [Theme, (origin?: { x: number; y: number }) => void] {
   const [theme, setTheme] = useState<Theme>(() => savedTheme() ?? systemTheme());
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
 
-  const toggle = useCallback(() => {
-    setTheme((t) => {
-      const next = t === "light" ? "dark" : "light";
+  const toggle = useCallback((origin?: { x: number; y: number }) => {
+    const root = document.documentElement;
+    const next: Theme = (root.dataset.theme ?? theme) === "light" ? "dark" : "light";
+    const apply = () => {
+      root.dataset.theme = next; // set at once so a view transition captures the new look
+      setTheme(next);
       try {
         localStorage.setItem(KEY, next);
       } catch {
         /* storage unavailable: the choice lasts for this visit */
       }
-      return next;
-    });
-  }, []);
+    };
+    const calm = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const doc = document as Document & { startViewTransition?: (update: () => void) => unknown };
+    if (calm) apply();
+    else if (doc.startViewTransition && origin && typeof origin.x === "number") {
+      root.style.setProperty("--theme-x", `${origin.x}px`);
+      root.style.setProperty("--theme-y", `${origin.y}px`);
+      doc.startViewTransition(apply);
+    } else {
+      root.classList.add("theme-fading");
+      apply();
+      window.setTimeout(() => root.classList.remove("theme-fading"), 420);
+    }
+  }, [theme]);
 
   return [theme, toggle];
 }

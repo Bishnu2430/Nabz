@@ -68,7 +68,7 @@ export default function Person() {
               </p>
             )}
           </div>
-          <ul className="space-y-3">
+          <ul className="stagger space-y-3">
             {reports.data.map((r) => {
               if (!organ) return <li key={r.id}><ReportRow report={r} profileId={id} /></li>;
               const tests = frames.find((f) => f.report_id === r.id)?.organs.find((o) => o.code === organ)?.tests;
@@ -95,11 +95,11 @@ function WatchList({ profileId }: { profileId: string }) {
   return (
     <section aria-labelledby="watch-h" className="mb-10">
       <h2 id="watch-h" className="mb-4 font-display text-xl font-bold">{t("person.watch")}</h2>
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="stagger grid gap-3 sm:grid-cols-2">
         {watch.data.map((w: Watch) => (
           <li key={w.test_code}>
             <Link to={`/p/${profileId}/tests/${w.test_code}`} className="group block no-underline">
-              <Card className="h-full px-5 py-4 transition group-hover:border-ink/40">
+              <Card className="lift h-full px-5 py-4 group-hover:border-ink/40">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-medium">{w.test_name}</span>
                   <StatusMark status={w.latest.status} />
@@ -131,7 +131,7 @@ function ReportRow({ report, profileId, values }: { report: ReportSummary; profi
   const shown = values ?? report.out_of_range ?? [];
   const analysed = ANALYSED.has(report.status);
   return (
-    <Card className="px-5 py-4">
+    <Card className="lift px-5 py-4">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <Link to={analysed ? `/r/${report.id}` : `/r/${report.id}/review`} className="min-w-40 no-underline">
           <span className="block font-medium text-ink hover:text-link">

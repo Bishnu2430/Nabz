@@ -43,7 +43,7 @@ export default function Home() {
           <ProfileForm onCreated={created} onCancel={() => setAdding(false)} />
         </Card>
       )}
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {profiles.data.map((p) => (
           <li key={p.id}>
             <PersonCard profile={p} />
@@ -59,7 +59,7 @@ function PersonCard({ profile }: { profile: Profile }) {
   const lang = i18n.resolvedLanguage ?? "en";
   const attention = profile.attention ?? [];
   return (
-    <Card className="h-full p-5 transition hover:border-ink/40">
+    <Card className="lift h-full p-5 hover:border-ink/40">
       <div className="flex items-baseline justify-between gap-3">
         <Link to={`/p/${profile.id}`} className="font-display text-xl font-bold text-ink no-underline hover:text-link">
           <h2>{profile.display_name}</h2>

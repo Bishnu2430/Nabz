@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState, type PointerEvent, type ReactNode, type WheelEvent } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 
 import { recordFileUrl, recordImageUrl } from "../../api/hooks";
@@ -140,9 +141,9 @@ export function ImagingViewer({ record, onClose }: { record: HealthRecord; onClo
   const title = record.study_title ?? record.title;
   const date = [record.record_date && formatDate(record.record_date, lang), record.facility].filter(Boolean).join(" · ");
 
-  return (
+  return createPortal(
     <div ref={root} role="dialog" aria-modal="true" aria-labelledby="viewer-title"
-      className="fixed inset-0 z-50 flex flex-col bg-[#0f0c0a] text-[#ede3d1] lg:flex-row">
+      className="fade-in fixed inset-0 z-50 flex flex-col bg-[#0f0c0a] text-[#ede3d1] lg:flex-row">
       <div className="relative min-h-[55vh] flex-1 overflow-hidden lg:min-h-0">
         <div ref={stage} role="img" aria-label={t("viewer.image_label", { title })}
           className={clsx("absolute inset-0 touch-none select-none",
@@ -246,7 +247,8 @@ export function ImagingViewer({ record, onClose }: { record: HealthRecord; onClo
           {t("viewer.full_report")} →
         </a>
       </aside>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

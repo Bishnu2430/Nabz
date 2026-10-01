@@ -108,7 +108,7 @@ export default function Insights() {
           </p>
         )}
       </div>
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="stagger grid gap-5 lg:grid-cols-2">
         {shownOrgans.map((o) => <OrganCard key={o.code} organ={o} profileId={data.person.id} />)}
       </div>
 

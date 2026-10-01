@@ -406,7 +406,21 @@
     "promise_no_diagnosis": "Nabz explains results. It never diagnoses or suggests treatment.",
     "promise_your_check": "Every value is checked by you before anything is explained.",
     "promise_no_names": "AI services never receive your name, your dates or your report image.",
-    "promise_delete": "Download or delete your data at any time."
+    "promise_delete": "Download or delete your data at any time.",
+    "badge": "For families, in English, Hindi and Odia",
+    "features_title": "What you get",
+    "feature_body": "A body you can turn",
+    "feature_body_body": "Each organ system is coloured by its results. Choose one to see its tests.",
+    "feature_exact": "Exact numbers",
+    "feature_exact_body": "Every result with its value, the lab's range and how far outside it is.",
+    "feature_trends": "Changes over the years",
+    "feature_trends_body": "Is a rise real or just day-to-day variation? Nabz works it out and shows the trend.",
+    "feature_languages": "Your language, read aloud",
+    "feature_languages_body": "Explanations in English, Hindi or Odia, with a voice to read them.",
+    "feature_records": "X-rays and other records",
+    "feature_records_body": "Keep scans, prescriptions and discharge summaries beside the lab reports.",
+    "feature_doctor": "Ready for the doctor",
+    "feature_doctor_body": "Questions to ask and a one-page summary to print or share."
   },
   "legal": {
     "version": "Version 1 · 30 September 2026",
@@ -605,5 +619,10 @@
     "title": "The report",
     "open": "Open the original",
     "hint": "Choose a value on the page to find it in the explanation."
+  },
+  "toast": {
+    "note_saved": "Note saved",
+    "record_saved": "Record saved",
+    "record_deleted": "Record deleted"
   }
 }

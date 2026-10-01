@@ -3,6 +3,7 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from "react
 import { useTranslation } from "react-i18next";
 
 import { ApiError } from "../api/client";
+import { Enso } from "./Enso";
 
 type Variant = "primary" | "secondary" | "quiet" | "danger";
 
@@ -19,7 +20,8 @@ export function Button({ variant = "secondary", className, ...props }: ButtonHTM
       type="button"
       {...props}
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2 font-medium transition",
+        "btn inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2 font-medium",
+        variant === "primary" && "btn-primary",
         "disabled:cursor-not-allowed disabled:opacity-50",
         VARIANTS[variant],
         className,
@@ -29,7 +31,7 @@ export function Button({ variant = "secondary", className, ...props }: ButtonHTM
 }
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={clsx("rounded-lg border border-hairline bg-raised", className)}>{children}</div>;
+  return <div className={clsx("card rounded-lg border border-hairline bg-raised", className)}>{children}</div>;
 }
 
 export function PageTitle({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
@@ -71,9 +73,14 @@ export function ErrorNote({ error, message, onRetry }: { error?: unknown; messag
   );
 }
 
+/** The brush circle drawing itself while a page's data arrives. */
 export function Loading() {
   const { t } = useTranslation();
-  return <p role="status" className="py-12 text-center text-muted">{t("common.loading")}</p>;
+  return (
+    <div className="fade-in py-14 text-center">
+      <Enso label={t("common.loading")} size={72} />
+    </div>
+  );
 }
 
 export const fieldClass =
