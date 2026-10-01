@@ -41,7 +41,8 @@ export function RangeBar({ value, low, high, status }: {
       {outside ? (
         <path d={vx <= 0 ? `M6 1 L0 6 L6 11 Z` : `M${W - 6} 1 L${W} 6 L${W - 6} 11 Z`} fill={STATUS_COLOR[status]} />
       ) : (
-        <circle cx={vx} cy={H / 2} r="4.5" fill={STATUS_COLOR[status]} stroke="var(--surface-raised)" strokeWidth="2" />
+        <circle cx={vx} cy={H / 2} r="4.5" fill={STATUS_COLOR[status]} stroke="var(--surface-raised)" strokeWidth="2"
+          className="dot-in" style={{ animationDelay: "160ms" }} />
       )}
     </svg>
   );

@@ -20,6 +20,8 @@ export function PageViewer({ reportId, pages, rows, activeId, onSelect }: {
   const { t } = useTranslation();
   const [pageNo, setPageNo] = useState(pages[0]?.page_no ?? 0);
   const [zoomed, setZoomed] = useState(false);
+  // the page whose image has arrived: boxes belong to a page, so they wait for its image
+  const [loadedPage, setLoadedPage] = useState<number | null>(null);
   const activeBox = useRef<HTMLButtonElement>(null);
   const active = rows.find((r) => r.id === activeId);
 
@@ -69,9 +71,12 @@ export function PageViewer({ reportId, pages, rows, activeId, onSelect }: {
       <div ref={scroller} className="max-h-[45vh] overflow-auto lg:max-h-[75vh]">
         <div className={clsx("relative", zoomed ? "w-[200%]" : "w-full")}>
           <img
+            key={pageNo}
             src={`/v1/reports/${reportId}/pages/${pageNo}/image`}
             alt={t("review.page_alt", { n: pageNo + 1 })}
-            className="block w-full select-none"
+            onLoad={() => setLoadedPage(pageNo)}
+            style={{ aspectRatio: `${page.width} / ${page.height}` }}
+            className={clsx("block w-full select-none transition-opacity duration-300", loadedPage !== pageNo && "skeleton opacity-60")}
             draggable={false}
           />
           {rows
@@ -95,6 +100,7 @@ export function PageViewer({ reportId, pages, rows, activeId, onSelect }: {
                   }}
                   className={clsx(
                     "absolute rounded-sm border transition",
+                    loadedPage !== pageNo && "pointer-events-none opacity-0",
                     isActive
                       ? "border-2 border-accent bg-accent/10"
                       : r.needs_attention

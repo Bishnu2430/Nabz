@@ -103,7 +103,7 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,4fr)]">
         <div className={clsx("relative overflow-hidden rounded-lg border border-hairline",
           view === "3d" ? "lacquer-stage" : "bg-sunken")}>
-          <div className="h-[420px] sm:h-[520px]">
+          <div className="fade-in h-[420px] sm:h-[520px]">
             {view === "3d" ? (
               <div role="img" aria-label={t("body.label_3d", { summary })} className="size-full">
                 <WebGLBoundary fallback={flat}>
@@ -134,7 +134,7 @@ export function BodyMap({ items, selected, onSelect, detail, footer }: {
         <div>
           {/* the chosen system's panel replaces the list; its back button returns to it */}
           {selected && detail ? detail : (
-          <ul className="grid gap-2" aria-label={t("body.systems")}>
+          <ul className="stagger grid gap-2" aria-label={t("body.systems")}>
             {items.map((i) => (
               <li key={i.code}>
                 <button type="button" aria-pressed={selected === i.code} onClick={() => toggle(i.code)}

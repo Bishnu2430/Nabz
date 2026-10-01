@@ -66,7 +66,8 @@ describe("body map", () => {
     expect(await screen.findByRole("heading", { name: "Outside the range" })).toBeInTheDocument();
     expect(screen.getAllByText("23 % above the upper limit 1.3").length).toBeGreaterThan(0);
     expect(screen.getByText(/\+33 % since 4 Jun 2025 \(was 1\.2 mg\/dL\)/)).toHaveTextContent("more than normal variation");
-    expect(screen.getByText("Lab's range: 0.7 – 1.3")).toBeInTheDocument();
+    // in the organ panel, and again on the explanation's card for this result
+    expect(screen.getAllByText("Lab's range: 0.7 – 1.3")).toHaveLength(2);
     // the excerpt in the panel, and the full explanation further down
     expect(await screen.findAllByText("Your creatinine is above the lab's range.")).toHaveLength(2);
     // the results below show only this system until "Show all"

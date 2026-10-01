@@ -118,6 +118,38 @@ Brush lettering is decorative only and never carries information.
 - **Arbitrary mixing of Chinese and Japanese motifs.** The design borrows principles (ma, asymmetry, paper, ink, seal) rather than costume.
 - **Low contrast for decoration's sake:** many users are older.
 
+### 5.5 Motion and atmosphere
+
+Motion is decoration only. Nothing is hidden behind it, and `prefers-reduced-motion` switches all of it off. The styles are in `frontend/src/styles/polish.css`.
+
+| Element | Light: sumi-e | Dark: urushi |
+|---|---|---|
+| Backdrop | Two slow washes of diluted ink (indigo, vermilion) behind the paper texture | A gold and a crimson glow on the lacquer |
+| Cards | A soft shadow; cards that lead somewhere lift 3 px when pointed at | The same, with a thin gold edge on lift |
+| Header | Sticks to the top on frosted paper, and gains a shadow once the page scrolls | Frosted lacquer |
+| Theme switch | The new theme spreads in a circle from the switch (View Transitions API); elsewhere the colours cross-fade | — |
+
+**Entrances.**
+- A page settles in over 0.4 s.
+- Lists arrive item by item, 50 ms apart.
+- Landing-page sections reveal as they scroll into view.
+- Menus pop from where they hang; the organ panel slides in.
+
+**Drawing.**
+- Chart lines are drawn like a brush stroke, then their points settle.
+- The landing headline gets one brush underline.
+- The sign-in seal is stamped.
+- Out-of-range organ systems breathe on the flat body, as they do in 3D.
+
+**Waiting.**
+- A thin stroke crosses the top edge while data loads for more than a moment.
+- The ensō draws itself as the page loader.
+- Placeholder blocks shimmer where the explanation will appear.
+
+**Feedback.**
+- Buttons press in; the primary button carries a sheen on hover.
+- A short toast confirms a save or a removal.
+
 ## 6. Pages
 
 | Area | Route | Page | Roles | Priority |
@@ -146,6 +178,18 @@ Brush lettering is decorative only and never carries information.
 
 **Built by the end of Sprint 6:** the public pages (`/`, the sign-in flows, `/privacy`, `/safety`), `/home`, `/p/:id` (with the body-map timeline), `/p/:id/upload`, `/r/:id/review`, `/r/:id` (with the body map), `/p/:id/tests/:code` and `/settings` (which also holds each person's export and deletion). Added after Sprint 6: `/p/:id/tests` (every test, searchable), `/p/:id/summary` (a printable summary for the doctor, which replaces `/r/:id/print`), `/p/:id/compare`, and other records with an imaging viewer on the person page.
 
+**Reading a report.**
+- The explanation is laid out as cards, not paragraphs. Each out-of-range result gets a card with:
+  - the value drawn against the lab's range, and how far outside it is;
+  - what the result can go along with;
+  - the longer text behind "More about this test" (open by default when there are four cards or fewer).
+- Around the cards: the summary's opening line above, a closing "talk to your doctor" note below, then numbered questions with a copy button, and folded sources.
+- Every sentence shown is the checked explanation text; only the layout is added.
+- The report itself sits beside the explanation, as page images with each value outlined:
+  - "Show on the report" highlights a result's row;
+  - choosing a value on the page finds its card;
+  - the original file opens in a new tab.
+
 **Exact values.** Wherever results are summarised, Nabz names the value, its unit, the lab's range and how far outside it is ("Creatinine 1.85 mg/dL, 42 % above the upper limit 1.30"), never only a count such as "2 of 3 out of range". This applies to family cards, report rows, the organ list and the organ panel.
 
 Not yet: `/welcome`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, and the clinician, reviewer and admin areas.
@@ -157,4 +201,5 @@ Not yet: `/welcome`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, a
 | 0.1 | 2026-09-27 | Decisions D1–D6, roles, authentication, visual design and page map |
 | 0.2 | 2026-09-27 | §5.1 light-theme status colours adjusted to pass WCAG AA; contrast results |
 | 0.4 | 2026-09-30 | §6 new pages, exact-values rule, imaging viewer |
+| 0.5 | 2026-10-01 | §5.5 motion and atmosphere; §6 reading a report as cards beside the original |
 | 0.3 | 2026-09-30 | §3 accounts as built in Sprint 6 (schema, rate limits, enumeration resistance, session rules, staff, deletion); §5.3 rice-paper body as built; §6 build status |

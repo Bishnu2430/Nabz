@@ -84,7 +84,7 @@ export function OrganPanel({ profileId, organ, name, reportId, onBack, extra }: 
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="slide-in overflow-hidden">
       <div className="flex">
         <div aria-hidden="true" className="w-1.5 shrink-0"
           style={{ background: history.data ? STATUS_COLOR[worstOf(history.data.tests, reportId)] : "var(--hairline)" }} />

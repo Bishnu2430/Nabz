@@ -153,7 +153,8 @@ export function TrendChart({ results, test }: { results: Result[]; test: TestInf
           </g>
         )}
         {/* the values */}
-        <path d={line} fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={line} fill="none" stroke="var(--ink)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"
+          pathLength={1} className="draw" />
         {pts.slice(1).map((p, i) => isAbnormal(pts[i].r.status) && p.r.status === "normal" && (
           <line key={`k${i}`} x1={x(pts[i].t)} y1={y(pts[i].v)} x2={x(p.t)} y2={y(p.v)}
             stroke="var(--gold)" strokeWidth="3.5" strokeLinecap="round" />
@@ -162,7 +163,8 @@ export function TrendChart({ results, test }: { results: Result[]; test: TestInf
         {pts.map((p, i) => (
           <g key={p.r.observation_id}>
             <circle cx={x(p.t)} cy={y(p.v)} r={active === i ? 6 : 4.5} fill={STATUS_COLOR[p.r.status]}
-              stroke="var(--surface-raised)" strokeWidth="2" />
+              stroke="var(--surface-raised)" strokeWidth="2" className="dot-in"
+              style={{ animationDelay: `${300 + i * 90}ms` }} />
             <circle cx={x(p.t)} cy={y(p.v)} r="12" fill="transparent" tabIndex={0} role="button"
               aria-label={`${formatDate(p.r.date, lang)}: ${formatValue(p.r.value, decimals)} ${unit}, ${t(`result_status.${p.r.status}`)}`}
               onFocus={() => setActive(i)} onBlur={() => setActive(null)} className="outline-none" />

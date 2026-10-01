@@ -89,7 +89,7 @@ function ReviewBody({ report }: { report: Report }) {
       {editable && <p className="mb-6 max-w-prose">{t("review.intro")}</p>}
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)]">
-        <div className="lg:sticky lg:top-4 lg:self-start">
+        <div className="lg:sticky lg:top-20 lg:self-start">
           <PageViewer reportId={report.id} pages={report.pages} rows={rows} activeId={activeId} onSelect={selectFromPage} />
         </div>
 

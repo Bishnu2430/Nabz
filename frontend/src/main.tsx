@@ -1,4 +1,5 @@
 import "./index.css";
+import "./styles/polish.css";
 import "./i18n";
 
 import { QueryClientProvider } from "@tanstack/react-query";

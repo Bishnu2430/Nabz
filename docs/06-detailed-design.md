@@ -106,6 +106,7 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET | `/profiles/{id}/reports` | List reports (timeline) | FR-29 | ✓ |
 | GET | `/reports/{id}` | Status, pages and draft observations with confidence, `needs_attention` and match candidates | FR-12, FR-13 | ✓ |
 | GET | `/reports/{id}/events` | Server-Sent Events: one `status` event per change until processing stops | FR-12 | ✓ |
+| GET | `/reports/{id}/file` | The report exactly as uploaded (PDF or photo), to read beside the explanation | — | ✓ |
 | GET | `/reports/{id}/pages/{n}/image` | Page image for the review screen (JPEG for photos, PNG for PDF pages, deskewed like the OCR input) | FR-13 | ✓ |
 | PATCH / DELETE | `/observations/{id}` | Correct a row (value, unit, range, name or test) / remove it; the row is re-interpreted | FR-14 | ✓ |
 | POST | `/reports/{id}/observations` | Add a row the reader missed | FR-14 | ✓ |
@@ -188,6 +189,8 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/routes/account/`, `Landing`, `Legal` | Sign in, sign up, confirm email, forgot and reset password, settings; landing page; privacy notice and "what Nabz is and is not" | 6 |
 | `src/components/exact/`, `src/lib/series.ts` | Exact wording for any result (value, unit, the lab's range, how far outside it is), value chips, sparklines; results grouped by test across reports | 7 |
 | `src/components/body/OrganPanel.tsx` | The chosen organ system on one report: each test as a small chart card, beyond-critical first | 7 |
+| `src/components/explain/summary.ts`, `insights/ExplanationCard.tsx`, `insights/OriginalReport.tsx` | The summary text split into its opening line, per-result lines and closing line, so each result is shown as a card; the original report's pages beside it, linked both ways | 7 |
+| `src/styles/polish.css`, `src/components/motion.tsx`, `src/components/Toast.tsx` | Atmosphere, shadows and motion for every page in both themes (doc 12 §5.5); `Collapse` and `Reveal`; toasts | 7 |
 | `src/components/records/` | Other records, and the imaging viewer (zoom, pan, window/level, invert, rotate, magnifier, full screen) beside the report's findings and impression | 7 |
 | `src/routes/` (after Sprint 6) | `AllTests` (`/p/:id/tests`), `Summary` (`/p/:id/summary`, printable), `Compare` (`/p/:id/compare`) | 7 |
 | `src/components/RequireAuth.tsx` | Guard for signed-in pages (`next` follows same-site paths only); staff without two-step sign-in reach only its set-up | 6 |
@@ -212,5 +215,6 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.2 | 2026-09-27 | §4 built endpoints, development auth, error details; §6 frontend structure as built in Sprint 3 |
 | 0.3 | 2026-09-28 | §4 insights, test history and watch endpoints; §6 insights screens |
 | 0.4 | 2026-09-30 | §4 consent, explanation, narration and feedback endpoints; §6 explanation and privacy components |
+| 0.7 | 2026-10-01 | §4 the original report file; §6 the reading layout, motion and toasts |
 | 0.6 | 2026-09-30 | §4 organ history, report notes, other records and study images; §6 organ panel, exact values, records and viewer, new pages |
 | 0.5 | 2026-09-30 | §4 sessions, CSRF and account endpoints, profile export and deletion, body-map timeline; §6 account screens and body map as built in Sprint 6 |

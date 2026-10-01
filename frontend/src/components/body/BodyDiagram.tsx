@@ -77,7 +77,8 @@ function OrganShape({ code, status, selected, label, onSelect }: {
       aria-pressed={interactive ? selected : undefined}
       onClick={interactive ? () => onSelect?.(code) : undefined}
       onKeyDown={interactive ? keyDown : undefined}
-      className={clsx(interactive && "cursor-pointer outline-none [&:focus-visible>.halo]:opacity-100")}
+      className={clsx(interactive && "cursor-pointer outline-none [&:focus-visible>.halo]:opacity-100",
+        status && isAbnormal(status) && "organ-breathe")}
     >
       {interactive && label && <title>{label}</title>}
       {SHAPES_2D[code].map((s, i) =>

@@ -1,3 +1,4 @@
+import { useIsFetching } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import { useLogout, useMe, useResendVerification, useUpdateLanguage, type Me } f
 import type { Lang } from "../api/types";
 import { LANGUAGES } from "../i18n";
 import { useTheme } from "../lib/theme";
+import { ToastProvider } from "./Toast";
 
 export function AppShell() {
   const { t, i18n } = useTranslation();
@@ -17,9 +19,21 @@ export function AppShell() {
     void i18n.changeLanguage(lang);
     if (me && me.preferred_language !== lang) saveLanguage.mutate(lang as Lang);
   };
+  const { pathname } = useLocation();
+
+  // the header gains a shadow once the page has scrolled under it
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
+    <ToastProvider>
     <div className="flex min-h-screen flex-col">
+      <LoadBar />
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-raised focus:px-3 focus:py-2">
         {t("common.skip")}
       </a>
@@ -28,7 +42,7 @@ export function AppShell() {
         <p className="bg-sunken px-4 py-1.5 text-center text-sm text-muted print:hidden">{t("app.dev_banner")}</p>
       )}
 
-      <header className="border-b border-hairline print:hidden">
+      <header className="site-header border-b border-hairline print:hidden" data-scrolled={scrolled}>
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
           <Link to={me ? "/home" : "/"} className="flex items-center gap-2.5 no-underline">
             <img src="/seal.svg" alt="" className="size-8" />
@@ -38,7 +52,7 @@ export function AppShell() {
             <NavLink
               to="/home"
               className={({ isActive }) =>
-                `rounded px-2 py-1 ${isActive ? "text-ink underline decoration-accent decoration-2 underline-offset-8" : "text-muted hover:text-ink"}`
+                `rounded px-2 py-1 transition-colors ${isActive ? "text-ink underline decoration-accent decoration-2 underline-offset-8" : "text-muted hover:text-ink"}`
               }
             >
               {t("nav.family")}
@@ -58,12 +72,12 @@ export function AppShell() {
             </select>
             <button
               type="button"
-              onClick={toggleTheme}
+              onClick={(e) => toggleTheme({ x: e.clientX, y: e.clientY })}
               aria-label={t("nav.switch_theme", { theme: next })}
               title={next}
-              className="grid size-9 place-items-center rounded-md border border-hairline bg-raised hover:border-ink/40"
+              className="btn grid size-9 place-items-center rounded-md border border-hairline bg-raised hover:border-ink/40"
             >
-              {theme === "light" ? <MoonIcon /> : <SunIcon />}
+              <span key={theme} className="pop grid place-items-center">{theme === "light" ? <MoonIcon /> : <SunIcon />}</span>
             </button>
             {me ? <AccountMenu me={me} /> : <SignInLink />}
           </div>
@@ -73,7 +87,10 @@ export function AppShell() {
       {me && !me.email_verified && <div className="print:hidden"><VerifyBanner me={me} /></div>}
 
       <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-        <Outlet />
+        {/* each page settles in as it arrives */}
+        <div key={pathname} className="page-enter">
+          <Outlet />
+        </div>
       </main>
       {/* new pages open at the top; going back returns to where the person was */}
       <ScrollRestoration />
@@ -88,7 +105,23 @@ export function AppShell() {
         </div>
       </footer>
     </div>
+    </ToastProvider>
   );
+}
+
+/** A thin stroke at the top edge while anything is loading for more than a moment. */
+function LoadBar() {
+  const fetching = useIsFetching();
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    if (!fetching) {
+      setShown(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setShown(true), 180);
+    return () => window.clearTimeout(timer);
+  }, [fetching]);
+  return shown ? <div className="load-bar" aria-hidden="true" /> : null;
 }
 
 function SignInLink() {
@@ -132,7 +165,7 @@ function AccountMenu({ me }: { me: Me }) {
         {initial}
       </button>
       {open && (
-        <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-hairline bg-raised p-2 shadow-lg">
+        <div className="pop absolute right-0 z-20 mt-2 w-64 rounded-lg border border-hairline bg-raised p-2 shadow-lg">
           <p className="truncate px-3 py-2 text-sm text-muted">{me.email}</p>
           <Link to="/settings" onClick={() => setOpen(false)}
             className="block rounded-md px-3 py-2 no-underline hover:bg-sunken">{t("nav.settings")}</Link>

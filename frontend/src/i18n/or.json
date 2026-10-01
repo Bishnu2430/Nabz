@@ -82,5 +82,11 @@
   },
   "insights": {
     "all_results": "ସମସ୍ତ ଫଳାଫଳ"
+  },
+  "original": {
+    "title": "ରିପୋର୍ଟ"
+  },
+  "explain": {
+    "show_on_report": "ରିପୋର୍ଟରେ ଦେଖାନ୍ତୁ"
   }
 }

@@ -10,9 +10,9 @@ export function AuthCard({ title, intro, children, footer }: {
   footer?: ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-md py-4 sm:py-8">
+    <div className="rise mx-auto max-w-md py-4 sm:py-8">
       <Card className="p-6 sm:p-8">
-        <img src="/seal.svg" alt="" className="mb-4 size-10" />
+        <img src="/seal.svg" alt="" className="hanko-stamped mb-4 size-10" />
         <h1 className="font-display text-3xl font-bold">{title}</h1>
         {intro && <div className="mt-2 text-muted">{intro}</div>}
         <div className="mt-6">{children}</div>

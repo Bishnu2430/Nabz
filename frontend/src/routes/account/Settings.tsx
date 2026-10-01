@@ -33,7 +33,7 @@ export default function Settings() {
           {t("settings.totp_required")}
         </p>
       )}
-      <div className="grid max-w-2xl gap-10">
+      <div className="stagger grid max-w-2xl gap-10">
         <AccountSection me={me.data} />
         <SecuritySection me={me.data} staff={staff} />
         {!me.data.totp_required && (
