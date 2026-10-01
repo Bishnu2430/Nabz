@@ -11,6 +11,7 @@ import { OrganPanel } from "../components/body/OrganPanel";
 import { isOrganCode, type OrganCode } from "../components/body/organs";
 import { Enso } from "../components/Enso";
 import { useOrganNote, ValueChips } from "../components/exact/exact";
+import { AskNabz } from "../components/insights/AskNabz";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
@@ -133,6 +134,8 @@ export default function Insights() {
           <OriginalReport reportId={id} activeTest={activeTest} onActiveTest={setActiveTest} />
         </div>
       </div>
+
+      <AskNabz reportId={id} profileId={data.person.id} results={all} />
 
       <p className="mt-6">
         <Link to={`/r/${id}/review`} className="text-link">{t("insights.values_as_read")}</Link>

@@ -876,5 +876,33 @@
     "sample_start": "Use the sample",
     "sample_exists": "The sample report is already here.",
     "later": "Do this later"
+  },
+  "ask": {
+    "title": "Ask about this report",
+    "intro": "Nabz answers from your confirmed values and MedlinePlus. It doesn't diagnose, suggest treatment or help in an emergency, and it says so when asked.",
+    "thread": "Questions and answers",
+    "label": "Your question",
+    "placeholder": "e.g. What does creatinine measure?",
+    "send": "Ask",
+    "writing": "Nabz is writing…",
+    "suggest_outside": "Which results are outside the range?",
+    "suggest_measures": "What does {{test}} measure?",
+    "suggest_changed": "What has changed since my last report?",
+    "note_ai": "Your question goes to the AI service with your test values, age group and sex. Don't type names or other personal details.",
+    "note_rules": "Answers are built from your values and MedlinePlus. For fuller answers, turn on “Explain with an AI service” in this person's privacy choices.",
+    "by_model": "Written by an AI service and checked by Nabz.",
+    "by_knowledge": "Built from your values and MedlinePlus.",
+    "by_refusal": "A fixed reply; no AI service was asked.",
+    "reason_validation": "A fuller answer was written, but it didn't pass Nabz's safety checks.",
+    "reason_provider_error": "The AI service didn't respond.",
+    "reason_critical": "Because a result is beyond a critical limit, Nabz uses only fixed wording.",
+    "refusal_diagnosis": "Nabz doesn't diagnose",
+    "refusal_treatment": "Nabz doesn't suggest treatment",
+    "refusal_emergency": "Not for emergencies",
+    "refusal_instruction": "Only about this report",
+    "refusal_off_topic": "Only about this report",
+    "refusal_not_in_report": "Not in this report",
+    "refusal_cannot_answer": "Not something the report can answer",
+    "delete_label": "Delete the question “{{question}}”"
   }
 }

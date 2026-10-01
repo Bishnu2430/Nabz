@@ -28,6 +28,7 @@ from app.models import (
     Reminder,
     Report,
     ReportFile,
+    ReportQuestion,
 )
 from app.storage import StorageBackend
 
@@ -114,6 +115,11 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
                 "created_at": _iso(e.created_at),
                 "content": e.content,
             } for e in explanations],
+            "questions": [{
+                "asked_at": _iso(q.created_at), "language": q.language.value, "question": q.question,
+                "answer": q.answer, "answered_by": q.mode,
+            } for q in session.scalars(select(ReportQuestion).where(ReportQuestion.report_id == r.id)
+                                       .order_by(ReportQuestion.created_at))],
         })
     records = session.scalars(select(HealthRecord).where(HealthRecord.profile_id == profile.id)
                               .order_by(HealthRecord.record_date.asc().nulls_last(), HealthRecord.created_at)).all()

@@ -176,29 +176,42 @@ def validate(content: dict, payload: Payload, passages: list[Passage], language:
     if any(len(str(q)) > MAX_QUESTION for q in questions):
         add("length", "a doctor question is too long")
 
-    all_text = _nfd("\n".join(texts(content)))
+    return problems + check_text("\n".join(texts(content)), payload, language)
+
+
+def banned(text: str, language: str) -> list[Problem]:
+    """Wording that diagnoses, advises treatment, reassures or carries an instruction: in the given language and
+    in English (models mix languages)."""
+    text = _nfd(text)
+    found: list[Problem] = []
+    for lang in (language, "en") if language != "en" else ("en",):
+        for kind, patterns in PATTERNS[lang].items():
+            for pattern in patterns:
+                if m := pattern.search(text):
+                    found.append(Problem(kind, f"{m.group(0)!r}"))
+    return found
+
+
+def check_text(text: str, payload: Payload, language: str) -> list[Problem]:
+    """The checks on the words themselves, shared by explanations and by answers to questions."""
+    problems: list[Problem] = []
+    all_text = _nfd(text)
 
     # Numbers: every number must come from the input (hazard S-04)
     allowed = allowed_numbers(payload)
     for token in _NUMBER.findall(all_text.translate(_DIGITS)):
         if normalise(token) not in allowed:
-            add("number", f"{token} is not in the input")
+            problems.append(Problem("number", f"{token} is not in the input"))
 
     # Script: the requested language, not English with a few words, and no letters from any other script
     share = _script_share(all_text, language)
     if share < (0.9 if language == "en" else 0.6):
-        add("script", f"only {share:.0%} of letters are in the {language} script")
+        problems.append(Problem("script", f"only {share:.0%} of letters are in the {language} script"))
     if stray := sorted({c for c in all_text if c.isalpha() and not _allowed_letter(c, language)}):
-        add("script", f"letters from another script: {''.join(stray[:10])}")
+        problems.append(Problem("script", f"letters from another script: {''.join(stray[:10])}"))
 
     # Passage labels belong in citations, not in the text ("according to P1")
     if m := re.search(r"\bP\d{1,2}\b", all_text):
-        add("label", f"passage label {m.group(0)!r} in the text")
+        problems.append(Problem("label", f"passage label {m.group(0)!r} in the text"))
 
-    # Banned intents, in the output language and in English (models mix languages)
-    for lang in {language, "en"}:
-        for kind, patterns in PATTERNS[lang].items():
-            for pattern in patterns:
-                if m := pattern.search(all_text):
-                    add(kind, f"{m.group(0)!r}")
-    return problems
+    return problems + banned(all_text, language)

@@ -343,6 +343,27 @@ class FeedbackIn(BaseModel):
     comment: str | None = Field(default=None, max_length=1000)
 
 
+class AskIn(BaseModel):
+    question: str = Field(min_length=3, max_length=300)
+    language: Lang = Lang.EN
+
+
+class QuestionOut(BaseModel):
+    id: uuid.UUID
+    language: Lang
+    question: str
+    answer: str
+    mode: str = Field(description="model: written by the model and checked; knowledge: built by rules from the "
+                                  "values and MedlinePlus; refusal: a fixed reply")
+    refusal: str | None = Field(description="Why it wasn't answered: instruction, emergency, treatment, diagnosis, "
+                                            "not_in_report, off_topic, cannot_answer")
+    reason: str | None = Field(description="Why rules wrote the answer instead of the model: critical, no_consent, "
+                                           "no_model, no_knowledge, validation, provider_error")
+    test_codes: list[str]
+    sources: list[SourceOut]
+    created_at: datetime
+
+
 # --- Accounts (Sprint 6) -----------------------------------------------------------------------------------------
 
 

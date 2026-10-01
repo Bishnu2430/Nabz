@@ -12,12 +12,19 @@ from app.models.catalogue import (
 )
 from app.models.governance import AuditLog, Feedback, ShareLink
 from app.models.identity import AppUser, AuthToken, Consent, Profile, UserSession
-from app.models.knowledge import Explanation, ExplanationCitation, KbChunk, KbDocument, TrendInsight
+from app.models.knowledge import (
+    Explanation,
+    ExplanationCitation,
+    KbChunk,
+    KbDocument,
+    ReportQuestion,
+    TrendInsight,
+)
 from app.models.reports import HealthRecord, Observation, ProcessingJob, Report, ReportFile, ReportPage
 
 __all__ = [
     "AppUser", "AuditLog", "AuthToken", "Base", "Consent", "CriticalLimit", "Explanation", "ExplanationCitation",
     "Feedback", "HealthRecord", "HomeReading", "KbChunk", "KbDocument", "LabTest", "Observation", "OrganSystem",
     "PopulationPercentile", "ProcessingJob", "Profile", "ReferenceRange", "Reminder", "Report", "ReportFile",
-    "ReportPage", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
+    "ReportPage", "ReportQuestion", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
 ]

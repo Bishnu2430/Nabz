@@ -94,7 +94,7 @@ def explain_report(session: Session, report: Report, language: str, provider: LL
     used = [p for p in passages if p.label in cited]
     content = {
         **content,
-        "sources": _sources(session, used),
+        "sources": passage_sources(session, used),
         "meta": {"source": source, "reason": reason, "problems": [p.code for p in problems],
                  "focus": len(payload.focus), "results": payload.results_total, "rejected": rejected},
     }
@@ -116,7 +116,7 @@ def explain_report(session: Session, report: Report, language: str, provider: LL
     return Outcome(explanation, source, reason, problems)
 
 
-def _sources(session: Session, passages: list) -> list[dict]:
+def passage_sources(session: Session, passages: list) -> list[dict]:
     """What the reader sees under "Sources": one entry per passage label, with its document."""
     if not passages:
         return []

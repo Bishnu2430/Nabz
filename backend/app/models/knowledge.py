@@ -17,7 +17,7 @@ from sqlalchemy import (
     Text,
     UniqueConstraint,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, created_at, pg_enum, uuid_pk
@@ -91,6 +91,36 @@ class ExplanationCitation(Base):
         UUID(as_uuid=True), ForeignKey("kb_chunk.id", ondelete="CASCADE"), primary_key=True
     )
     rank: Mapped[int] = mapped_column(SmallInteger)
+
+
+class ReportQuestion(Base):
+    """A question someone asked about a report, and what Nabz said (FR-27). Kept so the person can read it again
+    and so a clinical reviewer can see what was asked, what was refused and what a model wrote that was blocked."""
+
+    __tablename__ = "report_question"
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    report_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("report.id", ondelete="CASCADE"), index=True
+    )
+    user_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("app_user.id", ondelete="SET NULL")
+    )
+    language: Mapped[Lang] = mapped_column(pg_enum(Lang, "lang"))
+    question: Mapped[str] = mapped_column(Text)
+    answer: Mapped[str] = mapped_column(Text)
+    mode: Mapped[str] = mapped_column(Text)  # model | knowledge | refusal
+    refusal: Mapped[str | None] = mapped_column(Text)  # why it wasn't answered (app.explain.ask.REFUSALS)
+    test_codes: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    sources: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    # {"reason": why rules answered instead of the model, "problems": [codes], "rejected": the blocked model text}
+    meta: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    model_id: Mapped[str | None] = mapped_column(Text)
+    prompt_version: Mapped[str | None] = mapped_column(Text)
+    input_tokens: Mapped[int | None] = mapped_column(Integer)
+    output_tokens: Mapped[int | None] = mapped_column(Integer)
+    latency_ms: Mapped[int | None] = mapped_column(Integer)
+    created_at: Mapped[datetime] = created_at()
 
 
 class TrendInsight(Base):

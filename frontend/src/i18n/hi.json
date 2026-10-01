@@ -408,5 +408,17 @@
     "sample_title": "नमूना रिपोर्ट आज़माएँ",
     "sample_start": "नमूना इस्तेमाल करें",
     "later": "बाद में करें"
+  },
+  "ask": {
+    "title": "इस रिपोर्ट के बारे में पूछें",
+    "label": "आपका सवाल",
+    "placeholder": "जैसे: क्रिएटिनिन क्या मापता है?",
+    "send": "पूछें",
+    "writing": "Nabz लिख रहा है…",
+    "suggest_outside": "कौन से परिणाम सीमा से बाहर हैं?",
+    "suggest_measures": "{{test}} क्या मापता है?",
+    "refusal_diagnosis": "Nabz निदान नहीं करता",
+    "refusal_treatment": "Nabz इलाज नहीं सुझाता",
+    "refusal_emergency": "आपात स्थिति के लिए नहीं"
   }
 }
