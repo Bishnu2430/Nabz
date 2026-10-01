@@ -172,6 +172,19 @@ async def report_events(report_id: uuid.UUID, request: Request, session: Session
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
+@router.get("/v1/reports/{report_id}/file")
+def report_file(report_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                user: AppUser = Depends(current_user), storage: StorageBackend = Depends(get_storage)):  # noqa: B008
+    """The report exactly as it was uploaded (PDF or photo), to read beside the explanation or to keep."""
+    report = owned_report(session, user, report_id)
+    f = session.scalar(select(ReportFile).where(ReportFile.report_id == report.id).order_by(ReportFile.created_at))
+    if f is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "File not found.")
+    return Response(storage.get(f.storage_key), media_type=f.mime_type,
+                    headers={"Cache-Control": "private, no-store", "Content-Disposition": "inline",
+                             "X-Content-Type-Options": "nosniff"})
+
+
 @router.get("/v1/reports/{report_id}/pages/{page_no}/image")
 def page_image(report_id: uuid.UUID, page_no: int, session: Session = Depends(get_session),  # noqa: B008
                user: AppUser = Depends(current_user), storage: StorageBackend = Depends(get_storage)):  # noqa: B008

@@ -96,6 +96,14 @@ def test_egfr_ckd_epi_2021() -> None:
     assert egfr_ckd_epi_2021(0.6, 50, "male") > egfr_ckd_epi_2021(0.8, 50, "male") > 91
 
 
+def test_a_range_never_collapses_to_one_number(generated: tuple[Path, list[dict]]) -> None:
+    """Sodium's 135 – 145 used to print as 140 – 140 after rounding."""
+    for truth in _truths(generated[0]):
+        for r in truth["rows"]:
+            if r["ref_low"] is not None and r["ref_high"] is not None:
+                assert Decimal(r["ref_low"]) < Decimal(r["ref_high"]), (truth["id"], r["test_code"], r["printed_range"])
+
+
 def test_ranges_starting_at_zero_stay_at_zero(generated: tuple[Path, list[dict]]) -> None:
     for truth in _truths(generated[0]):
         for r in truth["rows"]:

@@ -22,7 +22,14 @@ export const problem = (status: number, body: Record<string, unknown>) =>
  * Signed in as ME unless the handlers answer "GET /v1/auth/me" themselves.
  */
 export function mockApi(handlers: Record<string, Handler>) {
-  const all: Record<string, Handler> = { "GET /v1/auth/me": () => ME, ...handlers };
+  // signed in, and the results page's copy of the original report has no pages, unless a test says otherwise
+  const all: Record<string, Handler> = {
+    "GET /v1/auth/me": () => ME,
+    "GET /v1/reports/r1": () => ({ id: "r1", profile_id: "p1", status: "explained", lab_name: null, collected_at: null,
+      created_at: "2026-07-05T10:00:00Z", pages: [], observations: [], needs_attention: 0, unmapped: 0,
+      confidence_threshold: 0.8 }),
+    ...handlers,
+  };
   const calls: { method: string; url: string; body: unknown; headers: Record<string, string> }[] = [];
   const fetchMock = vi.fn(async (input: RequestInfo | URL, init: RequestInit = {}) => {
     const url = String(input);

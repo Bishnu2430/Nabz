@@ -83,3 +83,75 @@ describe("ExplanationCard", () => {
     expect(calls.filter((c) => c.method === "POST")).toHaveLength(2);
   });
 });
+
+describe("reading layout", () => {
+  const twoOut: Insights = {
+    ...insights,
+    organs: [{
+      code: "blood", names: { en: "Blood" }, status: "low", results: [
+        insights.organs[0].results[0],
+        { ...insights.organs[0].results[0], observation_id: "o2", test_code: "wbc", test_name: "White blood cell count",
+          short_name: "WBC", value: "7.1", unit: "10^3/µL", ref_low: "4.0", ref_high: "10.0", status: "normal" },
+      ],
+    }],
+  };
+  const summary = [
+    "These results are outside the lab's range:",
+    "• Haemoglobin is 11.2 g/dL; the lab's range is 12–15. A low Haemoglobin result can go along with symptoms such as tiredness or pale skin.",
+    "Talk to your doctor about these results.",
+  ].join("\n");
+
+  it("turns each out-of-range line into a card and folds the rest", async () => {
+    mockApi({
+      "GET /v1/reports/r1/insights": () => twoOut,
+      "GET /v1/reports/r1/explanation?lang=en": () => ({ state: "ready", explanation: explanation({
+        summary, source: "template", reason: "validation",
+        per_test: [
+          { test_code: "hb", status: "low", what_it_measures: "Haemoglobin carries oxygen.",
+            what_this_result_means: "Below the lab's range.", citations: [] },
+          { test_code: "wbc", status: "normal", what_it_measures: "White cells fight infection.",
+            what_this_result_means: "Within the lab's range.", citations: [] },
+        ] }) }),
+    });
+    renderRoute("/r/r1");
+
+    // the card shows the number against its range and what the result can go along with; the value isn't repeated
+    expect(await screen.findByRole("heading", { name: "Haemoglobin", level: 3 })).toBeInTheDocument();
+    expect(screen.getByText("A low Haemoglobin result can go along with symptoms such as tiredness or pale skin."))
+      .toBeInTheDocument();
+    expect(screen.queryByText(/Haemoglobin is 11.2 g\/dL; the lab's range/)).not.toBeInTheDocument();
+    expect(screen.getAllByText("6.7 % below the lower limit 12").length).toBeGreaterThan(0);
+    expect(screen.getByText("Talk to your doctor about these results.")).toBeInTheDocument();
+    expect(screen.getByText("Built from your confirmed values.")).toBeInTheDocument();
+
+    // the in-range result is one line that unfolds
+    const more = screen.getByRole("button", { name: /White blood cell count/ });
+    expect(more).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(more);
+    expect(more).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("White cells fight infection.")).toBeInTheDocument();
+  });
+
+  it("highlights a result on the original report and finds the card from the page", async () => {
+    mockApi({
+      "GET /v1/reports/r1/insights": () => twoOut,
+      "GET /v1/reports/r1/explanation?lang=en": () => ({ state: "ready", explanation: explanation({ summary }) }),
+      "GET /v1/reports/r1": () => ({
+        id: "r1", profile_id: "p1", status: "explained", lab_name: "Anvaya Diagnostics", collected_at: "2026-07-04",
+        created_at: "2026-07-05T10:00:00Z", needs_attention: 0, unmapped: 0, confidence_threshold: 0.8,
+        pages: [{ page_no: 0, width: 595, height: 842 }],
+        observations: [{ id: "o1", raw_name: "Haemoglobin", raw_value: "11.2", raw_unit: "g/dL", raw_range: "12 - 15",
+          raw_flag: "L", section: "cbc", test_code: "hb", test_name: "Haemoglobin", value: "11.2", unit: "g/dL",
+          ref_low: "12", ref_high: "15", ref_source: "report", confidence: 0.99, needs_attention: false,
+          match_method: "exact", candidates: [], bbox: { page: 0, x0: 40, top: 200, x1: 550, bottom: 212 }, edited: false }],
+      }),
+    });
+    renderRoute("/r/r1");
+    expect(await screen.findByRole("heading", { name: "The report" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Open the original/ })).toHaveAttribute("href", "/v1/reports/r1/file");
+    const show = await screen.findByRole("button", { name: "Show on the report" });
+    await userEvent.click(show);
+    expect(show).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByAltText(/Report page 1/)).toBeInTheDocument();
+  });
+});

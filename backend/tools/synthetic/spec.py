@@ -152,17 +152,25 @@ def _fmt(value: float, decimals: int, thousands: bool = False) -> str:
     return s
 
 
-def _bound_to_printed(conv: UnitConverter, code: str, unit: str, decimals: int, x: float | None) -> float | None:
-    """A canonical range bound as a lab would print it in `unit`."""
+def _bound_to_printed(conv: UnitConverter, code: str, unit: str, decimals: int, x: float | None,
+                      narrow: bool = False) -> float | None:
+    """A canonical range bound as a lab would print it in `unit`.
+
+    Labs print round bounds for large numbers: two significant figures from 1000 up (4000 – 10000), the nearest 5
+    for three-digit bounds (< 200, 250 – 450). A narrow range keeps its exact bounds, or sodium's 135 – 145 would
+    collapse to 140 – 140.
+    """
     if x is None:
         return None
     p = conv.from_canonical(code, Decimal(str(x)), unit)
     if p is None:
         return None
     f = float(p)
-    if abs(f) >= 100:  # labs print round bounds for large numbers (4000 – 10000, < 200)
+    if abs(f) >= 1000:
         step = 10 ** (math.floor(math.log10(abs(f))) - 1)
         f = round(f / step) * step
+    elif abs(f) >= 100 and not narrow:
+        f = math.floor(f / 5 + 0.5) * 5
     return round_to(f, decimals)
 
 
@@ -223,8 +231,9 @@ def build_sections(values: dict[str, float], persona: Persona, package: str, lab
             if hi is not None:
                 hi += jitter[code][1] * (0.04 * width if width else 0.03 * hi)
 
-            plo = _bound_to_printed(conv, code, printed_unit, decimals, lo)
-            phi = _bound_to_printed(conv, code, printed_unit, decimals, hi)
+            narrow = bool(width and hi and width / hi < 0.2)
+            plo = _bound_to_printed(conv, code, printed_unit, decimals, lo, narrow)
+            phi = _bound_to_printed(conv, code, printed_unit, decimals, hi, narrow)
             if plo is not None and phi is not None:
                 printed_range = f"{_fmt(plo, decimals)}{sep}{_fmt(phi, decimals)}"
             elif phi is not None:

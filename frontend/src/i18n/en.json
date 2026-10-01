@@ -261,7 +261,16 @@
     "yes": "Yes",
     "no": "No",
     "thanks": "Thank you for telling us.",
-    "rewrite": "Write it again"
+    "rewrite": "Write it again",
+    "by_model": "Written by an AI service and checked by Nabz before you see it.",
+    "by_template": "Built from your confirmed values.",
+    "more": "More about this test",
+    "less": "Less",
+    "show_on_report": "Show on the report",
+    "others_one": "{{count}} more result explained",
+    "others_other": "{{count}} more results explained",
+    "copy": "Copy the questions",
+    "copied": "Copied"
   },
   "privacy": {
     "title": "Privacy choices",
@@ -591,5 +600,10 @@
     "impression": "Impression",
     "not_read": "The findings and impression are the radiologist's own words. Nabz shows the image; it does not read or interpret it.",
     "full_report": "Open the full report (PDF)"
+  },
+  "original": {
+    "title": "The report",
+    "open": "Open the original",
+    "hint": "Choose a value on the page to find it in the explanation."
   }
 }

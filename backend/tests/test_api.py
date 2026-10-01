@@ -151,6 +151,8 @@ def test_events_page_image_and_delete(client: TestClient, sessions, storage, cat
     image = client.get(f"/v1/reports/{rid}/pages/0/image")
     assert image.status_code == 200 and image.content.startswith(b"\x89PNG")
     assert client.get(f"/v1/reports/{rid}/pages/9/image").status_code == 404
+    original = client.get(f"/v1/reports/{rid}/file")
+    assert original.headers["content-type"] == "application/pdf" and original.content.startswith(b"%PDF-")
     assert client.delete(f"/v1/reports/{rid}").status_code == 204
     assert client.get(f"/v1/reports/{rid}").status_code == 404
     assert not any(storage.root.rglob("*.pdf"))
@@ -218,6 +220,7 @@ def test_insights_are_private(client: TestClient, as_user, sessions, storage, ca
     rid = _upload(client, pid)
     as_user("mallory")
     assert client.get(f"/v1/reports/{rid}/insights").status_code == 404
+    assert client.get(f"/v1/reports/{rid}/file").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/tests/hb").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/watch").status_code == 404
     assert client.get(f"/v1/profiles/{pid}/body-map").status_code == 404

@@ -14,6 +14,7 @@ import { useOrganNote, ValueChips } from "../components/exact/exact";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
+import { OriginalReport } from "../components/insights/OriginalReport";
 import { ReportNote } from "../components/insights/ReportNote";
 import { isAbnormal } from "../components/insights/StatusMark";
 import { ErrorNote, Loading } from "../components/ui";
@@ -28,6 +29,7 @@ export default function Insights() {
   const { t, i18n } = useTranslation();
   const insights = useInsights(id);
   const [organ, setOrgan] = useState<OrganCode | null>(null);
+  const [activeTest, setActiveTest] = useState<string | null>(null);
   const organNote = useOrganNote();
 
   if (insights.isPending) return <Loading />;
@@ -110,8 +112,13 @@ export default function Insights() {
         {shownOrgans.map((o) => <OrganCard key={o.code} organ={o} profileId={data.person.id} />)}
       </div>
 
-      <div id="explanation" className="mt-8 scroll-mt-6">
-        <ExplanationCard reportId={id} profileId={data.person.id} results={all} />
+      {/* the explanation and the report it explains, side by side */}
+      <div id="explanation" className="mt-10 grid scroll-mt-6 gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+        <ExplanationCard reportId={id} profileId={data.person.id} results={all} activeTest={activeTest}
+          onActiveTest={setActiveTest} />
+        <div className="lg:sticky lg:top-20 lg:self-start">
+          <OriginalReport reportId={id} activeTest={activeTest} onActiveTest={setActiveTest} />
+        </div>
       </div>
 
       <p className="mt-6">
