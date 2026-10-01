@@ -6,6 +6,7 @@ import { useBodyMap, useProfiles, useReports, useWatch } from "../api/hooks";
 import type { ReportSummary, ResultBrief, Watch } from "../api/types";
 import { StatusBadge } from "../components/Badges";
 import { BodyTimeline } from "../components/body/BodyTimeline";
+import { Reminders } from "../components/care/Reminders";
 import type { OrganCode } from "../components/body/organs";
 import { ValueChips } from "../components/exact/exact";
 import { OtherRecords } from "../components/records/OtherRecords";
@@ -40,26 +41,30 @@ export default function Person() {
     <>
       <Link to="/home" className="text-link">← {t("nav.family")}</Link>
       <PageTitle title={profile.display_name} action={reports.data.length > 0 && upload} />
-      {reports.data.length > 0 && (
-        <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
+      <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
+        {reports.data.length > 0 && (
           <Link to={`/p/${id}/story`}
             className="btn rounded-full border border-accent bg-accent px-3 py-1 text-sm font-medium text-accent-ink no-underline hover:brightness-110">
             ▶ {t("person.story")}
           </Link>
-          {TOOLS.map(([path, key]) => (
-            <Link key={path} to={`/p/${id}/${path}`}
-              className="btn rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
-              {t(key)}
-            </Link>
-          ))}
-        </nav>
-      )}
+        )}
+        {[...(reports.data.length > 0 ? TOOLS : []), ...CARE_TOOLS].map(([path, key]) => (
+          <Link key={path} to={`/p/${id}/${path}`}
+            className="btn rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
+            {t(key)}
+          </Link>
+        ))}
+      </nav>
       {reports.data.length === 0 ? (
-        <EmptyState title={t("person.empty_title")} body={t("person.empty_body")} action={upload} />
+        <>
+          <EmptyState title={t("person.empty_title")} body={t("person.empty_body")} action={upload} />
+          <Reminders profileId={id} />
+        </>
       ) : (
         <>
         <BodyTimeline profileId={id} organ={organ} onOrgan={setOrgan} />
         <WatchList profileId={id} />
+        <Reminders profileId={id} />
         <section aria-labelledby="reports-h">
           <div className="mb-4 flex flex-wrap items-baseline gap-3">
             <h2 id="reports-h" className="font-display text-xl font-bold">{t("person.reports")}</h2>
@@ -89,6 +94,8 @@ export default function Person() {
 }
 
 const TOOLS = [["tests", "person.all_tests"], ["summary", "person.summary"], ["compare", "person.compare"]] as const;
+// kept by the family themselves, so they are there before the first report
+const CARE_TOOLS = [["readings", "person.readings"], ["card", "person.card"]] as const;
 
 const ANALYSED = new Set(["verified", "analysing", "explaining", "explained"]);
 

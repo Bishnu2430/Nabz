@@ -7,7 +7,7 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from app.api.deps import current_user, get_session, get_storage, owned_profile
-from app.models import AppUser, Consent, LabTest, Observation, Profile, Report, TrendInsight
+from app.models import AppUser, Consent, LabTest, Observation, Profile, Reminder, Report, TrendInsight
 from app.models.enums import ConsentPurpose, ObsStatus, ReportStatus
 from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut
 from app.services import audit, data_rights
@@ -41,9 +41,15 @@ def list_profiles(session: Session = Depends(get_session), user: AppUser = Depen
         .where(TrendInsight.profile_id.in_(ids), Observation.status.notin_([ObsStatus.NORMAL, ObsStatus.UNKNOWN]))
     ):
         attention.setdefault(t.profile_id, []).append(brief(obs, test, report))
+    upcoming: dict = {}
+    for r in session.scalars(select(Reminder).where(Reminder.profile_id.in_(ids), Reminder.done_at.is_(None))
+                             .order_by(Reminder.due_on.desc())):
+        upcoming[r.profile_id] = r  # ordered latest first, so the soonest is what remains
     return [ProfileOut.model_validate(p).model_copy(update={
         "reports": n or 0, "latest_report_at": latest, "last_tested": last_tested.get(p.id),
         "attention": worst_first(attention.get(p.id, [])),
+        "next_reminder_title": upcoming[p.id].title if p.id in upcoming else None,
+        "next_reminder_due": upcoming[p.id].due_on if p.id in upcoming else None,
     }) for p, n, latest in rows]
 
 

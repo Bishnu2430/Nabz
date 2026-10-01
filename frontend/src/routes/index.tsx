@@ -11,12 +11,14 @@ import Signup from "./account/Signup";
 import VerifyEmail from "./account/VerifyEmail";
 import AllTests from "./AllTests";
 import Compare from "./Compare";
+import EmergencyCard from "./EmergencyCard";
 import Home from "./Home";
 import Insights from "./Insights";
 import Landing from "./Landing";
 import Legal from "./Legal";
 import NotFound from "./NotFound";
 import Person from "./Person";
+import Readings from "./Readings";
 import Review from "./Review";
 import Shared from "./Shared";
 import Story from "./Story";
@@ -50,6 +52,8 @@ export const routes: RouteObject[] = [
           { path: "/p/:id/story", element: <Story /> },
           { path: "/p/:id/summary", element: <Summary /> },
           { path: "/p/:id/compare", element: <Compare /> },
+          { path: "/p/:id/readings", element: <Readings /> },
+          { path: "/p/:id/card", element: <EmergencyCard /> },
           { path: "/r/:id", element: <Insights /> },
           { path: "/r/:id/review", element: <Review /> },
           { path: "/settings", element: <Settings /> },

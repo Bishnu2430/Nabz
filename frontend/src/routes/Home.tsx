@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useProfiles } from "../api/hooks";
 import type { Profile } from "../api/types";
+import { useDueText } from "../components/care/Reminders";
 import { ValueChips } from "../components/exact/exact";
 import { ProfileForm } from "../components/ProfileForm";
 import { Button, Card, EmptyState, ErrorNote, Loading, PageTitle } from "../components/ui";
@@ -58,6 +59,7 @@ function PersonCard({ profile }: { profile: Profile }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? "en";
   const attention = profile.attention ?? [];
+  const due = useDueText();
   return (
     <Card className="lift h-full p-5 hover:border-ink/40">
       <div className="flex items-baseline justify-between gap-3">
@@ -80,6 +82,13 @@ function PersonCard({ profile }: { profile: Profile }) {
           <p className="text-sm text-normal">{t("home.all_in_range")}</p>
         ) : null}
       </div>
+      {profile.next_reminder_title && profile.next_reminder_due && (
+        <p className="mt-3 border-t border-hairline pt-2 text-sm">
+          <span className="text-muted">{t("home.next_reminder")}</span>{" "}
+          <span className="font-medium">{profile.next_reminder_title}</span>{" "}
+          <span className="tabular text-muted">· {formatDate(profile.next_reminder_due, lang)} ({due(profile.next_reminder_due)})</span>
+        </p>
+      )}
     </Card>
   );
 }

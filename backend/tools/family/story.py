@@ -3,6 +3,10 @@
 Values in `set` are exact, in each test's canonical unit (mg/dL, g/dL, %, µIU/mL …); everything else is sampled
 around the person's own baseline and kept inside the lab's range, so a report is abnormal only where the story says.
 All people, doctors, labs and imaging centres are fictional.
+
+Beside the reports, each person has what a family keeps for itself (`Care`): the details on their emergency card,
+reminders, and readings taken at home. Reminder dates and readings are placed relative to the day the family is
+loaded, so the account always looks like one in current use.
 """
 
 from __future__ import annotations
@@ -39,6 +43,36 @@ class Imaging:
 
 
 @dataclass
+class Series:
+    """Home readings of one kind, drifting from `first` to `last` over the `days` before the family is loaded."""
+
+    kind: str  # bp, glucose, weight, pulse, temperature, spo2
+    days: int
+    every: int  # days between readings
+    first: tuple[float, ...]  # blood pressure has two numbers
+    last: tuple[float, ...]
+    spread: tuple[float, ...]  # day-to-day scatter (standard deviation)
+    contexts: tuple[str, ...] = ()  # taken in turn: "morning" at 7, "evening" at 20, "fasting" at 6:40
+    target: dict[str, float] | None = None  # the range the person's doctor gave
+
+
+@dataclass
+class Remind:
+    title: str
+    in_days: int  # from the day the family is loaded; negative is overdue
+    repeat_months: int | None = None
+    test: str | None = None
+    note: str | None = None
+
+
+@dataclass
+class Care:
+    emergency: dict[str, object] = field(default_factory=dict)
+    reminders: list[Remind] = field(default_factory=list)
+    readings: list[Series] = field(default_factory=list)
+
+
+@dataclass
 class Person:
     name: str
     sex: str
@@ -49,6 +83,7 @@ class Person:
     collection_point: str
     visits: list[Visit]
     imaging: list[Imaging] = field(default_factory=list)
+    care: Care = field(default_factory=Care)
 
 
 # Laboratories (layouts and unit styles as in tools/synthetic) and their look on paper.
@@ -86,6 +121,7 @@ CREDITS = {
 }
 
 D = date
+# Phone numbers are fictional: no Indian mobile number starts with 5.
 FAMILY = [
     Person(
         name="Priya Mohanty", sex="female", dob=D(1974, 6, 18), relationship="self", language="en",
@@ -126,6 +162,18 @@ FAMILY = [
                         "(Kellgren–Lawrence grade 2–3)."],
             record_title="X-ray left knee", notes="Orthopaedic review booked"),
         ],
+        care=Care(
+            emergency=dict(blood_group="A+", allergies="None known", conditions="Hypothyroidism (Dr. Sanjukta Rath)",
+                           medicines="Thyroid tablet every morning before breakfast, as prescribed",
+                           doctor="Dr. Sanjukta Rath, 0674 555 0126",
+                           contacts=[dict(name="Ramesh Mohanty", phone="+91 55501 20144", relation="husband"),
+                                     dict(name="Arjun Mohanty", phone="+91 55501 20171", relation="son")]),
+            reminders=[Remind("Orthopaedic review for the left knee", 8, note="Take the knee X-ray"),
+                       Remind("Thyroid profile", 80, repeat_months=12, test="tsh",
+                              note="Before the tablet, in the morning")],
+            readings=[Series("weight", 200, 7, (71.8,), (69.4,), (0.35,)),
+                      Series("bp", 180, 12, (122, 78), (120, 77), (4, 3), contexts=("morning",))],
+        ),
     ),
     Person(
         name="Ramesh Mohanty", sex="male", dob=D(1968, 3, 14), relationship="spouse", language="en",
@@ -177,6 +225,23 @@ FAMILY = [
                       "Visualised bones are normal."],
             impression=["Normal chest radiograph."], record_title="Chest X-ray"),
         ],
+        care=Care(
+            emergency=dict(blood_group="B+", allergies="Sulfa antibiotics (rash)",
+                           conditions="Type 2 diabetes since 2022 (Dr. Prakash Nayak)",
+                           medicines="Metformin 500 mg, one tablet twice a day after food",
+                           doctor="Dr. Prakash Nayak, 0674 555 0142",
+                           contacts=[dict(name="Priya Mohanty", phone="+91 55501 20139", relation="wife"),
+                                     dict(name="Arjun Mohanty", phone="+91 55501 20171", relation="son")]),
+            reminders=[Remind("Eye check-up", -4, repeat_months=12, note="Yearly, as Dr. Nayak advised"),
+                       Remind("Kidney check with Dr. Nayak", 12, test="creatinine",
+                              note="Creatinine and urine ACR; take the August report"),
+                       Remind("Repeat HbA1c", 48, repeat_months=3, test="hba1c", note="Fasting sample")],
+            readings=[Series("glucose", 150, 3, (148,), (118,), (8,), contexts=("fasting",),
+                             target=dict(low=80, high=130)),
+                      Series("bp", 120, 4, (142, 90), (124, 77), (5, 3), contexts=("morning", "evening"),
+                             target=dict(high=130, high2=80)),
+                      Series("weight", 180, 7, (84.2,), (80.6,), (0.4,))],
+        ),
     ),
     Person(
         name="Kamala Devi Mohanty", sex="female", dob=D(1947, 1, 5), relationship="parent", language="or",
@@ -218,6 +283,20 @@ FAMILY = [
                         "No significant spinal canal stenosis or nerve root compression."],
             record_title="MRI lower back"),
         ],
+        care=Care(
+            emergency=dict(blood_group="O+", allergies="None known",
+                           conditions="Chronic kidney disease; high blood pressure (Dr. Bijay Kumar Das)",
+                           medicines="As on the prescription of July 2026 from Dr. Das, kept in her handbag",
+                           doctor="Dr. Bijay Kumar Das, 0674 555 0117",
+                           contacts=[dict(name="Ramesh Mohanty", phone="+91 55501 20144", relation="son"),
+                                     dict(name="Priya Mohanty", phone="+91 55501 20139", relation="daughter-in-law")]),
+            reminders=[Remind("Kidney profile", 20, repeat_months=6, test="creatinine",
+                              note="Home collection; creatinine and potassium"),
+                       Remind("Visit Dr. Das with the kidney report", 23)],
+            readings=[Series("bp", 90, 2, (152, 90), (136, 82), (7, 4), contexts=("morning",),
+                             target=dict(high=140, high2=90)),
+                      Series("weight", 180, 14, (58.6,), (57.9,), (0.3,))],
+        ),
     ),
     Person(
         name="Ananya Mohanty", sex="female", dob=D(2002, 4, 9), relationship="child", language="en",
@@ -249,6 +328,11 @@ FAMILY = [
                         "process. Follow-up radiograph after treatment is suggested."],
             record_title="Chest X-ray"),
         ],
+        care=Care(
+            emergency=dict(blood_group="B+", allergies="Dust mites (sneezing)",
+                           contacts=[dict(name="Priya Mohanty", phone="+91 55501 20139", relation="mother")]),
+            reminders=[Remind("Vitamin D and B12 check", 60, test="vitamin_b12")],
+        ),
     ),
     Person(
         name="Arjun Mohanty", sex="male", dob=D(1997, 11, 23), relationship="child", language="en",
@@ -281,5 +365,11 @@ FAMILY = [
                         "No ligament or meniscal tear."],
             record_title="MRI right knee", notes="Physiotherapy for 6 weeks; back to football in March"),
         ],
+        care=Care(
+            emergency=dict(blood_group="O+",
+                           contacts=[dict(name="Priya Mohanty", phone="+91 55501 20139", relation="mother")]),
+            reminders=[Remind("Lipid profile before the company check", 120, test="tg", note="12 hours fasting")],
+            readings=[Series("weight", 240, 7, (88.0,), (81.4,), (0.5,))],
+        ),
     ),
 ]

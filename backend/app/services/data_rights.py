@@ -20,10 +20,12 @@ from app.models import (
     Consent,
     Explanation,
     HealthRecord,
+    HomeReading,
     LabTest,
     Observation,
     OrganSystem,
     Profile,
+    Reminder,
     Report,
     ReportFile,
 )
@@ -136,6 +138,20 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
             "notes": r.notes, "file": {"mime_type": r.mime_type, "size_bytes": r.size_bytes, "sha256": r.sha256},
             "report_text": r.study,
         } for r in records],
+        "emergency_card": profile.emergency,
+        "reminders": [{
+            "title": r.title, "test_code": r.test_code, "due_on": _iso(r.due_on), "repeat_months": r.repeat_months,
+            "note": r.note, "done_at": _iso(r.done_at),
+        } for r in session.scalars(select(Reminder).where(Reminder.profile_id == profile.id)
+                                   .order_by(Reminder.due_on))],
+        "home_readings": {
+            "targets": profile.reading_targets,
+            "readings": [{
+                "kind": r.kind.value, "value": _num(r.value), "value2": _num(r.value2), "context": r.context,
+                "note": r.note, "taken_at": _iso(r.taken_at),
+            } for r in session.scalars(select(HomeReading).where(HomeReading.profile_id == profile.id)
+                                       .order_by(HomeReading.taken_at))],
+        },
     }
 
 

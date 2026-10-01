@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.api.routes import auth, catalogue, explanations, insights, profiles, records, reports, shares
+from app.api.routes import auth, care, catalogue, explanations, insights, profiles, records, reports, shares
 from app.core.config import settings
 from app.db import engine
 
@@ -21,6 +21,7 @@ app.include_router(insights.router)
 app.include_router(explanations.router)
 app.include_router(records.router)
 app.include_router(shares.router)
+app.include_router(care.router)
 
 PROBLEM = "application/problem+json"
 

@@ -1,8 +1,9 @@
 import uuid
 from datetime import date, datetime
+from typing import Any
 
 from sqlalchemy import Date, DateTime, ForeignKey, SmallInteger, Text
-from sqlalchemy.dialects.postgresql import CITEXT, UUID
+from sqlalchemy.dialects.postgresql import CITEXT, JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, created_at, pg_enum, uuid_pk
@@ -79,6 +80,10 @@ class Profile(Base):
         pg_enum(Relationship, "relationship"), default=Relationship.SELF
     )
     preferred_language: Mapped[Lang] = mapped_column(pg_enum(Lang, "lang"), default=Lang.EN)
+    # What the family typed for the emergency card: blood group, allergies, conditions, medicines, contacts.
+    emergency: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    # The person's own targets for home readings, by kind: {"bp": {"high": 130, "high2": 80}, ...}
+    reading_targets: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     created_at: Mapped[datetime] = created_at()
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 

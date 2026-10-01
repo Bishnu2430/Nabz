@@ -1,6 +1,7 @@
 """ORM models. Importing this package registers every table on Base.metadata."""
 
 from app.models.base import Base
+from app.models.care import HomeReading, Reminder
 from app.models.catalogue import (
     CriticalLimit,
     LabTest,
@@ -16,7 +17,7 @@ from app.models.reports import HealthRecord, Observation, ProcessingJob, Report,
 
 __all__ = [
     "AppUser", "AuditLog", "AuthToken", "Base", "Consent", "CriticalLimit", "Explanation", "ExplanationCitation",
-    "Feedback", "HealthRecord", "KbChunk", "KbDocument", "LabTest", "Observation", "OrganSystem",
-    "PopulationPercentile", "ProcessingJob", "Profile", "ReferenceRange", "Report", "ReportFile", "ReportPage",
-    "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
+    "Feedback", "HealthRecord", "HomeReading", "KbChunk", "KbDocument", "LabTest", "Observation", "OrganSystem",
+    "PopulationPercentile", "ProcessingJob", "Profile", "ReferenceRange", "Reminder", "Report", "ReportFile",
+    "ReportPage", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
 ]

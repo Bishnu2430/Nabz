@@ -21,6 +21,9 @@ export interface Profile {
   last_tested?: string | null;
   /** Tests whose latest result is outside its range, worst first. */
   attention?: ResultBrief[];
+  /** The soonest reminder that isn't done. */
+  next_reminder_title?: string | null;
+  next_reminder_due?: string | null;
 }
 
 export interface ProfileIn {
