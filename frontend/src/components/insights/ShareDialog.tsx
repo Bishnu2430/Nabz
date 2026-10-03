@@ -8,12 +8,14 @@ import { formatDate } from "../../lib/format";
 import { Modal } from "../Modal";
 import { useToast } from "../Toast";
 import { Button, ErrorNote, fieldClass } from "../ui";
+import { DoctorShare } from "./DoctorShare";
 
 const DAYS = [1, 7, 30] as const;
 
 /**
  * Share one report with a doctor (FR-34): a link that needs no account, shows only this report, stops working
- * after the chosen number of days, and can be withdrawn at any time. The link is shown once.
+ * after the chosen number of days, and can be withdrawn at any time. The link is shown once. Or with a doctor who has a
+ * verified account on Nabz, for as long as the family keeps the share.
  */
 export function ShareDialog({ reportId, onClose }: { reportId: string; onClose: () => void }) {
   const { t, i18n } = useTranslation();
@@ -113,6 +115,8 @@ export function ShareDialog({ reportId, onClose }: { reportId: string; onClose: 
           </ul>
         </section>
       )}
+
+      <DoctorShare reportId={reportId} />
     </Modal>
   );
 }

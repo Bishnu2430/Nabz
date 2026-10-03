@@ -559,7 +559,70 @@ class SharedReportOut(BaseModel):
     critical: list[ResultOut]
     organs: list[OrganOut]
     questions: list[str]
-    expires_at: datetime
+    expires_at: datetime | None = Field(default=None, description="When a share link stops working")
+    notes: list[NoteOut] = Field(default_factory=list, description="For a clinician: the notes on this report")
+
+
+# --- Clinicians (docs/12 §2) ------------------------------------------------------------------------------------------
+
+
+class ClinicianIn(BaseModel):
+    full_name: str = Field(min_length=2, max_length=120)
+    registration_no: str = Field(min_length=2, max_length=40)
+    council: str = Field(min_length=2, max_length=120)
+    specialty: str | None = Field(default=None, max_length=80)
+
+
+class ClinicianOut(ClinicianIn):
+    model_config = ConfigDict(from_attributes=True)
+    verified_at: datetime | None
+
+
+class AdminClinicianOut(ClinicianOut):
+    user_id: uuid.UUID
+    email: str
+
+
+class VerifyIn(BaseModel):
+    verified: bool
+
+
+class GrantIn(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+
+
+class GrantOut(BaseModel):
+    id: uuid.UUID
+    clinician_name: str
+    registration_no: str
+    council: str
+    specialty: str | None
+    created_at: datetime
+    revoked: bool
+    notes: int
+
+
+class NoteIn(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+
+
+class NoteOut(BaseModel):
+    id: uuid.UUID
+    text: str
+    created_at: datetime
+    clinician_name: str | None
+
+
+class SharedWithMe(BaseModel):
+    report_id: uuid.UUID
+    person: SharedPerson
+    lab_name: str | None
+    collected_at: date | None
+    shared_at: datetime
+    notes: int
+
+
+SharedReportOut.model_rebuild()
 
 
 # --- Reminders, home readings and the emergency card ----------------------------------------------------------------

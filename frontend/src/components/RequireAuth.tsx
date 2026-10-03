@@ -21,11 +21,11 @@ export function RequireAuth() {
 }
 
 /** Staff areas (FR-39): anyone else is told plainly, without learning more than that. */
-export function RequireRole({ roles }: { roles: Role[] }) {
+export function RequireRole({ roles, title = "console.forbidden_title" }: { roles: Role[]; title?: string }) {
   const { t } = useTranslation();
   const me = useMe().data;
   if (!me || !roles.includes(me.role)) {
-    return <EmptyState title={t("console.forbidden_title")} body={t("console.forbidden_body")} />;
+    return <EmptyState title={t(title)} body={t("console.forbidden_body")} />;
   }
   return <Outlet />;
 }

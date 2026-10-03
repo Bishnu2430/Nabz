@@ -49,7 +49,8 @@ export function AppShell() {
             <span className="font-display text-2xl font-bold tracking-wide">Nabz</span>
           </Link>
           {me && !me.totp_required && <nav aria-label={t("nav.main")} className="flex items-center gap-1">
-            {[["/home", "nav.family", true], ["/review", "nav.review", me.role === "reviewer"],
+            {[["/home", "nav.family", true], ["/clinician", "nav.clinician", me.role === "clinician"],
+              ["/review", "nav.review", me.role === "reviewer"],
               ["/admin", "nav.admin", me.role === "reviewer" || me.role === "admin"]]
               .filter(([, , shown]) => shown).map(([to, key]) => (
                 <NavLink key={String(to)} to={String(to)}

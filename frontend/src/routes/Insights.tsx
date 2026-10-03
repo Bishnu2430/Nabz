@@ -13,6 +13,7 @@ import { Enso } from "../components/Enso";
 import { useOrganNote, ValueChips } from "../components/exact/exact";
 import { AskNabz } from "../components/insights/AskNabz";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
+import { DoctorNotes } from "../components/insights/DoctorShare";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
 import { OriginalReport } from "../components/insights/OriginalReport";
@@ -84,6 +85,7 @@ export default function Insights() {
       {sharing && <ShareDialog reportId={id} onClose={() => setSharing(false)} />}
 
       <ReportNote reportId={id} profileId={data.person.id} note={data.report.note ?? null} />
+      <DoctorNotes reportId={id} />
 
       <CriticalBanner results={data.critical} />
 

@@ -15,7 +15,8 @@
     "sign_out": "Sign out",
     "main": "Main",
     "review": "Safety review",
-    "admin": "System"
+    "admin": "System",
+    "clinician": "Shared with me"
   },
   "common": {
     "loading": "Loading…",
@@ -215,7 +216,10 @@
     "years_other": "{{count}} years",
     "months_other": "{{count}} months",
     "all_results": "All results",
-    "months_one": "{{count}} month"
+    "months_one": "{{count}} month",
+    "doctor_notes_one": "Doctor's note",
+    "doctor_notes_other": "Doctor's notes ({{count}})",
+    "doctor_removed": "A doctor no longer on Nabz"
   },
   "history": {
     "latest": "Latest result",
@@ -698,7 +702,17 @@
     "opened_one": "opened {{count}} time",
     "opened_other": "opened {{count}} times",
     "withdraw": "Withdraw",
-    "withdrawn": "Link withdrawn"
+    "withdrawn": "Link withdrawn",
+    "doctor_title": "A doctor on Nabz",
+    "doctor_intro": "If your doctor has an account on Nabz, share the report with them by email. They see it under “Shared with me” until you withdraw it, and can leave you a note.",
+    "doctor_email": "The doctor's email",
+    "doctor_email_placeholder": "name@example.com",
+    "doctor_share": "Share",
+    "doctor_shared": "Shared with {{name}}",
+    "doctor_since": "since {{date}}",
+    "doctor_notes_one": "{{count}} note",
+    "doctor_notes_other": "{{count}} notes",
+    "doctor_withdrawn": "No longer shared with the doctor"
   },
   "shared": {
     "banner": "Shared with you through Nabz. Read-only; this link works until {{date}}.",
@@ -933,7 +947,8 @@
     "too_many": "Too many requests. Wait a minute and try again.",
     "not_analysed": "The report hasn't been analysed yet.",
     "guardian_required": "For someone under 18, confirm that you are their parent or lawful guardian.",
-    "self_minor": "You must be 18 or older to use Nabz yourself. A parent or guardian can add you to their family."
+    "self_minor": "You must be 18 or older to use Nabz yourself. A parent or guardian can add you to their family.",
+    "no_clinician": "There is no checked doctor on Nabz with that email. Ask your doctor which email they use for Nabz, or share a link instead."
   },
   "console": {
     "forbidden_title": "This area is for staff",
@@ -1131,6 +1146,54 @@
     "a_what": "On",
     "a_details": "Details",
     "newer": "Newer",
-    "older": "Older"
+    "older": "Older",
+    "tab_doctors": "Doctors",
+    "no_doctors": "No doctor has registered yet.",
+    "d_doctor": "Doctor",
+    "d_registration": "Registration",
+    "d_status": "Status",
+    "d_actions": "Actions",
+    "d_verified": "checked {{date}}",
+    "d_waiting": "waiting",
+    "d_verify": "Mark as checked",
+    "d_unverify": "Withdraw the check",
+    "d_done_verify": "{{name}} is checked",
+    "d_done_unverify": "{{name}} is no longer checked",
+    "doctors_note": "Check each registration number against the council's public register (for example the NMC's Indian Medical Register) before marking it. Reports can be shared only with checked doctors; withdrawing the check hides everything shared with them until it is checked again."
+  },
+  "clinician": {
+    "title": "Reports shared with you",
+    "intro": "Families share a report with you here. You see it read-only, for as long as they keep it shared, and can leave a note they will see beside the report.",
+    "shared": "Shared with you",
+    "waiting": "Your registration is waiting to be checked. Once an admin has checked it against the council's register, families can share reports with you.",
+    "register_first": "Add your medical-council registration first. Families can share reports with you once it has been checked.",
+    "registration": "Your registration",
+    "edit": "Edit",
+    "f_full_name": "Full name, as registered",
+    "f_registration_no": "Registration number",
+    "f_council": "Medical council",
+    "f_specialty": "Specialty (optional)",
+    "council_hint": "The state medical council, or the National Medical Commission, that issued the number.",
+    "verified": "Checked on {{date}}",
+    "unverified": "Not checked yet",
+    "verify_note": "An admin checks the number against the council's public register. If you change the number or the council, it is checked again.",
+    "none_shared": "Nothing has been shared with you yet. A family shares a report from its results page, using the email you sign in with.",
+    "shared_on": "shared {{date}}",
+    "notes_count_one": "{{count}} note",
+    "notes_count_other": "{{count}} notes",
+    "reverify": "Changing the number or the council means it has to be checked again.",
+    "saved": "Registration saved",
+    "save": "Save",
+    "register": "Send for checking",
+    "gone_title": "This report is no longer shared with you",
+    "gone_body": "The family withdrew it, or deleted the report.",
+    "back": "Shared with you",
+    "notes": "Your notes for the family",
+    "notes_intro": "The family sees these beside the report, with your name and the date. Nabz shows them as you wrote them; it does not check or change them.",
+    "add_note": "Add a note",
+    "note_placeholder": "e.g. Please repeat the HbA1c test in three months.",
+    "send_note": "Add the note",
+    "note_added": "Note added",
+    "forbidden_title": "This page is for doctors"
   }
 }
