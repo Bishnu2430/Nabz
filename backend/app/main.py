@@ -10,6 +10,7 @@ from app.api.routes import (
     auth,
     care,
     catalogue,
+    catalogue_admin,
     clinicians,
     explanations,
     insights,
@@ -40,6 +41,7 @@ app.include_router(ask.router)
 app.include_router(review.router)
 app.include_router(admin.router)
 app.include_router(clinicians.router)
+app.include_router(catalogue_admin.router)
 
 PROBLEM = "application/problem+json"
 

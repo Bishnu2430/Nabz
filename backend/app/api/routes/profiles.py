@@ -13,7 +13,7 @@ from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut, ProfilePat
 from app.services import audit, data_rights
 from app.services.analysis import analyse_profile, result_date
 from app.services.briefs import brief, worst_first
-from app.services.interpretation import age_on, default_interpreter, raw_row_of
+from app.services.interpretation import age_on, current_interpreter, raw_row_of
 from app.storage import StorageBackend
 from app.worker import queue
 
@@ -168,7 +168,7 @@ def _reread_ranges(session: Session, profile: Profile) -> None:
         .join(LabTest, LabTest.id == Observation.test_id)
         .where(Report.profile_id == profile.id, Report.deleted_at.is_(None), Report.status.in_(CONFIRMED))).all()
     before = {o.id: o.status for o, _, _ in rows}
-    interp = default_interpreter()
+    interp = current_interpreter(session)
     for obs, report, test in rows:
         if obs.ref_source != "catalogue":
             continue  # the lab's own printed range doesn't depend on who the person is

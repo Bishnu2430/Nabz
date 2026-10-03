@@ -7,6 +7,7 @@ from sqlalchemy.dialects.postgresql import Range, insert
 from sqlalchemy.orm import Session
 
 from app.catalogue.data import CatalogueData
+from app.catalogue.db import bump_revision
 from app.catalogue.units import normalize_unit
 from app.models import CriticalLimit, LabTest, OrganSystem, PopulationPercentile, ReferenceRange, UnitConversion
 
@@ -74,5 +75,6 @@ def seed_catalogue(session: Session, data: CatalogueData) -> SeedResult:
         for p in data.percentiles
     )
     session.flush()
+    bump_revision(session)
     return SeedResult(len(data.organs), len(data.tests), len(data.conversions), len(data.ranges),
                       len(data.limits), len(data.percentiles))

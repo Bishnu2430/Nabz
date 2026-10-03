@@ -3,6 +3,7 @@
 from app.models.base import Base
 from app.models.care import HomeReading, Reminder
 from app.models.catalogue import (
+    CatalogueRevision,
     CriticalLimit,
     LabTest,
     OrganSystem,
@@ -24,9 +25,9 @@ from app.models.knowledge import (
 from app.models.reports import HealthRecord, Observation, ProcessingJob, Report, ReportFile, ReportPage
 
 __all__ = [
-    "AppUser", "AuditLog", "AuthToken", "Base", "Clinician", "ClinicianNote", "Consent", "CriticalLimit",
-    "Explanation", "ExplanationCitation", "Feedback", "HealthRecord", "HomeReading", "KbChunk", "KbDocument",
-    "LabTest", "Observation", "OrganSystem", "PopulationPercentile", "ProcessingJob", "Profile", "ReferenceRange",
-    "Reminder", "Report", "ReportFile", "ReportGrant", "ReportPage", "ReportQuestion", "SafetyReview", "ShareLink",
-    "TrendInsight", "UnitConversion", "UserSession",
+    "AppUser", "AuditLog", "AuthToken", "Base", "CatalogueRevision", "Clinician", "ClinicianNote", "Consent",
+    "CriticalLimit", "Explanation", "ExplanationCitation", "Feedback", "HealthRecord", "HomeReading", "KbChunk",
+    "KbDocument", "LabTest", "Observation", "OrganSystem", "PopulationPercentile", "ProcessingJob", "Profile",
+    "ReferenceRange", "Reminder", "Report", "ReportFile", "ReportGrant", "ReportPage", "ReportQuestion",
+    "SafetyReview", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
 ]

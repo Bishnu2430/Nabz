@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import threading
 from datetime import date
 from functools import lru_cache
 from pathlib import Path
@@ -12,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.catalogue import read_catalogue
 from app.catalogue.convert import UnitConverter
 from app.catalogue.data import CatalogueData
+from app.catalogue.db import catalogue_from_db, revision
 from app.catalogue.matcher import CatalogueMatcher
 from app.core.config import settings
 from app.extraction.interpret import ConfidenceModel, Interpreted, Interpreter, RawRow
@@ -28,7 +30,42 @@ def build_interpreter(catalogue: CatalogueData, model: ConfidenceModel | None = 
 
 @lru_cache(maxsize=1)
 def default_interpreter() -> Interpreter:
+    """The interpreter for the catalogue as shipped in data/catalogue; `current_interpreter` is the one in use."""
     return build_interpreter(read_catalogue(Path(settings.data_dir) / "catalogue"))
+
+
+@lru_cache(maxsize=1)
+def _confidence_model() -> ConfidenceModel:
+    return ConfidenceModel.load(Path(settings.data_dir) / MODEL_PATH)
+
+
+class LiveCatalogue:
+    """The catalogue as administrators have left it (FR-35), and an interpreter built from it. Each use costs one
+    small query for the revision number; the copy is rebuilt only when an edit has raised it."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._built: tuple[int, CatalogueData, Interpreter] | None = None
+
+    def get(self, session: Session) -> tuple[CatalogueData, Interpreter]:
+        rev = revision(session)
+        built = self._built
+        if built is None or built[0] != rev:
+            with self._lock:
+                if self._built is None or self._built[0] != rev:
+                    data = catalogue_from_db(session)
+                    if data is None:  # not seeded: the shipped catalogue
+                        data = read_catalogue(Path(settings.data_dir) / "catalogue")
+                    self._built = (rev, data, build_interpreter(data, _confidence_model()))
+                built = self._built
+        return built[1], built[2]
+
+
+live_catalogue = LiveCatalogue()
+
+
+def current_interpreter(session: Session) -> Interpreter:
+    return live_catalogue.get(session)[1]
 
 
 def age_on(profile: Profile, when: date | None) -> int | None:

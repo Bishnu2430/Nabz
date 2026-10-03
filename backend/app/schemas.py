@@ -814,3 +814,143 @@ class AuditOut(BaseModel):
     entity_type: str
     entity_id: uuid.UUID | None
     meta: dict[str, Any] | None
+
+
+# --- The catalogue and the knowledge base, for administrators (FR-35, FR-36) ---------------------------------------
+
+class ConversionIO(BaseModel):
+    from_unit: str = Field(min_length=1, max_length=30)
+    factor: Decimal = Field(gt=0)
+    offset: Decimal = Decimal(0)
+
+
+class RangeIO(BaseModel):
+    sex: Sex = Sex.UNKNOWN  # unknown: applies to everyone
+    age_min: int = Field(default=18, ge=0, le=120)
+    age_max: int = Field(default=120, ge=0, le=120)
+    low: Decimal | None = None
+    high: Decimal | None = None
+
+
+class LimitProposalOut(BaseModel):
+    low: Decimal | None
+    high: Decimal | None
+    at: datetime
+    by: str | None
+    note: str | None
+
+
+class CriticalLimitOut(BaseModel):
+    low: Decimal | None
+    high: Decimal | None
+    source: str
+    reviewed_by: str | None
+    reviewed_at: date | None
+    proposed: LimitProposalOut | None
+
+
+class CatalogueRow(BaseModel):
+    code: str
+    name: str
+    short_name: str
+    organ: str
+    unit: str
+    aliases: int
+    conversions: int
+    ranges: int
+    critical: CriticalLimitOut | None
+
+
+class CatalogueChange(BaseModel):
+    at: datetime
+    actor: str | None
+    action: str
+    meta: dict[str, Any] | None
+
+
+class CatalogueTestOut(BaseModel):
+    code: str
+    loinc: str
+    name: str
+    short_name: str
+    panel: str
+    organ: str
+    unit: str
+    decimals: int
+    plausible_min: Decimal
+    plausible_max: Decimal
+    aliases: list[str]
+    conversions: list[ConversionIO]
+    ranges: list[RangeIO]
+    critical: CriticalLimitOut | None
+    history: list[CatalogueChange]
+
+
+class CatalogueTestPatch(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=120)
+    short_name: str | None = Field(default=None, min_length=1, max_length=40)
+    aliases: list[str] | None = Field(default=None, max_length=60)
+    decimals: int | None = Field(default=None, ge=0, le=4)
+    plausible_min: Decimal | None = None
+    plausible_max: Decimal | None = None
+
+
+class LimitProposalIn(BaseModel):
+    """Both empty proposes removing the limit. The reason is shown to the reviewer who decides."""
+    low: Decimal | None = None
+    high: Decimal | None = None
+    note: str = Field(min_length=3, max_length=500)
+
+
+class LimitVerdictIn(BaseModel):
+    approve: bool
+    note: str | None = Field(default=None, max_length=500)
+
+
+class LimitForReview(BaseModel):
+    code: str
+    name: str
+    unit: str
+    critical: CriticalLimitOut
+    ranges: list[RangeIO]
+
+
+class RecheckOut(BaseModel):
+    critical: CriticalLimitOut | None
+    results_changed: int
+
+
+class KbDocumentIn(BaseModel):
+    title: str = Field(min_length=3, max_length=200)
+    source_org: str = Field(min_length=2, max_length=120)
+    url: str = Field(pattern=r"^https?://\S+$", max_length=500)
+    license: str = Field(min_length=2, max_length=200)
+    language: Lang = Lang.EN
+    retrieved_at: date | None = None
+    test_code: str
+    text: str = Field(min_length=40, max_length=20000)
+
+
+class KbDocumentOut(BaseModel):
+    id: uuid.UUID
+    title: str
+    source_org: str
+    url: str | None
+    license: str
+    language: Lang
+    retrieved_at: date | None
+    chunks: int
+    tests: list[str]
+    citations: int
+
+
+class KnowledgeOut(BaseModel):
+    documents: list[KbDocumentOut]
+    chunks: int
+    embedder: str | None
+
+
+class ReembedOut(BaseModel):
+    documents: int
+    chunks: int
+    ms: int

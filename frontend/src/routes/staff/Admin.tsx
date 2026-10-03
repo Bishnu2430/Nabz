@@ -13,8 +13,10 @@ import { Light, StatTile, Tabs } from "../../components/staff/parts";
 import { useToast } from "../../components/Toast";
 import { Button, Card, Empty, ErrorNote, Loading, PageTitle, SectionTitle, fieldClass } from "../../components/ui";
 import { formatDate, formatDateTime } from "../../lib/format";
+import { CatalogueTab } from "./CatalogueTab";
+import { KnowledgeTab } from "./KnowledgeTab";
 
-type Tab = "overview" | "users" | "doctors" | "jobs" | "audit";
+type Tab = "overview" | "users" | "doctors" | "catalogue" | "knowledge" | "jobs" | "audit";
 const ROLES: Role[] = ["user", "clinician", "reviewer", "admin"];
 
 /**
@@ -30,7 +32,9 @@ export default function Admin() {
   const tabs = [
     { id: "overview" as const, label: t("console.tab_overview"), icon: "trend" as const },
     ...(isAdmin ? [{ id: "users" as const, label: t("console.tab_users"), icon: "family" as const },
-      { id: "doctors" as const, label: t("console.tab_doctors"), icon: "stethoscope" as const }] : []),
+      { id: "doctors" as const, label: t("console.tab_doctors"), icon: "stethoscope" as const },
+      { id: "catalogue" as const, label: t("console.tab_catalogue"), icon: "tests" as const },
+      { id: "knowledge" as const, label: t("console.tab_knowledge"), icon: "book" as const }] : []),
     { id: "jobs" as const, label: t("console.tab_jobs"), icon: "clock" as const },
     { id: "audit" as const, label: t("console.tab_audit"), icon: "book" as const },
   ];
@@ -41,6 +45,8 @@ export default function Admin() {
       {tab === "overview" && <OverviewTab />}
       {tab === "users" && isAdmin && <UsersTab />}
       {tab === "doctors" && isAdmin && <DoctorsTab />}
+      {tab === "catalogue" && isAdmin && <CatalogueTab />}
+      {tab === "knowledge" && isAdmin && <KnowledgeTab />}
       {tab === "jobs" && <JobsTab canRetry={isAdmin} />}
       {tab === "audit" && <AuditTab />}
     </>
