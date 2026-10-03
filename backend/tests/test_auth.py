@@ -192,3 +192,27 @@ def test_every_response_carries_the_security_headers(client: TestClient, monkeyp
     assert "strict-transport-security" not in ok.headers  # plain HTTP in development
     monkeypatch.setattr(settings, "cookie_secure", True)
     assert client.get("/v1/catalogue/tests").headers["strict-transport-security"].startswith("max-age=31536000")
+
+
+def test_signing_in_again_ends_the_session_the_browser_had(client: TestClient, sessions) -> None:
+    sign_up(client)
+    sign_in(client)
+    first = client.cookies.get(deps.COOKIE)
+    sign_in(client)
+    assert client.cookies.get(deps.COOKIE) != first
+    with sessions() as s:
+        rows = s.scalars(select(UserSession).order_by(UserSession.created_at)).all()
+        assert [r.revoked_at is not None for r in rows] == [True, False]
+
+
+def test_secrets_at_rest_use_aes_gcm_and_older_values_still_read() -> None:
+    from cryptography.fernet import Fernet
+
+    from app.core import security
+
+    blob = security.encrypt("JBSWY3DPEHPK3PXP")
+    assert blob.startswith(security.GCM_PREFIX) and security.decrypt(blob) == "JBSWY3DPEHPK3PXP"
+    assert security.encrypt("JBSWY3DPEHPK3PXP") != blob  # a fresh nonce every time
+    assert security.decrypt(blob[:-4] + "AAAA") is None  # tampering is caught
+    legacy = security._fernet().encrypt(b"JBSWY3DPEHPK3PXP").decode()
+    assert isinstance(security._fernet(), Fernet) and security.decrypt(legacy) == "JBSWY3DPEHPK3PXP"

@@ -177,6 +177,15 @@ def create_session(session: Session, user: AppUser, user_agent: str | None) -> N
     return NewSession(token, csrf, row)
 
 
+def end_session(session: Session, token: str | None) -> None:
+    """Revoke the session a token belongs to, if any (signing in ends the one the browser had, ASVS 7.2.4)."""
+    if token:
+        row = session.scalar(select(UserSession).where(UserSession.token_hash == security.token_hash(token),
+                                                       UserSession.revoked_at.is_(None)))
+        if row is not None:
+            row.revoked_at = now()
+
+
 def idle_limit(user: AppUser) -> timedelta:
     if user.role in STAFF_ROLES:
         return timedelta(hours=settings.staff_session_hours)
