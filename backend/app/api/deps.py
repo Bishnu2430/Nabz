@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.db import SessionLocal
 from app.models import AppUser, Profile, Report, UserSession
-from app.models.enums import STAFF_ROLES
+from app.models.enums import STAFF_ROLES, UserRole
 from app.services.auth import session_user
 from app.storage import StorageBackend, default_storage
 
@@ -51,6 +51,15 @@ def current_user(found: tuple[UserSession, AppUser] = Depends(current_session)) 
         raise HTTPException(status.HTTP_403_FORBIDDEN,
                             {"detail": "Turn on two-step sign-in to continue.", "setup": "totp"})
     return user
+
+
+def require_roles(*roles: UserRole):
+    """A dependency that lets only these roles through (FR-39); staff have already set up two-step sign-in."""
+    def check(user: AppUser = Depends(current_user)) -> AppUser:  # noqa: B008
+        if user.role not in roles:
+            raise HTTPException(status.HTTP_403_FORBIDDEN, {"detail": "This area is for staff.", "code": "forbidden"})
+        return user
+    return check
 
 
 def owned_profile(session: Session, user: AppUser, profile_id: uuid.UUID) -> Profile:

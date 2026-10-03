@@ -192,6 +192,25 @@ def banned(text: str, language: str) -> list[Problem]:
     return found
 
 
+def annotate(text: str, payload: Payload | None, language: str) -> tuple[str, list[dict]]:
+    """Where in `text` the checks fire, for highlighting in the safety console: the text as checked (canonical
+    Unicode, so offsets line up) and its spans [{"start", "end", "code"}]. Numbers are checked only with a payload."""
+    checked = _nfd(text)
+    spans: list[dict] = []
+    for lang in (language, "en") if language != "en" else ("en",):
+        for kind, patterns in PATTERNS[lang].items():
+            for pattern in patterns:
+                spans += [{"start": m.start(), "end": m.end(), "code": kind} for m in pattern.finditer(checked)]
+    if payload is not None:
+        allowed = allowed_numbers(payload)
+        # the digit table maps one character to one, so offsets in the translated text are offsets in `checked`
+        for m in _NUMBER.finditer(checked.translate(_DIGITS)):
+            if normalise(m.group(0)) not in allowed:
+                spans.append({"start": m.start(), "end": m.end(), "code": "number"})
+    spans += [{"start": m.start(), "end": m.end(), "code": "label"} for m in re.finditer(r"\bP\d{1,2}\b", checked)]
+    return checked, sorted(spans, key=lambda s: (s["start"], -s["end"]))
+
+
 def check_text(text: str, payload: Payload, language: str) -> list[Problem]:
     """The checks on the words themselves, shared by explanations and by answers to questions."""
     problems: list[Problem] = []

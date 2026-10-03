@@ -48,15 +48,17 @@ export function AppShell() {
             <img src="/seal.svg" alt="" className="size-8" />
             <span className="font-display text-2xl font-bold tracking-wide">Nabz</span>
           </Link>
-          {me && !me.totp_required && <nav aria-label={t("nav.main")}>
-            <NavLink
-              to="/home"
-              className={({ isActive }) =>
-                `rounded px-2 py-1 transition-colors ${isActive ? "text-ink underline decoration-accent decoration-2 underline-offset-8" : "text-muted hover:text-ink"}`
-              }
-            >
-              {t("nav.family")}
-            </NavLink>
+          {me && !me.totp_required && <nav aria-label={t("nav.main")} className="flex items-center gap-1">
+            {[["/home", "nav.family", true], ["/review", "nav.review", me.role === "reviewer"],
+              ["/admin", "nav.admin", me.role === "reviewer" || me.role === "admin"]]
+              .filter(([, , shown]) => shown).map(([to, key]) => (
+                <NavLink key={String(to)} to={String(to)}
+                  className={({ isActive }) =>
+                    `rounded px-2 py-1 transition-colors ${isActive ? "text-ink underline decoration-accent decoration-2 underline-offset-8" : "text-muted hover:text-ink"}`
+                  }>
+                  {t(String(key))}
+                </NavLink>
+              ))}
           </nav>}
           <div className="ml-auto flex items-center gap-2">
             <label className="sr-only" htmlFor="lang">{t("nav.language")}</label>

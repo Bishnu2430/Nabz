@@ -10,7 +10,7 @@ from app.models.catalogue import (
     ReferenceRange,
     UnitConversion,
 )
-from app.models.governance import AuditLog, Feedback, ShareLink
+from app.models.governance import AuditLog, Feedback, SafetyReview, ShareLink
 from app.models.identity import AppUser, AuthToken, Consent, Profile, UserSession
 from app.models.knowledge import (
     Explanation,
@@ -26,5 +26,5 @@ __all__ = [
     "AppUser", "AuditLog", "AuthToken", "Base", "Consent", "CriticalLimit", "Explanation", "ExplanationCitation",
     "Feedback", "HealthRecord", "HomeReading", "KbChunk", "KbDocument", "LabTest", "Observation", "OrganSystem",
     "PopulationPercentile", "ProcessingJob", "Profile", "ReferenceRange", "Reminder", "Report", "ReportFile",
-    "ReportPage", "ReportQuestion", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
+    "ReportPage", "ReportQuestion", "SafetyReview", "ShareLink", "TrendInsight", "UnitConversion", "UserSession",
 ]

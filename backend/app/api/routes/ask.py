@@ -1,4 +1,4 @@
-"""Questions about a report (FR-27): ask, read the earlier ones again, delete one."""
+"""Questions about a report (FR-47): ask, read the earlier ones again, delete one."""
 
 from __future__ import annotations
 

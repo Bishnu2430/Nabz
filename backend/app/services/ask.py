@@ -1,4 +1,4 @@
-"""Answer a question about one report (FR-27, ADR-0013).
+"""Answer a question about one report (FR-47, ADR-0013).
 
 Order of events: rules decide whether the question may be answered at all (app.explain.ask). If it may, the model
 writes the answer only with external-AI consent, a model and the knowledge base, and never around a critical value;

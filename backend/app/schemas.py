@@ -5,10 +5,21 @@ from __future__ import annotations
 import uuid
 from datetime import date, datetime
 from decimal import Decimal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import ConsentPurpose, Lang, ObsStatus, ReadingKind, RecordKind, Relationship, ReportStatus, Sex
+from app.models.enums import (
+    ConsentPurpose,
+    Lang,
+    ObsStatus,
+    ReadingKind,
+    RecordKind,
+    Relationship,
+    ReportStatus,
+    Sex,
+    UserRole,
+)
 
 
 class ProfileIn(BaseModel):
@@ -622,3 +633,109 @@ class EmergencyCardOut(BaseModel):
     last_tested: date | None
     qr_svg: str = Field(description="The card's text as a QR code, readable with no network")
     qr_text: str
+
+# --- Safety review and administration (FR-48, FR-49) ---------------------------------------------------------------
+
+
+class Span(BaseModel):
+    start: int
+    end: int
+    code: str
+
+
+class MarkedText(BaseModel):
+    text: str
+    spans: list[Span]
+
+
+class ReviewValue(BaseModel):
+    test: str
+    value: float
+    unit: str | None
+    range_low: float | None
+    range_high: float | None
+    status: str
+
+
+class ReviewVerdictOut(BaseModel):
+    verdict: str
+    note: str | None
+    reviewer: str | None
+    at: datetime
+
+
+class ReviewItem(BaseModel):
+    """One thing for the clinical reviewer, de-identified: no name, email, birth date, file or report date."""
+
+    kind: str = Field(description="explanation (blocked or fell back), question (refused or blocked), feedback")
+    id: uuid.UUID
+    created_at: datetime
+    language: Lang
+    age_band: str | None
+    sex: str
+    values: list[ReviewValue]
+    question: str | None = Field(description="What the person asked, emails and phone numbers removed")
+    feedback: dict[str, Any] | None
+    shown: str = Field(description="What the person saw")
+    blocked: MarkedText | None = Field(description="What a model wrote that the checks stopped, with what they caught")
+    problems: list[dict[str, Any]]
+    reason: str | None
+    refusal: str | None
+    mode: str | None
+    review: ReviewVerdictOut | None
+
+
+class VerdictIn(BaseModel):
+    verdict: Literal["correct", "incorrect"]
+    note: str | None = Field(default=None, max_length=500)
+
+
+class CheckIn(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+    language: Lang = Lang.EN
+
+
+class CheckOut(BaseModel):
+    text: str
+    spans: list[Span]
+    problems: list[dict[str, Any]]
+    as_question: str | None = Field(description="The fixed reply this text would get as a question, if any")
+
+
+class AdminUserOut(BaseModel):
+    id: uuid.UUID
+    email: str
+    role: UserRole
+    verified: bool
+    totp: bool
+    locked: bool
+    created_at: datetime
+    last_login_at: datetime | None
+    sessions: int
+    profiles: int
+
+
+class RoleIn(BaseModel):
+    role: UserRole
+
+
+class JobOut(BaseModel):
+    id: int
+    report_id: uuid.UUID
+    stage: str
+    status: str
+    attempts: int
+    error: str | None
+    created_at: datetime
+    finished_at: datetime | None
+    locked_by: str | None
+
+
+class AuditOut(BaseModel):
+    id: int
+    at: datetime
+    actor: str | None
+    action: str
+    entity_type: str
+    entity_id: uuid.UUID | None
+    meta: dict[str, Any] | None

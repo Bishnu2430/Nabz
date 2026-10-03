@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import BigInteger, DateTime, ForeignKey, Identity, Integer, SmallInteger, Text, func
+from sqlalchemy import BigInteger, DateTime, ForeignKey, Identity, Index, Integer, SmallInteger, Text, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -38,6 +38,24 @@ class Feedback(Base):
     )
     rating: Mapped[int] = mapped_column(SmallInteger)
     comment: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = created_at()
+
+
+class SafetyReview(Base):
+    """A clinical reviewer's verdict on something the safety checks did: a blocked explanation, a question's reply,
+    or an explanation a reader found unhelpful. The latest verdict for a subject is its current one."""
+
+    __tablename__ = "safety_review"
+    __table_args__ = (Index("ix_safety_review_subject", "subject_type", "subject_id"),)
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    subject_type: Mapped[str] = mapped_column(Text)  # explanation | question | feedback
+    subject_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True))
+    reviewer_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("app_user.id", ondelete="SET NULL")
+    )
+    verdict: Mapped[str] = mapped_column(Text)  # correct | incorrect
+    note: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = created_at()
 
 

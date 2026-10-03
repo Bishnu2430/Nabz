@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
+import { useMe } from "../api/auth";
 import { useProfiles } from "../api/hooks";
 import type { Profile } from "../api/types";
 import { useDueText } from "../components/care/Reminders";
@@ -15,6 +16,7 @@ export default function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const profiles = useProfiles();
+  const role = useMe().data?.role;
   const [adding, setAdding] = useState(false);
 
   if (profiles.isPending) return <Loading />;
@@ -22,8 +24,10 @@ export default function Home() {
 
   const created = (p: Profile) => navigate(`/p/${p.id}/upload`);
 
-  // an account with no one in it yet starts with the walkthrough
-  if (profiles.data.length === 0) return <Navigate to="/welcome" replace />;
+  // an account with no one in it yet starts with the walkthrough; staff start at their console
+  if (profiles.data.length === 0) {
+    return <Navigate to={role === "reviewer" ? "/review" : role === "admin" ? "/admin" : "/welcome"} replace />;
+  }
 
   return (
     <>
