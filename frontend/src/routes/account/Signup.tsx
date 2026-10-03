@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { useRegister } from "../../api/auth";
@@ -59,8 +59,10 @@ function SignupForm() {
           error={tried && problem ? t(`auth.pw.${problem}`, { n: MIN_PASSWORD_LENGTH }) : undefined} />
         {register.isError && <ErrorNote message={message(register.error)} />}
         <p className="text-sm text-muted">
-          {t("auth.signup_terms_before")} <Link to="/privacy" className="text-link">{t("legal.privacy_title")}</Link>{" "}
-          {t("auth.signup_terms_and")} <Link to="/safety" className="text-link">{t("legal.safety_title")}</Link>.
+          <Trans i18nKey="auth.signup_accept" components={{
+            terms: <Link to="/terms" className="text-link" />, privacy: <Link to="/privacy" className="text-link" />,
+            safety: <Link to="/safety" className="text-link" />,
+          }} />
         </p>
         <Button type="submit" variant="primary" className="w-full" disabled={register.isPending}>
           {t("auth.create_account")}

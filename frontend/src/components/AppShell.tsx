@@ -102,10 +102,12 @@ export function AppShell() {
       <footer className="border-t border-hairline print:hidden">
         <div className="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-6 gap-y-2 px-4 py-4 text-sm text-muted">
           <p className="mr-auto">{t("app.disclaimer")}</p>
-          <span className="flex gap-x-6">
-            <Link to="/privacy" className="text-muted hover:text-ink">{t("legal.privacy_title")}</Link>
-            <Link to="/safety" className="text-muted hover:text-ink">{t("legal.safety_title")}</Link>
-          </span>
+          <nav aria-label={t("nav.footer")} className="flex flex-wrap gap-x-6 gap-y-1">
+            {([["/help", "help.title"], ["/about", "about.title"], ["/privacy", "legal.privacy_title"],
+              ["/safety", "legal.safety_title"], ["/terms", "legal.terms_title"]] as const).map(([to, key]) => (
+              <Link key={to} to={to} className="text-muted hover:text-ink">{t(key)}</Link>
+            ))}
+          </nav>
         </div>
       </footer>
     </div>
