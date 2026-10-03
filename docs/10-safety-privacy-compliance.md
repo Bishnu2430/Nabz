@@ -24,6 +24,9 @@ Nabz is an **informational and educational tool**. It helps people understand re
 | S-06 | Prompt injection through text on the report | Text read from the report never reaches the model: the payload uses catalogue test names and computed values only (tested with an injection in a row's printed name); passages and data are marked as data; validator catches instruction-like output | Design | Red-team suite |
 | S-07 | Misleading comparison with foreign populations | Source labels on every range and percentile; the lab's printed range is preferred | UI | FR-16, FR-20 |
 | S-08 | False reassurance | "Normal" results still carry the standard disclaimer; no "you are healthy" statements (banned phrase list) | Rules | TC-13 |
+| S-09 | A question draws out a diagnosis, a prediction, a treatment or false reassurance | Rules in EN/HI/OR give a fixed reply before any model is involved; emergencies are told to get help now; model answers pass the explanation's checks and the judge, else the rule-built answer is shown ([ADR-0013](adr/0013-rules-first-questions.md)) | Deterministic + layered | FR-47 · question red-team suite |
+| S-10 | Home readings or the emergency card read as advice | Readings are compared only with a target the person enters; the card prints only what was typed and confirmed values; reminders use the family's own dates; none of these is interpreted | Design | FR-43 – FR-45 |
+| S-11 | Unsafe behaviour goes unnoticed | The clinical reviewer's queue shows every blocked explanation, every fixed reply and every unhelpful rating with what the checks caught; verdicts are recorded; the red-team suites can be run from the console at any time | Process | FR-48 |
 
 **Clinical review.** A clinician reviews the critical-limit table, the explanation template and a sample of 20 generated explanations before M3. Their notes are kept with the evaluation report.
 
@@ -38,7 +41,7 @@ Nabz is an **informational and educational tool**. It helps people understand re
 | Children's data | Profiles of minors require the account holder to confirm parental or guardian status (FR-05); no tracking or profiling of children |
 | Accuracy | The user reviews and can correct every value |
 | Storage limitation | Retention table in [04 §6](04-data-design.md#6-retention-and-deletion); consented real samples deleted after M3 + 30 days |
-| Rights of the data principal | Access and export (FR-32), correction (FR-14), erasure (FR-33), withdrawal of consent (FR-03). Export and erasure per person and for the whole account are in Settings (Sprint 6); erasure also removes narration audio |
+| Rights of the data principal | Access and export (FR-32), correction (FR-14), erasure (FR-33), withdrawal of consent (FR-03). Export and erasure per person and for the whole account are in Settings (Sprint 6); erasure also removes narration audio. The export also holds reminders, home readings, the emergency card and questions asked; erasure removes them |
 | Security safeguards | See §4 |
 | Breach handling | Incident log; revoke keys; inform affected people and, where required, the Data Protection Board within the time the Rules prescribe |
 
@@ -47,7 +50,9 @@ Nabz is an **informational and educational tool**. It helps people understand re
 | Area | Control |
 |---|---|
 | Authentication | Argon2id; confirmed email before uploads; per-IP rate limit and a 15-minute lockout after 5 failures; the same answers whether or not an email is registered; server-side sessions behind an `HttpOnly`, `SameSite=Strict` cookie (`Secure` behind HTTPS) with a CSRF token on every change; 14-day idle expiry (1 day for staff); sign out everywhere; TOTP required for staff, its secret encrypted with a key from `SECRET_KEY` (docs/12 §3) |
-| Authorisation | Ownership checks in the service layer for every profile and report; admin role for catalogue and knowledge endpoints |
+| Authorisation | Ownership checks in the service layer for every profile and report; a role dependency on every staff router (reviewer: safety review; reviewer or admin: system health, jobs, audit; admin: users and roles) |
+| Staff access to health data | None identifiable. The reviewer's queue is de-identified (age band, sex, values and text; email addresses and phone numbers removed from what a person typed). The system pages show people only as counts. An admin cannot open the safety queue |
+| Share links | Random 32-byte token, stored as SHA-256; expiry (1–30 days) and withdrawal; read-only, one report; rate-limited; the same 404 for a bad, expired or withdrawn link; every view audited |
 | Transport | HTTPS for all external calls; services bind to 127.0.0.1 |
 | Storage | Encrypted host disk; `pgcrypto` for direct identifiers; random storage keys; files never served from a public path |
 | Uploads | MIME sniffing; size and page limits; PDFs rasterised, never executed; decoding isolated in the worker |
@@ -82,3 +87,4 @@ Nabz is an **informational and educational tool**. It helps people understand re
 | 0.1 | 2026-09-26 | First draft |
 | 0.2 | 2026-09-30 | S-03 and S-06 as implemented in Sprint 5 |
 | 0.3 | 2026-09-30 | §3 notice and data rights, §4 authentication as built in Sprint 6 |
+| 0.4 | 2026-10-03 | S-09 – S-11 (questions, everyday care, the reviewer's queue); staff access and share links in §4; export and erasure of the new data |

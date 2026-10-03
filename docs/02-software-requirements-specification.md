@@ -150,6 +150,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-24 | Every explanation shall pass the safety validator before display. On failure the system shall show a safe template built from the values alone. | M | UC-18 |
 | FR-25 | The system shall send the external LLM only de-identified payloads: test, value, unit, range, age band and sex. | M | UC-18 |
 | FR-26 | The system shall narrate the explanation in the selected language when voice consent is on. | S | UC-09 |
+| FR-47 | The system shall answer a person's question about one report from its confirmed values and the knowledge base. Questions that ask for a diagnosis, a prediction or a treatment, ask for help in an emergency, try to redirect the assistant, or are not about the report's tests shall get a fixed reply decided by rules, without a model. A model's answer, where consent allows one, shall pass the same checks as an explanation (FR-24). | S | UC-08 |
 
 ### 4.6 Visualisation
 
@@ -160,6 +161,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-29 | The system shall provide a timeline control that replays the body map across the profile's reports. | S | UC-07 |
 | FR-30 | Selecting a row on the report image shall highlight the linked organ, and vice versa. | S | UC-05, UC-06 |
 | FR-31 | Where WebGL 2 is unavailable, the system shall fall back to a 2D body diagram with the same information. | S | UC-06 |
+| FR-42 | The system shall replay a person's confirmed reports as a story: one chapter per report, naming the turning points (first out of range, back in range, highest so far, beyond a critical limit) with exact values, never their cause. | C | UC-07 |
 
 ### 4.7 Sharing, export and data rights
 
@@ -169,6 +171,15 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-33 | The system shall hard-delete a report or profile on request: files, rows and derived data. Only a minimal audit entry remains. | M | UC-12 |
 | FR-34 | The system shall create expiring (default 7 days), revocable read-only share links. | C | UC-11, UC-17 |
 
+### 4.7a Everyday care
+
+| ID | Requirement | Priority | Use case |
+|---|---|---|---|
+| FR-43 | The system shall keep reminders on dates the family chooses, optionally repeating; email the account on the day; and offer each as a calendar file. It shall never propose a date itself. | C | UC-10 |
+| FR-44 | The system shall record readings taken at home (blood pressure, blood sugar, weight, pulse, temperature, oxygen level), refuse implausible values, and compare each reading only with a target the person enters. | C | UC-07 |
+| FR-45 | The system shall print an emergency card with what the family typed (blood group, allergies, conditions, medicines, doctor, contacts) and the latest results outside their range, with a QR code holding the same text. | C | UC-12 |
+| FR-46 | A new account shall be led through language, what Nabz is and is not, the first person with consent, the privacy choices and the first report, which may be a bundled sample. | S | UC-01, UC-02 |
+
 ### 4.8 Administration and operations
 
 | ID | Requirement | Priority | Use case |
@@ -177,6 +188,8 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-36 | Administrators shall add knowledge documents with source, URL and licence, and trigger re-embedding. | S | UC-15 |
 | FR-37 | The system shall log every read and write of health data in `audit_log`. | S | UC-16 |
 | FR-38 | The system shall provide an offline mode that replays cached explanations and audio for the bundled sample reports. | M | — |
+| FR-48 | Clinical reviewers shall see a de-identified queue of explanations the checks blocked, questions that got a fixed reply and explanations rated unhelpful, with what each check caught; record a verdict on each; try the checks on any text; and run the red-team suites on demand. | S | UC-18 |
+| FR-49 | Staff shall see system health, counts, recent activity, the job monitor and the audit log, without any name, value or report; administrators shall also manage users and roles, unlock accounts, sign them out and retry failed jobs. | S | UC-14, UC-16 |
 
 ## 5. Non-functional requirements
 
@@ -222,3 +235,4 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 38 FRs, 18 NFRs, 18 use cases |
+| 0.2 | 2026-10-03 | FR-42 – FR-49: story mode, reminders, home readings, emergency card, first-run walkthrough, questions about a report, the safety review and the system pages |

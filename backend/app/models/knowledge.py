@@ -94,7 +94,7 @@ class ExplanationCitation(Base):
 
 
 class ReportQuestion(Base):
-    """A question someone asked about a report, and what Nabz said (FR-27). Kept so the person can read it again
+    """A question someone asked about a report, and what Nabz said (FR-47). Kept so the person can read it again
     and so a clinical reviewer can see what was asked, what was refused and what a model wrote that was blocked."""
 
     __tablename__ = "report_question"

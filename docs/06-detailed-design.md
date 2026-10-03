@@ -120,18 +120,35 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET · POST | `/profiles/{id}/records` | Other records: list / add (multipart: file, kind, title, date, facility, notes). Imaging keeps its study image and the report's findings and impression | — | ✓ |
 | GET | `/records/{id}/file` · `/records/{id}/image` | The stored file / the study image | — | ✓ |
 | PATCH · DELETE | `/records/{id}` | Edit / delete a record (file and study image) | FR-33 | ✓ |
-| POST | `/reports/{id}/share` · DELETE `/shares/{id}` | Create / revoke a share link | FR-34 | |
-| GET | `/shared/{token}` | Doctor's read-only view (no session) | FR-34 | |
+| GET · POST | `/reports/{id}/shares` | A report's share links / create one (label, days) → the link and its QR code, shown once | FR-34 | ✓ |
+| DELETE | `/shares/{id}` | Withdraw a link | FR-34 | ✓ |
+| GET | `/shared/{token}` | Doctor's read-only view (no session; rate-limited; the same 404 for a bad, expired or withdrawn link) | FR-34 | ✓ |
+| POST | `/profiles/{id}/sample-report` | Put the bundled sample report through the same steps as an upload (the walkthrough) | FR-46 | ✓ |
+| GET · POST | `/profiles/{id}/reminders` | List / add reminders | FR-43 | ✓ |
+| PATCH · DELETE | `/reminders/{id}` | Edit or mark done (a repeating one leaves its next) / delete | FR-43 | ✓ |
+| POST · GET | `/reminders/{id}/send` · `/reminders/{id}/calendar.ics` | Email it now / the calendar file | FR-43 | ✓ |
+| GET · POST | `/profiles/{id}/readings?kind=` | Home readings / add one (implausible values refused with a reason code) | FR-44 | ✓ |
+| DELETE | `/readings/{id}` | Delete a reading | FR-44 | ✓ |
+| GET · PUT | `/profiles/{id}/reading-targets` · `/profiles/{id}/reading-targets/{kind}` | The person's own targets / set or clear one | FR-44 | ✓ |
+| GET · PUT | `/profiles/{id}/emergency` | The card (with out-of-range results and its QR code) / save what the family typed | FR-45 | ✓ |
+| POST | `/reports/{id}/ask` | Ask a question; rules decide first ([ADR-0013](adr/0013-rules-first-questions.md)) | FR-47 | ✓ |
+| GET · DELETE | `/reports/{id}/questions` · `/questions/{id}` | Earlier questions and replies / delete one | FR-47 | ✓ |
 | GET | `/profiles/{id}/export` | Everything held about the person as one JSON file (`nabz-export` version 1): person, consents, reports with results as printed and as confirmed, analysis, explanations; files listed with checksums. The printable PDF summary is the planned `/r/{id}/print` page | FR-32 | ✓ (JSON) |
 | DELETE | `/reports/{id}` | Hard delete a report, its stored files and narration audio | FR-33 | ✓ |
 | GET · POST | `/reports/{id}/explanation?lang=` · `/reports/{id}/explanation` | Read the explanation (ready, pending or none) / request one in another language or again after consent | FR-21 – FR-24 | ✓ |
 | POST · GET | `/explanations/{id}/audio` | Narrate on first play (voice consent; 409 names the missing consent) / stream the MP3 | FR-26 | ✓ |
 | POST | `/explanations/{id}/feedback` | Helpful or not, with an optional comment | — | ✓ |
 | GET | `/catalogue/tests` | Test catalogue for the review screen's test picker (public) | FR-14 | ✓ |
+| GET | `/review/summary` · `/review/queue?kind=&state=` | Reviewer: how the checks are doing / the de-identified queue | FR-48 | ✓ |
+| POST | `/review/items/{kind}/{id}` | Reviewer: record a verdict and note | FR-48 | ✓ |
+| POST | `/review/check` · `/review/redteam` | Reviewer: run the checks on any text / run both red-team suites | FR-48 | ✓ |
+| GET | `/admin/overview` · `/admin/jobs?state=` · `/admin/audit?action=&before=` | Staff: health, counts and activity / jobs / audit log | FR-49 | ✓ |
+| GET · PATCH | `/admin/users` · `/admin/users/{id}` | Admin: accounts / change a role (not one's own) | FR-49 | ✓ |
+| POST | `/admin/users/{id}/unlock` · `/admin/users/{id}/sign-out` · `/admin/jobs/{id}/retry` | Admin: unlock / sign out everywhere / retry a failed job | FR-49 | ✓ |
 | CRUD | `/admin/tests`, `/admin/ranges`, `/admin/critical-limits`, `/admin/kb` | Catalogue and knowledge base | FR-35, FR-36 | |
 | GET | `/health`, `/health/ready` | Liveness / readiness (outside `/v1`) | — | ✓ |
 
-Errors follow RFC 9457 problem details (`application/problem+json`) with a stable `type` URI and never echo health data. Validation errors (422) add an `errors` list of `{field, message}`. A 409 from upload or confirm carries the extra fields the client needs (`report_id`, or the unmapped row IDs).
+Errors follow RFC 9457 problem details (`application/problem+json`) with a stable `type` URI and never echo health data. Errors a person can act on also carry a `code` (`verify_email`, `no_consent`, `too_large`, `file_type`, `bad_pdf`, `too_many_pages`, `duplicate`, `implausible`, `bp_pair`, `future_time`, `too_many`, `not_analysed`, `forbidden`) and its parameters, so the web app words them in the reader's language. Validation errors (422) add an `errors` list of `{field, message}`. A 409 from upload or confirm carries the extra fields the client needs (`report_id`, or the unmapped row IDs).
 
 ## 5. Explanation contract
 
@@ -194,7 +211,14 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 | `src/components/records/` | Other records, and the imaging viewer (zoom, pan, window/level, invert, rotate, magnifier, full screen) beside the report's findings and impression | 7 |
 | `src/routes/` (after Sprint 6) | `AllTests` (`/p/:id/tests`), `Summary` (`/p/:id/summary`, printable), `Compare` (`/p/:id/compare`) | 7 |
 | `src/components/RequireAuth.tsx` | Guard for signed-in pages (`next` follows same-site paths only); staff without two-step sign-in reach only its set-up | 6 |
-| `src/features/admin/` | Catalogue and knowledge-base tables | 7 |
+| `src/routes/Story.tsx`, `src/lib/story.ts` | Story mode: chapters and turning points from the body-map frames, captions in the reader's language, read aloud | 7 |
+| `src/components/insights/ShareDialog.tsx`, `src/routes/Shared.tsx` | Share links with QR codes; the doctor's read-only page | 7 |
+| `src/api/care.ts`, `src/components/care/`, `src/routes/Readings.tsx`, `src/routes/EmergencyCard.tsx`, `src/lib/readings.ts` | Reminders, home readings with their chart and targets, the printable emergency card | 7 |
+| `src/routes/Welcome.tsx`, `src/components/ReportProgress.tsx` | The first-run walkthrough; the shared upload progress | 7 |
+| `src/api/ask.ts`, `src/components/insights/AskNabz.tsx` | Questions about a report | 7 |
+| `src/api/staff.ts`, `src/routes/staff/`, `src/components/staff/` | The safety review (`/review`) and system pages (`/admin`); `RequireRole` guards both | 7 |
+| `src/components/icons.tsx`, `src/i18n/i18n.test.ts` | One family of line icons and organ marks; the test that keeps Hindi and Odia complete | 7 |
+| `src/features/admin/` | Catalogue and knowledge-base tables | — |
 
 **Review screen rules.**
 - Rows the model flags (confidence below τ, or no test) come first, weakest first. The order is fixed when the page loads, so a row doesn't jump away while it is being corrected.
@@ -217,4 +241,5 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.4 | 2026-09-30 | §4 consent, explanation, narration and feedback endpoints; §6 explanation and privacy components |
 | 0.7 | 2026-10-01 | §4 the original report file; §6 the reading layout, motion and toasts |
 | 0.6 | 2026-09-30 | §4 organ history, report notes, other records and study images; §6 organ panel, exact values, records and viewer, new pages |
+| 0.8 | 2026-10-03 | §4 sharing, care, sample report, questions, review and admin endpoints; error codes; §6 the new pages and components |
 | 0.5 | 2026-09-30 | §4 sessions, CSRF and account endpoints, profile export and deletion, body-map timeline; §6 account screens and body map as built in Sprint 6 |

@@ -1,7 +1,7 @@
 import type { RouteObject } from "react-router-dom";
 
 import { AppShell } from "../components/AppShell";
-import { RequireAuth } from "../components/RequireAuth";
+import { RequireAuth, RequireRole } from "../components/RequireAuth";
 import { RouteError } from "../components/RouteError";
 import ForgotPassword from "./account/ForgotPassword";
 import Login from "./account/Login";
@@ -21,6 +21,8 @@ import Person from "./Person";
 import Readings from "./Readings";
 import Review from "./Review";
 import Shared from "./Shared";
+import Admin from "./staff/Admin";
+import SafetyReview from "./staff/SafetyReview";
 import Story from "./Story";
 import Summary from "./Summary";
 import TestHistory from "./TestHistory";
@@ -59,6 +61,8 @@ export const routes: RouteObject[] = [
           { path: "/r/:id", element: <Insights /> },
           { path: "/r/:id/review", element: <Review /> },
           { path: "/settings", element: <Settings /> },
+          { element: <RequireRole roles={["reviewer"]} />, children: [{ path: "/review", element: <SafetyReview /> }] },
+          { element: <RequireRole roles={["reviewer", "admin"]} />, children: [{ path: "/admin", element: <Admin /> }] },
         ],
       },
       { path: "*", element: <NotFound /> },

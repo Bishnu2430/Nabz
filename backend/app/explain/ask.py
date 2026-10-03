@@ -1,4 +1,4 @@
-"""Questions about a report (FR-27): what may be asked, and what Nabz says when it won't answer.
+"""Questions about a report (FR-47): what may be asked, and what Nabz says when it won't answer.
 
 A question is checked before anything else, with rules, not a model (ADR-0013). Questions that ask for a diagnosis,
 a prediction, a treatment or help in an emergency get a fixed reply; so do attempts to redirect the assistant and

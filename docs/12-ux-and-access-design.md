@@ -192,7 +192,27 @@ Motion is decoration only. Nothing is hidden behind it, and `prefers-reduced-mot
 
 **Exact values.** Wherever results are summarised, Nabz names the value, its unit, the lab's range and how far outside it is ("Creatinine 1.85 mg/dL, 42 % above the upper limit 1.30"), never only a count such as "2 of 3 out of range". This applies to family cards, report rows, the organ list and the organ panel.
 
-Not yet: `/welcome`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, and the clinician, reviewer and admin areas.
+**Built after Sprint 6:**
+- `/welcome` (language → what Nabz is and is not → first person → privacy → first report, or a sample);
+- `/s/:token` (the doctor's read-only view; links are made from the results page, so there is no `/p/:id/share`);
+- `/p/:id/story`, `/p/:id/readings` and `/p/:id/card`, plus reminders on the person page;
+- questions about a report, on the results page;
+- `/review` (reviewer: queue, checks playground, red-team run);
+- `/admin` (staff: overview, jobs and audit log; admin: users and roles).
+
+Staff without a family of their own land on their console. The catalogue and knowledge-base screens (`/admin/catalogue`, `/admin/knowledge`) are not built.
+
+**Language.** Every interface string exists in Hindi and Odia, and a test fails if one is missing or drops a placeholder. Test names, lab names and units stay as printed on the report. Odia dates use Nabz's own month names, because browsers carry no Odia date data. Errors from the API carry a reason code, so they are worded in the reader's language.
+
+**Visual marks** (§5).
+- **Icons:** one family of line icons (no emoji):
+  - in a small seal beside page titles and section headings;
+  - one per organ system and per kind of home reading.
+- **Patterns:** shippō (overlapping circles) rises from the top right of each page title, with a faint brush circle. A brush stroke separates long sections; two wave lines run along the footer.
+- **Person seals:** each person's initial in one of five inks, chosen from their name.
+- All of it is drawn as masks over the ink colour, so it suits both themes, and none of it prints.
+
+Not yet: `/terms`, `/about`, `/help`, and the clinician area.
 
 ## Revision history
 
@@ -203,3 +223,4 @@ Not yet: `/welcome`, `/p/:id/share`, `/s/:token`, `/terms`, `/about`, `/help`, a
 | 0.4 | 2026-09-30 | §6 new pages, exact-values rule, imaging viewer |
 | 0.5 | 2026-10-01 | §5.5 motion and atmosphere; §6 reading a report as cards beside the original |
 | 0.3 | 2026-09-30 | §3 accounts as built in Sprint 6 (schema, rate limits, enumeration resistance, session rules, staff, deletion); §5.3 rice-paper body as built; §6 build status |
+| 0.6 | 2026-10-03 | §6 pages built after Sprint 6 (walkthrough, sharing, story, care, questions, reviewer and admin areas); languages; visual marks |

@@ -13,7 +13,7 @@ import { isAbnormal } from "./StatusMark";
 const MAX = 300; // mirrors backend/app/explain/ask.py
 
 /**
- * Questions about this report (FR-27). Nabz answers from the confirmed values and MedlinePlus; it gives a fixed
+ * Questions about this report (FR-47). Nabz answers from the confirmed values and MedlinePlus; it gives a fixed
  * reply to anything that asks for a diagnosis, a treatment or help in an emergency, and says so plainly. Every
  * answer shown is the checked text; this component only lays it out.
  */

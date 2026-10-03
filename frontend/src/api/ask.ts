@@ -6,7 +6,7 @@ import type { Lang, Source } from "./types";
 export type AnswerMode = "model" | "knowledge" | "refusal";
 export type Refusal = "instruction" | "emergency" | "treatment" | "diagnosis" | "not_in_report" | "off_topic" | "cannot_answer";
 
-/** A question about a report and what Nabz said (FR-27). */
+/** A question about a report and what Nabz said (FR-47). */
 export interface Question {
   id: string;
   language: Lang;
