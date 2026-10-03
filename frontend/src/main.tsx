@@ -1,3 +1,15 @@
+// The fonts ship with the app, so it looks the same with no internet (FR-38)
+import "@fontsource/noto-sans/400.css";
+import "@fontsource/noto-sans/500.css";
+import "@fontsource/noto-sans/600.css";
+import "@fontsource/noto-sans-devanagari/400.css";
+import "@fontsource/noto-sans-devanagari/500.css";
+import "@fontsource/noto-sans-devanagari/600.css";
+import "@fontsource/noto-sans-oriya/400.css";
+import "@fontsource/noto-sans-oriya/500.css";
+import "@fontsource/noto-sans-oriya/600.css";
+import "@fontsource/shippori-mincho/latin-500.css";
+import "@fontsource/shippori-mincho/latin-700.css";
 import "./index.css";
 import "./styles/polish.css";
 import "./i18n";
