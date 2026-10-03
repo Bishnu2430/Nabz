@@ -37,6 +37,8 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | | `processing_job` | Durable queue item per pipeline stage | 1,000s |
 | | `health_record` | Other records kept with the reports (imaging, prescription, discharge, vaccination): the file, and for imaging the study image and the report's title, findings, impression and image credit (`study` JSONB). Stored, never analysed | 100s |
 | | `observation` | One result row: raw text, typed value, range, status, confidence | 10,000s |
+| Everyday care | `reminder` | A reminder the family set: title, date, repeat in months, note; emailed on the day, done or not | 100s |
+| | `home_reading` | A reading taken at home: kind, one number (two for blood pressure), context, time | 1,000s |
 | Clinical catalogue | `organ_system` | Organ systems and their 3D mesh IDs | ~15 |
 | | `lab_test` | Supported tests: LOINC code, aliases, canonical unit, biological variation | ~60 → 150 |
 | | `unit_conversion` | Unit → canonical unit factors per test | ~200 |
@@ -47,8 +49,10 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | | `kb_chunk` | Retrieval passage with 384-d embedding | ~3,000 |
 | | `explanation` | Generated explanation (JSON), model and prompt version, safety status | 100s |
 | | `explanation_citation` | Which passages an explanation cited | 1,000s |
+| | `report_question` | A question asked about a report and the reply: how it was answered, why a fixed reply, sources, any blocked model text (for the reviewer only) | 1,000s |
 | | `trend_insight` | Latest change, trend (direction, confirmed, projected crossing) and percentile per profile × test, linked to the latest result | 1,000s |
-| Governance | `share_link` | Expiring read-only links for doctors | 10s |
+| Governance | `share_link` | Expiring read-only links for doctors: hashed token, who it is for, how often opened | 10s |
+| | `safety_review` | A clinical reviewer's verdict (right or wrong call, note) on a blocked explanation, a question's reply or an unhelpful rating | 100s |
 | | `feedback` | Thumbs up/down and comments on explanations | 100s |
 | | `audit_log` | Append-only access and change log | 10,000s |
 
@@ -67,6 +71,7 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | `user_role` | `user`, `clinician`, `reviewer`, `admin` (reviewer and admin are staff: two-step sign-in required, 1-day sessions) |
 | `token_purpose` | `verify_email`, `reset_password` |
 | `record_kind` | `imaging`, `prescription`, `discharge`, `vaccination`, `other` |
+| `reading_kind` | `bp`, `glucose`, `weight`, `pulse`, `temperature`, `spo2` |
 
 ## 5. Data dictionary: core tables
 
@@ -176,12 +181,27 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | `user_session.last_seen_at` · `revoked_at` | timestamptz | Idle expiry (14 days, 1 day for staff) and sign-out; `last_seen_at` is written at most every 5 minutes |
 | `auth_token.token_hash` · `purpose` · `expires_at` · `used_at` | text · token_purpose · timestamptz | Emailed tokens, SHA-256 at rest, single use (confirm: 24 hours; reset: 30 minutes) |
 
+### 5.8 Care, questions and review (after Sprint 6)
+
+| Table · column | Type | Description |
+|---|---|---|
+| `profile.emergency` | jsonb | The emergency card as typed: blood group, allergies, conditions, medicines, doctor, up to three contacts |
+| `profile.reading_targets` | jsonb | The person's own target per reading kind (`low`, `high`; `high2` for the lower blood-pressure number) |
+| `reminder.due_on` · `repeat_months` · `sent_at` · `done_at` | date · smallint · timestamptz | Marking a repeating reminder done creates the next one; the worker emails each once on its date |
+| `home_reading.value` · `value2` · `context` · `taken_at` | numeric · numeric · text · timestamptz | `value2` only for blood pressure; implausible values are refused by the API |
+| `report_question.mode` · `refusal` | text | `model`, `knowledge` (rules) or `refusal`; the refusal kind (`diagnosis`, `treatment`, `emergency`, `instruction`, `not_in_report`, `off_topic`, `cannot_answer`) |
+| `report_question.meta` | jsonb | Why rules answered instead of the model, the problem codes, and any blocked model answer for the reviewer |
+| `safety_review.subject_type` · `subject_id` | text · uuid | `explanation`, `question` or `feedback` and its id; the latest verdict is the current one |
+| `share_link.label` · `views` · `last_viewed_at` | text · int · timestamptz | Who the link is for, as the owner wrote it, and how it has been used |
+
 ## 6. Retention and deletion
 
 | Data | Retention | Mechanism |
 |---|---|---|
 | Report files, pages, observations, explanations, narration audio | Until the user deletes the report, the person or the account | Hard delete at once (FR-33): rows through foreign-key cascades, then the stored uploads and audio; only an audit entry without health data remains |
 | Other records (files, study images) | Until the user deletes the record, the person or the account | Hard delete with the person or account; both the file and the study image go |
+| Reminders, home readings, emergency details, questions and share links | Until the user deletes them, the report, the person or the account | Hard delete through the same cascades; included in the export |
+| Safety reviews | Project lifetime | De-identified verdicts and notes; no link back to a person once the subject is deleted |
 | Sessions and email tokens | Until sign-out, expiry or account deletion | Revoked rows are kept for the account's lifetime; deleted with the account |
 | Consent records | Account lifetime + 1 year (evidence of consent) | Kept after withdrawal, marked `revoked_at` |
 | `audit_log` | 1 year | Monthly partition drop |
@@ -203,4 +223,5 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.3 | 2026-09-28 | `observation.analysis`; `trend_insight.direction`, `confirmed`, `last_observation_id`; percentiles seeded from NHANES |
 | 0.4 | 2026-09-30 | `processing_job.args`; `explanation.content` sources and meta; knowledge base loaded (46 documents, 436 passages) |
 | 0.6 | 2026-09-30 | `health_record` and `record_kind`; `report.note` (the person's own note) |
+| 0.7 | 2026-10-03 | `reminder`, `home_reading`, `report_question`, `safety_review`; `profile.emergency` and `reading_targets`; `share_link` label and views; `reading_kind`; §5.8; retention of the new data |
 | 0.5 | 2026-09-30 | §5.7 accounts and sessions: `user_session`, `auth_token`, `app_user` columns, `user_role` and `token_purpose` values; §6 hard deletion as built |

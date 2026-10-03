@@ -16,5 +16,6 @@ An ADR captures one significant decision: its context, the options considered, t
 | [0010](0010-analysis-methods.md) | How Nabz judges change and trends | Accepted | 2026-09-28 |
 | [0011](0011-grounded-explanations.md) | Grounded, checked explanations | Accepted | 2026-09-30 |
 | [0012](0012-procedural-body-model.md) | A drawn rice-paper body before the anatomical model (changes the model in 0006) | Accepted | 2026-09-30 |
+| [0013](0013-rules-first-questions.md) | Questions about a report: rules decide first, the model writes last | Accepted | 2026-10-01 |
 
 Template: copy `0001` and follow the sections Context → Decision → Alternatives → Consequences.

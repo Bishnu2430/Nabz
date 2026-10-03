@@ -12,7 +12,16 @@ Sprint 6 is done: accounts with two-step sign-in for staff; data export and dele
 - other records (X-ray and scan reports with an image viewer, prescriptions);
 - a printable summary for the doctor;
 - report comparison and search across all tests;
-- a sample family, the Mohantys, with five years of reports. See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
+- a sample family, the Mohantys, with five years of reports;
+- story mode, which replays a person's reports with the turning points in words;
+- share links for a doctor, with a QR code;
+- reminders, home readings and a printable emergency card;
+- a first-run walkthrough with a sample report;
+- questions about a report, with fixed replies to anything diagnostic ([ADR-0013](docs/adr/0013-rules-first-questions.md));
+- a safety review for clinical reviewers and system pages for staff;
+- the whole interface in Hindi and Odia.
+
+See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
 | Component | State |
 |---|---|
@@ -27,6 +36,7 @@ Sprint 6 is done: accounts with two-step sign-in for staff; data export and dele
 | Explanations (Groq gpt-oss-120b, MedlinePlus retrieval, validator + judge, template fallback) and narration (ElevenLabs) | ✅ Sprint 5 |
 | Accounts, sessions, two-step sign-in; export and deletion; 3D body map with organ panels and timeline | ✅ Sprint 6 |
 | Other records with an imaging viewer; doctor summary; compare; all tests; sample family | ✅ after Sprint 6 |
+| Story mode; sharing; reminders, home readings, emergency card; walkthrough; questions; safety review and system pages; full Hindi and Odia | ✅ after Sprint 6 |
 
 ## Quick start
 
@@ -62,13 +72,23 @@ docker compose exec api pytest
 
 Open the web app at <http://localhost:5173> and create an account. Every email (the confirmation link, password resets) lands in the Mailpit inbox at <http://localhost:8025>; nothing is sent to real addresses. Then add a person, upload a PDF or photo of a report (samples are in `data/synthetic/samples/`), check the values and open the results with the body map.
 
-Staff and seeded accounts are created from the command line (reviewers and admins must then turn on two-step sign-in in Settings):
+Staff accounts for the safety review (`/review`) and system pages (`/admin`) are quickest with `tools.staff`. It confirms the account, turns on two-step sign-in and prints a new password and authenticator key once (add the key, or the `otpauth://` link, to an authenticator app):
+
+```bash
+docker compose exec api python -m tools.staff --email reviewer@nabz.local --role reviewer
+```
+
+```bash
+docker compose exec api python -m tools.staff --email admin@nabz.local --role admin
+```
+
+Or create any account from the command line (reviewers and admins must then turn on two-step sign-in in Settings):
 
 ```bash
 docker compose exec api python -m app.cli create-user --email reviewer@nabz.local --password "<password>" --role reviewer
 ```
 
-Load the sample family (five people, 38 lab reports and 5 X-ray and MRI reports from 2021 to 2026, uploaded and confirmed through the API as a person would) into an account. `--replace` first deletes everyone on that account:
+Load the sample family into an account: five people, 38 lab reports and 5 X-ray and MRI reports from 2021 to 2026, uploaded and confirmed through the API as a person would. It also writes their emergency cards, reminders and home readings, dated from the day it runs. `--replace` first deletes everyone on that account; without it, people already there keep their reports and get fresh care data:
 
 ```bash
 docker compose exec api python -m tools.family --email dev@nabz.local --replace

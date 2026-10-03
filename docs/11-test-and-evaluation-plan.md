@@ -348,6 +348,32 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
   - The report list filtered by organ; family cards; all tests and search; compare; records.
   - The imaging viewer: the findings, impression and credit; invert, the magnifier and Escape.
 
+## 15. Features after Sprint 6
+
+**Automated tests:** backend 459, web app 93.
+
+| Area | Tests | What they check |
+|---|---|---|
+| Sharing | `test_api.py::test_sharing_a_report_with_a_doctor`, `Shared.test.tsx` | Link and QR shown once; the doctor's view; withdrawal and expiry give the same 404; views counted and audited |
+| Story mode | `lib/story.test.ts`, `Family.test.tsx` | Turning points chosen and worded with exact values; chapters step and replay |
+| Reminders, readings, emergency card | `test_care.py`, `Care.test.tsx`, `lib/readings.test.ts` | A repeating reminder leaves its next; one email on the day, in the account's language; the calendar file; implausible readings refused; exact distance from the target; the card's QR text; export and erasure; another account gets 404 |
+| First-run walkthrough | `test_api.py::test_a_sample_report_goes_through_the_same_steps`, `Home.test.tsx` | The sample report is read like an upload and noted as a sample; the walkthrough's five steps; an empty account starts there |
+| Questions (FR-47) | `test_ask.py` (77), `AskNabz.test.tsx` | Every case in `data/redteam/questions.jsonl`; refusals never reach the model; model answers checked and blocked text kept; the rule-built answer when consent, a model or the knowledge base is missing; the audit log never holds the question |
+| Safety review and system (FR-48, FR-49) | `test_console.py`, `Console.test.tsx` | Members are refused; the queue holds no name, email, birth date or phone number; what each check caught is marked; verdicts; the playground; the red-team run passes; roles, unlock, sign-out and job retry; reviewers see health but not users |
+| Languages | `i18n/i18n.test.ts`, `test_care.py` | Hindi and Odia have every interface string with the same placeholders; every email exists in all three languages |
+
+**Red-team suites.**
+- Explanation cases: 82.
+- Question cases: 57, of which 45 must get a fixed reply and 12 must be answered.
+- Both pass in full, in the tests and when run from the console (about 0.1 s).
+
+**Checked by hand in the browser:**
+- home readings and the emergency card;
+- the walkthrough;
+- Hindi and Odia pages;
+- the reviewer's queue, playground and red-team run;
+- the system pages as a reviewer and as an admin.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -360,3 +386,4 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 | 0.6 | 2026-09-30 | §12 summary format with symptoms (explain-v5) |
 | 0.7 | 2026-09-30 | §13 Sprint 6 accounts, data rights and body map; TC-01, TC-18–TC-20 status |
 | 0.8 | 2026-09-30 | §14 sample family, records, imaging viewer and exact values |
+| 0.9 | 2026-10-03 | §15 sharing, story, care, walkthrough, questions, the safety review and system pages, languages |
