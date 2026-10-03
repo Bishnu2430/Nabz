@@ -19,7 +19,8 @@ import { OriginalReport } from "../components/insights/OriginalReport";
 import { ReportNote } from "../components/insights/ReportNote";
 import { ShareDialog } from "../components/insights/ShareDialog";
 import { isAbnormal } from "../components/insights/StatusMark";
-import { Button, ErrorNote, Loading } from "../components/ui";
+import { Icon, IconSeal } from "../components/icons";
+import { BrushRule, Button, ErrorNote, Loading, SectionTitle } from "../components/ui";
 import { deviation, formatDate } from "../lib/format";
 import NotFound from "./NotFound";
 
@@ -57,13 +58,16 @@ export default function Insights() {
   return (
     <>
       <Link to={`/p/${data.person.id}`} className="text-link">← {data.person.display_name}</Link>
-      <div className="mb-4 mt-2 flex flex-wrap items-end justify-between gap-4">
-        <div>
+      <div className="page-head mb-4 mt-2 flex flex-wrap items-end justify-between gap-4">
+        <div className="flex items-start gap-4">
+          <IconSeal name="report" size={24} className="icon-seal-lg mt-1" />
+          <div>
           <h1 className="font-display text-3xl font-bold sm:text-4xl">{t("insights.title")}</h1>
           <p className="mt-1 text-muted">
             {[data.report.lab_name, data.report.collected_at && formatDate(data.report.collected_at, lang)]
               .filter(Boolean).join(" · ")}
           </p>
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <Button onClick={() => setSharing(true)}>
@@ -84,7 +88,8 @@ export default function Insights() {
       <CriticalBanner results={data.critical} />
 
       <div className="mb-6">
-        <p className="text-lg">
+        <p className="flex items-center gap-2 text-lg">
+          <Icon name={outside.length > 0 ? "alert" : "check"} size={20} className={outside.length > 0 ? "text-abnormal" : "text-normal"} />
           {outside.length > 0
             ? t("insights.outside", { count: outside.length, total: all.length })
             : t("insights.all_in_range", { total: all.length })}
@@ -111,8 +116,9 @@ export default function Insights() {
         )}
       />
 
-      <div className="mb-4 flex flex-wrap items-baseline gap-3">
-        <h2 className="font-display text-2xl font-bold">{t("insights.all_results")}</h2>
+      <BrushRule />
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <SectionTitle icon="tests" title={t("insights.all_results")} className="mb-0" />
         {chosen && (
           <p className="text-sm">
             <span className="rounded-full bg-sunken px-3 py-1">{t("organ.showing", { organ: name(chosen) })}</span>{" "}

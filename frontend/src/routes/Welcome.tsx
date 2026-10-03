@@ -10,6 +10,7 @@ import type { Lang, Profile } from "../api/types";
 import { PrivacyChoices } from "../components/PrivacyChoices";
 import { ProfileForm } from "../components/ProfileForm";
 import { ReportProgress } from "../components/ReportProgress";
+import { Icon, IconSeal, type IconName } from "../components/icons";
 import { Button, Card, ErrorNote, Loading } from "../components/ui";
 import { LANGUAGES } from "../i18n";
 
@@ -56,7 +57,7 @@ export default function Welcome() {
       <div key={step} className="slide-in">
         {step === "language" && <LanguageStep onNext={() => go(1)} />}
         {step === "about" && (
-          <Frame title={t("welcome.about_title")} onBack={() => go(0)} onNext={() => go(2)} nextDisabled={!understood}>
+          <Frame icon="shield" title={t("welcome.about_title")} onBack={() => go(0)} onNext={() => go(2)} nextDisabled={!understood}>
             <div className="grid gap-4 sm:grid-cols-2">
               <Points title={t("welcome.is_title")} tone="text-normal" mark="M3.5 8.5l3 3 6-7"
                 items={[t("welcome.is_1"), t("welcome.is_2"), t("welcome.is_3")]} />
@@ -76,7 +77,7 @@ export default function Welcome() {
           </Frame>
         )}
         {step === "person" && (
-          <Frame title={t("welcome.person_title")} body={t("welcome.person_body")} onBack={() => go(1)}>
+          <Frame icon="person" title={t("welcome.person_title")} body={t("welcome.person_body")} onBack={() => go(1)}>
             {profiles.data.length > 0 && (
               <div className="mb-5">
                 <ul className="flex flex-wrap gap-2">
@@ -93,7 +94,7 @@ export default function Welcome() {
           </Frame>
         )}
         {step === "privacy" && profile && (
-          <Frame title={t("welcome.privacy_title", { name: profile.display_name })} body={t("welcome.privacy_body")}
+          <Frame icon="lock" title={t("welcome.privacy_title", { name: profile.display_name })} body={t("welcome.privacy_body")}
             onBack={() => go(2)} onNext={() => go(4)}>
             <div className="-mt-10 [&_h2]:sr-only"><PrivacyChoices profileId={profile.id} /></div>
           </Frame>
@@ -104,13 +105,16 @@ export default function Welcome() {
   );
 }
 
-function Frame({ title, body, children, onBack, onNext, nextDisabled }: {
+function Frame({ title, body, children, onBack, onNext, nextDisabled, icon }: {
   title: string; body?: string; children: ReactNode; onBack?: () => void; onNext?: () => void; nextDisabled?: boolean;
+  icon?: IconName;
 }) {
   const { t } = useTranslation();
   return (
-    <Card className="p-6 sm:p-8">
-      <h1 className="font-display text-2xl font-bold sm:text-3xl">{title}</h1>
+    <Card className="corner-pattern p-6 sm:p-8">
+      <h1 className="flex items-center gap-3 font-display text-2xl font-bold sm:text-3xl">
+        {icon && <IconSeal name={icon} size={22} className="icon-seal-lg" />}{title}
+      </h1>
       {body && <p className="mt-2 text-muted">{body}</p>}
       <div className="mt-6">{children}</div>
       {(onBack || onNext) && (
@@ -132,7 +136,7 @@ function LanguageStep({ onNext }: { onNext: () => void }) {
     if (me && me.preferred_language !== lang) save.mutate(lang);
   };
   return (
-    <Frame title={t("welcome.language_title")} body={t("welcome.language_body")} onNext={onNext}>
+    <Frame icon="globe" title={t("welcome.language_title")} body={t("welcome.language_body")} onNext={onNext}>
       <div role="radiogroup" aria-label={t("nav.language")} className="grid gap-3 sm:grid-cols-3">
         {LANGUAGES.map((l) => {
           const on = i18n.resolvedLanguage === l.code;
@@ -177,15 +181,15 @@ function ReportStep({ profile, onBack }: { profile: Profile; onBack: () => void 
     return <ReportProgress reportId={sample.data?.report_id} sending={sample.isPending} onRetry={() => sample.reset()} />;
   }
   return (
-    <Frame title={t("welcome.report_title")} body={t("welcome.report_body", { name: profile.display_name })} onBack={onBack}>
+    <Frame icon="report" title={t("welcome.report_title")} body={t("welcome.report_body", { name: profile.display_name })} onBack={onBack}>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col rounded-lg border border-hairline bg-surface p-5">
-          <h2 className="font-display text-lg font-bold">{t("welcome.upload_title")}</h2>
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold"><Icon name="upload" className="text-accent" />{t("welcome.upload_title")}</h2>
           <p className="mb-4 mt-1 flex-1 text-sm text-muted">{t("welcome.upload_body")}</p>
           <Button variant="primary" onClick={() => navigate(`/p/${profile.id}/upload`)}>{t("person.upload")}</Button>
         </div>
         <div className="flex flex-col rounded-lg border border-hairline bg-surface p-5">
-          <h2 className="font-display text-lg font-bold">{t("welcome.sample_title")}</h2>
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold"><Icon name="sample" className="text-accent" />{t("welcome.sample_title")}</h2>
           <p className="mb-4 mt-1 flex-1 text-sm text-muted">{t("welcome.sample_body")}</p>
           <Button onClick={() => sample.mutate(profile.id)}>{t("welcome.sample_start")}</Button>
         </div>

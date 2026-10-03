@@ -9,6 +9,7 @@ import { BodyStage } from "../components/body/BodyMap";
 import { isOrganCode, type OrganCode, type OrganStatus } from "../components/body/organs";
 import { useExact, ValueChips } from "../components/exact/exact";
 import { StatusIcon } from "../components/insights/StatusMark";
+import { IconSeal } from "../components/icons";
 import { Button, ErrorNote, Loading } from "../components/ui";
 import { formatDate, formatRange, formatWithUnit } from "../lib/format";
 import { buildStory, chapterMs, type Chapter, type StoryEvent } from "../lib/story";
@@ -121,9 +122,10 @@ export default function Story() {
         <Link to={`/p/${id}`} className="text-link">← {profile?.display_name}</Link>
         <p className="text-sm text-muted">{t("story.keys")}</p>
       </div>
-      <h1 className="mb-5 mt-2 font-display text-3xl font-bold sm:text-4xl">
-        {t("story.title", { name: profile?.display_name ?? "" })}
-      </h1>
+      <div className="page-head mb-5 mt-2 flex items-center gap-4">
+        <IconSeal name="play" size={24} className="icon-seal-lg" />
+        <h1 className="font-display text-3xl font-bold sm:text-4xl">{t("story.title", { name: profile?.display_name ?? "" })}</h1>
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <div className="relative">

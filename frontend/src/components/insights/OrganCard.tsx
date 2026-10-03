@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Organ } from "../../api/types";
+import { Icon, organIcon } from "../icons";
 import { Button, Card } from "../ui";
 import { ResultRow } from "./ResultRow";
 import { STATUS_COLOR, StatusMark, isAbnormal } from "./StatusMark";
@@ -23,7 +24,10 @@ export function OrganCard({ organ, profileId }: { organ: Organ; profileId: strin
         <div aria-hidden="true" className="w-1.5 shrink-0" style={{ background: STATUS_COLOR[organ.status] }} />
         <div className="min-w-0 flex-1 p-5">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="font-display text-xl font-bold">{name}</h2>
+            <h2 className="flex items-center gap-2 font-display text-xl font-bold">
+              <Icon name={organIcon(organ.code)} size={20} className="text-muted" />
+              {name}
+            </h2>
             <StatusMark status={organ.status} />
           </div>
           {shown.length > 0 && (

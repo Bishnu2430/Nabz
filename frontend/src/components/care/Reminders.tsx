@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { reminderCalendarUrl, useAddReminder, useReminderAction, useReminders, type Reminder } from "../../api/care";
 import { formatDate } from "../../lib/format";
 import { useToast } from "../Toast";
-import { Button, Card, ErrorNote, fieldClass } from "../ui";
+import { Button, Card, Empty, ErrorNote, SectionTitle, fieldClass } from "../ui";
 
 const REPEATS = [0, 1, 3, 6, 12] as const;
 
@@ -37,14 +37,12 @@ export function Reminders({ profileId }: { profileId: string }) {
 
   return (
     <section aria-labelledby="reminders-h" className="mb-10">
-      <div className="mb-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h2 id="reminders-h" className="font-display text-xl font-bold">{t("reminders.title")}</h2>
-        {!adding && <Button onClick={() => setAdding(true)}>{t("reminders.add")}</Button>}
-      </div>
+      <SectionTitle id="reminders-h" icon="bell" title={t("reminders.title")} className="mb-2"
+        action={!adding && <Button onClick={() => setAdding(true)}>{t("reminders.add")}</Button>} />
       <p className="mb-4 max-w-prose text-sm text-muted">{t("reminders.intro")}</p>
       {adding && <ReminderForm profileId={profileId} onDone={() => setAdding(false)} />}
       {reminders.isError && <ErrorNote error={reminders.error} />}
-      {reminders.data?.length === 0 && !adding && <p className="text-muted">{t("reminders.empty")}</p>}
+      {reminders.data?.length === 0 && !adding && <Empty icon="calendar">{t("reminders.empty")}</Empty>}
       <ul className="stagger grid gap-3 sm:grid-cols-2">
         {open.map((r) => <li key={r.id}><ReminderCard reminder={r} profileId={profileId} /></li>)}
       </ul>

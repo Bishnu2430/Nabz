@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useReport } from "../../api/hooks";
+import { Icon } from "../icons";
 import { PageViewer } from "../review/PageViewer";
 
 /**
@@ -21,7 +22,9 @@ export function OriginalReport({ reportId, activeTest, onActiveTest }: {
   return (
     <section aria-labelledby="original-h">
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id="original-h" className="font-display text-xl font-bold">{t("original.title")}</h2>
+        <h2 id="original-h" className="flex items-center gap-2 font-display text-xl font-bold">
+          <Icon name="report" size={20} className="text-muted" />{t("original.title")}
+        </h2>
         <a href={`/v1/reports/${reportId}/file`} target="_blank" rel="noreferrer" className="text-sm text-link">
           {t("original.open")} ↗
         </a>

@@ -7,6 +7,7 @@ import { useEmergencyCard, useSaveEmergency, type EmergencyCard as CardData, typ
 import { useExact } from "../components/exact/exact";
 import { StatusIcon } from "../components/insights/StatusMark";
 import { useToast } from "../components/Toast";
+import { Icon } from "../components/icons";
 import { Button, Card, ErrorNote, Loading, PageTitle, fieldClass } from "../components/ui";
 import { formatDate, formatWithUnit } from "../lib/format";
 import NotFound from "./NotFound";
@@ -36,8 +37,8 @@ export default function EmergencyCard() {
     <>
       <div className="print:hidden">
         <Link to={`/p/${id}`} className="text-link">← {data.person.display_name}</Link>
-        <PageTitle title={t("card.title")} subtitle={t("card.intro")}
-          action={<Button variant="primary" onClick={() => window.print()}>{t("card.print")}</Button>} />
+        <PageTitle icon="card" title={t("card.title")} subtitle={t("card.intro")}
+          action={<Button variant="primary" onClick={() => window.print()}><Icon name="printer" size={18} />{t("card.print")}</Button>} />
       </div>
       <div className="grid gap-8 lg:grid-cols-2 print:block">
         <div className="print:hidden">

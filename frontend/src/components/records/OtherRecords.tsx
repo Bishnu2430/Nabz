@@ -5,7 +5,7 @@ import { recordFileUrl, recordImageUrl, useAddRecord, useDeleteRecord, useRecord
 import type { HealthRecord, RecordKind } from "../../api/types";
 import { formatDate } from "../../lib/format";
 import { useToast } from "../Toast";
-import { Button, Card, ErrorNote, fieldClass } from "../ui";
+import { Button, Card, Empty, ErrorNote, SectionTitle, fieldClass } from "../ui";
 import { ImagingViewer } from "./ImagingViewer";
 
 const KINDS: RecordKind[] = ["imaging", "prescription", "discharge", "vaccination", "other"];
@@ -21,14 +21,12 @@ export function OtherRecords({ profileId }: { profileId: string }) {
 
   return (
     <section aria-labelledby="records-h" className="mt-10">
-      <div className="mb-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h2 id="records-h" className="font-display text-xl font-bold">{t("records.title")}</h2>
-        {!adding && <Button onClick={() => setAdding(true)}>{t("records.add")}</Button>}
-      </div>
+      <SectionTitle id="records-h" icon="film" title={t("records.title")} className="mb-2"
+        action={!adding && <Button onClick={() => setAdding(true)}>{t("records.add")}</Button>} />
       <p className="mb-4 max-w-prose text-sm text-muted">{t("records.intro")}</p>
       {adding && <AddRecord profileId={profileId} onDone={() => setAdding(false)} />}
       {records.isError && <ErrorNote error={records.error} />}
-      {records.data?.length === 0 && !adding && <p className="text-muted">{t("records.empty")}</p>}
+      {records.data?.length === 0 && !adding && <Empty icon="film">{t("records.empty")}</Empty>}
       <ul className="stagger grid gap-3 sm:grid-cols-2">
         {records.data?.map((r) => <li key={r.id}><RecordCard record={r} profileId={profileId} /></li>)}
       </ul>

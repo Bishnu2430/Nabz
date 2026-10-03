@@ -8,7 +8,8 @@ import {
 } from "../../api/auth";
 import { useDeleteProfile, useProfiles } from "../../api/hooks";
 import type { Lang, Profile } from "../../api/types";
-import { Button, Card, ErrorNote, Field, fieldClass, Loading, Notice, PageTitle } from "../../components/ui";
+import { type IconName } from "../../components/icons";
+import { Button, Card, ErrorNote, Field, fieldClass, Loading, Notice, PageTitle, SectionTitle } from "../../components/ui";
 import { LANGUAGES } from "../../i18n";
 import { TEXT_SIZES, useTextSize, type TextSize } from "../../lib/theme";
 import { MIN_PASSWORD_LENGTH, passwordProblem, useAuthMessage } from "../../lib/account";
@@ -27,7 +28,7 @@ export default function Settings() {
 
   return (
     <>
-      <PageTitle title={t("settings.title")} />
+      <PageTitle icon="settings" title={t("settings.title")} />
       {me.data.totp_required && (
         <p role="alert" className="mb-8 max-w-2xl rounded-md border border-borderline/50 bg-borderline/10 px-4 py-3">
           {t("settings.totp_required")}
@@ -49,10 +50,14 @@ export default function Settings() {
   );
 }
 
+const SECTION_ICON: Record<string, IconName> = {
+  account: "person", security: "key", password: "lock", data: "download", sessions: "devices", delete: "trash",
+};
+
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-h`} className="scroll-mt-6">
-      <h2 id={`${id}-h`} className="mb-3 font-display text-xl font-bold">{title}</h2>
+      <SectionTitle id={`${id}-h`} icon={SECTION_ICON[id]} title={title} />
       <Card className="space-y-4 p-5">{children}</Card>
     </section>
   );
