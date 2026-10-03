@@ -8,13 +8,15 @@ from collections.abc import Iterator
 from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session, sessionmaker
 
+from app.core.config import settings
 from app.db import SessionLocal
 from app.models import AppUser, Profile, Report, UserSession
 from app.models.enums import STAFF_ROLES, UserRole
 from app.services.auth import session_user
 from app.storage import StorageBackend, default_storage
 
-COOKIE = "nabz_session"
+# Behind HTTPS the cookie takes the __Host- prefix: Secure, path /, and never shared with another host (ASVS 3.3.1).
+COOKIE = "__Host-nabz_session" if settings.cookie_secure else "nabz_session"
 CSRF_HEADER = "X-CSRF-Token"
 SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
 

@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | **Document ID** | NBZ-DOC-06 |
-| **Version** | 0.1 · draft |
-| **Last updated** | 2026-09-26 |
+| **Version** | 0.9 |
+| **Last updated** | 2026-10-03 |
 
 ## 1. Repository layout
 
@@ -145,10 +145,22 @@ Base path `/v1`. JSON everywhere except uploads (multipart), status streams (SSE
 | GET | `/admin/overview` · `/admin/jobs?state=` · `/admin/audit?action=&before=` | Staff: health, counts and activity / jobs / audit log | FR-49 | ✓ |
 | GET · PATCH | `/admin/users` · `/admin/users/{id}` | Admin: accounts / change a role (not one's own) | FR-49 | ✓ |
 | POST | `/admin/users/{id}/unlock` · `/admin/users/{id}/sign-out` · `/admin/jobs/{id}/retry` | Admin: unlock / sign out everywhere / retry a failed job | FR-49 | ✓ |
-| CRUD | `/admin/tests`, `/admin/ranges`, `/admin/critical-limits`, `/admin/kb` | Catalogue and knowledge base | FR-35, FR-36 | |
+| PATCH | `/profiles/{id}` | Correct a person's details; typical ranges are re-read and changed reports explained again; a child needs `guardian_confirmed` | FR-02, FR-05 | ✓ |
+| GET · PUT | `/clinician/me` | A clinician's registration / save it (a changed number or council needs a new check) | FR-50 | ✓ |
+| GET | `/clinician/shared` · `/clinician/reports/{id}` | Reports shared with this clinician / one of them, read-only, with notes (audited) | FR-50 | ✓ |
+| POST | `/clinician/reports/{id}/notes` | Leave the family a note | FR-50 | ✓ |
+| GET · POST | `/reports/{id}/grants` | Shares with doctors / share with a verified doctor by email (404 `no_clinician` for anyone else) | FR-50 | ✓ |
+| DELETE · GET | `/grants/{id}` · `/reports/{id}/notes` | Withdraw a share / the doctors' notes on a report | FR-50 | ✓ |
+| GET · POST | `/admin/clinicians` · `/admin/clinicians/{user_id}/verify` | Admin: registrations, unchecked first / mark checked or withdraw the check | FR-50 | ✓ |
+| GET | `/admin/catalogue?q=` · `/admin/catalogue/{code}` | Admin: tests with counts and critical-limit state / one test with aliases, units, ranges, limit and its change history | FR-35 | ✓ |
+| PATCH · PUT | `/admin/catalogue/{code}` · `…/conversions` · `…/ranges` | Admin: names, aliases and believable values / units / default ranges; each validated, audited, and live at once | FR-35 | ✓ |
+| PUT | `/admin/catalogue/{code}/critical-limit` | Admin: propose new critical limits with a reason; the current ones still apply | FR-35 | ✓ |
+| GET · POST | `/review/critical-limits` · `/review/critical-limits/{code}` | Reviewer: proposals first, then unsigned limits / approve (re-checks the test's results), reject, or sign off | FR-35 | ✓ |
+| GET · POST | `/admin/knowledge` | Admin: documents with passages, tests and citations, and the embedding model / add a document for a test | FR-36 | ✓ |
+| POST · DELETE | `/admin/knowledge/reembed` · `/admin/knowledge/{id}/reembed` · `/admin/knowledge/{id}` | Admin: re-embed all or one, in place / delete one | FR-36 | ✓ |
 | GET | `/health`, `/health/ready` | Liveness / readiness (outside `/v1`) | — | ✓ |
 
-Errors follow RFC 9457 problem details (`application/problem+json`) with a stable `type` URI and never echo health data. Errors a person can act on also carry a `code` (`verify_email`, `no_consent`, `too_large`, `file_type`, `bad_pdf`, `too_many_pages`, `duplicate`, `implausible`, `bp_pair`, `future_time`, `too_many`, `not_analysed`, `forbidden`) and its parameters, so the web app words them in the reader's language. Validation errors (422) add an `errors` list of `{field, message}`. A 409 from upload or confirm carries the extra fields the client needs (`report_id`, or the unmapped row IDs).
+Errors follow RFC 9457 problem details (`application/problem+json`) with a stable `type` URI and never echo health data. Errors a person can act on also carry a `code` (`verify_email`, `no_consent`, `too_large`, `file_type`, `bad_pdf`, `too_many_pages`, `duplicate`, `implausible`, `bp_pair`, `future_time`, `too_many`, `not_analysed`, `forbidden`, `guardian_required`, `self_minor`, `password_common`, `no_clinician`, `alias_taken`, `plausible_order`, `conversion_canonical`, `conversion_duplicate`, `range_invalid`, `limit_order`, `limit_empty`, `limit_missing`, `no_proposal`, `kb_duplicate`, `unknown_test`, `embedder_unavailable`) and its parameters, so the web app words them in the reader's language. Validation errors (422) add an `errors` list of `{field, message}`. A 409 from upload or confirm carries the extra fields the client needs (`report_id`, or the unmapped row IDs).
 
 ## 5. Explanation contract
 
@@ -227,6 +239,10 @@ React 19 + TypeScript, built by Vite and served in development by the `web` cont
 - The confirm button stays disabled while any row has no test or no number, and the API enforces the same rule.
 - After confirmation the rows are read-only and the seal is stamped.
 
+**Run-time catalogue.** `app/catalogue/db.py` builds the `CatalogueData` the reader needs from the tables. `LiveCatalogue` in `app/services/interpretation.py` keeps one copy and its interpreter, and rebuilds them when `catalogue_revision` rises. That costs one indexed query per use. The API's `get_interpreter` dependency and the worker's extraction stage both use it; tests can still pass a fixed `CatalogueData`. Every change in `app/services/catalogue_admin.py` raises the revision in its own transaction.
+
+**Security headers.** `SecurityHeaders` in `app/main.py` is a pure ASGI middleware, so streamed responses (progress events) pass through untouched. It sets the headers on the response start.
+
 ## 7. Configuration
 
 All configuration comes from environment variables (see `.env.example`) through `app/core/config.py`. There are no configuration files inside images. Secrets are never logged. The effective configuration, with secrets masked, is logged once at start-up.
@@ -243,3 +259,4 @@ All configuration comes from environment variables (see `.env.example`) through 
 | 0.6 | 2026-09-30 | §4 organ history, report notes, other records and study images; §6 organ panel, exact values, records and viewer, new pages |
 | 0.8 | 2026-10-03 | §4 sharing, care, sample report, questions, review and admin endpoints; error codes; §6 the new pages and components |
 | 0.5 | 2026-09-30 | §4 sessions, CSRF and account endpoints, profile export and deletion, body-map timeline; §6 account screens and body map as built in Sprint 6 |
+| 0.9 | 2026-10-03 | §4 editing a person, clinician, grant and note endpoints, catalogue and knowledge administration, critical-limit review, new error codes; the run-time catalogue and the security headers |

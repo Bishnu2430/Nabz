@@ -102,3 +102,22 @@ def test_ingest_rules(sessions: sessionmaker[Session], storage: LocalVolumeStora
         with pytest.raises(DuplicateReport) as dup:
             ingest_report(s, storage, profile_id=profile.id, data=pdf, **kwargs)
         assert dup.value.report_id == first.id
+
+
+def test_without_a_fixed_catalogue_the_worker_reads_the_stored_one(sessions: sessionmaker[Session],
+                                                                   storage: LocalVolumeStorage,
+                                                                   catalogue: CatalogueData) -> None:
+    """The worker as deployed (FR-35) reads the catalogue administrators edit, from the database."""
+    report = _ingest(sessions, storage, "syn-2026-0001")
+
+    def mapped() -> list[tuple]:
+        with sessions() as s:
+            return sorted((o.raw_name, o.test_id, o.unit) for o in
+                          s.scalars(select(Observation).where(Observation.report_id == report.id)))
+
+    assert Worker(sessions, [ExtractionStage(storage, catalogue)]).run_once()
+    expected = mapped()
+    with sessions.begin() as s:
+        queue.enqueue(s, report.id, JobStage.EXTRACT)
+    assert Worker(sessions, [ExtractionStage(storage)]).run_once()
+    assert mapped() == expected and all(test_id for _, test_id, _ in expected)

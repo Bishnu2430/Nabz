@@ -17,6 +17,8 @@ from sqlalchemy import ColumnElement, select, union
 from sqlalchemy.orm import Session
 
 from app.models import (
+    Clinician,
+    ClinicianNote,
     Consent,
     Explanation,
     HealthRecord,
@@ -28,6 +30,7 @@ from app.models import (
     Reminder,
     Report,
     ReportFile,
+    ReportGrant,
     ReportQuestion,
 )
 from app.storage import StorageBackend
@@ -115,6 +118,18 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
                 "created_at": _iso(e.created_at),
                 "content": e.content,
             } for e in explanations],
+            "shared_with_doctors": [{
+                "doctor": name, "registration": reg, "shared_at": _iso(g.created_at),
+                "withdrawn_at": _iso(g.revoked_at),
+            } for g, name, reg in session.execute(
+                select(ReportGrant, Clinician.full_name, Clinician.registration_no)
+                .join(Clinician, Clinician.user_id == ReportGrant.clinician_user_id)
+                .where(ReportGrant.report_id == r.id).order_by(ReportGrant.created_at))],
+            "doctors_notes": [{"doctor": name, "written_at": _iso(n.created_at), "note": n.text}
+                              for n, name in session.execute(
+                                  select(ClinicianNote, Clinician.full_name)
+                                  .outerjoin(Clinician, Clinician.user_id == ClinicianNote.clinician_user_id)
+                                  .where(ClinicianNote.report_id == r.id).order_by(ClinicianNote.created_at))],
             "questions": [{
                 "asked_at": _iso(q.created_at), "language": q.language.value, "question": q.question,
                 "answer": q.answer, "answered_by": q.mode,
@@ -134,6 +149,7 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
             "date_of_birth": _iso(profile.date_of_birth),
             "relationship": profile.relationship.value,
             "preferred_language": profile.preferred_language.value,
+            "guardian_confirmed_at": _iso(profile.guardian_confirmed_at),
             "added_at": _iso(profile.created_at),
         },
         "consents": [{"purpose": c.purpose.value, "policy_version": c.policy_version,

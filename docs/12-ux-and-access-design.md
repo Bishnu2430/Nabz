@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Document ID** | NBZ-DOC-12 |
-| **Version** | 0.1 · decisions agreed 2026-09-27 |
+| **Version** | 0.7 (decisions agreed 2026-09-27) |
 | **Related** | [SRS](02-software-requirements-specification.md) · [Data design](04-data-design.md) · [Safety & privacy](10-safety-privacy-compliance.md) |
 
 ## 1. Decisions
@@ -33,6 +33,11 @@
 
 Clinicians are verified by an admin against a medical-council registration number before they can receive shared reports. The admin role runs the system without routine access to health data. That is a deliberate privacy property and a jury talking point.
 
+**As built.**
+- **Clinicians (FR-50):** a clinician registers their name, registration number, council and specialty on `/clinician`. An admin checks it on the console's Doctors tab. A family shares a report from the share dialog by entering the doctor's email; any email that isn't a verified clinician gets the same "no checked doctor" answer. The clinician reads the report at `/clinician/r/:id`, in the same read-only view as a share link, and leaves notes the family sees on the results page. Changing the number or council needs a new check. Withdrawing the check, or the share, hides the report at once. Every view is audited.
+- **Critical limits:** an admin's change is a proposal; the reviewer approves or rejects it on the Critical limits tab of `/review`, or signs off a limit as it stands.
+- **Break-glass access is not built:** no route lets an admin read a family's health data at all.
+
 ## 3. Authentication
 
 - **Accounts:** email and password; Argon2id hashes; email verification before first upload; forgot and reset password by an emailed single-use token (hashed at rest, 30-minute expiry).
@@ -45,14 +50,16 @@ Clinicians are verified by an admin against a medical-council registration numbe
 **Schema additions (Sprint 6 migration `20260930_accounts_sessions_tokens`, details in [04 §5.7](04-data-design.md#57-accounts-and-sessions-sprint-6)):**
 - `user_role` gains `clinician` and `reviewer`.
 - New tables: `user_session` (token hash, CSRF token, last seen, revoked) and `auth_token` (confirm-email and reset tokens, hashed, single use).
-- `app_user` gains `email_verified_at`, `totp_secret_enc`, `totp_enabled_at`, `failed_logins` and `locked_until`. The TOTP secret is encrypted in the application with Fernet, keyed from `SECRET_KEY`, rather than with `pgcrypto`: the key then never reaches the database or its logs.
-- Deferred with the clinician features (Should): `clinician_verification`, `profile_member`, `clinician_note`.
+- `app_user` gains `email_verified_at`, `totp_secret_enc`, `totp_enabled_at`, `failed_logins` and `locked_until`. The TOTP secret is encrypted in the application, keyed from `SECRET_KEY`, rather than with `pgcrypto`: the key then never reaches the database or its logs. Since 2026-10-03 new secrets use AES-256-GCM with an HKDF-derived key; older Fernet values are still read ([13 §3](13-security-assessment.md#3-fixed-during-the-assessment)).
+- Built later with the clinician features (FR-50): `clinician` (the registration and its verification), `report_grant` and `clinician_note` ([04 §5.9](04-data-design.md#59-guardians-clinicians-and-the-editable-catalogue)). Not built: `profile_member` (sharing a whole person with another account).
 
 **As built (Sprint 6).**
 - **Rate limits:** 20 account requests per minute per IP address (sign-up, sign-in, resend, forgot password), held in memory in the API process; this is enough for one API instance and moves to PostgreSQL if the API is scaled out.
 - **Same answer for every email:** sign-up and forgot-password answer 202 with the same words whether or not the email has an account. An existing owner gets an email saying someone tried to sign up. Sign-in with an unknown email still runs Argon2 on a dummy hash, so timing doesn't reveal it either.
 - **One-click confirmation:** the emailed link opens a page with a button; nothing is confirmed on page load, so a mail scanner that opens links cannot use up the token.
-- **Session rules:** a password reset signs out every device; a password change signs out the other devices; a new session is issued at every sign-in.
+- **Session rules:** a password reset signs out every device; a password change signs out the other devices; a new session is issued at every sign-in, and the session the browser had is ended.
+- **Common passwords:** sign-up, reset and change refuse the 9,113 passwords of 10 or more characters among the 100,000 most used (NCSC list).
+- **Headers:** every response carries `nosniff`, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`; JSON also gets a locked-down CSP. Behind HTTPS (`COOKIE_SECURE=true`), HSTS is sent and the cookie becomes `__Host-nabz_session`.
 - **Staff:** a reviewer or admin without two-step sign-in can reach only its set-up (API 403 with `"setup": "totp"`; the web app redirects to Settings), and cannot turn it off.
 - **Deletion (FR-33):** deleting a report, a person or the account removes the rows, the uploaded files and the narration audio at once; account deletion needs the password.
 
@@ -200,7 +207,14 @@ Motion is decoration only. Nothing is hidden behind it, and `prefers-reduced-mot
 - `/review` (reviewer: queue, checks playground, red-team run);
 - `/admin` (staff: overview, jobs and audit log; admin: users and roles).
 
-Staff without a family of their own land on their console. The catalogue and knowledge-base screens (`/admin/catalogue`, `/admin/knowledge`) are not built.
+Staff without a family of their own land on their console.
+
+**Built while finishing the requirements:**
+- the catalogue and the knowledge base as tabs of `/admin` (admins), and Critical limits as a tab of `/review`;
+- Doctors (clinician verification) as a tab of `/admin`;
+- `/clinician` (registration and "Shared with me") and `/clinician/r/:id` (the shared report with notes); a clinician with no family starts there;
+- `/terms`, `/about` (sources, licences, image credits, the LOINC notice) and `/help` (questions in six groups), linked from the footer; sign-up links the terms;
+- editing a person's details from their page, with the guardian confirmation for a child.
 
 **Language.** Every interface string exists in Hindi and Odia, and a test fails if one is missing or drops a placeholder. Test names, lab names and units stay as printed on the report. Odia dates use Nabz's own month names, because browsers carry no Odia date data. Errors from the API carry a reason code, so they are worded in the reader's language.
 
@@ -224,3 +238,4 @@ Not yet: `/terms`, `/about`, `/help`, and the clinician area.
 | 0.5 | 2026-10-01 | §5.5 motion and atmosphere; §6 reading a report as cards beside the original |
 | 0.3 | 2026-09-30 | §3 accounts as built in Sprint 6 (schema, rate limits, enumeration resistance, session rules, staff, deletion); §5.3 rice-paper body as built; §6 build status |
 | 0.6 | 2026-10-03 | §6 pages built after Sprint 6 (walkthrough, sharing, story, care, questions, reviewer and admin areas); languages; visual marks |
+| 0.7 | 2026-10-03 | §2 clinicians and critical-limit review as built; §3 AES-GCM secrets, common passwords, headers, session rotation; §6 catalogue, knowledge, doctors, clinician pages, terms, about and help |

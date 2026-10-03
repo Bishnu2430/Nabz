@@ -80,6 +80,8 @@ class Profile(Base):
         pg_enum(Relationship, "relationship"), default=Relationship.SELF
     )
     preferred_language: Mapped[Lang] = mapped_column(pg_enum(Lang, "lang"), default=Lang.EN)
+    # For a person under 18: when the account holder confirmed being their parent or lawful guardian (FR-05)
+    guardian_confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     # What the family typed for the emergency card: blood group, allergies, conditions, medicines, contacts.
     emergency: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     # The person's own targets for home readings, by kind: {"bp": {"high": 130, "high2": 80}, ...}

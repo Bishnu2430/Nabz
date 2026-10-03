@@ -77,3 +77,42 @@ describe("the first-run walkthrough", () => {
     expect(screen.getByRole("button", { name: "Continue with Asha" })).toBeInTheDocument();
   });
 });
+
+describe("people under 18", () => {
+  const years = (n: number) => {
+    const d = new Date();
+    return `${d.getFullYear() - n}-01-15`;
+  };
+
+  it("asks the account holder to confirm being the parent or guardian", async () => {
+    const calls = mockApi({
+      "GET /v1/profiles": () => [asha],
+      "POST /v1/profiles": () => ({ ...asha, id: "p2", display_name: "Riya" }),
+      "GET /v1/profiles/p2/reports": () => [],
+      "GET /v1/profiles/p2/body-map": () => [],
+    });
+    renderRoute("/home");
+    await userEvent.click(await screen.findByRole("button", { name: "Add a person" }));
+    await userEvent.type(screen.getByLabelText("Name"), "Riya");
+    await userEvent.type(screen.getByLabelText("Date of birth"), years(9));
+    await userEvent.selectOptions(screen.getByLabelText("Relationship to you"), "child");
+    await userEvent.click(screen.getByLabelText(/I agree that Nabz may read/));
+    await userEvent.click(screen.getByRole("button", { name: "Add person" }));
+    expect(screen.getByText("Confirm that you are their parent or guardian to continue.")).toBeInTheDocument();
+    expect(calls.some((c) => c.method === "POST")).toBe(false);
+
+    await userEvent.click(screen.getByLabelText(/I am this person's parent or lawful guardian/));
+    await userEvent.click(screen.getByRole("button", { name: "Add person" }));
+    await waitFor(() => expect(calls.find((c) => c.method === "POST")?.body)
+      .toMatchObject({ display_name: "Riya", relationship: "child", guardian_confirmed: true, consent_processing: true }));
+  });
+
+  it("doesn't let someone under 18 add themselves", async () => {
+    mockApi({ "GET /v1/profiles": () => [asha] });
+    renderRoute("/home");
+    await userEvent.click(await screen.findByRole("button", { name: "Add a person" }));
+    await userEvent.type(screen.getByLabelText("Date of birth"), years(15));
+    expect(screen.getByText(/You must be 18 or older to use Nabz yourself/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add person" })).toBeDisabled();
+  });
+});

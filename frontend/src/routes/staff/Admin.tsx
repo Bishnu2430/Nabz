@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import { useMe, type Role } from "../../api/auth";
+import { useAdminClinicians, useVerifyClinician } from "../../api/clinicians";
 import {
   useAdminUsers, useAudit, useJobs, useOverview, useRetryJob, useUserAction, type AuditEntry, type Overview,
 } from "../../api/staff";
@@ -12,8 +13,10 @@ import { Light, StatTile, Tabs } from "../../components/staff/parts";
 import { useToast } from "../../components/Toast";
 import { Button, Card, Empty, ErrorNote, Loading, PageTitle, SectionTitle, fieldClass } from "../../components/ui";
 import { formatDate, formatDateTime } from "../../lib/format";
+import { CatalogueTab } from "./CatalogueTab";
+import { KnowledgeTab } from "./KnowledgeTab";
 
-type Tab = "overview" | "users" | "jobs" | "audit";
+type Tab = "overview" | "users" | "doctors" | "catalogue" | "knowledge" | "jobs" | "audit";
 const ROLES: Role[] = ["user", "clinician", "reviewer", "admin"];
 
 /**
@@ -28,7 +31,10 @@ export default function Admin() {
   const tab = (params.get("tab") as Tab | null) ?? "overview";
   const tabs = [
     { id: "overview" as const, label: t("console.tab_overview"), icon: "trend" as const },
-    ...(isAdmin ? [{ id: "users" as const, label: t("console.tab_users"), icon: "family" as const }] : []),
+    ...(isAdmin ? [{ id: "users" as const, label: t("console.tab_users"), icon: "family" as const },
+      { id: "doctors" as const, label: t("console.tab_doctors"), icon: "stethoscope" as const },
+      { id: "catalogue" as const, label: t("console.tab_catalogue"), icon: "tests" as const },
+      { id: "knowledge" as const, label: t("console.tab_knowledge"), icon: "book" as const }] : []),
     { id: "jobs" as const, label: t("console.tab_jobs"), icon: "clock" as const },
     { id: "audit" as const, label: t("console.tab_audit"), icon: "book" as const },
   ];
@@ -38,6 +44,9 @@ export default function Admin() {
       <Tabs label={t("console.admin_title")} tabs={tabs} value={tab} onChange={(id) => setParams({ tab: id }, { replace: true })} />
       {tab === "overview" && <OverviewTab />}
       {tab === "users" && isAdmin && <UsersTab />}
+      {tab === "doctors" && isAdmin && <DoctorsTab />}
+      {tab === "catalogue" && isAdmin && <CatalogueTab />}
+      {tab === "knowledge" && isAdmin && <KnowledgeTab />}
       {tab === "jobs" && <JobsTab canRetry={isAdmin} />}
       {tab === "audit" && <AuditTab />}
     </>
@@ -214,6 +223,58 @@ function UsersTab() {
         </div>
       )}
       <p className="mt-3 max-w-prose text-sm text-muted">{t("console.users_note")}</p>
+    </section>
+  );
+}
+
+/** Clinicians waiting for their registration to be checked first; reports can be shared only with verified ones. */
+function DoctorsTab() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.resolvedLanguage ?? "en";
+  const doctors = useAdminClinicians();
+  const verify = useVerifyClinician();
+  const toast = useToast();
+  if (doctors.isPending) return <Loading />;
+  if (doctors.isError) return <ErrorNote error={doctors.error} />;
+  return (
+    <section>
+      {verify.isError && <div className="mb-3"><ErrorNote error={verify.error} /></div>}
+      {doctors.data.length === 0 ? <Empty icon="stethoscope">{t("console.no_doctors")}</Empty> : (
+        <div className="overflow-x-auto rounded-lg border border-hairline bg-raised">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b border-hairline text-muted">
+              <tr>
+                {["doctor", "registration", "status", "actions"].map((c) => (
+                  <th key={c} className="px-3 py-2 font-medium">{t(`console.d_${c}`)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-hairline">
+              {doctors.data.map((d) => (
+                <tr key={d.user_id}>
+                  <td className="px-3 py-2">
+                    <span className="block font-medium">{d.full_name}</span>
+                    <span className="text-muted">{[d.specialty, d.email].filter(Boolean).join(" · ")}</span>
+                  </td>
+                  <td className="px-3 py-2"><span className="tabular block">{d.registration_no}</span><span className="text-muted">{d.council}</span></td>
+                  <td className="px-3 py-2">
+                    <Badge ok={Boolean(d.verified_at)} label={d.verified_at
+                      ? t("console.d_verified", { date: formatDate(d.verified_at, lang) }) : t("console.d_waiting")} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <button type="button" disabled={verify.isPending} className={d.verified_at ? "text-abnormal hover:underline" : "text-link hover:underline"}
+                      onClick={() => verify.mutate({ id: d.user_id, verified: !d.verified_at },
+                        { onSuccess: () => toast(t(d.verified_at ? "console.d_done_unverify" : "console.d_done_verify", { name: d.full_name })) })}>
+                      {t(d.verified_at ? "console.d_unverify" : "console.d_verify")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <p className="mt-3 max-w-prose text-sm text-muted">{t("console.doctors_note")}</p>
     </section>
   );
 }

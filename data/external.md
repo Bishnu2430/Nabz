@@ -74,3 +74,7 @@ Location: `data/external/models/multilingual-e5-small/`, downloaded 2026-09-29.
 ## Wikimedia Commons medical images (sample family)
 
 Five openly licensed X-ray and MRI images (CC0, public domain, CC BY 2.0, CC BY-SA 4.0), used in the imaging reports that `python -m tools.family` gives the sample family. They are committed in [`data/imaging/`](imaging/README.md), which lists each file's author, licence, size and SHA-256. Downloaded 2026-09-30.
+
+## Most used passwords (sign-up check)
+
+`data/security/common-passwords.txt` holds the 9,113 passwords of 10 or more characters (the minimum Nabz accepts), lower-cased, from the UK National Cyber Security Centre's list of the 100,000 most used passwords, as published in SecLists (`Passwords/Common-Credentials/100k-most-used-passwords-NCSC.txt`, **MIT licence**), downloaded 2026-10-03. Sign-up, reset and change of password refuse any of them, whatever the case (OWASP ASVS 5.0 6.2.4).

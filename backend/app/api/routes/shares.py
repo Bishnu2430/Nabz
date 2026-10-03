@@ -90,6 +90,16 @@ def shared_report(token: str, request: Request, session: Session = Depends(get_s
     report = session.get(Report, link.report_id)
     if report is None or report.deleted_at is not None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, GONE)
+    link.views += 1
+    link.last_viewed_at = now()
+    audit.record(session, None, "share.view", "report", report.id)
+    view = shared_view(session, report)
+    session.commit()
+    return view.model_copy(update={"expires_at": link.expires_at})
+
+
+def shared_view(session: Session, report: Report) -> SharedReportOut:
+    """One report as a doctor sees it, read-only: through a share link, or as a clinician it was shared with."""
     profile = session.get(Profile, report.profile_id)
     _, results, organs = report_view(session, report)
 
@@ -99,14 +109,9 @@ def shared_report(token: str, request: Request, session: Session = Depends(get_s
     chosen = (explanations.get(profile.preferred_language.value) or explanations.get("en")
               or next(iter(explanations.values()), None))
     questions = list((chosen.content if chosen else {}).get("doctor_questions") or [])
-
-    link.views += 1
-    link.last_viewed_at = now()
-    audit.record(session, None, "share.view", "report", report.id)
-    session.commit()
     return SharedReportOut(
         person=SharedPerson(display_name=profile.display_name, sex=profile.sex,
                             age=age_on(profile, result_date(report))),
         lab_name=report.lab_name, collected_at=report.collected_at, note=report.note,
-        critical=[r for r in results if r.critical], organs=organs, questions=questions, expires_at=link.expires_at,
+        critical=[r for r in results if r.critical], organs=organs, questions=questions,
     )

@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Document ID** | NBZ-DOC-02 |
-| **Version** | 0.1 · draft |
+| **Version** | 0.3 |
 | **Structure** | Adapted from ISO/IEC/IEEE 29148 |
-| **Last updated** | 2026-09-26 |
+| **Last updated** | 2026-10-03 |
 
 ## 1. Introduction
 
@@ -46,7 +46,7 @@ Nabz is a self-contained system: a web client, a REST API, an asynchronous worke
 |---|---|---|---|
 | Patient | Adult managing their own reports | A few times a year | Low to medium, mostly on a phone |
 | Caregiver | Manages reports for parents or children through family profiles | Monthly | Medium |
-| Doctor | Opens a shared summary link; no account | Occasional | High (domain) |
+| Doctor | Opens a shared link with no account, or, with a clinician account an admin has verified, reads the reports families share with them and leaves notes | Occasional | High (domain) |
 | Clinical reviewer | Clinical advisor: signs off critical limits and explanation templates; works the de-identified safety queue | Weekly | High (domain) |
 | Administrator | Runs the system: users and roles, clinician verification, catalogue, knowledge base, jobs, audit log. No routine access to health data | Weekly | High |
 
@@ -94,6 +94,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | UC-16 | Review audit & safety reports | Administrator | Access log, validator failures, feedback | C |
 | UC-17 | View a shared summary | Doctor | Read-only page through a share link | C |
 | UC-18 | Generate grounded explanation | LLM service | Retrieval plus generation plus validation | M |
+| UC-19 | Read a report shared with me | Doctor (clinician account) | Register and be verified; read shared reports; leave a note for the family | C |
 
 ## 4. Functional requirements
 
@@ -170,6 +171,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 | FR-32 | The system shall export all of a profile's data as JSON and a printable PDF summary. | M | UC-12 |
 | FR-33 | The system shall hard-delete a report or profile on request: files, rows and derived data. Only a minimal audit entry remains. | M | UC-12 |
 | FR-34 | The system shall create expiring (default 7 days), revocable read-only share links. | C | UC-11, UC-17 |
+| FR-50 | The system shall let a family share a report with a clinician account whose medical-council registration an admin has verified. The clinician sees only reports shared with them, read-only, until the share is withdrawn; can leave notes the family sees beside the report; and every view is audited. Sharing with any other email shall answer as if no such account exists. | C | UC-11, UC-19 |
 
 ### 4.7a Everyday care
 
@@ -184,12 +186,13 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 
 | ID | Requirement | Priority | Use case |
 |---|---|---|---|
-| FR-35 | Administrators shall manage tests, aliases, unit conversions, reference ranges and critical limits. Every change is logged. | S | UC-14 |
+| FR-35 | Administrators shall manage tests, aliases, unit conversions, reference ranges and critical limits. Every change is logged with its previous value and applies without a restart. A change to a critical limit applies only after a clinical reviewer approves it, and approval re-checks the confirmed results of that test. | S | UC-14 |
 | FR-36 | Administrators shall add knowledge documents with source, URL and licence, and trigger re-embedding. | S | UC-15 |
 | FR-37 | The system shall log every read and write of health data in `audit_log`. | S | UC-16 |
 | FR-38 | The system shall provide an offline mode that replays cached explanations and audio for the bundled sample reports. | M | — |
 | FR-48 | Clinical reviewers shall see a de-identified queue of explanations the checks blocked, questions that got a fixed reply and explanations rated unhelpful, with what each check caught; record a verdict on each; try the checks on any text; and run the red-team suites on demand. | S | UC-18 |
 | FR-49 | Staff shall see system health, counts, recent activity, the job monitor and the audit log, without any name, value or report; administrators shall also manage users and roles, unlock accounts, sign them out and retry failed jobs. | S | UC-14, UC-16 |
+| FR-51 | The system shall publish, in English, Hindi and Odia and without an account: terms of use, the privacy notice, what Nabz is and is not, an about page listing every data source, model, font and library with its licence and the image credits, and a help page answering common questions. | S | — |
 
 ## 5. Non-functional requirements
 
@@ -236,3 +239,4 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 |---|---|---|
 | 0.1 | 2026-09-26 | First draft: 38 FRs, 18 NFRs, 18 use cases |
 | 0.2 | 2026-10-03 | FR-42 – FR-49: story mode, reminders, home readings, emergency card, first-run walkthrough, questions about a report, the safety review and the system pages |
+| 0.3 | 2026-10-03 | FR-50 doctors on Nabz and UC-19; FR-51 public information pages; FR-35 critical-limit changes need clinical review; doctor user class |

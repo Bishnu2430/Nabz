@@ -24,9 +24,10 @@ export default function Home() {
 
   const created = (p: Profile) => navigate(`/p/${p.id}/upload`);
 
-  // an account with no one in it yet starts with the walkthrough; staff start at their console
+  // an account with no one in it yet starts with the walkthrough; doctors and staff start at their own pages
   if (profiles.data.length === 0) {
-    return <Navigate to={role === "reviewer" ? "/review" : role === "admin" ? "/admin" : "/welcome"} replace />;
+    const start = { reviewer: "/review", admin: "/admin", clinician: "/clinician" } as Record<string, string>;
+    return <Navigate to={start[role ?? ""] ?? "/welcome"} replace />;
   }
 
   return (

@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
+import { useLimitsForReview } from "../../api/catalogue";
 import {
   useCheck, useRedteam, useReviewQueue, useReviewSummary, useVerdict, type RedteamCase, type ReviewItem, type ReviewKind,
 } from "../../api/staff";
@@ -12,8 +13,9 @@ import { useToast } from "../../components/Toast";
 import { Button, Card, Empty, ErrorNote, Loading, PageTitle, fieldClass } from "../../components/ui";
 import { LANGUAGES } from "../../i18n";
 import { formatDate } from "../../lib/format";
+import { LimitsTab } from "./LimitsTab";
 
-type Tab = "queue" | "check" | "redteam";
+type Tab = "queue" | "limits" | "check" | "redteam";
 const KIND_ICON: Record<ReviewKind, IconName> = { explanation: "book", question: "chat", feedback: "pen" };
 
 /**
@@ -27,6 +29,7 @@ export default function SafetyReview() {
   const tab = (params.get("tab") as Tab | null) ?? "queue";
   const summary = useReviewSummary().data;
   const open = summary ? summary.open.explanation + summary.open.question + summary.open.feedback : undefined;
+  const pending = useLimitsForReview().data?.filter((l) => l.critical.proposed).length;
 
   return (
     <>
@@ -34,9 +37,11 @@ export default function SafetyReview() {
       {summary && <SummaryTiles />}
       <Tabs label={t("console.review_title")} value={tab} onChange={(id) => setParams({ tab: id }, { replace: true })}
         tabs={[{ id: "queue", label: t("console.tab_queue"), icon: "tests", count: open },
+          { id: "limits", label: t("console.tab_limits"), icon: "alert", count: pending },
           { id: "check", label: t("console.tab_check"), icon: "search" },
           { id: "redteam", label: t("console.tab_redteam"), icon: "shield" }]} />
       {tab === "queue" && <Queue />}
+      {tab === "limits" && <LimitsTab />}
       {tab === "check" && <Playground />}
       {tab === "redteam" && <Redteam />}
     </>

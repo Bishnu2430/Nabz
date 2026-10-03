@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | **Document ID** | NBZ-DOC-11 |
-| **Version** | 0.1 · draft |
-| **Last updated** | 2026-09-26 |
+| **Version** | 1.0 |
+| **Last updated** | 2026-10-03 |
 
 ## 1. Objectives
 
@@ -86,26 +86,33 @@ Written in the college report format. *Status* is filled in when each case is ex
 | Test ID | Test case title | Test condition | System behaviour | Expected result | Status |
 |---|---|---|---|---|---|
 | TC-01 | Register and sign in | New email + valid password; then wrong password 5 times | Creates account; locks out after repeated failures | Session cookie set; 429 after the limit | Pass (automated, §13) |
-| TC-02 | Minor profile needs guardian confirmation | Create profile with DOB < 18 years ago | Blocks consent until guardian box is ticked | Consent saved only after confirmation | Planned |
-| TC-03 | Upload without processing consent | Profile with processing consent off; upload PDF | Rejects upload | 403 problem response; no job created | Planned |
-| TC-04 | No external call without AI consent | External-AI consent off; confirm report | Uses template explanation only | No outbound LLM request (mock asserts zero calls) | Planned |
-| TC-05 | Clean PDF end to end | Synthetic one-page CBC PDF | Queued → processing → needs_review via SSE | All rows extracted; p95 time within NFR-01 | Planned |
-| TC-06 | Review gate | Report in `needs_review`; call insights endpoint | Refuses to analyse | 409 until `/confirm` is called; then analysis runs | Planned |
-| TC-07 | Unknown test flagged | Report containing a test not in the catalogue | Row mapped to nothing | Row shown as "not recognised", not mis-mapped | Planned |
-| TC-08 | Range source fallback | Report row without a printed range; profile female, 45 | Uses catalogue range for sex and age | `ref_source = catalogue`, label shown in UI | Planned |
-| TC-09 | Significant change | Two HbA1c values differing by more than the RCV | Marks change as significant | Badge "significant change"; not shown when below the RCV | Planned |
-| TC-10 | Critical value | Potassium above the critical limit | Fixed alert first, before any generated text | Alert text equals the reviewed template exactly | Planned |
-| TC-11 | Trend projection | Synthetic history with a planted upward slope | Theil–Sen slope and crossing date | Slope within ±10 % of planted; date shown | Planned |
-| TC-12 | De-identified payload | Profile with name, DOB, phone | Builds LLM request | Payload contains no name, phone, exact DOB or image | Planned |
-| TC-13 | Banned intent blocked | Mock LLM returns "You have diabetes, take metformin" | Validator fails | Template explanation shown; `safety_status = fallback` | Planned |
-| TC-14 | Number mismatch blocked | Mock LLM text says 7.9 when value is 6.9 | Validator fails | Fallback used; event logged | Planned |
-| TC-15 | Citations required | Mock LLM omits citations for one test | Validator fails | Fallback used | Planned |
-| TC-16 | Doctor questions present | Normal flow | Explanation JSON has 3–6 questions | Rendered in UI and print view | Planned |
-| TC-17 | Language switch | Switch EN → HI → OR on the insights page | Loads or generates each language | UI strings and explanation in the chosen script; no reload | Planned |
+| TC-02 | Minor profile needs guardian confirmation | Create profile with DOB < 18 years ago | Blocks consent until guardian box is ticked | Consent saved only after confirmation | Pass (`test_profiles.py::test_a_child_needs_a_parent_or_guardian_to_consent`; correcting a birth date to a child's asks again) |
+| TC-03 | Upload without processing consent | Profile with processing consent off; upload PDF | Rejects upload | 403 problem response; no job created | Pass, with a difference: the API answers 400 `no_consent`, not 403; nothing is stored or queued (`test_worker.py::test_ingest_rules`) |
+| TC-04 | No external call without AI consent | External-AI consent off; confirm report | Uses template explanation only | No outbound LLM request (mock asserts zero calls) | Pass (`test_explanation_service.py::test_without_consent_the_template_is_used_and_nothing_leaves`) |
+| TC-05 | Clean PDF end to end | Synthetic one-page CBC PDF | Queued → processing → needs_review via SSE | All rows extracted; p95 time within NFR-01 | Pass (`test_worker.py::test_pdf_report_is_extracted_for_review`; timings in §9) |
+| TC-06 | Review gate | Report in `needs_review`; call insights endpoint | Refuses to analyse | 409 until `/confirm` is called; then analysis runs | Pass as built: only `/confirm` queues analysis and values lock after it (`test_api.py::test_upload_review_confirm`); before that the insights endpoint answers `analysed: false` instead of 409 |
+| TC-07 | Unknown test flagged | Report containing a test not in the catalogue | Row mapped to nothing | Row shown as "not recognised", not mis-mapped | Pass (`test_matcher.py::test_unrelated_text_does_not_match`; the row is shown for the person to choose a test) |
+| TC-08 | Range source fallback | Report row without a printed range; profile female, 45 | Uses catalogue range for sex and age | `ref_source = catalogue`, label shown in UI | Pass (`test_matcher.py::test_falls_back_to_catalogue_range_by_sex`; the label "typical range" in the review and results) |
+| TC-09 | Significant change | Two HbA1c values differing by more than the RCV | Marks change as significant | Badge "significant change"; not shown when below the RCV | Pass (`test_analysis.py::test_change_significance`, `test_analysis_service.py::test_rcv_verdict_on_small_change`) |
+| TC-10 | Critical value | Potassium above the critical limit | Fixed alert first, before any generated text | Alert text equals the reviewed template exactly | Pass (`test_analysis_service.py::test_status_and_critical_limits`, `test_explanation_service.py::test_critical_values_never_get_generated_prose`, `test_explain.py::test_template_for_critical_values_says_contact_a_doctor_today`) |
+| TC-11 | Trend projection | Synthetic history with a planted upward slope | Theil–Sen slope and crossing date | Slope within ±10 % of planted; date shown | Pass (`test_analysis.py::test_confirmed_rising_hba1c_projects_the_crossing`; §11) |
+| TC-12 | De-identified payload | Profile with name, DOB, phone | Builds LLM request | Payload contains no name, phone, exact DOB or image | Pass (`test_explanation_service.py::test_the_request_is_de_identified`, `test_explain.py::test_prompt_holds_no_identifiers_and_pins_the_schema`) |
+| TC-13 | Banned intent blocked | Mock LLM returns "You have diabetes, take metformin" | Validator fails | Template explanation shown; `safety_status = fallback` | Pass (`test_explanation_service.py::test_unsafe_output_falls_back_to_the_template`; 82 red-team cases) |
+| TC-14 | Number mismatch blocked | Mock LLM text says 7.9 when value is 6.9 | Validator fails | Fallback used; event logged | Pass (`test_explain.py::test_every_number_must_come_from_the_input`) |
+| TC-15 | Citations required | Mock LLM omits citations for one test | Validator fails | Fallback used | Pass (`test_explain.py::test_citations_must_be_given_and_belong_to_the_test`) |
+| TC-16 | Doctor questions present | Normal flow | Explanation JSON has 3–6 questions | Rendered in UI and print view | Pass (`test_explain.py`: fewer than 3 questions is rejected; the template always has them) |
+| TC-17 | Language switch | Switch EN → HI → OR on the insights page | Loads or generates each language | UI strings and explanation in the chosen script; no reload | Pass (`i18n.test.ts`; `test_explanation_service.py::test_worker_explains_in_the_requested_language`; `Pages.test.tsx` switches language without a reload) |
 | TC-18 | Body map status | Report with high ALT, normal creatinine | Colours organ systems | Liver amber, kidneys green; click flies to liver card | Pass: flat view automated, 3D by hand (§13) |
-| TC-19 | Export | Request JSON and PDF export | Generates files | JSON validates against the export schema; PDF opens | JSON passes (§13); PDF not built |
+| TC-19 | Export | Request JSON and PDF export | Generates files | JSON validates against the export schema; PDF opens | JSON passes (§13); the printable summary (`/p/:id/summary`) prints to PDF from the browser |
 | TC-20 | Hard delete | Delete a profile with reports | Removes rows and files | No rows or files remain; one audit entry exists | Pass (automated, §13) |
-| TC-21 | Offline demo | Disconnect network; run demo script | Serves cached explanations and audio | Demo completes without errors | Planned |
+| TC-21 | Offline demo | Disconnect network; run demo script | Serves cached explanations and audio | Demo completes without errors | Pass: one rehearsal with the network cut, 2026-10-03 (§16); NFR-18 asks for 3 |
+| TC-22 | Correcting a person's details | Change the sex of a person whose results use typical ranges | Re-reads those ranges and re-analyses | Changed statuses; changed reports explained again in the languages they had | Pass (`test_profiles.py::test_changing_sex_rereads_typical_ranges_and_rewrites_what_changed`) |
+| TC-23 | Sharing with a doctor on Nabz | Share with a verified clinician's email, then with an unverified one and a member's | Verified: read-only report, notes reach the family, withdrawal hides it; others: the same "no checked doctor" reply | 404 `no_clinician` for both others; every view audited | Pass (`test_clinicians.py`, `Clinician.test.tsx`) |
+| TC-24 | A catalogue edit applies at once | Admin adds an alias; then one that names another test | The next reading matches the alias; the clash is refused | History holds before and after; 409 `alias_taken` | Pass (`test_catalogue_admin.py::test_an_alias_is_used_at_once_and_a_clash_is_refused`) |
+| TC-25 | A critical limit needs clinical review | Admin proposes potassium high 5.5 for a stored 5.8 | The old limit applies until a reviewer approves; approval re-checks | 5.8 stays "high", then becomes "critical high" and is explained again | Pass (`test_catalogue_admin.py::test_a_critical_limit_applies_only_after_clinical_review`) |
+| TC-26 | Knowledge document | Admin adds a passage text for HbA1c | Chunked by section and embedded; duplicates refused; re-embedded; deleted | 2 passages; 409 `kb_duplicate`; audited | Pass (`test_catalogue_admin.py::test_knowledge_documents_are_chunked_embedded_and_removed`) |
+| TC-27 | Public pages in three languages | Open `/help`, `/about`, `/terms` signed out; switch to Odia | Pages render; sign-up links the terms | Answers open on demand; licences and the LOINC notice shown | Pass (`Pages.test.tsx`) |
+| TC-28 | Security baseline | Any API request; sign up with a common password; sign in twice | Headers on every response; password refused; old session ended | ASVS 5.0 Level 1 (§16) | Pass (`test_auth.py`) |
 
 ## 7. Entry and exit criteria
 
@@ -249,7 +256,10 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 |---|---|---|---|
 | explain-v2 | 16 | 3 (19 %) | judge 8 · invented number 3 · diagnosis rule 1 · rate limit 3 |
 | explain-v3 | 7 (run stopped) | 2 (29 %) | judge 2 · rate limit 3 |
-| explain-v4 (current) | not yet measured | — | — |
+| explain-v4 | not measured | — | — |
+| explain-v5 | 24 (8 reports × EN, HI, OR) | 4 (17 %) | diagnosis rule 6 · judge 6 · Odia script 4 · invented number 3 · treatment rule 1 · provider 1 |
+| explain-v6 | 9 (3 reports × 3 languages; the daily token limit ended the run) | 4 (44 %); the same 9 under v5: 1 | diagnosis rule 1 · judge 1 · treatment rule 1 · Odia script 1 · provider 1 |
+| explain-v7 (current) | not measured: v6 without the cause example the model copied (§16) | — | — |
 
 **What the runs showed, and what changed:**
 - **Invented numbers.**
@@ -374,6 +384,69 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 - the reviewer's queue, playground and red-team run;
 - the system pages as a reviewer and as an admin.
 
+## 16. Finishing the requirements
+
+**Automated tests:** backend 475, web app 108.
+
+| Area | Tests | What they check |
+|---|---|---|
+| Guardians and editing a person | `test_profiles.py`, `Home.test.tsx` | A child needs a parent or guardian; nobody under 18 adds themselves; editing re-reads typical ranges and re-explains what changed |
+| Offline (FR-38) | `python -m tools.offline rehearse` | One report end to end on a throwaway account |
+| Doctors on Nabz (FR-50) | `test_clinicians.py` (3), `Clinician.test.tsx` (6) | Registration and verification; sharing only with a verified doctor, with the same reply for anyone else; read-only view; notes; withdrawal; audit; export |
+| Catalogue and knowledge (FR-35, FR-36) | `test_catalogue_admin.py` (5), `test_worker.py`, `Catalogue.test.tsx` (4) | Edits validated, audited and used at once; the worker reads the stored catalogue; critical limits wait for review; knowledge documents added, re-embedded and deleted |
+| Public pages (FR-51) | `Pages.test.tsx` (3) | Help, about with licences and the LOINC notice, terms in three languages, linked from sign-up and the footer |
+| Security | `test_auth.py` (4 new) | Headers, charset, HSTS behind HTTPS, common passwords, session rotation, AES-GCM |
+
+**Offline rehearsal (TC-21, NFR-18).** With the database, API and worker on an internal Docker network (`compose.offline.yaml`):
+- the rehearsal read the sample report, analysed it and explained it (template, `provider_error`) in 8 s;
+- questions got rule answers;
+- the browser made no request outside the machine.
+
+One rehearsal of the three NFR-18 asks for.
+
+**3D frame rate (NFR-03).** Measured on the reference machine's Intel Iris Xe (Chromium, 1920 × 1080 window). 300 frames were rendered back to back through React Three Fiber's `advance()`, each followed by `gl.finish()` so the time includes the GPU. The scene has 75 draw calls and 60,204 triangles.
+
+| Canvas | Mean frame | p95 frame | fps at p95 |
+|---|---|---|---|
+| In the page (645 × 520) | 1.32 ms | 3.1 ms | 323 |
+| 1920 × 1080 | 1.40 ms | 3.4 ms | 294 |
+| 1920 × 1080 at pixel ratio 1.5 (2880 × 1620) | 1.76 ms | 4.3 ms | 233 |
+
+**Met:** at least 233 fps against a target of 45. On screen the rate is capped by the display (60 Hz).
+
+**Security (NFR-09).** The OWASP ASVS 5.0 Level 1 self-assessment ([13](13-security-assessment.md)) found 50 requirements met, 4 partial, 3 not met and 13 not applicable. Six findings were fixed during it. What is left needs HTTPS in front of the demonstration, an expiry for a staff account's first password, and an accepted exception for capability links. `npm audit` and OSV found no known vulnerabilities.
+
+**Live explanation runs (Groq free tier).**
+- **explain-v5, 24 explanations:** 4 shown from the model (EN 1, HI 2, OR 1).
+  - English drafts kept writing "indicating" and "This suggests".
+  - Odia summaries came back in English.
+  - Numbers such as "2–3 months" for HbA1c were copied from the passages.
+  - The judge called "आपका ALT 66.0 U/L है" ("your ALT is 66.0 U/L") a diagnosis.
+- **explain-v6** addresses each of those: no numbers from passages and no counting; the interpretive verbs listed in every language; every field in the reader's language; the judge told that stating a value in any language is required.
+  - On the same 3 reports in 3 languages, 4 of 9 were shown from the model, against 1 of 9 under v5.
+- **explain-v7** removes a leak the clinical review packet found: the model gave "how the body stores iron", an example in the prompt, as a cause of a high ALT. Causes now come only from the test's passage.
+- **Readability (NFR-12):** Flesch–Kincaid grade 5.2 (v5) and 6.5 (v6) for the English explanations shown. Met (≤ 8).
+- **Speed (NFR-02):** generation took 4.4–10.5 s, median 6.8 s (v6, both calls, rate-limit waits excluded). That meets the 20 s target.
+  - On the free tier an explanation and its judge need more than the 8,000 tokens a minute allowed, so the judge waits up to a minute: end to end 4–84 s.
+  - The tools now record the wait apart (`waited_ms`).
+- **Daily limit:** the free tier allows 200,000 tokens a day. The two runs used it up, and in the meantime explanations and answers fall back to the template and rules, as designed. The rest of the v6/v7 run and the model half of the Ask evaluation wait for it to refill.
+
+**Live Ask Nabz run** (`python -m tools.eval.questions`, 81 questions: the 57 red-team questions and 24 written from the report's own results, in EN, HI and OR).
+- **Rules:** all 45 questions that must get a fixed reply got it, in every language.
+- 5 answerable red-team questions got "this report has no result for …" or "only questions about this report", because they name haemoglobin or creatinine and this report has neither. That is the right reply for this report.
+- **Model answers:** not measured. The daily token limit was reached before the run, so every model call fell back to the rule-built answer. Run again when the limit has refilled:
+
+```bash
+docker compose exec api python -m tools.eval.questions --profile "Ramesh Mohanty" --pause 30 --out /srv/data/eval/questions-v2.jsonl
+```
+
+**Still to do, outside the code:**
+- the clinical review ([packet](review/clinical-review-packet.md));
+- the native-speaker review of Hindi and Odia (T2.5);
+- usability sessions ([plan](review/usability-test-plan.md));
+- two more offline rehearsals;
+- a complete explain-v7 run and the model half of the Ask evaluation, after the daily limit refills.
+
 ## Revision history
 
 | Version | Date | Change |
@@ -387,3 +460,4 @@ docker compose exec api python -m tools.eval.explanations --profile "Explanation
 | 0.7 | 2026-09-30 | §13 Sprint 6 accounts, data rights and body map; TC-01, TC-18–TC-20 status |
 | 0.8 | 2026-09-30 | §14 sample family, records, imaging viewer and exact values |
 | 0.9 | 2026-10-03 | §15 sharing, story, care, walkthrough, questions, the safety review and system pages, languages |
+| 1.0 | 2026-10-03 | TC-02 – TC-21 status; TC-22 – TC-28; §12 explain-v5 to v7 runs; §16 doctors, catalogue, pages, security, offline rehearsal, frame rate, live runs and what is left |

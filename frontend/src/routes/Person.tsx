@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Modal } from "../components/Modal";
+import { ProfileForm } from "../components/ProfileForm";
+import { useToast } from "../components/Toast";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
@@ -25,6 +28,8 @@ export default function Person() {
   const reports = useReports(id);
   const frames = useBodyMap(id).data ?? [];
   const [organ, setOrgan] = useState<OrganCode | null>(null);
+  const [editing, setEditing] = useState(false);
+  const toast = useToast();
 
   if (profiles.isPending || reports.isPending) return <Loading />;
   if (profiles.isError) return <ErrorNote error={profiles.error} />;
@@ -46,7 +51,19 @@ export default function Person() {
         subtitle={[t(`profile_form.rel_${profile.relationship}`), t("home.reports", { count: profile.reports }),
           profile.last_tested && t("home.last_tested", { date: formatDate(profile.last_tested, i18n.resolvedLanguage ?? "en") })]
           .filter(Boolean).join(" · ")}
-        action={reports.data.length > 0 && upload} />
+        action={<div className="flex flex-wrap items-center gap-3">
+          <button type="button" onClick={() => setEditing(true)}
+            className="btn inline-flex items-center gap-1.5 rounded-md border border-hairline bg-raised px-3 py-2 text-sm hover:border-ink/40">
+            <Icon name="pen" size={16} />{t("person.edit")}
+          </button>
+          {reports.data.length > 0 && upload}
+        </div>} />
+      {editing && (
+        <Modal title={t("profile_form.edit_title", { name: profile.display_name })} onClose={() => setEditing(false)}>
+          <ProfileForm profile={profile} onCancel={() => setEditing(false)}
+            onCreated={() => { setEditing(false); toast(t("toast.profile_saved")); }} />
+        </Modal>
+      )}
       <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
         {reports.data.length > 0 && (
           <Link to={`/p/${id}/story`}

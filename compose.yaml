@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
     environment:
       API_TARGET: http://api:8000   # Vite proxies /v1 to the API inside the Compose network
-    command: ["sh", "-c", "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"]
+    command: ["sh", "-c", "npm install --no-audit --no-fund --prefer-offline && npm run dev -- --host 0.0.0.0"]
     volumes:
       - ./frontend:/app
       - web_node_modules:/app/node_modules   # Linux binaries stay out of the Windows checkout

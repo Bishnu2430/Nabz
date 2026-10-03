@@ -3,9 +3,7 @@
 import logging
 import signal
 import threading
-from pathlib import Path
 
-from app.catalogue import read_catalogue
 from app.core.config import settings
 from app.db import SessionLocal
 from app.explain.llm import GroqProvider
@@ -17,10 +15,9 @@ from app.worker.stages import AnalysisStage, ExplanationStage, ExtractionStage
 
 def main() -> None:
     logging.basicConfig(level=settings.log_level.upper(), format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-    catalogue = read_catalogue(Path(settings.data_dir) / "catalogue")
     # Without a key or the embedding model, explanations use the template built from computed values.
     provider = GroqProvider(settings.groq_api_key, settings.llm_model) if settings.groq_api_key else None
-    stages = [ExtractionStage(default_storage(), catalogue), AnalysisStage(),
+    stages = [ExtractionStage(default_storage()), AnalysisStage(),
               ExplanationStage(provider, default_embedder())]
     worker = Worker(SessionLocal, stages)
     stop = threading.Event()

@@ -19,7 +19,13 @@ Sprint 6 is done: accounts with two-step sign-in for staff; data export and dele
 - a first-run walkthrough with a sample report;
 - questions about a report, with fixed replies to anything diagnostic ([ADR-0013](docs/adr/0013-rules-first-questions.md));
 - a safety review for clinical reviewers and system pages for staff;
-- the whole interface in Hindi and Odia.
+- the whole interface in Hindi and Odia;
+- a parent or guardian's consent for a child, and editing a person's details;
+- an offline mode for the demonstration, with a rehearsal;
+- doctors on Nabz: a verified clinician reads the reports a family shares and leaves notes;
+- the catalogue and the knowledge base edited on the console, with critical-limit changes approved by a clinical reviewer;
+- terms of use, an about page with every source and licence, and help, in three languages;
+- an OWASP ASVS 5.0 Level 1 self-assessment ([docs/13](docs/13-security-assessment.md)): six findings fixed; what is left needs HTTPS in front of the demonstration.
 
 See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 
@@ -37,6 +43,7 @@ See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 | Accounts, sessions, two-step sign-in; export and deletion; 3D body map with organ panels and timeline | ✅ Sprint 6 |
 | Other records with an imaging viewer; doctor summary; compare; all tests; sample family | ✅ after Sprint 6 |
 | Story mode; sharing; reminders, home readings, emergency card; walkthrough; questions; safety review and system pages; full Hindi and Odia | ✅ after Sprint 6 |
+| Guardians; offline mode; doctors on Nabz; catalogue and knowledge administration; terms, about and help; security hardening | ✅ finishing the requirements |
 
 ## Quick start
 
@@ -80,6 +87,12 @@ docker compose exec api python -m tools.staff --email reviewer@nabz.local --role
 
 ```bash
 docker compose exec api python -m tools.staff --email admin@nabz.local --role admin
+```
+
+A doctor's account works the same way, with their registration; `--verified` marks it as checked, as an admin does on the console's Doctors tab. Use an invented name and number:
+
+```bash
+docker compose exec api python -m tools.staff --email doctor@nabz.local --role clinician --name "Dr. Anjali Rath" --registration "OCMR 40213" --council "Odisha Council of Medical Registration" --specialty "General medicine" --verified
 ```
 
 Or create any account from the command line (reviewers and admins must then turn on two-step sign-in in Settings):
@@ -162,10 +175,32 @@ docker compose exec api python -m tools.knowledge build
 docker compose exec api python -m app.cli load-knowledge
 ```
 
-Evaluate explanations live against Groq (uses your `GROQ_API_KEY`; about 30 minutes on the free tier):
+Evaluate explanations and Ask Nabz live against Groq (uses your `GROQ_API_KEY`; each takes about 25 minutes on the free tier, whose 200,000 tokens a day cover roughly one of them). Both run in a transaction that is rolled back, so nothing is stored:
 
 ```bash
-docker compose exec api python -m tools.eval.explanations --languages en,hi --pause 60
+docker compose exec api python -m tools.eval.explanations --languages en,hi,or --pause 15
+```
+
+```bash
+docker compose exec api python -m tools.eval.questions --pause 30
+```
+
+Rehearse the demonstration without internet ([`compose.offline.yaml`](compose.offline.yaml)): see what is ready offline, prepare explanations (and, with `--narrate --yes`, narration, which uses ElevenLabs characters), then run a report end to end on a throwaway account:
+
+```bash
+docker compose exec api python -m tools.offline check --email dev@nabz.local
+```
+
+```bash
+docker compose -f compose.yaml -f compose.offline.yaml up -d
+```
+
+```bash
+docker compose exec api python -m tools.offline rehearse
+```
+
+```bash
+docker compose up -d
 ```
 
 Retrain the row-confidence model (reads cached extractions from `data/synthetic/train` and `eval`, writes `data/models/confidence-v1.json`):
@@ -184,7 +219,7 @@ docker compose --profile local-llm up -d
 
 ## Documentation
 
-Everything lives in [`docs/`](docs/README.md): charter, requirements, architecture, data design, workflows, detailed design, project plan with Gantt chart, risk register, data sources and licensing, safety and privacy, test plan, and architecture decision records.
+Everything lives in [`docs/`](docs/README.md): charter, requirements, architecture, data design, workflows, detailed design, project plan with Gantt chart, risk register, data sources and licensing, safety and privacy, test plan, security self-assessment, and architecture decision records; plus a [clinical review packet](docs/review/clinical-review-packet.md) and a [usability test plan](docs/review/usability-test-plan.md).
 
 Diagrams are generated from source. To rebuild them:
 

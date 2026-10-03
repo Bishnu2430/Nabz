@@ -1,0 +1,27 @@
+# Rehearse the demo with no internet (FR-38, TC-21):
+#   docker compose -f compose.yaml -f compose.offline.yaml up -d
+#
+# The database, API and worker move to a network with no route out, so Groq and ElevenLabs are unreachable exactly
+# as on a disconnected laptop: explanations fall back to the ones built from values, questions are answered by
+# rules, and stored explanations and narration are served as they are. The web app (http://localhost:5173) and
+# Mailpit (http://localhost:8025) keep a second network only so this machine can reach them; the web app loads
+# nothing from the internet (its fonts are bundled).
+#
+# Back to normal:  docker compose up -d
+networks:
+  offline:
+    internal: true
+
+services:
+  db:
+    networks: [offline]
+    ports: !reset []
+  api:
+    networks: [offline]
+    ports: !reset []
+  worker:
+    networks: [offline]
+  mailpit:
+    networks: [default, offline]
+  web:
+    networks: [default, offline]

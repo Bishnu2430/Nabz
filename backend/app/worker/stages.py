@@ -17,7 +17,7 @@ from app.models import Observation, Profile, Report, ReportFile, ReportPage
 from app.models.enums import JobStage, ObsStatus, ReportStatus
 from app.services.analysis import analyse_profile
 from app.services.explanation import explain_report
-from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids
+from app.services.interpretation import age_on, apply, build_interpreter, lab_test_ids, live_catalogue
 from app.storage import StorageBackend
 from app.worker import queue
 from app.worker.queue import Job
@@ -35,12 +35,13 @@ class ExtractionStage:
 
     stage = JobStage.EXTRACT
 
-    def __init__(self, storage: StorageBackend, catalogue: CatalogueData, ocr: OCREngine | None = None,
+    def __init__(self, storage: StorageBackend, catalogue: CatalogueData | None = None, ocr: OCREngine | None = None,
                  interpreter: Interpreter | None = None):
+        """Without a catalogue, each job uses the catalogue as administrators have left it (FR-35)."""
         self.storage = storage
         self.catalogue = catalogue
         self.ocr = ocr
-        self.interpreter = interpreter or build_interpreter(catalogue)
+        self.interpreter = interpreter or (build_interpreter(catalogue) if catalogue else None)
 
     def handle(self, job: Job, session: Session) -> None:
         report = session.get(Report, job.report_id)
@@ -51,13 +52,15 @@ class ExtractionStage:
         profile = session.get(Profile, report.profile_id)
         sex = profile.sex.value if profile else None
         ids = lab_test_ids(session)
+        catalogue, interpreter = ((self.catalogue, self.interpreter) if self.catalogue and self.interpreter
+                                  else live_catalogue.get(session))
 
         session.execute(delete(Observation).where(Observation.report_id == report.id))
         for f in files:
             session.execute(delete(ReportPage).where(ReportPage.report_file_id == f.id))
 
         for f in files:
-            result = extract(self.storage.get(f.storage_key), f.mime_type, self.catalogue, ocr=self.ocr)
+            result = extract(self.storage.get(f.storage_key), f.mime_type, catalogue, ocr=self.ocr)
             if report.lab_name is None and result.lab_name:
                 report.lab_name = result.lab_name[:200]
             if report.collected_at is None and result.collected_at:
@@ -87,7 +90,7 @@ class ExtractionStage:
                 )
                 raw = RawRow(row.raw_name, row.raw_value, row.raw_unit, row.raw_range, row.flag, row.section,
                              row.confidence, sources.get(row.page, "ocr"))
-                apply(obs, self.interpreter.interpret(raw, sex, age), ids)
+                apply(obs, interpreter.interpret(raw, sex, age), ids)
                 session.add(obs)
         report.status = ReportStatus.NEEDS_REVIEW
 

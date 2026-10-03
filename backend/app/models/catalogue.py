@@ -1,6 +1,6 @@
 """Clinical catalogue: tests, units, ranges and limits. Seeded from data/catalogue/*.csv."""
 
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 
 from sqlalchemy import (
@@ -8,6 +8,7 @@ from sqlalchemy import (
     REAL,
     Boolean,
     Date,
+    DateTime,
     ForeignKey,
     Integer,
     Numeric,
@@ -81,6 +82,9 @@ class ReferenceRange(Base):
 
 
 class CriticalLimit(Base):
+    """The limits beyond which a value is critical. An administrator's change is only a proposal (`proposed_*`)
+    until a clinical reviewer approves it; until then the current limits apply (docs/10 §4)."""
+
     __tablename__ = "critical_limit"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -91,6 +95,11 @@ class CriticalLimit(Base):
     source: Mapped[str] = mapped_column(Text)
     reviewed_by: Mapped[str | None] = mapped_column(Text)
     reviewed_at: Mapped[date | None] = mapped_column(Date)
+    proposed_low: Mapped[Decimal | None] = mapped_column(Numeric)
+    proposed_high: Mapped[Decimal | None] = mapped_column(Numeric)
+    proposed_by: Mapped[str | None] = mapped_column(Text)  # an email, like reviewed_by
+    proposed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    proposal_note: Mapped[str | None] = mapped_column(Text)
 
 
 class PopulationPercentile(Base):
@@ -107,3 +116,14 @@ class PopulationPercentile(Base):
     p95: Mapped[Decimal] = mapped_column(Numeric)
     n: Mapped[int] = mapped_column(Integer)
     source: Mapped[str] = mapped_column(Text)
+
+
+class CatalogueRevision(Base):
+    """One row whose number goes up with every change to the catalogue, so the API and the worker know to rebuild
+    their copy of it (app.services.interpretation)."""
+
+    __tablename__ = "catalogue_revision"
+
+    id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, default=1)
+    revision: Mapped[int] = mapped_column(Integer, default=0)
+    changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

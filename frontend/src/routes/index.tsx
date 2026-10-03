@@ -9,9 +9,13 @@ import ResetPassword from "./account/ResetPassword";
 import Settings from "./account/Settings";
 import Signup from "./account/Signup";
 import VerifyEmail from "./account/VerifyEmail";
+import About from "./About";
 import AllTests from "./AllTests";
+import ClinicianHome from "./clinician/ClinicianHome";
+import ClinicianReport from "./clinician/ClinicianReport";
 import Compare from "./Compare";
 import EmergencyCard from "./EmergencyCard";
+import Help from "./Help";
 import Home from "./Home";
 import Insights from "./Insights";
 import Landing from "./Landing";
@@ -43,6 +47,9 @@ export const routes: RouteObject[] = [
       { path: "/reset-password", element: <ResetPassword /> },
       { path: "/privacy", element: <Legal page="privacy" /> },
       { path: "/safety", element: <Legal page="safety" /> },
+      { path: "/terms", element: <Legal page="terms" /> },
+      { path: "/about", element: <About /> },
+      { path: "/help", element: <Help /> },
       { path: "/s/:token", element: <Shared /> },
       {
         element: <RequireAuth />,
@@ -61,6 +68,10 @@ export const routes: RouteObject[] = [
           { path: "/r/:id", element: <Insights /> },
           { path: "/r/:id/review", element: <Review /> },
           { path: "/settings", element: <Settings /> },
+          {
+            element: <RequireRole roles={["clinician"]} title="clinician.forbidden_title" />,
+            children: [{ path: "/clinician", element: <ClinicianHome /> }, { path: "/clinician/r/:id", element: <ClinicianReport /> }],
+          },
           { element: <RequireRole roles={["reviewer"]} />, children: [{ path: "/review", element: <SafetyReview /> }] },
           { element: <RequireRole roles={["reviewer", "admin"]} />, children: [{ path: "/admin", element: <Admin /> }] },
         ],

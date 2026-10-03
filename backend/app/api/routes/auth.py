@@ -100,6 +100,7 @@ def login(body: LoginIn, request: Request, response: Response,
     except svc.AuthError as exc:
         session.commit()  # keep the failed-attempt count and any lockout
         _raise(exc)
+    svc.end_session(session, request.cookies.get(COOKIE))
     new = svc.create_session(session, user, request.headers.get("user-agent"))
     audit.record(session, user.id, "account.login", "app_user", user.id)
     session.commit()

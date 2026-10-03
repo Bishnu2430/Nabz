@@ -32,7 +32,7 @@ from app.services import audit, data_rights
 from app.services.analysis import analyse_profile
 from app.services.briefs import brief, worst_first
 from app.services.ingest import DuplicateReport, IngestError, ingest_report
-from app.services.interpretation import age_on, apply, default_interpreter, lab_test_ids, raw_row_of
+from app.services.interpretation import age_on, apply, current_interpreter, lab_test_ids, raw_row_of
 from app.services.pages import render_page
 from app.storage import StorageBackend
 from app.worker import queue
@@ -44,8 +44,8 @@ FINAL = {ReportStatus.NEEDS_REVIEW, ReportStatus.VERIFIED, ReportStatus.EXPLAINE
 SAMPLE_NOTE = "Sample report from the walkthrough: a made-up person's results. Delete it when you add your own."
 
 
-def get_interpreter() -> Interpreter:
-    return default_interpreter()
+def get_interpreter(session: Session = Depends(get_session)) -> Interpreter:  # noqa: B008
+    return current_interpreter(session)
 
 
 def _blocks_confirm(o: Observation) -> bool:

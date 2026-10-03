@@ -40,6 +40,15 @@ export function useCreateProfile() {
   });
 }
 
+/** Correct a person's details (FR-02); sex and date of birth also re-read the typical ranges on the server. */
+export function useEditProfile(profileId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: Partial<Omit<ProfileIn, "consent_processing">>) => api.patch<Profile>(`/v1/profiles/${profileId}`, body),
+    onSuccess: () => qc.invalidateQueries(),
+  });
+}
+
 /** Hard delete (FR-33): the person, every report and file, and everything derived from them. */
 export function useDeleteProfile() {
   const qc = useQueryClient();

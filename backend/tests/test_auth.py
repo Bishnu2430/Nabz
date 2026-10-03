@@ -173,3 +173,46 @@ def test_deleting_the_account_removes_everything(client: TestClient, sessions) -
     with sessions() as s:
         assert s.scalars(select(AppUser)).all() == [] and s.scalars(select(Profile)).all() == []
     assert client.post("/v1/auth/login", json={"email": "asha@example.com", "password": PASSWORD}).status_code == 401
+
+
+def test_one_of_the_most_used_passwords_is_refused_in_any_case(client: TestClient) -> None:
+    """ASVS 5.0 6.2.4: the NCSC's most used passwords of policy length are refused, whatever their case."""
+    r = client.post("/v1/auth/register", json={"email": "asha@example.com", "password": "QwertyUIOP"})
+    assert r.status_code == 422 and r.json()["code"] == "password_common"
+    assert client.post("/v1/auth/register", json={"email": "asha@example.com", "password": PASSWORD}).status_code == 202
+
+
+def test_every_response_carries_the_security_headers(client: TestClient, monkeypatch) -> None:
+    ok, problem = client.get("/v1/catalogue/tests"), client.get("/v1/auth/me")
+    for r in (ok, problem):
+        assert r.headers["x-content-type-options"] == "nosniff" and r.headers["x-frame-options"] == "DENY"
+        assert r.headers["referrer-policy"] == "no-referrer"
+        assert r.headers["content-security-policy"] == "default-src 'none'; frame-ancestors 'none'"
+        assert r.headers["content-type"].endswith("charset=utf-8")
+    assert "strict-transport-security" not in ok.headers  # plain HTTP in development
+    monkeypatch.setattr(settings, "cookie_secure", True)
+    assert client.get("/v1/catalogue/tests").headers["strict-transport-security"].startswith("max-age=31536000")
+
+
+def test_signing_in_again_ends_the_session_the_browser_had(client: TestClient, sessions) -> None:
+    sign_up(client)
+    sign_in(client)
+    first = client.cookies.get(deps.COOKIE)
+    sign_in(client)
+    assert client.cookies.get(deps.COOKIE) != first
+    with sessions() as s:
+        rows = s.scalars(select(UserSession).order_by(UserSession.created_at)).all()
+        assert [r.revoked_at is not None for r in rows] == [True, False]
+
+
+def test_secrets_at_rest_use_aes_gcm_and_older_values_still_read() -> None:
+    from cryptography.fernet import Fernet
+
+    from app.core import security
+
+    blob = security.encrypt("JBSWY3DPEHPK3PXP")
+    assert blob.startswith(security.GCM_PREFIX) and security.decrypt(blob) == "JBSWY3DPEHPK3PXP"
+    assert security.encrypt("JBSWY3DPEHPK3PXP") != blob  # a fresh nonce every time
+    assert security.decrypt(blob[:-4] + "AAAA") is None  # tampering is caught
+    legacy = security._fernet().encrypt(b"JBSWY3DPEHPK3PXP").decode()
+    assert isinstance(security._fernet(), Fernet) and security.decrypt(legacy) == "JBSWY3DPEHPK3PXP"

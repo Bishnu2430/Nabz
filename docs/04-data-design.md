@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Document ID** | NBZ-DOC-04 |
-| **Version** | 0.1 · draft |
+| **Version** | 0.8 |
 | **Database** | PostgreSQL 17 with `vector`, `pg_trgm`, `pgcrypto`, `citext` |
-| **Last updated** | 2026-09-26 |
+| **Last updated** | 2026-10-03 |
 
 ## 1. Principles
 
@@ -29,7 +29,8 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | Identity & consent | `app_user` | Account holder; login identity, role, email confirmation, two-step sign-in, lockout | 10s |
 | | `user_session` | Server-side session: token hash, CSRF token, last seen, revoked | 100s |
 | | `auth_token` | Single-use email tokens (confirm email, reset password), hashed, with expiry | 100s |
-| | `profile` | Person whose reports are managed (self, parent, child) | 10s |
+| | `profile` | Person whose reports are managed (self, parent, child); for a child, when the account holder confirmed they are the parent or guardian | 10s |
+| | `clinician` | A clinician account's medical-council registration (name, number, council, specialty) and when an admin checked it | 10s |
 | | `consent` | Per-profile, per-purpose consent with policy version | 100s |
 | Reports & extraction | `report` | One uploaded lab report and its lifecycle status | 100s |
 | | `report_file` | Original file metadata; the file itself is on the volume | 100s |
@@ -43,8 +44,9 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | | `lab_test` | Supported tests: LOINC code, aliases, canonical unit, biological variation | ~60 → 150 |
 | | `unit_conversion` | Unit → canonical unit factors per test | ~200 |
 | | `reference_range` | Default ranges by sex and age when the report has none | ~300 |
-| | `critical_limit` | Clinician-reviewed critical thresholds | ~40 |
+| | `critical_limit` | Critical thresholds, who signed them off and when, and any change an admin proposed that awaits clinical review | ~40 |
 | | `population_percentile` | NHANES percentiles by sex and age band (966 cells, 46 tests) | ~1,000 |
+| | `catalogue_revision` | One row whose number rises with every catalogue change, so the API and the worker rebuild their copy | 1 |
 | Knowledge, AI & analytics | `kb_document` | Knowledge source with licence and URL | ~150 |
 | | `kb_chunk` | Retrieval passage with 384-d embedding | ~3,000 |
 | | `explanation` | Generated explanation (JSON), model and prompt version, safety status | 100s |
@@ -52,6 +54,8 @@ The account tables added in Sprint 6 (`user_session`, `auth_token` and the new `
 | | `report_question` | A question asked about a report and the reply: how it was answered, why a fixed reply, sources, any blocked model text (for the reviewer only) | 1,000s |
 | | `trend_insight` | Latest change, trend (direction, confirmed, projected crossing) and percentile per profile × test, linked to the latest result | 1,000s |
 | Governance | `share_link` | Expiring read-only links for doctors: hashed token, who it is for, how often opened | 10s |
+| | `report_grant` | One report shared with one clinician account until the family withdraws it | 10s |
+| | `clinician_note` | A clinician's note on a report shared with them, shown to the family | 10s |
 | | `safety_review` | A clinical reviewer's verdict (right or wrong call, note) on a blocked explanation, a question's reply or an unhelpful rating | 100s |
 | | `feedback` | Thumbs up/down and comments on explanations | 100s |
 | | `audit_log` | Append-only access and change log | 10,000s |
@@ -194,6 +198,20 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | `safety_review.subject_type` · `subject_id` | text · uuid | `explanation`, `question` or `feedback` and its id; the latest verdict is the current one |
 | `share_link.label` · `views` · `last_viewed_at` | text · int · timestamptz | Who the link is for, as the owner wrote it, and how it has been used |
 
+### 5.9 Guardians, clinicians and the editable catalogue
+
+| Table · column | Type | Description |
+|---|---|---|
+| `profile.guardian_confirmed_at` | timestamptz | Set when the account holder confirms they are the parent or guardian of a person under 18 (FR-05); consent for a minor is refused without it |
+| `clinician.user_id` · `registration_no` · `council` · `specialty` | uuid · text · text · text | One row per clinician account; changing the number or the council clears `verified_at` |
+| `clinician.verified_at` · `verified_by` | timestamptz · uuid | When and by which admin the registration was checked against the council's register; nothing can be shared with an unverified clinician |
+| `report_grant.report_id` · `clinician_user_id` · `granted_by` · `revoked_at` | uuid · uuid · uuid · timestamptz | A share with a doctor on Nabz; active while `revoked_at` is null. Deleting the report or the account removes it |
+| `clinician_note.text` · `clinician_user_id` | text · uuid | The note as written; it stays with the report if the clinician's account is deleted (`clinician_user_id` set null) |
+| `critical_limit.proposed_low` · `proposed_high` · `proposed_by` · `proposed_at` · `proposal_note` | numeric · numeric · text · timestamptz · text | An admin's proposed change and reason; the current `low`/`high` apply until a clinical reviewer approves it (`reviewed_by`, `reviewed_at`) |
+| `catalogue_revision.revision` · `changed_at` | int · timestamptz | Raised in the same transaction as every catalogue change and by the seed command |
+
+**The catalogue at run time.** The CSV files in `data/catalogue` seed the catalogue tables; after that the tables are the source. The API and the worker build the reader's matcher, unit converter and default ranges from them and rebuild when `catalogue_revision` rises (`app/catalogue/db.py`, `app/services/interpretation.py`). Running `seed-catalogue` again replaces admin edits with the CSV values.
+
 ## 6. Retention and deletion
 
 | Data | Retention | Mechanism |
@@ -201,6 +219,8 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | Report files, pages, observations, explanations, narration audio | Until the user deletes the report, the person or the account | Hard delete at once (FR-33): rows through foreign-key cascades, then the stored uploads and audio; only an audit entry without health data remains |
 | Other records (files, study images) | Until the user deletes the record, the person or the account | Hard delete with the person or account; both the file and the study image go |
 | Reminders, home readings, emergency details, questions and share links | Until the user deletes them, the report, the person or the account | Hard delete through the same cascades; included in the export |
+| Shares with doctors and doctors' notes | Until the family withdraws the share (the share row is kept, marked withdrawn), deletes the report, the person or the account | Hard delete with the report; included in the export (`shared_with_doctors`, `doctors_notes`) |
+| Clinician registration | Until the clinician's account is deleted | Deleted with the account; their notes stay with the family's reports, without the link to the account |
 | Safety reviews | Project lifetime | De-identified verdicts and notes; no link back to a person once the subject is deleted |
 | Sessions and email tokens | Until sign-out, expiry or account deletion | Revoked rows are kept for the account's lifetime; deleted with the account |
 | Consent records | Account lifetime + 1 year (evidence of consent) | Kept after withdrawal, marked `revoked_at` |
@@ -225,3 +245,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.6 | 2026-09-30 | `health_record` and `record_kind`; `report.note` (the person's own note) |
 | 0.7 | 2026-10-03 | `reminder`, `home_reading`, `report_question`, `safety_review`; `profile.emergency` and `reading_targets`; `share_link` label and views; `reading_kind`; §5.8; retention of the new data |
 | 0.5 | 2026-09-30 | §5.7 accounts and sessions: `user_session`, `auth_token`, `app_user` columns, `user_role` and `token_purpose` values; §6 hard deletion as built |
+| 0.8 | 2026-10-03 | `profile.guardian_confirmed_at`; `clinician`, `report_grant`, `clinician_note`; `critical_limit` proposals; `catalogue_revision`; §5.9 and the catalogue read from the database at run time; retention of shares with doctors |

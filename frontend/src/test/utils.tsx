@@ -38,7 +38,7 @@ export function mockApi(handlers: Record<string, Handler>) {
     calls.push({ method, url, body, headers: (init.headers ?? {}) as Record<string, string> });
     // the family's own lists are empty unless a test fills them
     const handler = all[`${method} ${url}`]
-      ?? (method === "GET" && /\/(reminders|readings|reading-targets|questions|consents)$/.test(url)
+      ?? (method === "GET" && /\/(reminders|readings|reading-targets|questions|consents|notes|grants)$/.test(url)
         ? () => (url.endsWith("targets") ? {} : []) : undefined);
     if (!handler) throw new Error(`Unexpected request: ${method} ${url}`);
     const result = handler(url, init);
