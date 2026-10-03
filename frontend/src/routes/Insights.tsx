@@ -11,13 +11,15 @@ import { OrganPanel } from "../components/body/OrganPanel";
 import { isOrganCode, type OrganCode } from "../components/body/organs";
 import { Enso } from "../components/Enso";
 import { useOrganNote, ValueChips } from "../components/exact/exact";
+import { AskNabz } from "../components/insights/AskNabz";
 import { CriticalBanner } from "../components/insights/CriticalBanner";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
 import { OriginalReport } from "../components/insights/OriginalReport";
 import { ReportNote } from "../components/insights/ReportNote";
+import { ShareDialog } from "../components/insights/ShareDialog";
 import { isAbnormal } from "../components/insights/StatusMark";
-import { ErrorNote, Loading } from "../components/ui";
+import { Button, ErrorNote, Loading } from "../components/ui";
 import { deviation, formatDate } from "../lib/format";
 import NotFound from "./NotFound";
 
@@ -30,6 +32,7 @@ export default function Insights() {
   const insights = useInsights(id);
   const [organ, setOrgan] = useState<OrganCode | null>(null);
   const [activeTest, setActiveTest] = useState<string | null>(null);
+  const [sharing, setSharing] = useState(false);
   const organNote = useOrganNote();
 
   if (insights.isPending) return <Loading />;
@@ -62,8 +65,19 @@ export default function Insights() {
               .filter(Boolean).join(" · ")}
           </p>
         </div>
-        <StatusBadge status={data.report.status} />
+        <div className="flex flex-wrap items-center gap-3">
+          <Button onClick={() => setSharing(true)}>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="6" r="2.5" /><circle cx="18" cy="18" r="2.5" />
+              <path d="m8.2 10.9 7.6-3.8M8.2 13.1l7.6 3.8" />
+            </svg>
+            {t("share.button")}
+          </Button>
+          <StatusBadge status={data.report.status} />
+        </div>
       </div>
+      {sharing && <ShareDialog reportId={id} onClose={() => setSharing(false)} />}
 
       <ReportNote reportId={id} profileId={data.person.id} note={data.report.note ?? null} />
 
@@ -120,6 +134,8 @@ export default function Insights() {
           <OriginalReport reportId={id} activeTest={activeTest} onActiveTest={setActiveTest} />
         </div>
       </div>
+
+      <AskNabz reportId={id} profileId={data.person.id} results={all} />
 
       <p className="mt-6">
         <Link to={`/r/${id}/review`} className="text-link">{t("insights.values_as_read")}</Link>

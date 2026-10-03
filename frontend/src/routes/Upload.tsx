@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import { useEffect, useRef, useState, type DragEvent } from "react";
+import { useRef, useState, type DragEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
-import { useProfiles, useReport, useReportStatus, useUpload } from "../api/hooks";
-import { Enso } from "../components/Enso";
-import { Button, Card, ErrorNote, PageTitle } from "../components/ui";
+import { useProfiles, useUpload } from "../api/hooks";
+import { ReportProgress } from "../components/ReportProgress";
+import { Button, ErrorNote, PageTitle } from "../components/ui";
 
 const ACCEPT = "application/pdf,image/jpeg,image/png,image/webp";
 const MAX_BYTES = 10 * 1024 * 1024; // mirrors backend/app/services/ingest.py
@@ -14,24 +14,13 @@ const MAX_BYTES = 10 * 1024 * 1024; // mirrors backend/app/services/ingest.py
 export default function Upload() {
   const { id = "" } = useParams();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const profile = useProfiles().data?.find((p) => p.id === id);
   const upload = useUpload(id);
   const [reportId, setReportId] = useState<string>();
   const [localError, setLocalError] = useState<string>();
   const [dragging, setDragging] = useState(false);
-  const live = useReportStatus(reportId);
-  const polled = useReport(reportId ?? "", Boolean(reportId)).data?.status; // if the event stream drops
-  const status = live ?? polled;
   const fileInput = useRef<HTMLInputElement>(null);
   const cameraInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (status === "needs_review" && reportId) {
-      const timer = setTimeout(() => navigate(`/r/${reportId}/review`), 900);
-      return () => clearTimeout(timer);
-    }
-  }, [status, reportId, navigate]);
 
   const send = (file: File | undefined) => {
     if (!file) return;
@@ -52,31 +41,14 @@ export default function Upload() {
   const duplicateId =
     upload.error instanceof ApiError && upload.error.status === 409 ? String(upload.error.body.report_id ?? "") : "";
 
-  const working = upload.isPending || (reportId && status !== "needs_review" && status !== "failed");
-  const phase = upload.isPending
-    ? t("upload.uploading")
-    : status === "processing"
-      ? t("upload.reading")
-      : status === "needs_review"
-        ? t("upload.ready")
-        : t("upload.queued");
-
   return (
     <div className="mx-auto max-w-2xl">
       <Link to={`/p/${id}`} className="text-link">← {profile?.display_name ?? t("common.back")}</Link>
       <PageTitle title={t("upload.title")} subtitle={t("upload.hint")} />
 
       {reportId || upload.isPending ? (
-        <Card className="flex flex-col items-center gap-4 px-6 py-12 text-center">
-          {status === "failed" ? (
-            <>
-              <p role="alert" className="text-abnormal">{t("upload.failed")}</p>
-              <Button onClick={() => { setReportId(undefined); upload.reset(); }}>{t("common.retry")}</Button>
-            </>
-          ) : (
-            <Enso active={Boolean(working)} label={phase} size={140} />
-          )}
-        </Card>
+        <ReportProgress reportId={reportId} sending={upload.isPending}
+          onRetry={() => { setReportId(undefined); upload.reset(); }} />
       ) : (
         <>
           <div

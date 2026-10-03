@@ -67,11 +67,8 @@ def _severity_then_catalogue(r: ResultOut, cat: _Catalogue, ids: dict[str, int])
     return (-SEVERITY[r.status], ids[r.test_code])
 
 
-@router.get("/v1/reports/{report_id}/insights", response_model=InsightsOut)
-def report_insights(report_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
-                    user: AppUser = Depends(current_user)):  # noqa: B008
-    report = owned_report(session, user, report_id)
-    profile = session.get(Profile, report.profile_id)
+def report_view(session: Session, report: Report) -> tuple[list[Observation], list[ResultOut], list[OrganOut]]:
+    """A report's confirmed results, worst first, and the same grouped by organ system, worst system first."""
     cat = _Catalogue(session)
     ids = {t.code: t.id for t in cat.tests.values()}
     rows = session.scalars(select(Observation).where(Observation.report_id == report.id,
@@ -90,6 +87,15 @@ def report_insights(report_id: uuid.UUID, session: Session = Depends(get_session
         for code, items in by_organ.items()
     ]
     organs.sort(key=lambda o: (-SEVERITY[o.status], organ_rows[o.code].id))
+    return rows, results, organs
+
+
+@router.get("/v1/reports/{report_id}/insights", response_model=InsightsOut)
+def report_insights(report_id: uuid.UUID, session: Session = Depends(get_session),  # noqa: B008
+                    user: AppUser = Depends(current_user)):  # noqa: B008
+    report = owned_report(session, user, report_id)
+    profile = session.get(Profile, report.profile_id)
+    rows, results, organs = report_view(session, report)
 
     return InsightsOut(
         report=ReportSummary(id=report.id, status=report.status, lab_name=report.lab_name,

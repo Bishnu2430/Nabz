@@ -29,6 +29,46 @@ def trim(text: str, max_words: int) -> str:
     return cut[: end + 1] if end > len(cut) // 2 else cut + " …"
 
 
+def retrieve_for_question(session: Session, embedder: Embedder, items: list[TestItem], question: str,
+                          per_test: int = 2, max_words: int = 110) -> list[Passage]:
+    """The passages that best match a question, among those about the tests it names."""
+    if not items:
+        return []
+    ids = {code: id_ for code, id_ in session.execute(select(LabTest.code, LabTest.id))}
+    vectors = embedder.embed([f"{i.test}: {question}" for i in items], "query")
+    passages: list[Passage] = []
+    for item, vector in zip(items, vectors, strict=True):
+        rows = session.execute(
+            select(KbChunk, KbDocument.title)
+            .join(KbDocument, KbDocument.id == KbChunk.document_id)
+            .where(KbChunk.test_id == ids.get(item.test_code), KbChunk.language == Lang.EN)
+            .order_by(KbChunk.embedding.cosine_distance(vector))
+            .limit(per_test)
+        ).all()
+        for chunk, title in rows:
+            passages.append(Passage(f"P{len(passages) + 1}", str(chunk.id), item.test_code, title,
+                                    trim(chunk.content, max_words)))
+    return passages
+
+
+def opening_passages(session: Session, items: list[TestItem], per_test: int = 2, max_words: int = 160) -> list[Passage]:
+    """Each test's first passages, in document order: they say what the test is. No embedding model is needed."""
+    ids = {code: id_ for code, id_ in session.execute(select(LabTest.code, LabTest.id))}
+    passages: list[Passage] = []
+    for item in items:
+        rows = session.execute(
+            select(KbChunk, KbDocument.title)
+            .join(KbDocument, KbDocument.id == KbChunk.document_id)
+            .where(KbChunk.test_id == ids.get(item.test_code), KbChunk.language == Lang.EN)
+            .order_by(KbChunk.document_id, KbChunk.chunk_index)
+            .limit(per_test)
+        ).all()
+        for chunk, title in rows:
+            passages.append(Passage(f"P{len(passages) + 1}", str(chunk.id), item.test_code, title,
+                                    trim(chunk.content, max_words)))
+    return passages
+
+
 def retrieve(session: Session, embedder: Embedder, items: list[TestItem], per_test: int = 1,
              max_words: int = 110) -> list[Passage]:
     """The `per_test` most relevant English passages per test, trimmed, labelled P1, P2, … in order.

@@ -74,6 +74,32 @@ class WebGLBoundary extends Component<{ fallback: ReactNode; children: ReactNode
 }
 
 /**
+ * Just the body, 3D where it can be and flat otherwise, with no controls: the story replays reports on it.
+ * `dark` says which was drawn, so the caller can dress the stage (lacquer for 3D, paper for the flat map).
+ */
+export function BodyStage({ statuses, names, className }: {
+  statuses: OrganStatus;
+  names: Partial<Record<OrganCode, string>>;
+  className?: string;
+}) {
+  const { view } = useView();
+  const reduced = useReducedMotion();
+  const flat = <BodyDiagram decorative statuses={statuses} className="mx-auto h-full max-h-full w-auto py-4" />;
+  return (
+    <div className={clsx("overflow-hidden rounded-lg border border-hairline", view === "3d" ? "lacquer-stage" : "bg-sunken",
+      className)}>
+      {view === "3d" ? (
+        <WebGLBoundary fallback={flat}>
+          <Suspense fallback={null}>
+            <Body3D statuses={statuses} selected={null} onSelect={() => {}} reducedMotion={reduced} names={names} />
+          </Suspense>
+        </WebGLBoundary>
+      ) : flat}
+    </div>
+  );
+}
+
+/**
  * The body map (FR-27, FR-28, FR-31): the body, the list of organ systems as buttons (the keyboard and
  * screen-reader way in), and the chosen system's card.
  */

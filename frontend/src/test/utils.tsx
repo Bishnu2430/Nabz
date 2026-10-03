@@ -36,7 +36,10 @@ export function mockApi(handlers: Record<string, Handler>) {
     const method = (init.method ?? "GET").toUpperCase();
     const body = typeof init.body === "string" ? JSON.parse(init.body) : init.body;
     calls.push({ method, url, body, headers: (init.headers ?? {}) as Record<string, string> });
-    const handler = all[`${method} ${url}`];
+    // the family's own lists are empty unless a test fills them
+    const handler = all[`${method} ${url}`]
+      ?? (method === "GET" && /\/(reminders|readings|reading-targets|questions|consents)$/.test(url)
+        ? () => (url.endsWith("targets") ? {} : []) : undefined);
     if (!handler) throw new Error(`Unexpected request: ${method} ${url}`);
     const result = handler(url, init);
     if (result instanceof Response) return result;

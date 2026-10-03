@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
+import { useReminders } from "../api/care";
 import { useTestHistory } from "../api/hooks";
 import type { Result, TestInfo } from "../api/types";
+import { ReminderForm, useDueText } from "../components/care/Reminders";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
 import { TrendChart } from "../components/insights/TrendChart";
-import { Card, EmptyState, ErrorNote, Loading } from "../components/ui";
+import { Button, Card, EmptyState, ErrorNote, Loading } from "../components/ui";
 import { ageBand, formatDate, formatMonth, formatPercent, formatRange, formatUnit, formatValue, ordinal } from "../lib/format";
 import NotFound from "./NotFound";
 
@@ -66,6 +69,8 @@ export default function TestHistory() {
             <PercentileStatement latest={latest} />
           </Card>
 
+          <RepeatReminder profileId={id} test={test} />
+
           <section className="mt-8" aria-labelledby="table-h">
             <h2 id="table-h" className="mb-3 font-display text-xl font-bold">{t("history.table_title")}</h2>
             <div className="overflow-x-auto rounded-lg border border-hairline bg-raised">
@@ -95,6 +100,34 @@ export default function TestHistory() {
           </section>
         </>
       )}
+    </div>
+  );
+}
+
+/** "Remind me to repeat this test": the family's own date, usually the one the doctor gave. */
+function RepeatReminder({ profileId, test }: { profileId: string; test: TestInfo }) {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.resolvedLanguage ?? "en";
+  const [adding, setAdding] = useState(false);
+  const due = useDueText();
+  const next = useReminders(profileId).data?.find((r) => r.test_code === test.code && !r.done_at);
+  if (adding) {
+    return (
+      <div className="mt-6">
+        <ReminderForm profileId={profileId} onDone={() => setAdding(false)}
+          preset={{ title: t("reminders.repeat_test", { test: test.name }), test_code: test.code }} />
+      </div>
+    );
+  }
+  return (
+    <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+      {next && (
+        <p>
+          {t("reminders.set_for", { title: next.title, date: formatDate(next.due_on, lang) })}{" "}
+          <span className="text-muted">({due(next.due_on)})</span>
+        </p>
+      )}
+      <Button onClick={() => setAdding(true)}>{t(next ? "reminders.another" : "reminders.remind_me")}</Button>
     </div>
   );
 }

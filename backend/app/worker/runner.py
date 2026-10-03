@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.models import Report
 from app.models.enums import JobStage, ReportStatus
+from app.services import reminders
 from app.worker import queue
 from app.worker.stages import StageHandler
 
@@ -65,6 +66,9 @@ class Worker:
                 with self.sessions.begin() as s:
                     if n := queue.recover_stale(s):
                         log.warning("requeued %d stale job(s)", n)
+                with self.sessions.begin() as s:  # once a minute is often enough for reminders with a date
+                    if n := reminders.send_due(s):
+                        log.info("sent %d reminder email(s)", n)
                 last_recovery = time.monotonic()
             if not self.run_once():
                 stop.wait(self.poll_interval)

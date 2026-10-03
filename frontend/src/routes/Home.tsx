@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useProfiles } from "../api/hooks";
 import type { Profile } from "../api/types";
+import { useDueText } from "../components/care/Reminders";
 import { ValueChips } from "../components/exact/exact";
 import { ProfileForm } from "../components/ProfileForm";
-import { Button, Card, EmptyState, ErrorNote, Loading, PageTitle } from "../components/ui";
+import { Button, Card, ErrorNote, Loading, PageTitle } from "../components/ui";
 import { formatDate } from "../lib/format";
 
 export default function Home() {
@@ -20,16 +21,8 @@ export default function Home() {
 
   const created = (p: Profile) => navigate(`/p/${p.id}/upload`);
 
-  if (profiles.data.length === 0) {
-    return (
-      <div className="mx-auto max-w-xl">
-        <EmptyState title={t("home.empty_title")} body={t("home.empty_body")} />
-        <Card className="p-6">
-          <ProfileForm onCreated={created} />
-        </Card>
-      </div>
-    );
-  }
+  // an account with no one in it yet starts with the walkthrough
+  if (profiles.data.length === 0) return <Navigate to="/welcome" replace />;
 
   return (
     <>
@@ -58,6 +51,7 @@ function PersonCard({ profile }: { profile: Profile }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? "en";
   const attention = profile.attention ?? [];
+  const due = useDueText();
   return (
     <Card className="lift h-full p-5 hover:border-ink/40">
       <div className="flex items-baseline justify-between gap-3">
@@ -80,6 +74,13 @@ function PersonCard({ profile }: { profile: Profile }) {
           <p className="text-sm text-normal">{t("home.all_in_range")}</p>
         ) : null}
       </div>
+      {profile.next_reminder_title && profile.next_reminder_due && (
+        <p className="mt-3 border-t border-hairline pt-2 text-sm">
+          <span className="text-muted">{t("home.next_reminder")}</span>{" "}
+          <span className="font-medium">{profile.next_reminder_title}</span>{" "}
+          <span className="tabular text-muted">· {formatDate(profile.next_reminder_due, lang)} ({due(profile.next_reminder_due)})</span>
+        </p>
+      )}
     </Card>
   );
 }

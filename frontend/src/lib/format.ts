@@ -48,6 +48,13 @@ export function formatDate(iso: string | null | undefined, lang: string): string
   }).format(d);
 }
 
+/** A moment in the reader's own time zone: "28 Sept 2026, 7:30 am". */
+export function formatDateTime(iso: string, lang: string): string {
+  return new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, {
+    day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit",
+  }).format(new Date(iso));
+}
+
 /** Where a value sits against its range: used for the small status word beside each value. */
 export type Position = "low" | "normal" | "high" | "unknown";
 

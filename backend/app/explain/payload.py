@@ -89,7 +89,8 @@ def _months(a: date, b: date) -> int:
     return max(1, round((b - a).days / 30.44))
 
 
-def build_payload(session: Session, report: Report) -> Payload:
+def build_items(session: Session, report: Report) -> tuple[list[TestItem], Profile | None, tuple[int, int] | None]:
+    """Every confirmed result of the report as a de-identified item, worst first, with the person and age band."""
     profile = session.get(Profile, report.profile_id)
     tests = {t.id: t for t in session.scalars(select(LabTest))}
     organs = {o.id: o.code for o in session.scalars(select(OrganSystem))}
@@ -128,8 +129,13 @@ def build_payload(session: Session, report: Report) -> Payload:
         items.append(item)
 
     items.sort(key=lambda i: (-SEVERITY[ObsStatus(i.status)], i.test))
-    critical = [i.test_code for i in items if ObsStatus(i.status) in CRITICAL]
-    focus = [i for i in items if i.is_focus][:MAX_FOCUS]
+    return items, profile, band
+
+
+def make_payload(items: list[TestItem], profile: Profile | None, band: tuple[int, int] | None,
+                 focus: list[TestItem]) -> Payload:
+    """The de-identified input for the given results, with `focus` explained in detail."""
+    focus = focus[:MAX_FOCUS]
     focus_codes = {i.test_code for i in focus}
     return Payload(
         age_band=None if band is None else (f"{band[0]}+" if band[1] >= 120 else f"{band[0]}–{band[1]}"),
@@ -138,8 +144,13 @@ def build_payload(session: Session, report: Report) -> Payload:
         outside_range=sum(ObsStatus(i.status) not in (ObsStatus.NORMAL, ObsStatus.UNKNOWN) for i in items),
         focus=focus,
         others=[i.test for i in items if i.test_code not in focus_codes],
-        critical=critical,
+        critical=[i.test_code for i in items if ObsStatus(i.status) in CRITICAL],
     )
+
+
+def build_payload(session: Session, report: Report) -> Payload:
+    items, profile, band = build_items(session, report)
+    return make_payload(items, profile, band, [i for i in items if i.is_focus])
 
 
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:[.,]\d+)?")

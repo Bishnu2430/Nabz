@@ -91,6 +91,17 @@ class RecordKind(StrEnum):
     OTHER = "other"
 
 
+class ReadingKind(StrEnum):
+    """Readings a person takes at home. Shown and charted against their own target; never interpreted by Nabz."""
+
+    BP = "bp"  # value = systolic, value2 = diastolic, mmHg
+    GLUCOSE = "glucose"  # mg/dL
+    WEIGHT = "weight"  # kg
+    PULSE = "pulse"  # beats per minute
+    TEMPERATURE = "temperature"  # °C
+    SPO2 = "spo2"  # %
+
+
 class Relationship(StrEnum):
     SELF = "self"
     PARENT = "parent"

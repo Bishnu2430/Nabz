@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import BigInteger, DateTime, ForeignKey, Identity, SmallInteger, Text, func
+from sqlalchemy import BigInteger, DateTime, ForeignKey, Identity, Integer, SmallInteger, Text, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -18,8 +18,11 @@ class ShareLink(Base):
     )
     created_by: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("app_user.id", ondelete="CASCADE"))
     token_hash: Mapped[str] = mapped_column(Text, unique=True)
+    label: Mapped[str | None] = mapped_column(Text)  # who it is for, e.g. "Dr. Nayak"; the owner's own reminder
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    views: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    last_viewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = created_at()
 
 

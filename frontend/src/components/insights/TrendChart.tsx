@@ -25,7 +25,7 @@ export function niceTicks(lo: number, hi: number, target = 4): number[] {
   return ticks;
 }
 
-function useWidth<T extends HTMLElement>(fallback = 640) {
+export function useWidth<T extends HTMLElement>(fallback = 640) {
   const ref = useRef<T>(null);
   const [width, setWidth] = useState(fallback);
   useEffect(() => {

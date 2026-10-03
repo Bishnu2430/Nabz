@@ -8,7 +8,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import ConsentPurpose, Lang, ObsStatus, RecordKind, Relationship, ReportStatus, Sex
+from app.models.enums import ConsentPurpose, Lang, ObsStatus, ReadingKind, RecordKind, Relationship, ReportStatus, Sex
 
 
 class ProfileIn(BaseModel):
@@ -49,6 +49,8 @@ class ProfileOut(BaseModel):
     last_tested: date | None = Field(default=None, description="Date of the latest confirmed report")
     attention: list[ResultBrief] = Field(default_factory=list,
                                          description="Tests whose latest result is outside its range, worst first")
+    next_reminder_title: str | None = Field(default=None, description="The soonest reminder that isn't done")
+    next_reminder_due: date | None = None
 
 
 class Box(BaseModel):
@@ -341,6 +343,27 @@ class FeedbackIn(BaseModel):
     comment: str | None = Field(default=None, max_length=1000)
 
 
+class AskIn(BaseModel):
+    question: str = Field(min_length=3, max_length=300)
+    language: Lang = Lang.EN
+
+
+class QuestionOut(BaseModel):
+    id: uuid.UUID
+    language: Lang
+    question: str
+    answer: str
+    mode: str = Field(description="model: written by the model and checked; knowledge: built by rules from the "
+                                  "values and MedlinePlus; refusal: a fixed reply")
+    refusal: str | None = Field(description="Why it wasn't answered: instruction, emergency, treatment, diagnosis, "
+                                            "not_in_report, off_topic, cannot_answer")
+    reason: str | None = Field(description="Why rules wrote the answer instead of the model: critical, no_consent, "
+                                           "no_model, no_knowledge, validation, provider_error")
+    test_codes: list[str]
+    sources: list[SourceOut]
+    created_at: datetime
+
+
 # --- Accounts (Sprint 6) -----------------------------------------------------------------------------------------
 
 
@@ -470,3 +493,132 @@ class OrganHistoryOut(BaseModel):
     names: dict[str, str]
     person: PersonOut
     tests: list[OrganTestHistory] = Field(description="Worst latest status first, then catalogue order")
+
+
+# --- Sharing with a doctor (FR-34) ----------------------------------------------------------------------------------
+
+
+class ShareIn(BaseModel):
+    days: int = Field(default=7, ge=1, le=30, description="How long the link works")
+    label: str | None = Field(default=None, max_length=80, description="Who it is for; only the owner sees this")
+
+
+class ShareOut(BaseModel):
+    id: uuid.UUID
+    label: str | None
+    created_at: datetime
+    expires_at: datetime
+    revoked: bool
+    active: bool
+    views: int
+    last_viewed_at: datetime | None
+
+
+class ShareCreated(ShareOut):
+    url: str = Field(description="Shown once: only the token's hash is stored")
+    qr_svg: str
+
+
+class SharedPerson(BaseModel):
+    display_name: str
+    sex: Sex
+    age: int | None
+
+
+class SharedReportOut(BaseModel):
+    """What someone holding the link sees: one report, read-only, with no account and no identifiers beyond the
+    person's name, age and sex."""
+
+    person: SharedPerson
+    lab_name: str | None
+    collected_at: date | None
+    note: str | None
+    critical: list[ResultOut]
+    organs: list[OrganOut]
+    questions: list[str]
+    expires_at: datetime
+
+
+# --- Reminders, home readings and the emergency card ----------------------------------------------------------------
+
+
+class ReminderIn(BaseModel):
+    title: str = Field(min_length=1, max_length=120)
+    due_on: date
+    test_code: str | None = Field(default=None, max_length=40)
+    repeat_months: int | None = Field(default=None, ge=1, le=24)
+    note: str | None = Field(default=None, max_length=300)
+
+
+class ReminderPatch(BaseModel):
+    title: str | None = Field(default=None, min_length=1, max_length=120)
+    due_on: date | None = None
+    repeat_months: int | None = Field(default=None, ge=1, le=24)
+    note: str | None = Field(default=None, max_length=300)
+    done: bool | None = None
+
+
+class ReminderOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: uuid.UUID
+    profile_id: uuid.UUID
+    title: str
+    test_code: str | None
+    due_on: date
+    repeat_months: int | None
+    note: str | None
+    sent_at: datetime | None
+    done_at: datetime | None
+
+
+class ReadingIn(BaseModel):
+    kind: ReadingKind
+    value: Decimal
+    value2: Decimal | None = None
+    taken_at: datetime | None = None
+    context: str | None = Field(default=None, max_length=30)
+    note: str | None = Field(default=None, max_length=200)
+
+
+class ReadingOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: uuid.UUID
+    kind: ReadingKind
+    value: Decimal
+    value2: Decimal | None
+    context: str | None
+    note: str | None
+    taken_at: datetime
+
+
+class ReadingTarget(BaseModel):
+    """The range the person's doctor gave them. Blood pressure uses `high` and `high2` (e.g. 130 over 80)."""
+
+    low: Decimal | None = None
+    high: Decimal | None = None
+    low2: Decimal | None = None
+    high2: Decimal | None = None
+
+
+class EmergencyContact(BaseModel):
+    name: str = Field(min_length=1, max_length=80)
+    phone: str = Field(min_length=3, max_length=30)
+    relation: str | None = Field(default=None, max_length=40)
+
+
+class EmergencyInfo(BaseModel):
+    blood_group: str | None = Field(default=None, max_length=10)
+    allergies: str | None = Field(default=None, max_length=300)
+    conditions: str | None = Field(default=None, max_length=300, description="As told by the person's doctor")
+    medicines: str | None = Field(default=None, max_length=400)
+    doctor: str | None = Field(default=None, max_length=120)
+    contacts: list[EmergencyContact] = Field(default_factory=list, max_length=3)
+
+
+class EmergencyCardOut(BaseModel):
+    person: PersonOut
+    info: EmergencyInfo
+    out_of_range: list[ResultBrief] = Field(description="Latest results outside their range, worst first")
+    last_tested: date | None
+    qr_svg: str = Field(description="The card's text as a QR code, readable with no network")
+    qr_text: str

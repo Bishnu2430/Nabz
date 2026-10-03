@@ -6,6 +6,9 @@ Each lab report is generated with its ground truth, uploaded through the API (a 
 read by the worker, checked against the truth (wrong or missing rows corrected, stray rows removed, as a person does
 on the review screen), and confirmed. The worker then analyses and explains it. Imaging reports go in as other
 records. `--replace` first deletes every person on the account (reports, files and all).
+
+What the family keeps for itself (the emergency card, reminders and home readings) is written afresh on every run,
+also for people already on the account, so its dates stay current.
 """
 
 from __future__ import annotations
@@ -17,7 +20,7 @@ import re
 import sys
 import tempfile
 import time
-from datetime import date
+from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -35,7 +38,7 @@ from app.db import SessionLocal
 from app.main import app
 from app.models import AppUser
 from tools.eval.extraction import degrade
-from tools.family.story import CREDITS, FAMILY, IMAGING_CENTRES, LAB_DETAILS, Imaging, Person, Visit
+from tools.family.story import CREDITS, FAMILY, IMAGING_CENTRES, LAB_DETAILS, Imaging, Person, Series, Visit
 from tools.synthetic.__main__ import LABS
 from tools.synthetic.imaging import ImagingCentre, ImagingSpec, render_imaging_pdf
 from tools.synthetic.render import render_pdf
@@ -43,7 +46,19 @@ from tools.synthetic.spec import Lab, ReportSpec, Row, build_sections
 from tools.synthetic.values import HEALTHY, Persona, sample_baseline, sample_values
 
 DONE = {"explaining", "explained"}
+# calculated tests and the tests they are calculated from (tools/synthetic/values.py)
+DERIVED: dict[str, set[str]] = {
+    "hct": {"hb"}, "mcv": {"hb", "rbc"}, "mch": {"hb", "rbc"}, "mchc": {"hb"},
+    "neut_pct": set(), "lymph_pct": set(), "mono_pct": set(), "eos_pct": set(), "baso_pct": set(),
+    "eag": {"hba1c"}, "vldl": {"tg"}, "ldl": {"chol_total", "hdl", "tg"}, "non_hdl": {"chol_total", "hdl"},
+    "chol_hdl_ratio": {"chol_total", "hdl"}, "bun": {"urea"}, "egfr": {"creatinine"},
+    "bili_indirect": {"bili_total", "bili_direct"}, "globulin": {"protein_total", "albumin"},
+    "ag_ratio": {"protein_total", "albumin"}, "tsat": {"iron", "tibc"},
+}
 IMAGING_DIR = Path(settings.data_dir) / "imaging"
+IST = timedelta(hours=5, minutes=30)
+# when a reading is taken (hour, minute, Indian time); anything else is taken in the morning
+TAKEN_AT = {"morning": (7, 10), "evening": (20, 15), "fasting": (6, 40)}
 
 
 def age_on(dob: date, when: date) -> int:
@@ -93,6 +108,11 @@ class Family:
         values = sample_values(persona, rng, baseline=base, cv={k: min(v, 2.5) for k, v in cv.items()})
         for code in visit.set:
             values[code] = visit.set[code]
+        # A calculated value follows the story only when the story sets what it is calculated from; otherwise it
+        # stays in range like the rest (no chance "MCH high" in a report about blood sugar).
+        for code, inputs in DERIVED.items():
+            if code in values and code not in visit.set and not (inputs & visit.set.keys()) and not visit.conditions:
+                values[code] = self._inside(code, person.sex, values[code])
         return values
 
     # -- reports ------------------------------------------------------------------------------------------------
@@ -216,6 +236,54 @@ class Family:
         print(f"  {study.when}  {study.centre:<28} {study.record_title or study.title}")
 
 
+    # -- what the family keeps for itself ---------------------------------------------------------------------------
+    def readings(self, series: Series, person: Person, today: date) -> list[dict[str, object]]:
+        """One reading every `every` days up to yesterday, drifting from the first value to the last with scatter."""
+        rng = random.Random(f"{self.seed}:{person.name}:{series.kind}")
+        digits = 1 if series.kind in ("weight", "temperature") else 0
+        days = list(range(series.days, 0, -series.every))
+        days = [d - days[-1] + 1 for d in days]  # the latest reading was yesterday
+        out = []
+        for i, back in enumerate(days):
+            share = i / max(len(days) - 1, 1)
+            numbers = [round(rng.gauss(a + (b - a) * share, sd), digits)
+                       for a, b, sd in zip(series.first, series.last, series.spread, strict=True)]
+            context = series.contexts[i % len(series.contexts)] if series.contexts else None
+            hour, minute = TAKEN_AT.get(context or "morning", TAKEN_AT["morning"])
+            taken = (datetime.combine(today - timedelta(days=back), datetime.min.time(), UTC)
+                     + timedelta(hours=hour, minutes=minute + rng.randint(-25, 25)) - IST)
+            body: dict[str, object] = {"kind": series.kind, "value": numbers[0], "taken_at": taken.isoformat()}
+            if len(numbers) > 1:
+                body["value2"] = min(numbers[1], numbers[0] - 20)
+            if context:
+                body["context"] = context
+            out.append(body)
+        return out
+
+    def care(self, pid: str, person: Person, today: date) -> None:
+        c = self.client
+        for kind in ("reminders", "readings"):
+            for old in c.get(f"/v1/profiles/{pid}/{kind}").json():
+                assert c.delete(f"/v1/{kind}/{old['id']}").status_code == 204
+        care = person.care
+        if care.emergency:
+            assert c.put(f"/v1/profiles/{pid}/emergency", json=care.emergency).status_code == 200
+        for r in care.reminders:
+            body = {"title": r.title, "due_on": (today + timedelta(days=r.in_days)).isoformat(),
+                    "repeat_months": r.repeat_months, "test_code": r.test, "note": r.note}
+            made = c.post(f"/v1/profiles/{pid}/reminders", json=body)
+            assert made.status_code == 201, made.text
+        count = 0
+        for series in care.readings:
+            made = c.put(f"/v1/profiles/{pid}/reading-targets/{series.kind}", json=series.target or {})
+            assert made.status_code == 200, made.text
+            for body in self.readings(series, person, today):
+                made = c.post(f"/v1/profiles/{pid}/readings", json=body)
+                assert made.status_code == 201, made.text
+                count += 1
+        print(f"  emergency card, {len(care.reminders)} reminder(s), {count} home reading(s)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(prog="python -m tools.family")
     ap.add_argument("--email", required=True, help="the account to load the family into")
@@ -235,10 +303,12 @@ def main() -> int:
                 assert client.delete(f"/v1/profiles/{p['id']}").status_code == 204
                 print(f"deleted {p['display_name']}")
         fam = Family(client, a.seed)
-        existing = {p["display_name"] for p in client.get("/v1/profiles").json()}
+        existing = {p["display_name"]: p["id"] for p in client.get("/v1/profiles").json()}
+        today = (datetime.now(UTC) + IST).date()
         for person in FAMILY:
             if person.name in existing:
-                print(f"{person.name} is already on the account; skipped (use --replace)")
+                print(f"{person.name} is already on the account; reports kept (use --replace to load them again)")
+                fam.care(existing[person.name], person, today)
                 continue
             r = client.post("/v1/profiles", json={
                 "display_name": person.name, "sex": person.sex, "date_of_birth": person.dob.isoformat(),
@@ -258,6 +328,7 @@ def main() -> int:
                     fam.lab_report(pid, person, event, baseline, Path(tmp))
                 else:
                     fam.imaging(pid, person, event, Path(tmp))
+            fam.care(pid, person, today)
     app.dependency_overrides.clear()
     return 0
 

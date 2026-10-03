@@ -62,6 +62,13 @@ export function useUpload(profileId: string) {
   });
 }
 
+/** The bundled sample report, put through the same steps as an upload (the first-run walkthrough). */
+export const useSampleReport = () =>
+  useMutation({
+    mutationFn: (profileId: string) =>
+      api.post<{ report_id: string; status: ReportStatus }>(`/v1/profiles/${profileId}/sample-report`),
+  });
+
 export const IN_PROGRESS: ReadonlySet<ReportStatus> = new Set(["uploaded", "queued", "processing"]);
 
 /**
