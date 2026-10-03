@@ -20,12 +20,18 @@ EXTENSIONS = {"application/pdf": ".pdf", "image/jpeg": ".jpg", "image/png": ".pn
 
 
 class IngestError(ValueError):
-    """The upload was refused; the message is safe to show to the user."""
+    """The upload was refused; the message is safe to show to the user. `code` and `params` let the app say it in
+    the reader's language."""
+
+    def __init__(self, message: str, code: str = "refused", **params: object):
+        super().__init__(message)
+        self.code = code
+        self.params = params
 
 
 class DuplicateReport(IngestError):
     def __init__(self, report_id: uuid.UUID):
-        super().__init__("This report has already been uploaded for this person.")
+        super().__init__("This report has already been uploaded for this person.", "duplicate")
         self.report_id = report_id
 
 
@@ -52,21 +58,22 @@ def has_consent(session: Session, profile_id: uuid.UUID, purpose: ConsentPurpose
 def ingest_report(session: Session, storage: StorageBackend, *, profile_id: uuid.UUID, uploaded_by: uuid.UUID,
                   data: bytes) -> Report:
     if not has_consent(session, profile_id, ConsentPurpose.PROCESSING):
-        raise IngestError("Processing consent is needed before a report can be read.")
+        raise IngestError("Processing consent is needed before a report can be read.", "no_consent")
     if len(data) > MAX_BYTES:
-        raise IngestError("The file is larger than 10 MB.")
+        raise IngestError("The file is larger than 10 MB.", "too_large", limit=10)
     mime = sniff_mime(data)
     if mime is None:
-        raise IngestError("Upload a PDF, JPG, PNG or WebP file.")
+        raise IngestError("Upload a PDF, JPG, PNG or WebP file.", "file_type")
     if mime == "application/pdf":
         try:
             pdf = pdfium.PdfDocument(data)
             pages = len(pdf)
             pdf.close()
         except pdfium.PdfiumError as exc:
-            raise IngestError("The PDF could not be opened.") from exc
+            raise IngestError("The PDF could not be opened.", "bad_pdf") from exc
         if pages > MAX_PAGES:
-            raise IngestError(f"The PDF has {pages} pages; the limit is {MAX_PAGES}.")
+            raise IngestError(f"The PDF has {pages} pages; the limit is {MAX_PAGES}.", "too_many_pages", pages=pages,
+                              limit=MAX_PAGES)
 
     digest = hashlib.sha256(data).hexdigest()
     existing = session.scalar(select(Report.id).where(Report.profile_id == profile_id, Report.source_sha256 == digest,

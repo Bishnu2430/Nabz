@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
-  formatComputed, formatDate, formatPercent, formatRange, formatUnit, formatValue, ordinal, position, spanYears, trimDecimal,
+  formatComputed, formatDate, formatMonth, formatPercent, formatRange, formatUnit, formatValue, ordinal, position, spanYears, trimDecimal,
 } from "./format";
 
 describe("trimDecimal", () => {
@@ -59,6 +59,16 @@ describe("position", () => {
   });
 });
 
+describe("dates in a language the browser has no data for", () => {
+  it("writes Odia month names itself", () => {
+    const spy = vi.spyOn(Intl.DateTimeFormat, "supportedLocalesOf").mockReturnValue([]);
+    expect(formatDate("2026-08-19", "or")).toBe("19 ଅଗଷ୍ଟ 2026");
+    expect(formatMonth("2026-08-19", "or")).toBe("ଅଗଷ୍ଟ 2026");
+    expect(formatDate("2026-08-19", "en")).toBe("19 Aug 2026");
+    spy.mockRestore();
+  });
+});
+
 describe("formatDate", () => {
   it("never shifts a calendar date across time zones", () => {
     expect(formatDate("2026-09-01", "en")).toBe("1 Sept 2026");
@@ -72,8 +82,9 @@ describe("analysis formatting", () => {
     expect(formatPercent(0.1234)).toBe("+12 %");
     expect(formatPercent(-0.045)).toBe("−4.5 %");
     expect(formatPercent(0)).toBe("0.0 %");
-    expect([1, 2, 3, 4, 11, 12, 13, 21, 52, 95].map(ordinal)).toEqual(
+    expect([1, 2, 3, 4, 11, 12, 13, 21, 52, 95].map((n) => ordinal(n))).toEqual(
       ["1st", "2nd", "3rd", "4th", "11th", "12th", "13th", "21st", "52nd", "95th"]);
+    expect([ordinal(52, "hi"), ordinal(52, "or")]).toEqual(["52वें", "52ତମ"]);
     expect(spanYears("2022-06-01", "2025-06-01")).toBeCloseTo(3, 1);
   });
 });

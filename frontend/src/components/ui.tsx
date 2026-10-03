@@ -60,9 +60,20 @@ export function EmptyState({ title, body, action }: { title: string; body: strin
   );
 }
 
+/** What went wrong, in the reader's language when the API gave a reason code; its English words otherwise. */
+export function useErrorText() {
+  const { t, i18n } = useTranslation();
+  return (error: unknown): string => {
+    if (!(error instanceof ApiError)) return t("common.error");
+    const key = error.code && `errors.${error.code}`;
+    return key && i18n.exists(key) ? t(key, error.body as Record<string, string>) : error.message;
+  };
+}
+
 export function ErrorNote({ error, message, onRetry }: { error?: unknown; message?: string; onRetry?: () => void }) {
   const { t } = useTranslation();
-  message ??= error instanceof ApiError ? error.message : t("common.error");
+  const describe = useErrorText();
+  message ??= describe(error);
   return (
     <div role="alert" className="rounded-md border border-abnormal/40 bg-abnormal/5 px-4 py-3 text-abnormal">
       <p>{message}</p>

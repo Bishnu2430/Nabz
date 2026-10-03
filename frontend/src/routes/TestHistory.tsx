@@ -157,15 +157,17 @@ function TrendStatement({ latest, test, count }: { latest: Result; test: TestInf
 }
 
 function PercentileStatement({ latest }: { latest: Result }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const p = latest.percentile;
   if (!p) return null;
-  const group = `${t(`history.group_${p.sex}`, { band: ageBand(p.age_band) })}`;
+  const group = t(`history.group_${p.sex}`, { band: ageBand(p.age_band) });
   const key = p.side === "below" ? "history.percentile_below" : p.side === "above" ? "history.percentile_above" : "history.percentile";
+  // the analysis names its one population in English; say it in the reader's language
+  const population = p.population.startsWith("US population (NHANES") ? t("history.population_nhanes") : p.population;
   return (
     <p>
-      {t(key, { p: ordinal(p.value), group: `US ${group}` })}{" "}
-      <span className="text-muted">{t("history.percentile_note", { population: p.population })}</span>
+      {t(key, { p: ordinal(p.value, i18n.resolvedLanguage ?? "en"), group })}{" "}
+      <span className="text-muted">{t("history.percentile_note", { population })}</span>
     </p>
   );
 }

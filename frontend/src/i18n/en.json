@@ -12,7 +12,8 @@
     "switch_theme": "Switch to {{theme}}",
     "account_menu": "Account menu for {{email}}",
     "settings": "Settings",
-    "sign_out": "Sign out"
+    "sign_out": "Sign out",
+    "main": "Main"
   },
   "common": {
     "loading": "Loading…",
@@ -203,7 +204,8 @@
     "years_one": "{{count}} year",
     "years_other": "{{count}} years",
     "months_other": "{{count}} months",
-    "all_results": "All results"
+    "all_results": "All results",
+    "months_one": "{{count}} month"
   },
   "history": {
     "latest": "Latest result",
@@ -222,9 +224,9 @@
     "few_results_one": "One result so far. Trends appear from three results.",
     "few_results_other": "{{count}} results so far. Trends appear from three results.",
     "rcv": "Between two results, a rise of more than {{up}} or a fall of more than {{down}} is unlikely to be normal variation.",
-    "percentile": "The latest result is at about the {{p}} percentile of {{group}}.",
-    "percentile_below": "The latest result is below the 5th percentile of {{group}}.",
-    "percentile_above": "The latest result is above the 95th percentile of {{group}}.",
+    "percentile": "The latest result is at about the {{p}} percentile of US {{group}}.",
+    "percentile_below": "The latest result is below the 5th percentile of US {{group}}.",
+    "percentile_above": "The latest result is above the 95th percentile of US {{group}}.",
     "percentile_note": "{{population}}. A population comparison is context only; your lab's range is what counts.",
     "group_male": "men aged {{band}}",
     "group_female": "women aged {{band}}",
@@ -238,7 +240,8 @@
     "open": "Open",
     "chart_label": "{{test}} over time, with the range from the latest report",
     "range_band": "Range",
-    "back_to_results": "Back to the report"
+    "back_to_results": "Back to the report",
+    "population_nhanes": "US population (NHANES 2017–2020)"
   },
   "explain": {
     "title": "What this means",
@@ -904,5 +907,19 @@
     "refusal_not_in_report": "Not in this report",
     "refusal_cannot_answer": "Not something the report can answer",
     "delete_label": "Delete the question “{{question}}”"
+  },
+  "errors": {
+    "verify_email": "Confirm your email before uploading.",
+    "no_consent": "Consent is needed before reports can be read.",
+    "too_large": "The file is larger than {{limit}} MB.",
+    "file_type": "Upload a PDF, JPG, PNG or WebP file.",
+    "bad_pdf": "The PDF could not be opened.",
+    "too_many_pages": "The PDF has {{pages}} pages; the limit is {{limit}}.",
+    "duplicate": "This report has already been uploaded for this person.",
+    "implausible": "That doesn't look right. Enter a value between {{low}} and {{high}}.",
+    "bp_pair": "Enter both numbers, the larger one first (for example 128 over 82).",
+    "future_time": "The time can't be in the future.",
+    "too_many": "Too many requests. Wait a minute and try again.",
+    "not_analysed": "The report hasn't been analysed yet."
   }
 }

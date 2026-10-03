@@ -95,9 +95,10 @@ def _accept(session: Session, storage: StorageBackend, user: AppUser, profile: P
     try:
         report = ingest_report(session, storage, profile_id=profile.id, uploaded_by=user.id, data=data)
     except DuplicateReport as exc:
-        raise HTTPException(status.HTTP_409_CONFLICT, {"detail": str(exc), "report_id": str(exc.report_id)}) from exc
+        raise HTTPException(status.HTTP_409_CONFLICT, {"detail": str(exc), "code": exc.code,
+                                                       "report_id": str(exc.report_id)}) from exc
     except IngestError as exc:
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(exc)) from exc
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, {"detail": str(exc), "code": exc.code, **exc.params}) from exc
     report.note = note
     audit.record(session, user.id, "report.upload", "report", report.id, bytes=len(data), sample=note is not None)
     session.commit()

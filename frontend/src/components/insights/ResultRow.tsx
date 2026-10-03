@@ -70,7 +70,8 @@ export function ResultRow({ result, profileId }: { result: Result; profileId: st
         {r.percentile && (
           <li>
             {t("insights.percentile", {
-              p: r.percentile.side === "below" ? "< 5th" : r.percentile.side === "above" ? "> 95th" : ordinal(r.percentile.value),
+              p: r.percentile.side === "below" ? `< ${ordinal(5, lang)}` : r.percentile.side === "above"
+                ? `> ${ordinal(95, lang)}` : ordinal(r.percentile.value, lang),
               group: t(`history.group_${r.percentile.sex}`, { band: ageBand(r.percentile.age_band) }),
             })}
           </li>

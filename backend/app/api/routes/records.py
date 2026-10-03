@@ -77,13 +77,16 @@ async def add_record(profile_id: uuid.UUID, file: UploadFile = File(...),  # noq
         raise HTTPException(status.HTTP_403_FORBIDDEN,
                             {"detail": "Confirm your email before uploading.", "code": "verify_email"})
     if not has_consent(session, profile.id, ConsentPurpose.PROCESSING):
-        raise HTTPException(status.HTTP_403_FORBIDDEN, "Consent is needed before records can be stored.")
+        raise HTTPException(status.HTTP_403_FORBIDDEN,
+                            {"detail": "Consent is needed before records can be stored.", "code": "no_consent"})
     data = await file.read()
     if len(data) > MAX_BYTES:
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "The file is larger than 20 MB.")
+        raise HTTPException(status.HTTP_400_BAD_REQUEST,
+                            {"detail": "The file is larger than 20 MB.", "code": "too_large", "limit": 20})
     mime = sniff_mime(data)
     if mime is None:
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Upload a PDF, JPG, PNG or WebP file.")
+        raise HTTPException(status.HTTP_400_BAD_REQUEST,
+                            {"detail": "Upload a PDF, JPG, PNG or WebP file.", "code": "file_type"})
     record = HealthRecord(profile_id=profile.id, uploaded_by=user.id, kind=kind, title=title.strip(),
                           record_date=record_date, facility=(facility or "").strip() or None,
                           notes=(notes or "").strip() or None, mime_type=mime, size_bytes=len(data),
