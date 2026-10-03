@@ -26,6 +26,9 @@ Nabz turns a photo or PDF of a blood-test report into a verified, plain-language
 | 10 | [Safety, privacy & compliance](10-safety-privacy-compliance.md) | How do we stay safe, private and on the right side of regulation? | Threat model |
 | 11 | [Test & evaluation plan](11-test-and-evaluation-plan.md) | How do we prove it works? | Test cases |
 | 12 | [UX & access design](12-ux-and-access-design.md) | Roles, sign-in, visual theme and pages | Palette, page map |
+| 13 | [Security self-assessment](13-security-assessment.md) | Does Nabz meet OWASP ASVS 5.0 Level 1, and what is left? | 70 requirements |
+| — | [Clinical review packet](review/clinical-review-packet.md) | What must a clinician check and sign off? | Critical limits, sign-off form |
+| — | [Usability test plan](review/usability-test-plan.md) | How do we test Nabz with families and doctors? | Tasks in EN, HI, OR; SUS |
 | — | [Architecture decision records](adr/README.md) | Why did we choose X over Y? | — |
 
 **Suggested reading order.** A new reader should start with 01 → 02 → 03. The guide or jury version is 01 plus the figures in 03 and 05. Before writing code, read 04, 06 and the ADRs.
