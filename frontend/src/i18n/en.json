@@ -61,7 +61,14 @@
     "consent": "I agree that Nabz may read and store this person's lab reports to explain them.",
     "consent_note": "Consent can be withdrawn at any time.",
     "consent_needed": "Consent is needed before reports can be read.",
-    "create": "Add person"
+    "create": "Add person",
+    "guardian": "I am this person's parent or lawful guardian, and I give consent on their behalf.",
+    "guardian_note": "They are {{age}}. Under India's data-protection law, consent for someone under 18 comes from a parent or lawful guardian.",
+    "guardian_needed": "Confirm that you are their parent or guardian to continue.",
+    "self_minor": "You must be 18 or older to use Nabz yourself. A parent or guardian can add you to their family instead.",
+    "edit_title": "Edit {{name}}'s details",
+    "save": "Save changes",
+    "ranges_note": "Changing sex or date of birth updates the typical ranges used where a report printed none, and rewrites the explanation of any report whose results change."
   },
   "person": {
     "reports": "Reports",
@@ -82,7 +89,8 @@
     "all_in_range_other": "All {{count}} results are within their range.",
     "story": "Health story",
     "readings": "Home readings",
-    "card": "Emergency card"
+    "card": "Emergency card",
+    "edit": "Edit details"
   },
   "status": {
     "uploaded": "Uploaded",
@@ -634,7 +642,8 @@
   "toast": {
     "note_saved": "Note saved",
     "record_saved": "Record saved",
-    "record_deleted": "Record deleted"
+    "record_deleted": "Record deleted",
+    "profile_saved": "Details saved"
   },
   "story": {
     "title": "{{name}}: the story so far",
@@ -922,7 +931,9 @@
     "bp_pair": "Enter both numbers, the larger one first (for example 128 over 82).",
     "future_time": "The time can't be in the future.",
     "too_many": "Too many requests. Wait a minute and try again.",
-    "not_analysed": "The report hasn't been analysed yet."
+    "not_analysed": "The report hasn't been analysed yet.",
+    "guardian_required": "For someone under 18, confirm that you are their parent or lawful guardian.",
+    "self_minor": "You must be 18 or older to use Nabz yourself. A parent or guardian can add you to their family."
   },
   "console": {
     "forbidden_title": "This area is for staff",

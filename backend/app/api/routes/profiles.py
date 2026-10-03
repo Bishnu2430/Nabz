@@ -1,5 +1,5 @@
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
@@ -7,16 +7,42 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from app.api.deps import current_user, get_session, get_storage, owned_profile
-from app.models import AppUser, Consent, LabTest, Observation, Profile, Reminder, Report, TrendInsight
-from app.models.enums import ConsentPurpose, ObsStatus, ReportStatus
-from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut
+from app.models import AppUser, Consent, Explanation, LabTest, Observation, Profile, Reminder, Report, TrendInsight
+from app.models.enums import ConsentPurpose, JobStage, ObsStatus, Relationship, ReportStatus
+from app.schemas import ConsentIn, ConsentOut, ProfileIn, ProfileOut, ProfilePatch
 from app.services import audit, data_rights
-from app.services.analysis import result_date
+from app.services.analysis import analyse_profile, result_date
 from app.services.briefs import brief, worst_first
+from app.services.interpretation import age_on, default_interpreter, raw_row_of
 from app.storage import StorageBackend
+from app.worker import queue
 
 router = APIRouter(prefix="/v1/profiles", tags=["profiles"])
 POLICY_VERSION = "2026-09-draft"
+ADULT = 18
+CONFIRMED = (ReportStatus.VERIFIED, ReportStatus.ANALYSING, ReportStatus.EXPLAINING, ReportStatus.EXPLAINED)
+
+
+def _minor(dob: date | None) -> bool:
+    if dob is None:
+        return False
+    today = date.today()
+    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day)) < ADULT
+
+
+def _check_guardian(dob: date | None, relationship: Relationship, confirmed: bool) -> None:
+    """FR-05 and the DPDP Act's rule for children: consent for someone under 18 comes from a parent or lawful
+    guardian, so the account holder must say they are one; and an account holder must themselves be an adult."""
+    if not _minor(dob):
+        return
+    if relationship is Relationship.SELF:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, {
+            "detail": "You must be 18 or older to use Nabz yourself. A parent or guardian can add you to their family.",
+            "code": "self_minor"})
+    if not confirmed:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, {
+            "detail": "For someone under 18, confirm that you are their parent or lawful guardian.",
+            "code": "guardian_required"})
 
 
 @router.get("", response_model=list[ProfileOut])
@@ -56,7 +82,10 @@ def list_profiles(session: Session = Depends(get_session), user: AppUser = Depen
 @router.post("", response_model=ProfileOut, status_code=status.HTTP_201_CREATED)
 def create_profile(body: ProfileIn, session: Session = Depends(get_session),  # noqa: B008
                    user: AppUser = Depends(current_user)):  # noqa: B008
-    profile = Profile(owner_user_id=user.id, **body.model_dump(exclude={"consent_processing"}))
+    _check_guardian(body.date_of_birth, body.relationship, body.guardian_confirmed)
+    profile = Profile(owner_user_id=user.id, **body.model_dump(exclude={"consent_processing", "guardian_confirmed"}))
+    if _minor(body.date_of_birth):
+        profile.guardian_confirmed_at = datetime.now(UTC)
     session.add(profile)
     session.flush()
     if body.consent_processing:
@@ -88,7 +117,11 @@ def list_consents(profile_id: uuid.UUID, session: Session = Depends(get_session)
 def set_consent(profile_id: uuid.UUID, purpose: ConsentPurpose, body: ConsentIn,
                 session: Session = Depends(get_session), user: AppUser = Depends(current_user)):  # noqa: B008
     """Give or withdraw one consent. Withdrawing is as easy as giving (DPDP); records are kept as evidence."""
-    owned_profile(session, user, profile_id)
+    profile = owned_profile(session, user, profile_id)
+    if body.granted and _minor(profile.date_of_birth) and profile.guardian_confirmed_at is None:
+        raise HTTPException(status.HTTP_409_CONFLICT, {
+            "detail": "For someone under 18, confirm that you are their parent or lawful guardian first.",
+            "code": "guardian_required"})
     if purpose is ConsentPurpose.PROCESSING and not body.granted:
         raise HTTPException(status.HTTP_409_CONFLICT,
                             "Processing consent is withdrawn by deleting this person's reports or profile.")
@@ -102,6 +135,54 @@ def set_consent(profile_id: uuid.UUID, purpose: ConsentPurpose, body: ConsentIn,
     audit.record(session, user.id, "consent.set", "profile", profile_id, purpose=purpose.value, granted=body.granted)
     session.commit()
     return ConsentOut(purpose=purpose, granted=current is not None, granted_at=current.granted_at if current else None)
+
+
+@router.patch("/{profile_id}", response_model=ProfileOut)
+def edit_profile(profile_id: uuid.UUID, body: ProfilePatch, session: Session = Depends(get_session),  # noqa: B008
+                 user: AppUser = Depends(current_user)):  # noqa: B008
+    """Correct a person's details (FR-02). Sex and date of birth choose the typical ranges used where a report
+    printed none, and the population a result is compared with, so changing them re-reads those ranges, analyses
+    again, and rewrites the explanation of any report whose results changed status."""
+    profile = owned_profile(session, user, profile_id)
+    changes = body.model_dump(exclude_unset=True, exclude={"guardian_confirmed"})
+    dob = changes.get("date_of_birth", profile.date_of_birth)
+    relationship = changes.get("relationship", profile.relationship)
+    _check_guardian(dob, relationship, bool(body.guardian_confirmed) or profile.guardian_confirmed_at is not None)
+    if _minor(dob) and profile.guardian_confirmed_at is None:
+        profile.guardian_confirmed_at = datetime.now(UTC)
+    ranges_change = (("sex" in changes and changes["sex"] != profile.sex)
+                     or ("date_of_birth" in changes and changes["date_of_birth"] != profile.date_of_birth))
+    for field, value in changes.items():
+        if value is not None or field == "date_of_birth":
+            setattr(profile, field, value)
+    if ranges_change:
+        _reread_ranges(session, profile)
+    audit.record(session, user.id, "profile.edit", "profile", profile.id, fields=sorted(changes))
+    session.commit()
+    return ProfileOut.model_validate(profile)
+
+
+def _reread_ranges(session: Session, profile: Profile) -> None:
+    rows = session.execute(
+        select(Observation, Report, LabTest).join(Report, Report.id == Observation.report_id)
+        .join(LabTest, LabTest.id == Observation.test_id)
+        .where(Report.profile_id == profile.id, Report.deleted_at.is_(None), Report.status.in_(CONFIRMED))).all()
+    before = {o.id: o.status for o, _, _ in rows}
+    interp = default_interpreter()
+    for obs, report, test in rows:
+        if obs.ref_source != "catalogue":
+            continue  # the lab's own printed range doesn't depend on who the person is
+        it = interp.interpret(raw_row_of(obs, "manual"), profile.sex.value, age_on(profile, report.collected_at),
+                              test_code=test.code)
+        obs.ref_low, obs.ref_high = it.ref_low, it.ref_high
+    session.flush()
+    analyse_profile(session, profile.id)
+    changed = {r.id for o, r, _ in rows if o.status != before[o.id]}
+    for report_id in changed:
+        languages = set(session.scalars(select(Explanation.language).where(Explanation.report_id == report_id)))
+        session.execute(delete(Explanation).where(Explanation.report_id == report_id))
+        for language in languages or {profile.preferred_language}:
+            queue.enqueue(session, report_id, JobStage.EXPLAIN, args={"lang": language.value})
 
 
 @router.get("/{profile_id}/export")

@@ -29,6 +29,17 @@ class ProfileIn(BaseModel):
     relationship: Relationship = Relationship.SELF
     preferred_language: Lang = Lang.EN
     consent_processing: bool = Field(description="Consent to read and store this person's reports")
+    guardian_confirmed: bool = Field(default=False, description="For someone under 18: the account holder is their "
+                                                                "parent or lawful guardian (FR-05)")
+
+
+class ProfilePatch(BaseModel):
+    display_name: str | None = Field(default=None, min_length=1, max_length=80)
+    sex: Sex | None = None
+    date_of_birth: date | None = None
+    relationship: Relationship | None = None
+    preferred_language: Lang | None = None
+    guardian_confirmed: bool | None = None
 
 
 class ResultBrief(BaseModel):
@@ -60,6 +71,7 @@ class ProfileOut(BaseModel):
     last_tested: date | None = Field(default=None, description="Date of the latest confirmed report")
     attention: list[ResultBrief] = Field(default_factory=list,
                                          description="Tests whose latest result is outside its range, worst first")
+    guardian_confirmed_at: datetime | None = None
     next_reminder_title: str | None = Field(default=None, description="The soonest reminder that isn't done")
     next_reminder_due: date | None = None
 

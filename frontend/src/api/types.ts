@@ -21,6 +21,8 @@ export interface Profile {
   last_tested?: string | null;
   /** Tests whose latest result is outside its range, worst first. */
   attention?: ResultBrief[];
+  /** For someone under 18: when the account holder confirmed being their parent or guardian. */
+  guardian_confirmed_at?: string | null;
   /** The soonest reminder that isn't done. */
   next_reminder_title?: string | null;
   next_reminder_due?: string | null;
@@ -33,6 +35,7 @@ export interface ProfileIn {
   relationship: Relationship;
   preferred_language: Lang;
   consent_processing: boolean;
+  guardian_confirmed?: boolean;
 }
 
 export interface Box { page: number; x0: number; top: number; x1: number; bottom: number }

@@ -134,6 +134,7 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
             "date_of_birth": _iso(profile.date_of_birth),
             "relationship": profile.relationship.value,
             "preferred_language": profile.preferred_language.value,
+            "guardian_confirmed_at": _iso(profile.guardian_confirmed_at),
             "added_at": _iso(profile.created_at),
         },
         "consents": [{"purpose": c.purpose.value, "policy_version": c.policy_version,
