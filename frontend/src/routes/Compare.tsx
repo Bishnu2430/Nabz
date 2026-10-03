@@ -6,6 +6,7 @@ import { useBodyMap, useProfiles } from "../api/hooks";
 import type { ResultBrief } from "../api/types";
 import { ORGAN_ORDER } from "../components/body/organs";
 import { StatusIcon, isAbnormal } from "../components/insights/StatusMark";
+import { Icon, organIcon } from "../components/icons";
 import { Card, ErrorNote, fieldClass, Loading, PageTitle } from "../components/ui";
 import { formatDate, formatPercent, formatRange, formatUnit, formatValue } from "../lib/format";
 import { frameResults } from "../lib/series";
@@ -26,7 +27,7 @@ export default function Compare() {
     return (
       <>
         <Link to={`/p/${id}`} className="text-link">← {profile?.display_name}</Link>
-        <PageTitle title={t("compare.title")} subtitle={t("compare.need_two")} />
+        <PageTitle icon="compare" title={t("compare.title")} subtitle={t("compare.need_two")} />
       </>
     );
   }
@@ -50,7 +51,7 @@ export default function Compare() {
   return (
     <>
       <Link to={`/p/${id}`} className="text-link">← {profile?.display_name}</Link>
-      <PageTitle title={t("compare.title")} subtitle={t("compare.subtitle", { count: changed })} />
+      <PageTitle icon="compare" title={t("compare.title")} subtitle={t("compare.subtitle", { count: changed })} />
       <div className="mb-6 grid gap-4 sm:grid-cols-2">
         {(["a", "b"] as const).map((key) => (
           <label key={key}>
@@ -67,7 +68,9 @@ export default function Compare() {
         if (rows.length === 0) return null;
         return (
           <section key={organ} className="mb-6">
-            <h2 className="mb-2 font-display text-xl font-bold">{t(`organs.${organ}`)}</h2>
+            <h2 className="mb-2 flex items-center gap-2 font-display text-xl font-bold">
+              <Icon name={organIcon(organ)} size={20} className="text-muted" />{t(`organs.${organ}`)}
+            </h2>
             <Card className="overflow-x-auto">
               <table className="w-full min-w-[36rem] text-left">
                 <thead className="text-sm text-muted">

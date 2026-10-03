@@ -154,3 +154,21 @@ def test_emergency_card_prints_what_was_typed_and_is_exported_and_erased(client:
     assert client.delete(f"/v1/profiles/{pid}").status_code == 204
     with sessions() as s:
         assert s.scalars(select(Reminder)).all() == [] and s.scalars(select(HomeReading)).all() == []
+
+
+def test_every_email_is_written_in_all_three_languages() -> None:
+    for kind, texts in mail.TEXT.items():
+        assert set(texts) == {"en", "hi", "or"}, kind
+    assert set(reminders.TEXT) == {"en", "hi", "or"}
+
+
+def test_a_reminder_email_reads_in_the_account_language(client: TestClient, as_user, sessions) -> None:
+    pid = _profile(client)
+    with sessions.begin() as s:
+        s.get(AppUser, as_user("alice").id).preferred_language = "or"
+    client.post(f"/v1/profiles/{pid}/reminders", json={"title": "HbA1c", "due_on": "2026-11-19", "note": "ଖାଲି ପେଟ"})
+    with sessions.begin() as s:
+        assert reminders.send_due(s, today=date(2026, 11, 19)) == 1
+    body = mail.outbox[-1].get_content()
+    assert mail.outbox[-1]["Subject"] == "ନବ୍ଜ଼ ସ୍ମାରକ: HbA1c"
+    assert "ତାରିଖ: 19-11-2026" in body and "ଟିପ୍ପଣୀ: ଖାଲି ପେଟ" in body

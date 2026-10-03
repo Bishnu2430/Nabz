@@ -53,7 +53,8 @@ def ask(report_id: uuid.UUID, body: AskIn, session: Session = Depends(get_sessio
         embedder: Embedder | None = Depends(get_embedder)):  # noqa: B008
     report = owned_report(session, user, report_id)
     if report.status not in ANALYSED:
-        raise HTTPException(status.HTTP_409_CONFLICT, "The report hasn't been analysed yet.")
+        raise HTTPException(status.HTTP_409_CONFLICT,
+                            {"detail": "The report hasn't been analysed yet.", "code": "not_analysed"})
     if not ask_limiter.allow(str(user.id)):
         raise HTTPException(status.HTTP_429_TOO_MANY_REQUESTS,
                             {"detail": "Too many questions. Wait a minute and ask again.", "code": "too_many"})

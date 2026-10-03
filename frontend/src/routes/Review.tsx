@@ -11,6 +11,7 @@ import { HankoSeal } from "../components/HankoSeal";
 import { PageViewer } from "../components/review/PageViewer";
 import { TestPicker } from "../components/review/TestPicker";
 import { Field, ValueRow } from "../components/review/ValueRow";
+import { IconSeal } from "../components/icons";
 import { Button, Card, ErrorNote, Loading, fieldClass } from "../components/ui";
 import { formatDate } from "../lib/format";
 import NotFound from "./NotFound";
@@ -74,9 +75,11 @@ function ReviewBody({ report }: { report: Report }) {
   return (
     <>
       <Link to={`/p/${report.profile_id}`} className="text-link">← {t("common.back")}</Link>
-      <div className="mb-6 mt-2 flex flex-wrap items-end justify-between gap-4">
+      <div className="page-head mb-6 mt-2 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold sm:text-4xl">{t("review.title")}</h1>
+          <h1 className="flex items-center gap-4 font-display text-3xl font-bold sm:text-4xl">
+            <IconSeal name="eye" size={24} className="icon-seal-lg" />{t("review.title")}
+          </h1>
           <p className="mt-1 text-muted">
             {[report.lab_name, report.collected_at && formatDate(report.collected_at, i18n.resolvedLanguage ?? "en")]
               .filter(Boolean)

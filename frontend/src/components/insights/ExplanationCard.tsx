@@ -12,6 +12,7 @@ import { Enso } from "../Enso";
 import { useExact } from "../exact/exact";
 import { bulletRest, matchBullet, parseSummary } from "../explain/summary";
 import { Collapse } from "../motion";
+import { IconSeal } from "../icons";
 import { Button, Card, ErrorNote } from "../ui";
 import { RangeBar } from "./RangeBar";
 import { STATUS_COLOR, StatusMark, isAbnormal } from "./StatusMark";
@@ -70,7 +71,7 @@ export function ExplanationCard({ reportId, profileId, results, activeTest, onAc
     <Card className="p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl font-bold">{t("explain.title")}</h2>
+          <h2 className="flex items-center gap-2.5 font-display text-2xl font-bold"><IconSeal name="book" />{t("explain.title")}</h2>
           {explanation && (
             <p className="mt-0.5 text-sm text-muted">
               {explanation.source === "model" ? t("explain.by_model") : t("explain.by_template")}

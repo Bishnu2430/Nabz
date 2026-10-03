@@ -13,13 +13,14 @@ import { OtherRecords } from "../components/records/OtherRecords";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
 import { PrivacyChoices } from "../components/PrivacyChoices";
-import { Card, EmptyState, ErrorNote, Loading, PageTitle } from "../components/ui";
+import { Icon, type IconName } from "../components/icons";
+import { BrushRule, Card, EmptyState, ErrorNote, Loading, PageTitle, PersonSeal, SectionTitle } from "../components/ui";
 import { formatDate, formatPercent, formatUnit, formatValue } from "../lib/format";
 import NotFound from "./NotFound";
 
 export default function Person() {
   const { id = "" } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const profiles = useProfiles();
   const reports = useReports(id);
   const frames = useBodyMap(id).data ?? [];
@@ -32,7 +33,8 @@ export default function Person() {
   if (reports.isError) return <ErrorNote error={reports.error} onRetry={() => void reports.refetch()} />;
 
   const upload = (
-    <Link to={`/p/${id}/upload`} className="inline-flex items-center rounded-md bg-accent px-4 py-2 font-medium text-accent-ink no-underline hover:brightness-110">
+    <Link to={`/p/${id}/upload`} className="btn btn-primary inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 font-medium text-accent-ink no-underline hover:brightness-110">
+      <Icon name="upload" size={18} />
       {t("person.upload")}
     </Link>
   );
@@ -40,17 +42,23 @@ export default function Person() {
   return (
     <>
       <Link to="/home" className="text-link">← {t("nav.family")}</Link>
-      <PageTitle title={profile.display_name} action={reports.data.length > 0 && upload} />
+      <PageTitle title={profile.display_name} mark={<PersonSeal name={profile.display_name} large />}
+        subtitle={[t(`profile_form.rel_${profile.relationship}`), t("home.reports", { count: profile.reports }),
+          profile.last_tested && t("home.last_tested", { date: formatDate(profile.last_tested, i18n.resolvedLanguage ?? "en") })]
+          .filter(Boolean).join(" · ")}
+        action={reports.data.length > 0 && upload} />
       <nav aria-label={t("person.tools")} className="-mt-4 mb-8 flex flex-wrap gap-2">
         {reports.data.length > 0 && (
           <Link to={`/p/${id}/story`}
-            className="btn rounded-full border border-accent bg-accent px-3 py-1 text-sm font-medium text-accent-ink no-underline hover:brightness-110">
-            ▶ {t("person.story")}
+            className="btn inline-flex items-center gap-1.5 rounded-full border border-accent bg-accent px-3 py-1 text-sm font-medium text-accent-ink no-underline hover:brightness-110">
+            <Icon name="play" size={15} />
+            {t("person.story")}
           </Link>
         )}
-        {[...(reports.data.length > 0 ? TOOLS : []), ...CARE_TOOLS].map(([path, key]) => (
+        {[...(reports.data.length > 0 ? TOOLS : []), ...CARE_TOOLS].map(([path, key, icon]) => (
           <Link key={path} to={`/p/${id}/${path}`}
-            className="btn rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
+            className="btn inline-flex items-center gap-1.5 rounded-full border border-hairline bg-raised px-3 py-1 text-sm no-underline hover:border-ink/40">
+            <Icon name={icon} size={15} className="text-muted" />
             {t(key)}
           </Link>
         ))}
@@ -63,11 +71,12 @@ export default function Person() {
       ) : (
         <>
         <BodyTimeline profileId={id} organ={organ} onOrgan={setOrgan} />
+        <BrushRule />
         <WatchList profileId={id} />
         <Reminders profileId={id} />
         <section aria-labelledby="reports-h">
-          <div className="mb-4 flex flex-wrap items-baseline gap-3">
-            <h2 id="reports-h" className="font-display text-xl font-bold">{t("person.reports")}</h2>
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <SectionTitle id="reports-h" icon="report" title={t("person.reports")} className="mb-0" />
             {organ && (
               <p className="text-sm">
                 <span className="rounded-full bg-sunken px-3 py-1">{t("organ.showing", { organ: t(`organs.${organ}`) })}</span>{" "}
@@ -93,9 +102,10 @@ export default function Person() {
   );
 }
 
-const TOOLS = [["tests", "person.all_tests"], ["summary", "person.summary"], ["compare", "person.compare"]] as const;
+const TOOLS: [string, string, IconName][] = [
+  ["tests", "person.all_tests", "tests"], ["summary", "person.summary", "summary"], ["compare", "person.compare", "compare"]];
 // kept by the family themselves, so they are there before the first report
-const CARE_TOOLS = [["readings", "person.readings"], ["card", "person.card"]] as const;
+const CARE_TOOLS: [string, string, IconName][] = [["readings", "person.readings", "readings"], ["card", "person.card", "card"]];
 
 const ANALYSED = new Set(["verified", "analysing", "explaining", "explained"]);
 
@@ -107,12 +117,12 @@ function WatchList({ profileId }: { profileId: string }) {
   const lang = i18n.resolvedLanguage ?? "en";
   return (
     <section aria-labelledby="watch-h" className="mb-10">
-      <h2 id="watch-h" className="mb-4 font-display text-xl font-bold">{t("person.watch")}</h2>
+      <SectionTitle id="watch-h" icon="trend" title={t("person.watch")} className="mb-4" />
       <ul className="stagger grid gap-3 sm:grid-cols-2">
         {watch.data.map((w: Watch) => (
           <li key={w.test_code}>
             <Link to={`/p/${profileId}/tests/${w.test_code}`} className="group block no-underline">
-              <Card className="lift h-full px-5 py-4 group-hover:border-ink/40">
+              <Card className="lift corner-pattern h-full px-5 py-4 group-hover:border-ink/40">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-medium">{w.test_name}</span>
                   <StatusMark status={w.latest.status} />
@@ -146,11 +156,14 @@ function ReportRow({ report, profileId, values }: { report: ReportSummary; profi
   return (
     <Card className="lift px-5 py-4">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <Link to={analysed ? `/r/${report.id}` : `/r/${report.id}/review`} className="min-w-40 no-underline">
+        <Link to={analysed ? `/r/${report.id}` : `/r/${report.id}/review`} className="flex min-w-40 items-center gap-3 no-underline">
+          <span className="grid size-9 shrink-0 place-items-center rounded-md bg-sunken text-muted"><Icon name="report" size={18} /></span>
+          <span>
           <span className="block font-medium text-ink hover:text-link">
             {report.collected_at ? formatDate(report.collected_at, lang) : t("person.undated")}
           </span>
           <span className="block text-sm text-muted">{report.lab_name ?? formatDate(report.created_at, lang)}</span>
+          </span>
         </Link>
         <p className="text-muted tabular">{t("person.values", { count: report.rows })}</p>
         <div className="ml-auto"><StatusBadge status={report.status} /></div>

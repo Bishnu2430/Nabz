@@ -44,7 +44,7 @@ export default function Upload() {
   return (
     <div className="mx-auto max-w-2xl">
       <Link to={`/p/${id}`} className="text-link">← {profile?.display_name ?? t("common.back")}</Link>
-      <PageTitle title={t("upload.title")} subtitle={t("upload.hint")} />
+      <PageTitle icon="upload" title={t("upload.title")} subtitle={t("upload.hint")} />
 
       {reportId || upload.isPending ? (
         <ReportProgress reportId={reportId} sending={upload.isPending}

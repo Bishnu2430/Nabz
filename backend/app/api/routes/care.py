@@ -150,17 +150,19 @@ def add_reading(profile_id: uuid.UUID, body: ReadingIn, session: Session = Depen
     profile = owned_profile(session, user, profile_id)
     low, high = PLAUSIBLE[body.kind]
     if not low <= body.value <= high:
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT,
-                            f"That doesn't look right. Enter a value between {low} and {high}.")
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, {
+            "detail": f"That doesn't look right. Enter a value between {low} and {high}.", "code": "implausible",
+            "low": str(low), "high": str(high)})
     if body.kind is ReadingKind.BP:
         if body.value2 is None or not DIASTOLIC[0] <= body.value2 <= DIASTOLIC[1] or body.value2 >= body.value:
-            raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT,
-                                "Enter both numbers, the larger one first (for example 128 over 82).")
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, {
+                "detail": "Enter both numbers, the larger one first (for example 128 over 82).", "code": "bp_pair"})
     taken = body.taken_at or datetime.now(UTC)
     if taken.tzinfo is None:
         taken = taken.replace(tzinfo=UTC)
     if taken > datetime.now(UTC) + timedelta(minutes=5):  # a little slack for a phone's clock
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "The time can't be in the future.")
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT,
+                            {"detail": "The time can't be in the future.", "code": "future_time"})
     reading = HomeReading(profile_id=profile.id, kind=body.kind, value=body.value,
                           value2=body.value2 if body.kind is ReadingKind.BP else None,
                           context=(body.context or "").strip() or None, note=(body.note or "").strip() or None,

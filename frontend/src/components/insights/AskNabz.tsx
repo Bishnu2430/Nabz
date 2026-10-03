@@ -6,6 +6,7 @@ import { useAsk, useDeleteQuestion, useQuestions, type Question } from "../../ap
 import { useConsents } from "../../api/hooks";
 import type { Result } from "../../api/types";
 import { Enso } from "../Enso";
+import { IconSeal } from "../icons";
 import { Button, Card, ErrorNote, fieldClass } from "../ui";
 import { isAbnormal } from "./StatusMark";
 
@@ -54,7 +55,7 @@ export function AskNabz({ reportId, profileId, results }: { reportId: string; pr
 
   return (
     <Card className="mt-6 p-5 sm:p-6">
-      <h2 className="font-display text-2xl font-bold">{t("ask.title")}</h2>
+      <h2 className="flex items-center gap-2.5 font-display text-2xl font-bold"><IconSeal name="chat" />{t("ask.title")}</h2>
       <p className="mt-0.5 max-w-prose text-sm text-muted">{t("ask.intro")}</p>
 
       {questions.isError && <div className="mt-4"><ErrorNote error={questions.error} /></div>}

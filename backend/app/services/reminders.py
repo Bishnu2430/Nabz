@@ -19,7 +19,13 @@ TEXT = {
     "hi": ("नब्ज़ रिमाइंडर: {title}",
            "{person} के लिए नब्ज़ में आपका रिमाइंडर:\n\n{title}\nतारीख: {due}\n{note}\n{person} का पेज खोलें:\n{link}\n\n"
            "यह तारीख आपने खुद तय की है; नब्ज़ यह तय नहीं करता कि जाँच कब ज़रूरी है।"),
+    "or": ("ନବ୍ଜ଼ ସ୍ମାରକ: {title}",
+           "{person}ଙ୍କ ପାଇଁ ନବ୍ଜ଼ରେ ଆପଣ ଲଗାଇଥିବା ସ୍ମାରକ:\n\n{title}\nତାରିଖ: {due}\n{note}\n{person}ଙ୍କ ପୃଷ୍ଠା ଖୋଲନ୍ତୁ:\n"
+           "{link}\n\nଏହି ତାରିଖ ଆପଣ ନିଜେ ଠିକ୍ କରିଛନ୍ତି; ପରୀକ୍ଷା କେବେ ଦରକାର, ନବ୍ଜ଼ ତାହା ଠିକ୍ କରେ ନାହିଁ।"),
 }
+NOTE = {"en": "Note: {note}\n", "hi": "टिप्पणी: {note}\n", "or": "ଟିପ୍ପଣୀ: {note}\n"}
+# the due date in each language: English month names read naturally; Hindi and Odia get day-month-year digits
+DUE = {"en": "%d %b %Y", "hi": "%d-%m-%Y", "or": "%d-%m-%Y"}
 
 
 def add_months(day: date, months: int) -> date:
@@ -47,9 +53,10 @@ def send_email(session: Session, reminder: Reminder) -> bool:
     user = session.get(AppUser, profile.owner_user_id) if profile else None
     if user is None or user.deleted_at is not None:
         return False
-    subject, body = TEXT.get(user.preferred_language.value) or TEXT["en"]
-    fields = {"title": reminder.title, "person": profile.display_name, "due": reminder.due_on.strftime("%d %b %Y"),
-              "note": f"Note: {reminder.note}\n" if reminder.note else "",
+    lang = user.preferred_language.value if user.preferred_language.value in TEXT else "en"
+    subject, body = TEXT[lang]
+    fields = {"title": reminder.title, "person": profile.display_name, "due": reminder.due_on.strftime(DUE[lang]),
+              "note": NOTE[lang].format(note=reminder.note) if reminder.note else "",
               "link": f"{settings.app_base_url}/p/{profile.id}"}
     mail.send(user.email, subject.format(**fields), body.format(**fields))
     reminder.sent_at = datetime.now(UTC)

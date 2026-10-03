@@ -10,7 +10,8 @@ import { ReminderForm, useDueText } from "../components/care/Reminders";
 import { useSpan } from "../components/insights/ResultRow";
 import { StatusMark } from "../components/insights/StatusMark";
 import { TrendChart } from "../components/insights/TrendChart";
-import { Button, Card, EmptyState, ErrorNote, Loading } from "../components/ui";
+import { IconSeal, organIcon } from "../components/icons";
+import { Button, Card, EmptyState, ErrorNote, Loading, SectionTitle } from "../components/ui";
 import { ageBand, formatDate, formatMonth, formatPercent, formatRange, formatUnit, formatValue, ordinal } from "../lib/format";
 import NotFound from "./NotFound";
 
@@ -33,8 +34,13 @@ export default function TestHistory() {
       <Link to={latest ? `/r/${latest.report_id}` : `/p/${id}`} className="text-link">
         ← {latest ? t("history.back_to_results") : person.display_name}
       </Link>
-      <h1 className="mt-2 font-display text-3xl font-bold sm:text-4xl">{test.name}</h1>
-      <p className="mt-1 text-muted">{person.display_name}</p>
+      <div className="page-head mt-2 flex items-start gap-4">
+        <IconSeal name={organIcon(test.organ)} size={24} className="icon-seal-lg mt-1" />
+        <div>
+          <h1 className="font-display text-3xl font-bold sm:text-4xl">{test.name}</h1>
+          <p className="mt-1 text-muted">{person.display_name} · {t(`organs.${test.organ}`)}</p>
+        </div>
+      </div>
 
       {!latest ? (
         <EmptyState title={test.name} body={t("history.few_results", { count: 0 })} />
@@ -72,7 +78,7 @@ export default function TestHistory() {
           <RepeatReminder profileId={id} test={test} />
 
           <section className="mt-8" aria-labelledby="table-h">
-            <h2 id="table-h" className="mb-3 font-display text-xl font-bold">{t("history.table_title")}</h2>
+            <SectionTitle id="table-h" icon="tests" title={t("history.table_title")} />
             <div className="overflow-x-auto rounded-lg border border-hairline bg-raised">
               <table className="w-full text-left">
                 <thead className="border-b border-hairline text-sm text-muted">
@@ -157,15 +163,17 @@ function TrendStatement({ latest, test, count }: { latest: Result; test: TestInf
 }
 
 function PercentileStatement({ latest }: { latest: Result }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const p = latest.percentile;
   if (!p) return null;
-  const group = `${t(`history.group_${p.sex}`, { band: ageBand(p.age_band) })}`;
+  const group = t(`history.group_${p.sex}`, { band: ageBand(p.age_band) });
   const key = p.side === "below" ? "history.percentile_below" : p.side === "above" ? "history.percentile_above" : "history.percentile";
+  // the analysis names its one population in English; say it in the reader's language
+  const population = p.population.startsWith("US population (NHANES") ? t("history.population_nhanes") : p.population;
   return (
     <p>
-      {t(key, { p: ordinal(p.value), group: `US ${group}` })}{" "}
-      <span className="text-muted">{t("history.percentile_note", { population: p.population })}</span>
+      {t(key, { p: ordinal(p.value, i18n.resolvedLanguage ?? "en"), group })}{" "}
+      <span className="text-muted">{t("history.percentile_note", { population })}</span>
     </p>
   );
 }

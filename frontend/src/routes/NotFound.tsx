@@ -6,10 +6,12 @@ import { EmptyState } from "../components/ui";
 export default function NotFound() {
   const { t } = useTranslation();
   return (
+    <div className="page-head">
     <EmptyState
       title={t("not_found.title")}
       body={t("not_found.body")}
       action={<Link to="/home" className="text-link">{t("not_found.home")}</Link>}
     />
+    </div>
   );
 }

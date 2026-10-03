@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { ApiError } from "../api/client";
 import { Enso } from "./Enso";
+import { Icon, IconSeal, type IconName } from "./icons";
 
 type Variant = "primary" | "secondary" | "quiet" | "danger";
 
@@ -34,15 +35,73 @@ export function Card({ className, children }: { className?: string; children: Re
   return <div className={clsx("card rounded-lg border border-hairline bg-raised", className)}>{children}</div>;
 }
 
-export function PageTitle({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageTitle({ title, subtitle, action, icon, mark }: {
+  title: string;
+  subtitle?: string;
+  action?: ReactNode;
+  /** The page's mark, set in a seal beside the title. */
+  icon?: IconName;
+  /** Anything else to put beside the title instead of an icon, e.g. a person's seal. */
+  mark?: ReactNode;
+}) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="font-display text-3xl font-bold sm:text-4xl">{title}</h1>
-        {subtitle && <p className="mt-2 max-w-prose text-muted">{subtitle}</p>}
+    <div className="page-head mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div className="flex items-start gap-4">
+        {mark ?? (icon && <IconSeal name={icon} size={24} className="icon-seal-lg mt-1" />)}
+        <div>
+          <h1 className="font-display text-3xl font-bold sm:text-4xl">{title}</h1>
+          {subtitle && <p className="mt-2 max-w-prose text-muted">{subtitle}</p>}
+        </div>
       </div>
       {action}
     </div>
+  );
+}
+
+/** A section's heading with its mark, and an optional action on the right. */
+export function SectionTitle({ id, icon, title, action, className }: {
+  id?: string;
+  icon?: IconName;
+  title: string;
+  action?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={clsx("mb-3 flex flex-wrap items-center justify-between gap-3", className)}>
+      <h2 id={id} className="flex items-center gap-2.5 font-display text-xl font-bold">
+        {icon && <IconSeal name={icon} />}
+        {title}
+      </h2>
+      {action}
+    </div>
+  );
+}
+
+/** Nothing here yet, said quietly: the section's mark in a dashed circle and one line. */
+export function Empty({ icon, children, className }: { icon: IconName; children: ReactNode; className?: string }) {
+  return (
+    <div className={clsx("flex items-center gap-4 rounded-lg border border-dashed border-hairline px-5 py-4 text-muted", className)}>
+      <span className="empty-mark"><Icon name={icon} size={22} /></span>
+      <div>{children}</div>
+    </div>
+  );
+}
+
+/** A brush stroke between the parts of a long page. */
+export function BrushRule() {
+  return <div className="brush-rule" aria-hidden="true" />;
+}
+
+const SEAL_INKS = 5; // --seal-1 … --seal-5 in styles/polish.css
+
+/** A person's initial as a name seal, its ink chosen from their name so it stays the same everywhere. */
+export function PersonSeal({ name, large }: { name: string; large?: boolean }) {
+  const ink = ([...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0) % SEAL_INKS) + 1;
+  return (
+    <span aria-hidden="true" className={clsx("avatar-seal", large && "avatar-seal-lg")}
+      style={{ ["--seal" as string]: `var(--seal-${ink})` }}>
+      {[...name.trim()][0]?.toUpperCase()}
+    </span>
   );
 }
 
@@ -60,9 +119,20 @@ export function EmptyState({ title, body, action }: { title: string; body: strin
   );
 }
 
+/** What went wrong, in the reader's language when the API gave a reason code; its English words otherwise. */
+export function useErrorText() {
+  const { t, i18n } = useTranslation();
+  return (error: unknown): string => {
+    if (!(error instanceof ApiError)) return t("common.error");
+    const key = error.code && `errors.${error.code}`;
+    return key && i18n.exists(key) ? t(key, error.body as Record<string, string>) : error.message;
+  };
+}
+
 export function ErrorNote({ error, message, onRetry }: { error?: unknown; message?: string; onRetry?: () => void }) {
   const { t } = useTranslation();
-  message ??= error instanceof ApiError ? error.message : t("common.error");
+  const describe = useErrorText();
+  message ??= describe(error);
   return (
     <div role="alert" className="rounded-md border border-abnormal/40 bg-abnormal/5 px-4 py-3 text-abnormal">
       <p>{message}</p>

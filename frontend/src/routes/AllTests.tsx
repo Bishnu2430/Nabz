@@ -7,6 +7,7 @@ import { ORGAN_ORDER } from "../components/body/organs";
 import { useExact } from "../components/exact/exact";
 import { Sparkline } from "../components/exact/Sparkline";
 import { StatusMark, isAbnormal } from "../components/insights/StatusMark";
+import { Icon, organIcon } from "../components/icons";
 import { Card, ErrorNote, fieldClass, Loading, PageTitle } from "../components/ui";
 import { formatDate, formatWithUnit } from "../lib/format";
 import { seriesByTest } from "../lib/series";
@@ -35,7 +36,7 @@ export default function AllTests() {
   return (
     <>
       <Link to={`/p/${id}`} className="text-link">← {profile?.display_name}</Link>
-      <PageTitle title={t("tests_page.title")} subtitle={t("tests_page.subtitle", { count: series.length })} />
+      <PageTitle icon="tests" title={t("tests_page.title")} subtitle={t("tests_page.subtitle", { count: series.length })} />
       <div className="mb-6 flex flex-wrap items-center gap-4">
         <label className="min-w-64 flex-1">
           <span className="sr-only">{t("tests_page.search")}</span>
@@ -52,7 +53,9 @@ export default function AllTests() {
       <div className="space-y-8">
         {byOrgan.map(([organ, items]) => (
           <section key={organ} aria-labelledby={`org-${organ}`}>
-            <h2 id={`org-${organ}`} className="mb-3 font-display text-xl font-bold">{t(`organs.${organ}`)}</h2>
+            <h2 id={`org-${organ}`} className="mb-3 flex items-center gap-2 font-display text-xl font-bold">
+              <Icon name={organIcon(organ)} size={20} className="text-muted" />{t(`organs.${organ}`)}
+            </h2>
             <Card className="divide-y divide-hairline">
               {items.map((s) => (
                 <Link key={s.code} to={`/p/${id}/tests/${s.code}`}

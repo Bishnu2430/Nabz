@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { useConsents, useSetConsent } from "../api/hooks";
 import type { ConsentPurpose } from "../api/types";
-import { Card } from "./ui";
+import { Card, SectionTitle } from "./ui";
 
 const SHOWN: ConsentPurpose[] = ["external_ai", "voice"];
 
@@ -16,7 +16,7 @@ export function PrivacyChoices({ profileId }: { profileId: string }) {
 
   return (
     <section aria-labelledby="privacy-h" className="mt-10">
-      <h2 id="privacy-h" className="mb-3 font-display text-xl font-bold">{t("privacy.title")}</h2>
+      <SectionTitle id="privacy-h" icon="lock" title={t("privacy.title")} />
       <Card className="divide-y divide-hairline">
         {SHOWN.map((purpose) => (
           <label key={purpose} className="flex cursor-pointer items-start justify-between gap-4 px-5 py-4">

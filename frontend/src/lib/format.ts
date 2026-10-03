@@ -36,23 +36,48 @@ export function formatRange(low: string | null, high: string | null): string {
   return "";
 }
 
+// Month names for languages a browser may have no date data for (Chrome writes Odia dates in US English).
+const MONTHS: Record<string, string[]> = {
+  or: ["ଜାନୁଆରୀ", "ଫେବୃଆରୀ", "ମାର୍ଚ୍ଚ", "ଏପ୍ରିଲ୍", "ମେ", "ଜୁନ୍", "ଜୁଲାଇ", "ଅଗଷ୍ଟ", "ସେପ୍ଟେମ୍ବର", "ଅକ୍ଟୋବର", "ନଭେମ୍ବର",
+    "ଡିସେମ୍ବର"],
+};
+
+const localeOf = (lang: string) => (lang === "en" ? "en-IN" : `${lang}-IN`);
+
+/** A date in the reader's language: the browser's own wording when it knows the language, our month names when not. */
+function dateText(d: Date, lang: string, parts: { day?: boolean; year?: boolean; time?: boolean; utc?: boolean }): string {
+  const months = MONTHS[lang];
+  if (months && Intl.DateTimeFormat.supportedLocalesOf([localeOf(lang)]).length === 0) {
+    const [year, month, day, hour, minute] = parts.utc
+      ? [d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes()]
+      : [d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()];
+    const text = [parts.day ? String(day) : "", months[month], parts.year ? String(year) : ""].filter(Boolean).join(" ");
+    return parts.time ? `${text}, ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}` : text;
+  }
+  return new Intl.DateTimeFormat(localeOf(lang), {
+    ...(parts.day ? { day: "numeric" } : {}),
+    month: "short",
+    ...(parts.year ? { year: "numeric" } : {}),
+    ...(parts.time ? { hour: "numeric", minute: "2-digit" } : {}),
+    ...(parts.utc ? { timeZone: "UTC" } : {}),
+  }).format(d);
+}
+
 export function formatDate(iso: string | null | undefined, lang: string): string {
   if (!iso) return "";
   // Date-only strings are calendar dates: format them in UTC so they never shift a day.
-  const d = new Date(iso.length === 10 ? `${iso}T00:00:00Z` : iso);
-  return new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    ...(iso.length === 10 ? { timeZone: "UTC" } : {}),
-  }).format(d);
+  const dateOnly = iso.length === 10;
+  return dateText(new Date(dateOnly ? `${iso}T00:00:00Z` : iso), lang, { day: true, year: true, utc: dateOnly });
 }
 
 /** A moment in the reader's own time zone: "28 Sept 2026, 7:30 am". */
 export function formatDateTime(iso: string, lang: string): string {
-  return new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, {
-    day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit",
-  }).format(new Date(iso));
+  return dateText(new Date(iso), lang, { day: true, year: true, time: true });
+}
+
+/** Day and month in the reader's time zone, for chart axes: "28 Sept". */
+export function formatDayMonth(ms: number, lang: string): string {
+  return dateText(new Date(ms), lang, { day: true });
 }
 
 /** Where a value sits against its range: used for the small status word beside each value. */
@@ -82,9 +107,7 @@ export function formatPercent(fraction: number): string {
 }
 
 export function formatMonth(iso: string, lang: string): string {
-  const d = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
-  return new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, { month: "short", year: "numeric", timeZone: "UTC" })
-    .format(d);
+  return dateText(new Date(`${iso.slice(0, 10)}T00:00:00Z`), lang, { year: true, utc: true });
 }
 
 /** Whole years or months between two ISO dates, for "over 3 years". */
@@ -92,9 +115,11 @@ export function spanYears(first: string, last: string): number {
   return (Date.parse(last) - Date.parse(first)) / (365.25 * 24 * 3600 * 1000);
 }
 
-/** 1 → "1st", 52 → "52nd", 13 → "13th". */
-export function ordinal(n: number): string {
+/** 1 → "1st", 52 → "52nd", 13 → "13th"; in Hindi "52वें", in Odia "52ତମ". */
+export function ordinal(n: number, lang = "en"): string {
   const r = Math.round(n);
+  if (lang === "hi") return `${r}वें`;
+  if (lang === "or") return `${r}ତମ`;
   const tail = r % 100 >= 11 && r % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[r % 10] ?? "th";
   return `${r}${tail}`;
 }

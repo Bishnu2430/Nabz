@@ -76,7 +76,8 @@ def request_explanation(report_id: uuid.UUID, body: ExplainIn, session: Session 
     """Queue an explanation in another language, or a fresh one (e.g. after external-AI consent is given)."""
     report = owned_report(session, user, report_id)
     if report.status not in ANALYSED:
-        raise HTTPException(status.HTTP_409_CONFLICT, "The report hasn't been analysed yet.")
+        raise HTTPException(status.HTTP_409_CONFLICT,
+                            {"detail": "The report hasn't been analysed yet.", "code": "not_analysed"})
     exists = session.scalar(select(Explanation.id).where(Explanation.report_id == report.id,
                                                         Explanation.language == body.language))
     if (exists and not body.regenerate) or _pending(session, report, body.language):

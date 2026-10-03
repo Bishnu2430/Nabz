@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { READING_UNIT, type Reading, type ReadingKind, type ReadingTarget } from "../../api/care";
-import { formatDateTime, formatMonth } from "../../lib/format";
+import { formatDateTime, formatDayMonth, formatMonth } from "../../lib/format";
 import { formatReadingNumber, misses, readingText } from "../../lib/readings";
 import { niceTicks, useWidth } from "../insights/TrendChart";
 
@@ -57,7 +57,7 @@ export function ReadingChart({ kind, readings, target }: { kind: ReadingKind; re
   const xTicks = [pts[0].t, ...(pts.length > 2 ? [(pts[0].t + pts[pts.length - 1].t) / 2] : []), pts[pts.length - 1].t]
     .filter((ms, i, all) => i === 0 || ms !== all[i - 1]);
   const xLabel = (ms: number) => (short
-    ? new Intl.DateTimeFormat(lang === "en" ? "en-IN" : `${lang}-IN`, { day: "numeric", month: "short" }).format(new Date(ms))
+    ? formatDayMonth(ms, lang)
     : formatMonth(new Date(ms).toISOString(), lang));
 
   const band = target?.low != null && target?.high != null && kind !== "bp";

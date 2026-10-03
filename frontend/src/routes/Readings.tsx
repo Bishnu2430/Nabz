@@ -10,7 +10,8 @@ import {
 import { useProfiles } from "../api/hooks";
 import { ReadingChart } from "../components/care/ReadingChart";
 import { useToast } from "../components/Toast";
-import { Button, Card, ErrorNote, Loading, PageTitle, fieldClass } from "../components/ui";
+import { Icon, IconSeal, type IconName } from "../components/icons";
+import { Button, Card, ErrorNote, Loading, PageTitle, SectionTitle, fieldClass } from "../components/ui";
 import { formatDate, formatDateTime } from "../lib/format";
 import { formatReadingNumber, misses, readingStats, readingText, targetText, within, type Miss } from "../lib/readings";
 import NotFound from "./NotFound";
@@ -22,6 +23,9 @@ const CONTEXTS: Record<ReadingKind, string[]> = {
   weight: [], temperature: [], spo2: [],
 };
 const PERIODS = [30, 90, 365, null] as const;
+const KIND_ICON: Record<ReadingKind, IconName> = {
+  bp: "heart", glucose: "drop", weight: "scale", pulse: "pulse", temperature: "thermometer", spo2: "lungs",
+};
 const STEP: Record<ReadingKind, string> = { bp: "1", glucose: "1", weight: "0.1", pulse: "1", temperature: "0.1", spo2: "1" };
 
 /** How a reading sits against the person's own target, in exact numbers. */
@@ -80,13 +84,14 @@ export default function Readings() {
   return (
     <>
       <Link to={`/p/${id}`} className="text-link">← {profile.display_name}</Link>
-      <PageTitle title={t("readings.title")} subtitle={t("readings.intro")} />
+      <PageTitle icon="readings" title={t("readings.title")} subtitle={t("readings.intro")} />
 
       <div role="tablist" aria-label={t("readings.kinds")} className="-mt-3 mb-6 flex flex-wrap gap-2">
         {READING_KINDS.map((k) => (
           <button key={k} type="button" role="tab" aria-selected={k === kind} onClick={() => setParams({ kind: k }, { replace: true })}
-            className={clsx("btn rounded-full border px-3 py-1 text-sm", k === kind
+            className={clsx("btn inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm", k === kind
               ? "border-accent bg-accent font-medium text-accent-ink" : "border-hairline bg-raised hover:border-ink/40")}>
+            <Icon name={KIND_ICON[k]} size={15} />
             {t(`readings.kind_${k}`)}{" "}
             {byKind.has(k) && <span className="tabular opacity-70">{byKind.get(k)!.length}</span>}
           </button>
@@ -151,7 +156,8 @@ export default function Readings() {
               )}
             </>
           ) : (
-            <Card className="p-8 text-center">
+            <Card className="corner-pattern p-8 text-center">
+              <span className="empty-mark mb-3"><Icon name={KIND_ICON[kind]} size={22} /></span>
               <h2 className="font-display text-xl font-bold">{t("readings.empty_title", { kind: t(`readings.kind_${kind}`) })}</h2>
               <p className="mt-1 text-muted">{t("readings.empty_body")}</p>
             </Card>
@@ -203,7 +209,7 @@ function AddReading({ profileId, kind }: { profileId: string; kind: ReadingKind 
 
   return (
     <Card className="p-5">
-      <h2 className="mb-3 font-display text-lg font-bold">{t("readings.add")}</h2>
+      <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><IconSeal name="plus" />{t("readings.add")}</h2>
       <form onSubmit={submit} className="space-y-3" noValidate>
         <div className="flex items-end gap-2">
           <label className="min-w-0 flex-1">
@@ -271,7 +277,7 @@ function TargetEditor({ profileId, kind, target }: { profileId: string; kind: Re
 
   return (
     <Card className="p-5">
-      <h2 className="font-display text-lg font-bold">{t("readings.target_title")}</h2>
+      <h2 className="flex items-center gap-2 font-display text-lg font-bold"><IconSeal name="stethoscope" />{t("readings.target_title")}</h2>
       <p className="mb-3 mt-1 text-sm text-muted">{t("readings.target_intro")}</p>
       <form onSubmit={submit} className="space-y-3" noValidate>
         <div className="flex items-end gap-2">
@@ -307,9 +313,7 @@ function ReadingTable({ profileId, kind, readings, target }: {
   const [limit, setLimit] = useState(15);
   return (
     <section className="mt-8" aria-labelledby="readings-table-h">
-      <h2 id="readings-table-h" className="mb-3 font-display text-xl font-bold">
-        {t("readings.table_title", { kind: t(`readings.kind_${kind}`) })}
-      </h2>
+      <SectionTitle id="readings-table-h" icon="tests" title={t("readings.table_title", { kind: t(`readings.kind_${kind}`) })} />
       <div className="overflow-x-auto rounded-lg border border-hairline bg-raised">
         <table className="w-full text-left">
           <thead className="border-b border-hairline text-sm text-muted">

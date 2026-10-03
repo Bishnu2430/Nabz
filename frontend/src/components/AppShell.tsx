@@ -48,7 +48,7 @@ export function AppShell() {
             <img src="/seal.svg" alt="" className="size-8" />
             <span className="font-display text-2xl font-bold tracking-wide">Nabz</span>
           </Link>
-          {me && !me.totp_required && <nav aria-label="Main">
+          {me && !me.totp_required && <nav aria-label={t("nav.main")}>
             <NavLink
               to="/home"
               className={({ isActive }) =>
@@ -95,6 +95,7 @@ export function AppShell() {
       {/* new pages open at the top; going back returns to where the person was */}
       <ScrollRestoration />
 
+      <div className="footer-waves print:hidden" aria-hidden="true" />
       <footer className="border-t border-hairline print:hidden">
         <div className="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-6 gap-y-2 px-4 py-4 text-sm text-muted">
           <p className="mr-auto">{t("app.disclaimer")}</p>
