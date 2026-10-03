@@ -26,7 +26,8 @@ class Completion:
     model: str
     input_tokens: int
     output_tokens: int
-    latency_ms: int
+    latency_ms: int  # from the first attempt to the answer, including waits for the rate limit
+    waited_ms: int = 0  # of which spent waiting for the rate limit
 
 
 class LLMProvider(Protocol):
@@ -59,6 +60,7 @@ class GroqProvider:
         if self.model.startswith("openai/gpt-oss"):
             body["reasoning_effort"] = effort
         started = time.perf_counter()
+        waited = 0.0
         for attempt in range(self.max_retries + 1):
             try:
                 r = self._client.post(GROQ_URL, headers=self._headers, json=body)
@@ -67,7 +69,9 @@ class GroqProvider:
             if r.status_code != 429 or attempt == self.max_retries:
                 break
             # Rate limit (tokens or requests per minute): wait as long as Groq asks, within reason.
-            time.sleep(min(float(r.headers.get("retry-after", "5") or 5), self.max_wait))
+            pause = min(float(r.headers.get("retry-after", "5") or 5), self.max_wait)
+            time.sleep(pause)
+            waited += pause
         latency = round((time.perf_counter() - started) * 1000)
         if r.status_code != 200:
             # The error body can echo the request; keep only the type, never health data.
@@ -85,7 +89,7 @@ class GroqProvider:
             raise LLMError("response JSON is not an object")
         usage = data.get("usage") or {}
         return Completion(content, data.get("model", self.model), int(usage.get("prompt_tokens", 0)),
-                          int(usage.get("completion_tokens", 0)), latency)
+                          int(usage.get("completion_tokens", 0)), latency, round(waited * 1000))
 
 
 class ScriptedProvider:

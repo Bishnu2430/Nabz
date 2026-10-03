@@ -57,8 +57,23 @@ def english_text(content: dict) -> str:
     return " ".join(parts)
 
 
+class Recording:
+    """The provider, keeping every completion so an evaluation can tell generation time from rate-limit waits."""
+
+    def __init__(self, inner):
+        self.inner, self.calls = inner, []
+
+    def complete_json(self, *args, **kwargs):
+        done = self.inner.complete_json(*args, **kwargs)
+        self.calls.append(done)
+        return done
+
+    def waited_since(self, start: int) -> int:
+        return sum(c.waited_ms for c in self.calls[start:])
+
+
 def evaluate(profile_name: str, languages: list[str], limit: int, pause: float, out: Path) -> dict:
-    provider = GroqProvider(settings.groq_api_key, settings.llm_model)
+    provider = Recording(GroqProvider(settings.groq_api_key, settings.llm_model))
     embedder = default_embedder()
     with SessionLocal() as s:
         ids = s.scalars(
@@ -72,6 +87,7 @@ def evaluate(profile_name: str, languages: list[str], limit: int, pause: float, 
         for rid in ids:
             for lang in languages:
                 s = SessionLocal()
+                first_call = len(provider.calls)
                 try:
                     report = s.get(Report, rid)
                     profile = s.get(Profile, report.profile_id)
@@ -83,7 +99,8 @@ def evaluate(profile_name: str, languages: list[str], limit: int, pause: float, 
                     rec = {
                         "report_id": str(rid), "language": lang, "source": o.source, "reason": o.reason,
                         "problems": [p.code for p in o.problems], "details": [p.detail for p in o.problems],
-                        "latency_ms": e.latency_ms, "input_tokens": e.input_tokens, "output_tokens": e.output_tokens,
+                        "latency_ms": e.latency_ms, "waited_ms": provider.waited_since(first_call),
+                        "input_tokens": e.input_tokens, "output_tokens": e.output_tokens,
                         "focus": e.content["meta"]["focus"],
                         "grade": fk_grade(english_text(e.content)) if lang == "en" and o.source == "model" else None,
                         "shown": {k: e.content.get(k) for k in ("summary", "per_test", "doctor_questions", "sources")},
@@ -109,6 +126,7 @@ def summarise(records: list[dict]) -> dict:
         called = [r for r in rs if r["input_tokens"]]
         grades = [r["grade"] for r in rs if r["grade"] is not None]
         latencies = sorted(r["latency_ms"] for r in called)
+        generation = sorted(r["latency_ms"] - r.get("waited_ms", 0) for r in called)
         out[lang] = {
             "n": len(rs),
             "shown_from_model": round(sum(r["source"] == "model" for r in rs) / len(rs), 3),
@@ -116,6 +134,10 @@ def summarise(records: list[dict]) -> dict:
             "problem_codes": dict(Counter(c for r in rs for c in r["problems"])),
             "latency_ms_p50": statistics.median(latencies) if latencies else None,
             "latency_ms_max": latencies[-1] if latencies else None,
+            "generation_ms_p50": statistics.median(generation) if generation else None,
+            "generation_ms_p95": generation[min(len(generation) - 1, int(len(generation) * 0.95))]
+            if generation else None,
+            "rate_limit_wait_ms_total": sum(r.get("waited_ms", 0) for r in called),
             "tokens_in_mean": round(statistics.mean(r["input_tokens"] for r in called)) if called else None,
             "tokens_out_mean": round(statistics.mean(r["output_tokens"] for r in called)) if called else None,
             "cost_usd_mean": round(statistics.mean(r["input_tokens"] * PRICE_IN + r["output_tokens"] * PRICE_OUT
