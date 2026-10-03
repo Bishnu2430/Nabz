@@ -130,7 +130,7 @@ def test_confirm_needs_every_row_mapped(client: TestClient, sessions, storage, c
     row = client.get(f"/v1/reports/{rid}").json()["observations"][0]
     client.patch(f"/v1/observations/{row['id']}", json={"raw_name": "Mystery test"})
     r = client.post(f"/v1/reports/{rid}/confirm", json={})
-    assert r.status_code == 409 and r.headers["content-type"] == "application/problem+json"
+    assert r.status_code == 409 and r.headers["content-type"].startswith("application/problem+json")
     assert r.json()["observations"] == [row["id"]]
 
 

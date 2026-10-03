@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 from app.explain.payload import Payload
 
-PROMPT_VERSION = "explain-v6"
+PROMPT_VERSION = "explain-v7"
 DISCLAIMER_KEY = "not_a_diagnosis_v1"
 LANGUAGE_NAMES = {"en": "English", "hi": "Hindi", "or": "Odia"}
 STATUSES = ["low", "normal", "high", "critical_low", "critical_high", "unknown"]
@@ -43,8 +43,8 @@ health.
 "this means your …", nor the same in any language. Do not say an organ is damaged, inflamed, struggling or working \
 less well. Do not name diseases or medical conditions at all. When a result is out \
 of range, you may say, as general knowledge about the test, that such a result can have several causes, described \
-in everyday words (for example "what you ate before the test", "some medicines", "how the body stores iron"), and \
-that their doctor can tell which, if any, applies to them.
+in everyday words, and that their doctor can tell which, if any, applies to them. Name only causes the passage for \
+that test gives; if it gives none, say only that there can be several causes.
 4. Do not advise treatment, medicines, doses, supplements, diets or lifestyle changes, and do not tell the reader to \
 stop or change anything. The only action you recommend is talking to their doctor.
 5. Do not reassure ("nothing to worry about", "you are healthy"). Results in range are described as in range, no more.
