@@ -96,7 +96,7 @@ def register(session: Session, email: str, password: str, language: Lang) -> App
     caller answers the same either way, and the owner gets a heads-up email instead)."""
     email = normalise_email(email)
     if problem := security.password_problem(password, email):
-        raise AuthError(422, "password", problem)
+        raise AuthError(422, "password_common" if problem == security.COMMON else "password", problem)
     existing = find_user(session, email)
     if existing is not None:
         mail.send_template("exists", email, existing.preferred_language.value, f"{settings.app_base_url}/login")
@@ -221,7 +221,7 @@ def request_reset(session: Session, email: str) -> None:
 def reset_password(session: Session, token: str, password: str) -> AppUser:
     user = use_token(session, token, TokenPurpose.RESET_PASSWORD)
     if problem := security.password_problem(password, user.email):
-        raise AuthError(422, "password", problem)
+        raise AuthError(422, "password_common" if problem == security.COMMON else "password", problem)
     user.password_hash = security.hash_password(password)
     user.failed_logins, user.locked_until = 0, None
     user.email_verified_at = user.email_verified_at or now()  # the reset link proves the email
@@ -233,7 +233,7 @@ def change_password(session: Session, user: AppUser, current: str, new: str, kee
     if not security.verify_password(user.password_hash, current):
         raise AuthError(400, "current_password", "Your current password is wrong.")
     if problem := security.password_problem(new, user.email):
-        raise AuthError(422, "password", problem)
+        raise AuthError(422, "password_common" if problem == security.COMMON else "password", problem)
     user.password_hash = security.hash_password(new)
     revoke_all(session, user.id, keep=keep)
 

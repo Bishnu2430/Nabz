@@ -351,7 +351,8 @@
       "email": "Enter a valid email address.",
       "current_password": "Your current password is wrong.",
       "totp_setup": "Start the set-up again.",
-      "totp_required": "Staff accounts need two-step sign-in."
+      "totp_required": "Staff accounts need two-step sign-in.",
+      "password_common": "This password is one of the most used. Choose another one, such as a few unrelated words."
     },
     "pw": {
       "too_short": "Use at least {{n}} characters.",

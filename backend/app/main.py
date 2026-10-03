@@ -3,6 +3,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from starlette.datastructures import MutableHeaders
+from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from app.api.routes import (
     admin,
@@ -28,6 +30,45 @@ if settings.app_env != "development" and _weak_key:
     raise RuntimeError("Set SECRET_KEY (32+ characters) outside development")
 
 app = FastAPI(title="Nabz API", version="0.3.0")
+
+# Every API response (docs/10 §4, ASVS 5.0 V3): no sniffing, framing or referrer; JSON says it is UTF-8; JSON bodies
+# may load nothing; and HSTS once the API is served over HTTPS. Files keep their own Content-Disposition.
+SECURITY_HEADERS = {
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "referrer-policy": "no-referrer",
+    "cross-origin-resource-policy": "same-origin",
+}
+JSON_TYPES = ("application/json", "application/problem+json")
+
+
+class SecurityHeaders:
+    def __init__(self, inner: ASGIApp):
+        self.inner = inner
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.inner(scope, receive, send)
+            return
+
+        async def with_headers(message: Message) -> None:
+            if message["type"] == "http.response.start":
+                headers = MutableHeaders(scope=message)
+                for name, value in SECURITY_HEADERS.items():
+                    headers.setdefault(name, value)
+                kind = headers.get("content-type", "")
+                if kind.startswith(JSON_TYPES):
+                    headers["content-security-policy"] = "default-src 'none'; frame-ancestors 'none'"
+                    if "charset" not in kind:
+                        headers["content-type"] = f"{kind}; charset=utf-8"
+                if settings.cookie_secure:
+                    headers.setdefault("strict-transport-security", "max-age=31536000; includeSubDomains")
+            await send(message)
+
+        await self.inner(scope, receive, with_headers)
+
+
+app.add_middleware(SecurityHeaders)
 app.include_router(auth.router)
 app.include_router(profiles.router)
 app.include_router(reports.router)

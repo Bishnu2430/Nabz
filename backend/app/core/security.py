@@ -5,6 +5,8 @@ from __future__ import annotations
 import base64
 import hashlib
 import secrets
+from functools import lru_cache
+from pathlib import Path
 
 import pyotp
 from argon2 import PasswordHasher
@@ -38,15 +40,28 @@ def needs_rehash(stored: str) -> bool:
         return False
 
 
+@lru_cache(maxsize=1)
+def common_passwords() -> frozenset[str]:
+    """Passwords of 10 or more characters from the NCSC's 100,000 most used (data/security, ASVS 5.0 6.2.4)."""
+    path = Path(settings.data_dir) / "security" / "common-passwords.txt"
+    return frozenset(path.read_text(encoding="utf-8").split()) if path.exists() else frozenset()
+
+
 def password_problem(password: str, email: str = "") -> str | None:
-    """A reason the password is too weak, or None. Length first (NIST SP 800-63B), then the obvious."""
+    """A reason the password is too weak, or None. Length first (NIST SP 800-63B), then the obvious, then the list
+    of passwords people use most."""
     if len(password) < MIN_PASSWORD_LENGTH:
         return f"Use at least {MIN_PASSWORD_LENGTH} characters."
     if len(set(password)) < 4:
         return "Use a less repetitive password."
     if email and email.split("@")[0].lower() in password.lower():
         return "Don't include your email address in your password."
+    if password.lower() in common_passwords():
+        return COMMON
     return None
+
+
+COMMON = "This password is one of the most used. Choose another."
 
 
 def new_token() -> str:
