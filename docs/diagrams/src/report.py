@@ -1,4 +1,5 @@
-"""Report edition of the Nabz figures — drawn at printed size for the A4 college report.
+"""Report edition of the Nabz figures — drawn at printed size for the A4 college report, and drawn from the
+system as built (October 2026), not the plan.
 
     python docs/diagrams/src/report.py            # all figures → docs/diagrams/report/
     python docs/diagrams/src/report.py er-a gantt # a subset
@@ -10,8 +11,9 @@ Figures are written with physical sizes (cm), so inserting them into Word at
 100 % gives the intended print size. At that size the smallest text is
 9.5 px ≈ 7 pt and body labels are 10.5–12.5 px ≈ 8–9.5 pt.
 
-No titles are drawn inside the figures: the report adds a numbered caption
-below each figure, as the college template requires.
+Connectors run in the gaps between boxes and never across a label. No titles
+are drawn inside the figures: the report adds a numbered caption below each
+figure, as the college template requires.
 """
 
 from __future__ import annotations
@@ -19,18 +21,16 @@ from __future__ import annotations
 import csv
 import sys
 from datetime import date, timedelta
-from pathlib import Path
 
-from build import (
-    DOMAINS, ENTITIES, KIND, OWNER, SRC, _wrap, actor, usecase,
-)
+from build import KIND, OWNER, SRC, _wrap, actor
 from nordsvg import (
-    EDGE, INK, INK_2, LINE, MONO, MUTED, PAPER, PURPLE, RED, SNOW, SNOW_2, TILE,
+    EDGE, INK, INK_2, LINE, MONO, MUTED, PAPER, RED, SNOW, SNOW_2, TILE,
     Diagram, icon, text_width,
 )
 
 OUT = SRC.parent / "report"
 PW, LW = 602, 930          # portrait / landscape text-block width in px
+ORANGE = TILE["orange"]
 
 
 def page(w: int, h: int) -> Diagram:
@@ -52,39 +52,42 @@ def chip(d: Diagram, x: float, y: float, glyph: str, role: str, label: str,
 # Architecture (block diagram) — portrait
 # =============================================================================
 def architecture() -> Diagram:
-    d = page(PW, 640)
-    chip(d, 72, 6, "users", "slate", "Users", "patients · caregivers · administrators")
-    d.group(10, 70, 582, 450, "Docker host", "slate", "laptop", tint=False, sublabel="one Compose project")
-    d.group(24, 108, 180, 400, "Presentation", "cyan", "browser")
-    d.group(212, 108, 176, 400, "Application", "blue", "api")
-    d.group(396, 108, 182, 400, "Data & processing", "green", "database")
+    d = page(PW, 676)
+    chip(d, 72, 6, "users", "slate", "Users", "families · doctors · clinical reviewers · admins")
+    # the Users arrow comes down at x = 89, so these two titles sit to its right
+    d.group(10, 70, 582, 480, "", "slate", "laptop", tint=False)
+    d.text(106, 88.5, "Docker host", 12.5, 600, INK)
+    d.text(106 + text_width("Docker host", 12.5, 600) + 10, 88.5, "one Compose project", 11, 400, MUTED)
+    d.group(24, 108, 180, 428, "", "cyan", "browser")
+    d.text(106, 126.5, "Presentation", 12.5, 600, INK)
+    d.group(212, 108, 176, 428, "Application", "blue", "api")
+    d.group(396, 108, 182, 428, "Data & processing", "green", "database")
     s = 40
-    d.node(89, 190, "Web app", "browser", "cyan", ["React + TypeScript", "3D body map · i18n"], s)
-    d.node(89, 370, "3D anatomy", "body", "cyan", ["organ meshes (GLB)"], s)
-    d.node(300, 190, "API", "api", "blue", ["FastAPI · REST", "auth · consent"], s)
-    d.node(300, 370, "Uploads volume", "disk", "blue", ["report files"], s)
-    d.node(487, 190, "PostgreSQL 17", "database", "green", ["+ pgvector", "records · jobs · vectors"], s)
-    d.node(487, 330, "Worker", "gear", "green", ["OCR · parse · analyse", "explain · narrate"], s)
-    d.node(487, 445, "Ollama", "sparkle", "purple", ["local 3–4B · optional"], s)
+    d.node(89, 180, "Web app", "browser", "cyan", ["React · TypeScript", "English · Hindi · Odia"], s)
+    d.node(89, 330, "3D body map", "body", "cyan", ["three.js, drawn in code", "flat view as fallback"], s)
+    d.node(300, 180, "API", "api", "blue", ["FastAPI · REST · SSE", "auth · consent · sharing"], s)
+    d.node(300, 330, "Uploads volume", "disk", "blue", ["reports · records", "narration audio"], s)
+    d.node(300, 462, "Mailpit", "mail", "blue", ["email in development"], s)
+    d.node(487, 180, "PostgreSQL 17", "database", "green", ["+ pgvector", "records · jobs · vectors"], s)
+    d.node(487, 330, "Worker", "gear", "green", ["extract · analyse", "explain · reminders"], s)
+    d.node(487, 462, "Data files", "folder", "green", ["catalogue · e5 model", "confidence model"], s)
     c = INK_2
-    d.arrow([(89, 40), (89, 170)], c)
-    d.arrow([(109, 190), (280, 190)], c, tail="arrow")
-    d.pill(195, 190, "REST / JSON")
-    d.arrow([(320, 190), (467, 190)], c)
-    d.pill(394, 190, "SQL")
-    d.arrow([(300, 250), (300, 350)], c)
-    d.pill(300, 300, "store file")
-    d.arrow([(487, 310), (487, 252)], c, tail="arrow")
-    d.pill(487, 281, "jobs · results")
-    d.arrow([(467, 336), (400, 336), (400, 370), (320, 370)], c)
-    d.pill(420, 356, "read")
-    d.arrow([(89, 250), (89, 350)], c, dash="5 4")
-    d.arrow([(487, 385), (487, 425)], PURPLE, dash="5 4")
-    d.arrow([(507, 330), (585, 330), (585, 556)], TILE["orange"])
-    d.group(10, 540, 582, 92, "External APIs", "orange", "cloud", dashed=True,
-            sublabel="HTTPS · de-identified values only")
-    chip(d, 40, 580, "sparkle", "orange", "LLM API", "gpt-oss-120b on Groq · explanations")
-    chip(d, 330, 580, "speaker", "orange", "TTS API", "narration (optional)")
+    d.arrow([(89, 40), (89, 158)], c)
+    d.arrow([(110, 180), (279, 180)], c, tail="arrow", label="REST · SSE", label_at=(197, 180))
+    d.arrow([(321, 180), (466, 180)], c, label="SQL", label_at=(392, 180))
+    d.arrow([(487, 256), (487, 309)], c, tail="arrow", label="jobs · results", label_at=(487, 282))
+    d.arrow([(300, 256), (300, 309)], c, label="store files", label_at=(300, 282))
+    d.arrow([(466, 330), (321, 330)], c, label="read files", label_at=(392, 330))
+    d.arrow([(487, 404), (487, 441)], c, label="load", label_at=(487, 422))
+    d.arrow([(89, 256), (89, 309)], c, dash="5 4")
+    d.arrow([(279, 190), (219, 190), (219, 462), (279, 462)], c, dash="5 4")
+    d.text(225, 448, "SMTP", 9.5, 600, MUTED)
+    d.arrow([(300, 551), (300, 583)], ORANGE, label="API and worker · HTTPS 443", label_at=(300, 567),
+            label_color=ORANGE)
+    d.group(10, 584, 582, 84, "External services", "orange", "cloud", dashed=True,
+            sublabel="only with consent · de-identified values, never a name")
+    chip(d, 40, 624, "sparkle", "orange", "Groq · gpt-oss-120b", "explanations · answers · safety judge")
+    chip(d, 330, 624, "speaker", "orange", "ElevenLabs", "narration, made on first play")
     return d
 
 
@@ -92,13 +95,13 @@ def architecture() -> Diagram:
 # Deployment — portrait
 # =============================================================================
 def deployment() -> Diagram:
-    d = page(PW, 560)
-    d.group(6, 6, 590, 440, "Developer laptop", "slate", "laptop", tint=False, sublabel="Windows 11 · 16 GB RAM · no GPU")
-    d.group(20, 46, 562, 388, "Docker Desktop", "slate", "cube", dashed=True, tint=False, sublabel="WSL 2 · 10 GB limit")
-    d.group(34, 86, 534, 254, "Compose project nabz", "blue", "network", dashed=True)
+    d = page(PW, 580)
+    d.group(6, 6, 590, 452, "Developer laptop", "slate", "laptop", tint=False, sublabel="Windows 11 · 16 GB RAM · no GPU")
+    d.group(20, 46, 562, 400, "Docker Desktop", "slate", "cube", dashed=True, tint=False, sublabel="WSL 2")
+    d.group(34, 86, 534, 260, "Compose project nabz", "blue", "network", dashed=True)
 
-    def box(x, y, name, glyph, role, rows, dashed=False):
-        d.rect(x, y, 160, 88, fill=PAPER, stroke=EDGE[role], sw=1.3, rx=6, dash="5 4" if dashed else None)
+    def box(x, y, name, glyph, role, rows):
+        d.rect(x, y, 160, 88, fill=PAPER, stroke=EDGE[role], sw=1.3, rx=6)
         d.rect(x + 10, y + 10, 24, 24, fill=TILE[role], stroke="none", rx=5)
         d.raw(icon(glyph, x + 14, y + 14, 16))
         d.text(x + 42, y + 27, name, 12, 700, INK, family=MONO)
@@ -108,26 +111,29 @@ def deployment() -> Diagram:
     box(48, 126, "web", "browser", "cyan", ["node:22-alpine · Vite", "127.0.0.1:5173"])
     box(222, 126, "api", "api", "blue", ["python:3.12 + uv · FastAPI", "127.0.0.1:8000"])
     box(396, 126, "worker", "gear", "blue", ["same image as api", "no published port"])
-    box(222, 236, "db", "database", "green", ["pgvector/pgvector:pg17", "127.0.0.1:5433 → 5432"])
-    box(396, 236, "ollama", "sparkle", "purple", ["qwen3:4b · profile", "local-llm (opt-in)"], dashed=True)
-    d.rect(48, 236, 160, 88, fill=SNOW, stroke="none", rx=6)
-    d.text(60, 258, "Named volumes", 11, 700, INK)
-    d.lines(60, 278, ["pgdata ← db", "uploads ← api, worker", "model-cache ← worker", "ollama ← ollama"],
-            10, 400, INK_2, leading=1.35)
-    d.arrow([(208, 170), (222, 170)], INK_2)
-    d.arrow([(302, 214), (302, 236)], INK_2)
-    d.arrow([(476, 214), (476, 225), (342, 225), (342, 236)], INK_2)
-    d.text(48, 364, "Published ports — bound to 127.0.0.1, not reachable from the LAN", 10.5, 650, INK_2)
-    for i, (p, s_) in enumerate([(":5173", "web"), (":8000", "api"), (":5433", "db"), (":11434", "ollama")]):
+    box(222, 242, "db", "database", "green", ["pgvector/pgvector:pg17", "127.0.0.1:5433 → 5432"])
+    box(396, 242, "mailpit", "mail", "slate", ["axllent/mailpit", "inbox on 127.0.0.1:8025"])
+    d.rect(48, 242, 160, 88, fill=SNOW, stroke="none", rx=6)
+    d.text(60, 262, "Volumes and mounts", 11, 700, INK)
+    d.lines(60, 280, ["pgdata ← db", "uploads ← api, worker", "./data → /srv/data", "(catalogue, models)"],
+            10, 400, INK_2, leading=1.32)
+    d.arrow([(208, 170), (221, 170)], INK_2)
+    d.arrow([(302, 215), (302, 241)], INK_2)
+    d.arrow([(430, 215), (430, 228), (342, 228), (342, 241)], INK_2)
+    d.arrow([(520, 215), (520, 241)], INK_2)
+    d.text(48, 370, "Published ports — bound to 127.0.0.1, not reachable from the LAN", 10.5, 650, INK_2)
+    for i, (p, s_) in enumerate([(":5173", "web"), (":8000", "api"), (":5433", "db"), (":8025", "mailpit")]):
         x = 48 + i * 130
-        d.rect(x, 376, 120, 26, fill=SNOW, stroke=LINE, rx=13)
-        d.text(x + 12, 393, p, 10.5, 700, INK, family=MONO)
-        d.text(x + 64, 393, s_, 10.5, 400, INK_2)
-    d.arrow([(556, 170), (574, 170), (574, 476)], TILE["orange"])
-    d.group(6, 462, 590, 90, "Egress · HTTPS 443", "orange", "globe", dashed=True)
-    chip(d, 30, 502, "sparkle", "orange", "LLM API", "explanations")
-    chip(d, 222, 502, "speaker", "orange", "TTS API", "optional")
-    chip(d, 400, 502, "cloud", "orange", "Model registries", "first run only")
+        d.rect(x, 382, 120, 26, fill=SNOW, stroke=LINE, rx=13)
+        d.text(x + 12, 399, p, 10.5, 700, INK, family=MONO)
+        d.text(x + 60, 399, s_, 10.5, 400, INK_2)
+    d.text(48, 432, "compose.offline.yaml moves db, api and worker to a network with no route out (offline demo).",
+           9.5, 400, MUTED, italic=True)
+    d.arrow([(557, 170), (574, 170), (574, 486)], ORANGE)
+    d.group(6, 474, 590, 98, "Egress · HTTPS 443", "orange", "globe", dashed=True, sublabel="only with consent")
+    chip(d, 30, 516, "sparkle", "orange", "Groq API", "explanations · answers")
+    chip(d, 222, 516, "speaker", "orange", "ElevenLabs API", "narration")
+    chip(d, 410, 516, "book", "orange", "MedlinePlus", "knowledge build, once")
     return d
 
 
@@ -137,26 +143,26 @@ def deployment() -> Diagram:
 def pipeline() -> Diagram:
     cols = [
         ("A · Ingest & extract", "automatic", [
-            ("Upload & validate", "rule", "type · size · quality score", "FastAPI · OpenCV"),
-            ("Pre-process", "rule", "deskew · denoise · crop", "OpenCV"),
-            ("OCR", "ml", "text layer, else OCR", "pypdfium2 · RapidOCR"),
+            ("Upload & validate", "rule", "type · size · consent", "FastAPI"),
+            ("Clean the image", "rule", "deskew · contrast (photos)", "OpenCV"),
+            ("Read the text", "ml", "text layer, else OCR", "pypdfium2 · RapidOCR"),
             ("Parse rows", "rule", "name · value · unit · range", "layout rules"),
-            ("Map to catalogue", "ml", "aliases → LOINC codes", "pg_trgm · Qwen3-4B"),
-            ("Normalise & score", "ml", "units · plausibility", "scikit-learn"),
+            ("Map to catalogue", "ml", "aliases + fuzzy match", "RapidFuzz · 70 tests"),
+            ("Convert & score", "ml", "units · row confidence", "logistic model"),
         ]),
-        ("B · Verify & analyse", "user confirms first", [
-            ("Human review", "human", "low confidence first", "web app"),
-            ("Classify", "rule", "low · normal · high", "Python rules"),
-            ("Critical values", "rule", "fixed urgent message", "reviewed table"),
-            ("Change & trend", "ml", "RCV · Theil–Sen slope", "SciPy · statsmodels"),
-            ("Percentile", "ml", "vs age band and sex", "NHANES tables"),
+        ("B · Verify & analyse", "the person confirms first", [
+            ("Human review", "human", "weak rows first, by the page", "web app"),
+            ("Classify", "rule", "lab's range, else typical", "Python rules"),
+            ("Critical limits", "rule", "fixed 'see a doctor today'", "reviewed table"),
+            ("Change & trend", "ml", "RCV · Theil–Sen · M–K", "NumPy"),
+            ("Percentile", "ml", "same age band and sex", "NHANES 2017–20"),
         ]),
-        ("C · Explain & present", "grounded · validated", [
-            ("Retrieve", "ml", "top-k cited passages", "pgvector · e5-small"),
-            ("Explain", "genai", "summary + doctor questions", "gpt-oss-120b · Groq"),
-            ("Safety check", "rule", "no diagnosis · numbers match", "validator + judge"),
-            ("Narrate", "genai", "English · Hindi · Odia", "TTS API"),
-            ("Render", "rule", "3D organ status · timeline", "React Three Fiber"),
+        ("C · Explain & present", "grounded · checked", [
+            ("Retrieve", "ml", "cited MedlinePlus passages", "pgvector · e5-small"),
+            ("Explain", "genai", "summary · results · questions", "gpt-oss-120b · Groq"),
+            ("Safety checks", "rule", "rules + judge, else template", "validator"),
+            ("Narrate", "genai", "on first play · EN HI OR", "ElevenLabs"),
+            ("Present", "rule", "body map · story · Ask Nabz", "React · three.js"),
         ]),
     ]
     d = page(PW, 612)
@@ -181,7 +187,7 @@ def pipeline() -> Diagram:
             if i < len(stages) - 1:
                 d.arrow([(x + cw / 2, y + ch + 1), (x + cw / 2, y + step - 1)], INK_2, sw=1.2)
     y = top + 6 * step - 4
-    d.pill(301, y + 8, "rows with confidence < τ are reviewed first · only de-identified values leave the host",
+    d.pill(301, y + 8, "nothing is analysed before the values are confirmed · the model never sees a name",
            TILE["slate"], 10)
     d.legend(10, y + 38, [("box", TILE[r], lbl) for r, lbl in KIND.values()])
     return d
@@ -191,66 +197,69 @@ def pipeline() -> Diagram:
 # Use-case model — portrait
 # =============================================================================
 def use_case() -> Diagram:
-    d = page(PW, 760)
-    d.rect(96, 4, 432, 690, fill=SNOW, stroke=INK_2, sw=1.2, rx=8, opacity=0.5)
+    d = page(PW, 836)
+    d.rect(96, 4, 432, 752, fill=SNOW, stroke=INK_2, sw=1.2, rx=8, opacity=0.5)
     d.text(110, 22, "Nabz", 12.5, 700, INK)
     a, b, rx, ry = 208, 420, 94, 22
-    col_a = [("UC-01", "Sign up / sign in"), ("UC-02", "Manage family profiles"), ("UC-04", "Upload a lab report"),
-             ("UC-05", "Review & correct values"), ("UC-06", "Explore 3D body map"), ("UC-07", "View trends"),
-             ("UC-08", "Read the explanation"), ("UC-11", "Share with a doctor"), ("UC-12", "Export / delete data")]
-    ys = [52 + i * 56 for i in range(9)]
 
     def uc(cx, cy, code, name, role="blue"):
         d.raw(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="{PAPER}" stroke="{EDGE[role]}" stroke-width="1.4"/>')
         d.text(cx, cy - 3, code, 9.5, 600, TILE[role], "middle")
         d.text(cx, cy + 11, name, 10.5, 600, INK, "middle")
 
+    col_a = [("UC-01", "Sign up / sign in"), ("UC-02", "Manage family profiles"), ("UC-04", "Upload a lab report"),
+             ("UC-05", "Review & correct values"), ("UC-06", "Explore the 3D body map"),
+             ("UC-07", "Trends, story & readings"), ("UC-11", "Share with a doctor"),
+             ("UC-12", "Export / delete data"), ("UC-08", "Read & ask about results")]
+    ys = [52 + i * 56 for i in range(9)]
     for (code, name), y in zip(col_a, ys):
         uc(a, y, code, name)
-    actor(d, 44, 300, "Patient /")
-    d.text(44, 360, "caregiver", 12.5, 650, INK, "middle")
+    actor(d, 44, 270, "Family")
+    d.text(44, 330, "member", 12.5, 650, INK, "middle")
     for y in ys:
-        d.line(62, 284, a - rx, y, INK_2, 1.1)
-    col_b = {"UC-14": ("Curate test catalogue", 52, "orange"), "UC-15": ("Manage knowledge base", 108, "orange"),
-             "UC-03": ("Give / withdraw consent", 164, "green"), "UC-13": ("Critical-value alert", 220, "red"),
-             "UC-16": ("Audit & safety reports", 276, "orange"), "UC-10": ("Questions for the doctor", 332, "blue"),
-             "UC-18": ("Grounded explanation", 388, "purple"), "UC-09": ("Listen to explanation", 444, "purple"),
-             "UC-17": ("View shared summary", 584, "cyan")}
-    for code, (name, y, role) in col_b.items():
+        d.line(62, 254, a - rx, y, INK_2, 1.1)
+    col_b = [("UC-14", "Curate the catalogue", 52, "orange"), ("UC-15", "Manage knowledge base", 108, "orange"),
+             ("UC-03", "Give / withdraw consent", 164, "green"), ("UC-16", "Safety review & audit", 220, "orange"),
+             ("UC-10", "Questions for the doctor", 444, "blue"), ("UC-18", "Grounded explanation", 500, "purple"),
+             ("UC-13", "Critical-value alert", 556, "red"), ("UC-09", "Listen to explanation", 612, "purple"),
+             ("UC-17", "Open a shared link", 672, "cyan"), ("UC-19", "Read shared reports, note", 728, "cyan")]
+    for code, name, y, role in col_b:
         uc(b, y, code, name, role)
 
-    def dep(p1, p2, kind, lx, ly):
+    def dep(p1, p2, kind, t=0.5):
         d.arrow([p1, p2], INK_2, sw=1.1, dash="4 3", head="open")
-        d.pill(lx, ly, kind, MUTED, 9.5)
+        d.pill(p1[0] + (p2[0] - p1[0]) * t, p1[1] + (p2[1] - p1[1]) * t, kind, MUTED, 9.5)
 
-    dep((a + rx, 164), (b - rx, 164), "«include»", 314, 164)
-    dep((b - rx, 220), (a + rx, 220), "«extend»", 314, 220)
-    dep((a + 80, 385), (b - 88, 340), "«include»", 314, 356)
-    dep((a + rx, 388), (b - rx, 388), "«include»", 314, 394)
-    dep((b - 88, 452), (a + 80, 399), "«extend»", 314, 430)
-    # doctor
-    actor(d, 44, 600, "Doctor")
-    d.line(62, 584, b - rx, 584, INK_2, 1.1)
-    d.text(b, 620, "expiring link · no account", 9.5, 400, MUTED, "middle", italic=True)
-    # admin + systems on the right
-    actor(d, 568, 110, "Admin")
-    for y in (52, 108, 276):
-        d.line(552, 96, b + rx, y, INK_2, 1.1)
-    for y, lbl in ((388, "LLM API"), (444, "TTS API")):
-        d.rect(536, y - 20, 62, 40, fill=PAPER, stroke=EDGE["purple"], sw=1.3, rx=5)
-        d.text(567, y - 5, "«system»", 9, 500, MUTED, "middle")
-        d.text(567, y + 10, lbl, 10.5, 700, INK, "middle")
-        d.line(536, y, b + rx, y, INK_2, 1.1)
-    d.rect(110, 648, 404, 36, fill=PAPER, stroke=EDGE["red"], sw=1.1, rx=6)
-    d.text(122, 670, "Out of scope: diagnosis · prescribing or dosing · emergency triage", 10.5, 600, TILE["red"])
-    d.legend(96, 730, [("line", INK_2, "association"), ("dash", INK_2, "«include» / «extend»")])
+    dep((a + rx, 164), (b - rx, 164), "«include»")
+    dep((a + 80, 489), (b - 80, 455), "«include»")
+    dep((a + rx, 500), (b - rx, 500), "«include»")
+    dep((b - 94, 556), (a + 72, 516), "«extend»")
+    dep((b - 88, 606), (a + 46, 521), "«extend»", 0.45)
+    actor(d, 44, 700, "Doctor")
+    d.line(62, 684, b - rx, 672, INK_2, 1.1)
+    d.line(62, 690, b - rx, 728, INK_2, 1.1)
+    d.text(236, 666, "link · no account", 9, 400, MUTED, "middle", italic=True)
+    d.text(236, 734, "verified clinician account", 9, 400, MUTED, "middle", italic=True)
+    actor(d, 568, 92, "Admin")
+    for y in (52, 108, 220):
+        d.line(552, 84, b + rx, y, INK_2, 1.1)
+    actor(d, 568, 262, "Reviewer")
+    d.line(552, 252, b + rx, 220, INK_2, 1.1)
+    for y, lbl in ((500, "Groq"), (612, "ElevenLabs")):
+        d.rect(531, y - 20, 68, 40, fill=PAPER, stroke=EDGE["purple"], sw=1.3, rx=5)
+        d.text(565, y - 5, "«system»", 9, 500, MUTED, "middle")
+        d.text(565, y + 10, lbl, 10, 700, INK, "middle")
+        d.line(531, y, b + rx, y, INK_2, 1.1)
+    d.rect(110, 768, 404, 30, fill=PAPER, stroke=EDGE["red"], sw=1.1, rx=6)
+    d.text(122, 787, "Out of scope: diagnosis · prescribing or dosing · emergency triage", 10.5, 600, TILE["red"])
+    d.legend(96, 820, [("line", INK_2, "association"), ("dash", INK_2, "«include» / «extend»")])
     return d
 
 
 # =============================================================================
 # Activity diagram — portrait, two parts
 # =============================================================================
-LANES = [("User", "slate"), ("Web app", "cyan"), ("API", "blue"), ("Worker", "blue"), ("AI services", "purple")]
+LANES = [("User", "slate"), ("Web app", "cyan"), ("API", "blue"), ("Worker", "blue"), ("AI models", "purple")]
 
 
 def _activity(height: int, spec, flows, extra) -> Diagram:
@@ -308,67 +317,79 @@ def _activity(height: int, spec, flows, extra) -> Diagram:
 def activity_a() -> Diagram:
     spec = [
         ("s", "start", "User", 46, []),
-        ("a1", "act", "User", 92, ["Photograph or", "choose the report"], "slate"),
-        ("a2", "act", "Web", 160, ["Check type, size", "and image quality"], "cyan"),
-        ("d1", "dec", "Web", 226, ["quality ok?"]),
-        ("a2b", "act", "User", 226, ["Retake photo"], "slate"),
-        ("a3", "act", "API", 296, ["Check consent", "store file", "create job"]),
-        ("a4", "act", "Worker", 372, ["Claim job", "pre-process · OCR"]),
-        ("a5", "act", "Worker", 438, ["Parse · map", "normalise · score"]),
-        ("d2", "dec", "Worker", 502, ["row below τ?"]),
-        ("a6", "act", "AI", 502, ["Local model", "structures rows"], "purple"),
-        ("m1", "dec", "Worker", 562, []),
-        ("a7", "act", "Web", 624, ["Show values", "beside the image"], "cyan"),
-        ("a8", "act", "User", 690, ["Correct or", "confirm values"], "slate"),
-        ("c", "conn", "User", 752, ["A"]),
+        ("a1", "act", "User", 98, ["Photograph or", "choose the report"], "slate"),
+        ("a2", "act", "Web", 168, ["Check type", "and size"], "cyan"),
+        ("a3", "act", "API", 240, ["Check consent,", "store the file,", "queue extraction"]),
+        ("a4", "act", "Worker", 318, ["Claim the job"]),
+        ("d1", "dec", "Worker", 384, ["text layer?"]),
+        ("a5", "act", "AI", 384, ["Clean the image,", "OCR (RapidOCR)"], "purple"),
+        ("m1", "dec", "Worker", 456, []),
+        ("a6", "act", "Worker", 524, ["Parse rows, map,", "convert, score"]),
+        ("a7", "act", "Web", 598, ["Values beside the", "page, weakest first"], "cyan"),
+        ("a8", "act", "User", 668, ["Correct or", "confirm values"], "slate"),
+        ("c", "conn", "User", 738, ["A"]),
     ]
-    flows = [("s", "a1", None), ("a1", "a2", None), ("a2", "d1", None), ("d1", "a3", "[yes]"), ("a3", "a4", None),
-             ("a4", "a5", None), ("a5", "d2", None), ("d2", "m1", "[no]"), ("m1", "a7", None), ("a7", "a8", None),
-             ("a8", "c", None)]
+    flows = [("s", "a1", None), ("a1", "a2", None), ("a2", "a3", None), ("a3", "a4", None), ("a4", "d1", None),
+             ("d1", "m1", "[yes]"), ("m1", "a6", None), ("a6", "a7", None), ("a7", "a8", None), ("a8", "c", None)]
 
     def extra(d, cx, N):
         x, y = N["d1"][:2]
-        d.arrow([(x - 15, y), (cx["User"] + 54, y)], INK_2, sw=1.2)
-        d.text(x - 20, y - 5, "[no]", 9.5, 600, MUTED, "end")
-        d.arrow([(cx["User"] - 54, 226), (8, 226), (8, 92), (cx["User"] - 54, 92)], INK_2, sw=1.2)
-        x, y = N["d2"][:2]
         d.arrow([(x + 15, y), (cx["AI"] - 54, y)], INK_2, sw=1.2)
-        d.text(x + 20, y + 13, "[yes]", 9.5, 600, MUTED)
-        d.arrow([(cx["AI"], y + 26), (cx["AI"], 562), (x + 15, 562)], INK_2, sw=1.2)
-        d.text(cx["User"] + 16, 756, "continues in part (b)", 9.5, 500, MUTED)
+        d.text(x + 22, y + 14, "[no]", 9.5, 600, MUTED)
+        ax, ay, _, ah = N["a5"]
+        d.arrow([(ax, ay + ah), (ax, 456), (x + 15, 456)], INK_2, sw=1.2)
+        d.text(cx["User"] + 16, 742, "continues in part (b)", 9.5, 500, MUTED)
 
-    return _activity(776, spec, flows, extra)
+    return _activity(770, spec, flows, extra)
 
 
 def activity_b() -> Diagram:
     spec = [
-        ("c", "conn", "User", 42, ["A"]),
-        ("a9", "act", "Worker", 100, ["Classify · critical", "change · trend", "percentile"]),
-        ("d3", "dec", "Worker", 176, ["critical?"]),
-        ("a10", "act", "Web", 176, ["Show fixed", "urgent alert"], "red"),
-        ("m2", "dec", "Worker", 240, []),
-        ("a11", "act", "AI", 306, ["Retrieve passages", "write explanation"], "purple"),
-        ("a12", "act", "Worker", 376, ["Safety validation", "(template on fail)"]),
-        ("a13", "act", "AI", 444, ["Narrate", "(if voice is on)"], "purple", True),
-        ("a14", "act", "Web", 512, ["Render body map", "trends · text"], "cyan"),
-        ("a15", "act", "User", 580, ["Explore · listen", "share · export"], "slate"),
-        ("e", "end", "User", 636, []),
+        ("c", "conn", "User", 40, ["A"]),
+        ("b1", "act", "API", 96, ["Mark verified,", "queue analysis"]),
+        ("b2", "act", "Worker", 166, ["Status · critical", "change · trend", "percentile"]),
+        ("d3", "dec", "Worker", 232, ["critical?"]),
+        ("d4", "dec", "Worker", 296, []),
+        ("b3", "act", "AI", 296, ["Retrieve passages,", "write explanation"], "purple"),
+        ("b4", "act", "Worker", 372, ["Rule checks", "+ model judge"], "red"),
+        ("d5", "dec", "Worker", 440, []),
+        ("b5", "act", "Worker", 510, ["Template built", "from the values"], "slate"),
+        ("m", "dec", "Worker", 576, []),
+        ("b6", "act", "Web", 640, ["Body map, cards", "and explanation"], "cyan"),
+        ("b7", "act", "User", 706, ["Explore · ask", "share · listen"], "slate"),
+        ("b8", "act", "AI", 706, ["Narrate on first", "play (ElevenLabs)"], "purple", True),
+        ("e", "end", "User", 768, []),
     ]
-    flows = [("c", "a9", None), ("a9", "d3", None), ("d3", "m2", "[no]"), ("m2", "a11", None), ("a11", "a12", None),
-             ("a12", "a13", None), ("a13", "a14", None), ("a14", "a15", None), ("a15", "e", None)]
+    flows = [("c", "b1", None), ("b1", "b2", None), ("b2", "d3", None), ("d3", "d4", "[no]"), ("b3", "b4", None),
+             ("b4", "d5", None), ("d5", "b5", "[no]"), ("b5", "m", None), ("m", "b6", None), ("b6", "b7", None),
+             ("b7", "e", None)]
 
     def extra(d, cx, N):
-        x, y = N["d3"][:2]
-        d.arrow([(x - 15, y), (cx["Web"] + 54, y)], INK_2, sw=1.2)
-        d.text(x - 20, y - 5, "[yes]", 9.5, 600, MUTED, "end")
-        d.arrow([(cx["Web"], y + 26), (cx["Web"], 240), (x - 15, 240)], INK_2, sw=1.2)
+        xw, xa = cx["Worker"], cx["API"]
+        # critical, or no consent: the template, never generated prose
+        d.arrow([(xw - 15, 232), (xa, 232), (xa, 510), (xw - 54, 510)], INK_2, sw=1.2)
+        d.text(xw - 20, 226, "[yes]", 9.5, 600, MUTED, "end")
+        d.text(xw - 20, 281, "AI consent?", 10, 500, INK_2, "end")
+        d.arrow([(xw - 15, 296), (xa, 296)], INK_2, sw=1.2, head=None)
+        d.circle(xa, 296, 2.6, INK_2)
+        d.text(xw - 20, 310, "[no]", 9.5, 600, MUTED, "end")
+        d.arrow([(xw + 15, 296), (cx["AI"] - 54, 296)], INK_2, sw=1.2)
+        d.text(xw + 20, 310, "[yes]", 9.5, 600, MUTED)
+        d.text(xw - 20, 425, "passed?", 10, 500, INK_2, "end")
+        d.arrow([(xw + 15, 440), (xw + 66, 440), (xw + 66, 576), (xw + 15, 576)], INK_2, sw=1.2)
+        d.text(xw + 20, 434, "[yes]", 9.5, 600, MUTED)
+        d.arrow([(cx["User"] + 54, 716), (cx["AI"] - 54, 716)], INK_2, sw=1.2, dash="5 4")
+        d.text(cx["API"], 730, "voice consent", 9.5, 500, MUTED, "middle")
 
-    return _activity(656, spec, flows, extra)
+    return _activity(790, spec, flows, extra)
 
 
 # =============================================================================
 # Sequence diagram — portrait, two parts
 # =============================================================================
+EXTERNAL = {"Groq", "ElevenLabs"}
+
+
 def _sequence(parts: list[tuple[str, str]], msgs: list, x0: float, gap: float) -> Diagram:
     step = 30
     h = 50 + sum({"frame-": 10, "frame+": 24}.get(m[0], step) for m in msgs) + 20
@@ -401,7 +422,7 @@ def _sequence(parts: list[tuple[str, str]], msgs: list, x0: float, gap: float) -
         reply = len(m) > 3
         n += 1
         x1, x2 = X[src], X[dst]
-        color = TILE["orange"] if {"LLM API", "TTS API"} & {src, dst} else INK_2
+        color = ORANGE if EXTERNAL & {src, dst} else INK_2
         if src == dst:
             d.arrow([(x1, y - 6), (x1 + 26, y - 6), (x1 + 26, y + 8), (x1 + 3, y + 8)], color, sw=1.2)
             d.text(x1 + 32, y + 5, label, 10, 400, INK)
@@ -420,23 +441,22 @@ def _sequence(parts: list[tuple[str, str]], msgs: list, x0: float, gap: float) -
 
 def sequence_a() -> Diagram:
     parts = [("User", "slate"), ("Web app", "cyan"), ("API", "blue"), ("PostgreSQL", "green"), ("Worker", "blue"),
-             ("Local LLM", "purple")]
+             ("RapidOCR", "purple")]
     msgs = [
         ("User", "Web app", "choose photo / PDF"),
-        ("Web app", "Web app", "quality check"),
-        ("Web app", "API", "POST /reports"),
+        ("Web app", "API", "POST …/reports"),
+        ("API", "API", "type · size · consent"),
         ("API", "PostgreSQL", "INSERT report + job"),
         ("API", "Web app", "202 Accepted", "r"),
+        ("Web app", "API", "GET …/events (SSE)"),
         ("Worker", "PostgreSQL", "claim job (SKIP LOCKED)"),
-        ("Worker", "Worker", "pre-process · OCR"),
-        ("Worker", "Worker", "parse · map · score"),
-        ("frame+", "alt", "[confidence < τ]", "Worker", "Local LLM"),
-        ("Worker", "Local LLM", "structure rows"),
-        ("Local LLM", "Worker", "rows JSON", "r"),
+        ("frame+", "opt", "[photo or scan]", "Worker", "RapidOCR"),
+        ("Worker", "RapidOCR", "cleaned page"),
+        ("RapidOCR", "Worker", "words + boxes", "r"),
         ("frame-",),
+        ("Worker", "Worker", "parse · map · score"),
         ("Worker", "PostgreSQL", "INSERT observations"),
-        ("Web app", "API", "GET status (SSE)"),
-        ("API", "Web app", "draft values", "r"),
+        ("API", "Web app", "status: needs_review", "r"),
         ("Web app", "User", "review screen", "r"),
     ]
     return _sequence(parts, msgs, 50, 100)
@@ -444,25 +464,30 @@ def sequence_a() -> Diagram:
 
 def sequence_b() -> Diagram:
     parts = [("User", "slate"), ("Web app", "cyan"), ("API", "blue"), ("PostgreSQL", "green"), ("Worker", "blue"),
-             ("LLM API", "orange"), ("TTS API", "orange")]
+             ("Groq", "orange"), ("ElevenLabs", "orange")]
     msgs = [
         ("User", "Web app", "confirm values"),
-        ("Web app", "API", "POST /confirm"),
-        ("API", "PostgreSQL", "mark verified · enqueue"),
-        ("Worker", "PostgreSQL", "load history"),
-        ("Worker", "Worker", "ranges · critical · trend"),
-        ("Worker", "PostgreSQL", "kNN passages"),
-        ("Worker", "LLM API", "de-identified values"),
-        ("LLM API", "Worker", "explanation JSON", "r"),
-        ("Worker", "Worker", "safety validation"),
-        ("frame+", "opt", "[voice on]", "Worker", "TTS API"),
-        ("Worker", "TTS API", "text + language"),
-        ("TTS API", "Worker", "audio", "r"),
+        ("Web app", "API", "POST …/confirm"),
+        ("API", "PostgreSQL", "verified · enqueue"),
+        ("Worker", "PostgreSQL", "claim · load history"),
+        ("Worker", "Worker", "status · critical · trend"),
+        ("Worker", "PostgreSQL", "kNN passages (pgvector)"),
+        ("frame+", "opt", "[consent, not critical]", "Worker", "Groq"),
+        ("Worker", "Groq", "values, no names"),
+        ("Groq", "Worker", "explanation JSON", "r"),
+        ("Worker", "Worker", "rule checks"),
+        ("Worker", "Groq", "safety judge"),
+        ("Groq", "Worker", "safe / problems", "r"),
         ("frame-",),
-        ("Worker", "PostgreSQL", "save explanation"),
-        ("Web app", "API", "GET /insights"),
-        ("API", "Web app", "organs · trends · text", "r"),
-        ("Web app", "User", "3D body map", "r"),
+        ("Worker", "PostgreSQL", "save (else template)"),
+        ("Web app", "API", "GET …/insights"),
+        ("API", "Web app", "organs · values · text", "r"),
+        ("frame+", "opt", "[play · voice consent]", "Web app", "ElevenLabs"),
+        ("Web app", "API", "POST …/audio"),
+        ("API", "ElevenLabs", "text + language"),
+        ("ElevenLabs", "API", "MP3", "r"),
+        ("API", "Web app", "audio stream", "r"),
+        ("frame-",),
     ]
     return _sequence(parts, msgs, 44, 85.5)
 
@@ -471,7 +496,7 @@ def sequence_b() -> Diagram:
 # State machine — portrait (vertical)
 # =============================================================================
 def state_machine() -> Diagram:
-    d = page(PW, 810)
+    d = page(PW, 744)
 
     def st(x, y, name, code, role="blue", w=150):
         d.rect(x - w / 2, y - 21, w, 42, fill=PAPER, stroke=EDGE[role], sw=1.5, rx=13)
@@ -482,90 +507,170 @@ def state_machine() -> Diagram:
         d.text(x, y, s, 10, 500, color, anchor)
 
     X = 300
-    d.circle(X, 14, 8, INK)
-    st(X, 60, "Uploaded", "uploaded", "slate")
-    st(X, 140, "Queued", "queued")
-    d.rect(150, 184, 300, 94, fill=SNOW, stroke=TILE["blue"], sw=1.4, rx=14)
-    d.text(164, 202, "Processing", 11.5, 700, INK)
-    d.text(236, 202, "processing", 9.5, 400, MUTED, family=MONO)
-    for i, s in enumerate(["Pre-process", "OCR", "Parse & map"]):
+    d.circle(X, 12, 8, INK)
+    st(X, 64, "Queued", "queued", "slate")
+    d.rect(150, 112, 300, 94, fill=SNOW, stroke=TILE["blue"], sw=1.4, rx=14)
+    d.text(164, 130, "Processing", 11.5, 700, INK)
+    d.text(236, 130, "processing", 9.5, 400, MUTED, family=MONO)
+    for i, s in enumerate(["Pre-process", "Read text", "Parse & map"]):
         bx = 176 + i * 96
-        d.rect(bx, 222, 82, 34, fill=PAPER, stroke=EDGE["blue"], sw=1.3, rx=10)
-        d.text(bx + 41, 243, s, 10.5, 600, INK, "middle")
+        d.rect(bx, 150, 82, 34, fill=PAPER, stroke=EDGE["blue"], sw=1.3, rx=10)
+        d.text(bx + 41, 171, s, 10.5, 600, INK, "middle")
         if i < 2:
-            d.arrow([(bx + 83, 239), (bx + 95, 239)], INK_2, sw=1.1)
-    st(X, 330, "Needs review", "needs_review", "orange")
-    st(X, 410, "Verified", "verified", "green")
-    st(X, 490, "Analysing", "analysing")
-    st(X, 570, "Explaining", "explaining", "purple")
-    st(X, 650, "Explained", "explained", "green")
-    st(96, 60, "Rejected", "rejected", "red", 130)
-    st(510, 570, "Failed", "failed", "red", 130)
-    st(96, 740, "Deleted", "deleted", "slate", 130)
-    d.circle(300, 740, 10, PAPER, INK, 1.5)
-    d.circle(300, 740, 6, INK)
+            d.arrow([(bx + 83, 167), (bx + 95, 167)], INK_2, sw=1.1)
+    st(X, 258, "Needs review", "needs_review", "orange")
+    st(X, 338, "Verified", "verified", "green")
+    st(X, 418, "Analysing", "analysing")
+    st(X, 498, "Explaining", "explaining", "purple")
+    st(X, 578, "Explained", "explained", "green")
+    st(510, 458, "Failed", "failed", "red", 130)
+    st(96, 680, "Deleted", "removed at once", "slate", 130)
+    d.circle(400, 680, 10, PAPER, INK, 1.5)
+    d.circle(400, 680, 6, INK)
 
     a = dict(color=INK_2, sw=1.3)
-    d.arrow([(X, 22), (X, 39)], **a)
-    d.arrow([(X, 81), (X, 119)], **a); lab(X + 8, 104, "consent ok")
-    d.arrow([(X, 161), (X, 184)], **a); lab(X + 8, 177, "claimed")
-    d.arrow([(X, 278), (X, 309)], **a); lab(X + 8, 297, "draft saved")
-    d.arrow([(X, 351), (X, 389)], **a); lab(X + 8, 374, "user confirms")
-    d.arrow([(X, 431), (X, 469)], **a); lab(X + 8, 454, "enqueue")
-    d.arrow([(X, 511), (X, 549)], **a); lab(X + 8, 534, "analysed")
-    d.arrow([(X, 591), (X, 629)], **a); lab(X + 8, 614, "validated")
-    d.arrow([(X - 75, 60), (161, 60)], **a); lab(X - 80, 50, "invalid / no consent", anchor="end")
-    d.arrow([(96, 81), (96, 719)], **a)
-    d.arrow([(X - 75, 650), (120, 650), (120, 719)], **a); lab(128, 640, "user deletes")
-    d.arrow([(161, 740), (290, 740)], **a); lab(172, 732, "30-day purge")
-    d.arrow([(450, 262), (474, 262), (474, 140), (X + 75, 140)], color=INK_2, sw=1.2, dash="5 4")
-    lab(482, 196, "error, < 3 tries")
-    lab(482, 210, "→ retry")
-    d.arrow([(450, 240), (536, 240), (536, 549)], color=RED, sw=1.3)
-    lab(544, 300, "3rd failure", RED)
-    d.arrow([(X + 75, 570), (445, 570)], color=RED, sw=1.3); lab(X + 82, 562, "retries out", RED)
-    d.arrow([(510, 591), (510, 620), (560, 620), (560, 330), (X + 75, 330)], color=INK_2, sw=1.2, dash="5 4")
-    lab(566, 470, "admin")
-    lab(566, 484, "retry")
-    d.arrow([(X + 75, 650), (410, 650), (410, 410), (X + 75, 410)], color=INK_2, sw=1.2)
-    lab(418, 540, "edit a value")
-    lab(418, 554, "→ re-analyse")
-    d.text(300, 790, "Delete is allowed from every state; only an audit entry remains.", 10, 500, MUTED, "middle",
-           italic=True)
+    d.arrow([(X, 20), (X, 42)], **a); lab(X + 10, 34, "upload accepted (type · size · consent)")
+    d.arrow([(X, 85), (X, 111)], **a); lab(X + 8, 102, "claimed")
+    d.arrow([(X, 207), (X, 236)], **a); lab(X + 8, 225, "draft saved")
+    d.arrow([(X, 279), (X, 316)], **a); lab(X + 8, 302, "user confirms")
+    d.arrow([(X, 359), (X, 396)], **a); lab(X + 8, 382, "claimed")
+    d.arrow([(X, 439), (X, 476)], **a); lab(X + 8, 462, "analysed")
+    d.arrow([(X, 519), (X, 556)], **a); lab(X + 8, 536, "saved (model"); lab(X + 8, 549, "or template)")
+    lab(24, 64, "A refused upload creates", MUTED)
+    lab(24, 78, "no report at all.", MUTED)
+    # retry while attempts are left (the same holds for analysis and explanation)
+    d.arrow([(451, 140), (474, 140), (474, 64), (376, 64)], color=INK_2, sw=1.2, dash="5 4")
+    lab(482, 92, "error, tries left")
+    lab(482, 106, "→ wait again")
+    # attempts used up
+    d.arrow([(451, 186), (590, 186), (590, 458), (576, 458)], color=RED, sw=1.3)
+    lab(500, 180, "3rd failure", RED)
+    d.arrow([(376, 418), (480, 418), (480, 436)], color=RED, sw=1.3)
+    d.arrow([(376, 490), (480, 490), (480, 480)], color=RED, sw=1.3)
+    lab(445, 512, "admin can retry", MUTED)
+    lab(445, 525, "from the console", MUTED)
+    # re-explained
+    d.arrow([(376, 578), (410, 578), (410, 506), (376, 506)], color=INK_2, sw=1.2, dash="5 4")
+    lab(418, 560, "another language, or")
+    lab(418, 574, "details or limits changed")
+    # deletion
+    d.arrow([(224, 578), (96, 578), (96, 658)], **a); lab(104, 600, "user deletes")
+    d.arrow([(162, 680), (389, 680)], **a); lab(172, 672, "rows and files removed")
+    d.text(300, 726, "A report can be deleted in any state; only an audit entry without health data remains.", 10,
+           500, MUTED, "middle", italic=True)
     return d
 
 
 # =============================================================================
-# ER diagram — portrait, two parts (with columns)
+# ER diagram — portrait, two parts (key columns only)
 # =============================================================================
+TABLES: dict[str, tuple[str, list[tuple[str, str, str]]]] = {
+    # identity & governance
+    "app_user": ("slate", [("PK", "id", "uuid"), ("UQ", "email", "citext"), ("", "role", "user_role"),
+                           ("", "totp_enabled_at", "timestamptz")]),
+    "user_session": ("slate", [("PK", "id", "uuid"), ("FK", "user_id", "uuid"), ("UQ", "token_hash", "text"),
+                               ("", "revoked_at", "timestamptz")]),
+    "auth_token": ("slate", [("PK", "id", "uuid"), ("FK", "user_id", "uuid"), ("", "purpose", "token_purpose"),
+                             ("", "expires_at", "timestamptz")]),
+    "audit_log": ("orange", [("PK", "id", "bigint"), ("FK", "actor_user_id", "uuid"), ("", "action", "text"),
+                             ("", "entity_type", "text")]),
+    "clinician": ("orange", [("PK", "user_id", "uuid"), ("", "registration_no", "text"), ("", "council", "text"),
+                             ("", "verified_at", "timestamptz")]),
+    "clinician_note": ("orange", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"),
+                                  ("FK", "clinician_user_id", "uuid"), ("", "text", "text")]),
+    # people & care
+    "profile": ("slate", [("PK", "id", "uuid"), ("FK", "owner_user_id", "uuid"), ("", "display_name", "text"),
+                          ("", "date_of_birth", "date"), ("", "guardian_confirmed_at", "timestamptz")]),
+    "consent": ("slate", [("PK", "id", "uuid"), ("FK", "user_id", "uuid"), ("FK", "profile_id", "uuid"),
+                          ("", "purpose", "consent_purpose"), ("", "revoked_at", "timestamptz")]),
+    "health_record": ("blue", [("PK", "id", "uuid"), ("FK", "profile_id", "uuid"), ("", "kind", "record_kind"),
+                               ("", "storage_key", "text")]),
+    "reminder": ("blue", [("PK", "id", "uuid"), ("FK", "profile_id", "uuid"), ("", "due_on", "date"),
+                          ("", "repeat_months", "smallint")]),
+    "home_reading": ("blue", [("PK", "id", "uuid"), ("FK", "profile_id", "uuid"), ("", "kind", "reading_kind"),
+                              ("", "value", "numeric"), ("", "value2", "numeric")]),
+    "share_link": ("orange", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"), ("UQ", "token_hash", "text"),
+                              ("", "expires_at", "timestamptz")]),
+    # reports
+    "report": ("blue", [("PK", "id", "uuid"), ("FK", "profile_id", "uuid"), ("FK", "uploaded_by", "uuid"),
+                        ("", "status", "report_status"), ("", "collected_at", "date")]),
+    "report_file": ("blue", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"), ("", "storage_key", "text"),
+                             ("", "mime_type", "text")]),
+    "report_page": ("blue", [("PK", "id", "uuid"), ("FK", "report_file_id", "uuid"), ("", "page_no", "smallint"),
+                             ("", "ocr", "jsonb")]),
+    "observation": ("blue", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"), ("FK", "report_page_id", "uuid"),
+                             ("FK", "test_id", "int"), ("", "value_num", "numeric"), ("", "status", "obs_status"),
+                             ("", "confidence", "real")]),
+    "processing_job": ("blue", [("PK", "id", "bigint"), ("FK", "report_id", "uuid"), ("", "stage", "job_stage"),
+                                ("", "status", "job_status"), ("", "attempts", "smallint")]),
+    "report_grant": ("orange", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"),
+                                ("FK", "clinician_user_id", "uuid"), ("", "revoked_at", "timestamptz")]),
+    # catalogue
+    "organ_system": ("green", [("PK", "id", "smallint"), ("UQ", "code", "text"), ("", "name_en", "text"),
+                               ("", "name_or", "text")]),
+    "lab_test": ("green", [("PK", "id", "int"), ("UQ", "code", "text"), ("UQ", "loinc_code", "text"),
+                           ("FK", "organ_system_id", "smallint"), ("", "canonical_unit", "text"),
+                           ("", "aliases", "text[]")]),
+    "unit_conversion": ("green", [("PK", "id", "int"), ("FK", "test_id", "int"), ("", "from_unit", "text"),
+                                  ("", "factor", "numeric")]),
+    "reference_range": ("green", [("PK", "id", "int"), ("FK", "test_id", "int"), ("", "sex", "sex"),
+                                  ("", "low", "numeric"), ("", "high", "numeric")]),
+    "critical_limit": ("green", [("PK", "id", "int"), ("FK", "test_id", "int"), ("", "low", "numeric"),
+                                 ("", "high", "numeric"), ("", "reviewed_by", "text"),
+                                 ("", "proposed_at", "timestamptz")]),
+    "population_percentile": ("green", [("PK", "id", "int"), ("FK", "test_id", "int"), ("", "sex", "sex"),
+                                        ("", "age_band", "int4range"), ("", "p50", "numeric")]),
+    "catalogue_revision": ("green", [("PK", "id", "smallint"), ("", "revision", "int"),
+                                     ("", "changed_at", "timestamptz")]),
+    # knowledge & AI
+    "kb_document": ("purple", [("PK", "id", "uuid"), ("", "title", "text"), ("", "url", "text"),
+                               ("", "license", "text")]),
+    "kb_chunk": ("purple", [("PK", "id", "uuid"), ("FK", "document_id", "uuid"), ("FK", "test_id", "int"),
+                            ("", "embedding", "vector(384)")]),
+    "trend_insight": ("purple", [("PK", "id", "uuid"), ("FK", "profile_id", "uuid"), ("FK", "test_id", "int"),
+                                 ("", "direction", "text"), ("", "confirmed", "boolean")]),
+    "explanation": ("purple", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"), ("", "language", "lang"),
+                               ("", "prompt_version", "text"), ("", "safety_status", "safety_status")]),
+    "explanation_citation": ("purple", [("PK", "explanation_id", "uuid"), ("PK", "kb_chunk_id", "uuid"),
+                                        ("", "rank", "smallint")]),
+    "feedback": ("purple", [("PK", "id", "uuid"), ("FK", "explanation_id", "uuid"), ("FK", "user_id", "uuid"),
+                            ("", "rating", "smallint")]),
+    "report_question": ("purple", [("PK", "id", "uuid"), ("FK", "report_id", "uuid"), ("", "question", "text"),
+                                   ("", "mode", "text"), ("", "refusal", "text")]),
+    "safety_review": ("orange", [("PK", "id", "uuid"), ("FK", "reviewer_id", "uuid"), ("", "subject_type", "text"),
+                                 ("", "verdict", "text")]),
+}
+ER_W, ER_HEAD, ER_ROW = 160, 20, 13
+
+
 def _er(height: int, place: dict, rels: list, notes: list[str]) -> Diagram:
     d = page(PW, height)
-    W, HEAD, ROW = 164, 22, 14
     box = {}
     for name, (x, y) in place.items():
-        role, cols = ENTITIES[name]
-        h = HEAD + len(cols) * ROW + 6
+        role, cols = TABLES[name]
+        h = ER_HEAD + len(cols) * ER_ROW + 5
         box[name] = (x, y, h)
-        d.rect(x, y, W, h, fill=PAPER, stroke=EDGE[role], sw=1.3, rx=4)
-        d.rect(x, y, W, HEAD, fill=TILE[role], stroke="none", rx=4)
-        d.rect(x, y + HEAD - 4, W, 4, fill=TILE[role], stroke="none", rx=0)
-        d.text(x + 8, y + 15.5, name, 10.5, 700, PAPER, family=MONO)
+        d.rect(x, y, ER_W, h, fill=PAPER, stroke=EDGE[role], sw=1.3, rx=4)
+        d.rect(x, y, ER_W, ER_HEAD, fill=TILE[role], stroke="none", rx=4)
+        d.rect(x, y + ER_HEAD - 4, ER_W, 4, fill=TILE[role], stroke="none", rx=0)
+        d.text(x + 8, y + 14.5, name, 10.5, 700, PAPER, family=MONO)
         for i, (k, col, typ) in enumerate(cols):
-            ry = y + HEAD + 3 + i * ROW
+            ry = y + ER_HEAD + 2 + i * ER_ROW
             kc = {"PK": TILE["orange"], "FK": TILE["blue"], "UQ": TILE["green"]}.get(k, MUTED)
-            d.text(x + 6, ry + 10.5, k, 8, 700, kc, family=MONO)
-            d.text(x + 26, ry + 10.5, col, 9.5, 600 if k == "PK" else 400, INK, family=MONO)
-            d.text(x + W - 6, ry + 10.5, typ, 8.5, 400, MUTED, "end", family=MONO)
+            d.text(x + 6, ry + 10, k, 8, 700, kc, family=MONO)
+            d.text(x + 26, ry + 10, col, 9.5, 600 if k == "PK" else 400, INK, family=MONO)
+            if 26 + len(col) * 5.7 + 6 < ER_W - 6 - len(typ) * 5.1:  # the type only where it fits
+                d.text(x + ER_W - 6, ry + 10, typ, 8.5, 400, MUTED, "end", family=MONO)
 
     def ry(ent, col):
         x, y, _ = box[ent]
-        i = [c for _, c, _ in ENTITIES[ent][1]].index(col)
-        return y + HEAD + 3 + i * ROW + ROW / 2
+        i = [c for _, c, _ in TABLES[ent][1]].index(col)
+        return y + ER_HEAD + 2 + i * ER_ROW + ER_ROW / 2
 
     def pt(ent, side, col=None):
         x, y, h = box[ent]
-        return {"L": (x, ry(ent, col) if col else y + h / 2), "R": (x + W, ry(ent, col) if col else y + h / 2),
-                "T": (x + W / 2, y), "B": (x + W / 2, y + h)}[side]
+        return {"L": (x, ry(ent, col) if col else y + h / 2), "R": (x + ER_W, ry(ent, col) if col else y + h / 2),
+                "T": (x + ER_W / 2, y), "B": (x + ER_W / 2, y + h)}[side]
 
     def end(p, q, kind):
         (x1, y1), (x2, y2) = p, q
@@ -580,81 +685,93 @@ def _er(height: int, place: dict, rels: list, notes: list[str]) -> Diagram:
             parts.append(f"M{cx + px * 5:.1f},{cy + py * 5:.1f} L{cx - px * 5:.1f},{cy - py * 5:.1f}")
 
         if kind in ("one", "one_many"):
-            tick(10)
-        if kind == "one":
-            tick(14)
-        if kind in ("one_many", "zero_many"):
-            parts.append(f"M{x1 + px * 6:.1f},{y1 + py * 6:.1f} L{x1 + ux * 9:.1f},{y1 + uy * 9:.1f} "
-                         f"L{x1 - px * 6:.1f},{y1 - py * 6:.1f}")
-        if kind == "zero_one":
             tick(9)
+        if kind == "one":
+            tick(13)
+        if kind in ("one_many", "zero_many"):
+            parts.append(f"M{x1 + px * 5.5:.1f},{y1 + py * 5.5:.1f} L{x1 + ux * 8:.1f},{y1 + uy * 8:.1f} "
+                         f"L{x1 - px * 5.5:.1f},{y1 - py * 5.5:.1f}")
+        if kind == "zero_one":
+            tick(8)
         d.raw(f'<path d="{" ".join(parts)}" stroke="{INK_2}" stroke-width="1.2" fill="none"/>')
         if kind in ("zero_many", "zero_one"):
-            t = 17 if kind == "zero_many" else 16
-            d.circle(x1 + ux * t, y1 + uy * t, 3.6, PAPER, INK_2, 1.2)
+            t = 15 if kind == "zero_many" else 14
+            d.circle(x1 + ux * t, y1 + uy * t, 3.3, PAPER, INK_2, 1.2)
 
     for (e1, s1, c1), (e2, s2, c2), k1, k2, via in rels:
         p1, p2 = pt(e1, s1, c1), pt(e2, s2, c2)
-        if via is None:
-            pts = [p1, p2]
-        else:
-            pts = [p1, (via, p1[1]), (via, p2[1]), p2]
+        pts = [p1, p2] if via is None or abs(p1[1] - p2[1]) < 0.5 else [p1, (via, p1[1]), (via, p2[1]), p2]
         d.arrow(pts, INK_2, sw=1.15, head=None)
         end(pts[0], pts[1], k1)
         end(pts[-1], pts[-2], k2)
-    y = height - 12 - 14 * (len(notes) - 1)
+    y = height - 10 - 13 * (len(notes) - 1)
     for i, s in enumerate(notes):
-        d.text(20, y + i * 14, s, 9.5, 400, MUTED)
+        d.text(20, y + i * 13, s, 9.5, 400, MUTED)
     return d
 
 
-C0, C1, C2 = 20, 226, 432
+C0, C1, C2 = 26, 231, 436       # 45 px gaps: room for a bus and its end markers
+LEFT, GAP1, GAP2 = 6, 208, 413   # bus positions
 
 
 def er_a() -> Diagram:
-    place = {"app_user": (C0, 6), "consent": (C0, 186), "audit_log": (C0, 350), "share_link": (C0, 514),
-             "profile": (C1, 6), "report": (C1, 186), "report_file": (C1, 376), "report_page": (C1, 540),
-             "processing_job": (C2, 6), "observation": (C2, 186)}
+    """Accounts, people, care, reports and sharing (18 tables)."""
+    place = {"app_user": (C0, 6), "user_session": (C0, 112), "auth_token": (C0, 210), "audit_log": (C0, 308),
+             "clinician": (C0, 406), "clinician_note": (C0, 504),
+             "profile": (C1, 6), "consent": (C1, 120), "health_record": (C1, 236), "reminder": (C1, 334),
+             "home_reading": (C1, 432), "share_link": (C1, 546),
+             "report": (C2, 6), "report_file": (C2, 120), "report_page": (C2, 218), "observation": (C2, 316),
+             "processing_job": (C2, 456), "report_grant": (C2, 570)}
     rels = [
-        (("app_user", "R", "id"), ("profile", "L", "owner_user_id"), "one", "zero_many", 205),
-        (("app_user", "B", None), ("consent", "T", None), "one", "zero_many", None),
-        (("consent", "R", "profile_id"), ("profile", "L", "deleted_at"), "zero_many", "one", 212),
-        (("app_user", "R", "role"), ("audit_log", "R", "actor_user_id"), "zero_one", "zero_many", 198),
-        (("profile", "B", None), ("report", "T", None), "one", "zero_many", None),
+        (("app_user", "B", None), ("user_session", "T", None), "one", "zero_many", None),
+        (("app_user", "L", "id"), ("auth_token", "L", "user_id"), "one", "zero_many", LEFT),
+        (("app_user", "L", "id"), ("audit_log", "L", "actor_user_id"), "zero_one", "zero_many", LEFT),
+        (("app_user", "L", "id"), ("clinician", "L", "user_id"), "one", "zero_one", LEFT),
+        (("app_user", "L", "id"), ("clinician_note", "L", "clinician_user_id"), "zero_one", "zero_many", LEFT),
+        (("app_user", "R", "email"), ("profile", "L", "owner_user_id"), "one", "zero_many", GAP1),
+        (("profile", "B", None), ("consent", "T", None), "one", "zero_many", None),
+        (("profile", "L", "display_name"), ("health_record", "L", "profile_id"), "one", "zero_many", GAP1),
+        (("profile", "L", "display_name"), ("reminder", "L", "profile_id"), "one", "zero_many", GAP1),
+        (("profile", "L", "display_name"), ("home_reading", "L", "profile_id"), "one", "zero_many", GAP1),
+        (("profile", "R", "id"), ("report", "L", "profile_id"), "one", "zero_many", GAP2),
         (("report", "B", None), ("report_file", "T", None), "one", "one_many", None),
         (("report_file", "B", None), ("report_page", "T", None), "one", "one_many", None),
-        (("report", "R", "id"), ("processing_job", "L", "report_id"), "one", "zero_many", 411),
-        (("report", "R", "lab_name"), ("observation", "L", "report_id"), "one", "zero_many", 418),
-        (("report_page", "R", "id"), ("observation", "L", "report_page_id"), "zero_one", "zero_many", 404),
-        (("share_link", "R", "report_id"), ("report", "L", "deleted_at"), "zero_many", "one", 206),
+        (("report_page", "B", None), ("observation", "T", None), "zero_one", "zero_many", None),
+        (("report", "L", "status"), ("observation", "L", "report_id"), "one", "zero_many", GAP2),
+        (("report", "L", "status"), ("processing_job", "L", "report_id"), "one", "zero_many", GAP2),
+        (("report", "L", "status"), ("report_grant", "L", "report_id"), "one", "zero_many", GAP2),
+        (("report", "L", "status"), ("share_link", "R", "report_id"), "one", "zero_many", GAP2),
     ]
-    return _er(700, place, rels, [
-        "observation.test_id → lab_test and profile → trend_insight are shown in part (b).",
+    return _er(712, place, rels, [
+        "Also: report.uploaded_by, consent.user_id and report_grant.clinician_user_id refer to app_user;",
+        "clinician_note.report_id to report; observation.test_id to lab_test (part b). Lines omitted for clarity.",
     ])
 
 
 def er_b() -> Diagram:
-    place = {"explanation": (C0, 6), "explanation_citation": (C0, 196), "feedback": (C0, 296),
-             "trend_insight": (C0, 440),
-             "organ_system": (C1, 6), "lab_test": (C1, 146), "kb_chunk": (C1, 356), "kb_document": (C1, 520),
-             "unit_conversion": (C2, 6), "reference_range": (C2, 146), "critical_limit": (C2, 318),
-             "population_percentile": (C2, 462)}
+    """Catalogue, knowledge and AI (15 tables)."""
+    place = {"organ_system": (C0, 6), "lab_test": (C0, 104), "unit_conversion": (C0, 228),
+             "reference_range": (C0, 326), "critical_limit": (C0, 440), "catalogue_revision": (C0, 580),
+             "population_percentile": (C1, 6), "kb_document": (C1, 120), "kb_chunk": (C1, 218),
+             "explanation_citation": (C1, 316), "trend_insight": (C1, 410),
+             "explanation": (C2, 6), "feedback": (C2, 120), "report_question": (C2, 228), "safety_review": (C2, 356)}
     rels = [
         (("organ_system", "B", None), ("lab_test", "T", None), "one", "zero_many", None),
-        (("lab_test", "R", "id"), ("unit_conversion", "L", "test_id"), "one", "zero_many", 411),
-        (("lab_test", "R", "id"), ("reference_range", "L", "test_id"), "one", "zero_many", 411),
-        (("lab_test", "R", "id"), ("critical_limit", "L", "test_id"), "one", "zero_many", 411),
-        (("lab_test", "R", "id"), ("population_percentile", "L", "test_id"), "one", "zero_many", 411),
-        (("lab_test", "B", None), ("kb_chunk", "T", None), "zero_one", "zero_many", None),
-        (("kb_document", "T", None), ("kb_chunk", "B", None), "one", "one_many", None),
-        (("explanation", "B", None), ("explanation_citation", "T", None), "one", "zero_many", None),
-        (("kb_chunk", "L", "id"), ("explanation_citation", "R", "kb_chunk_id"), "one", "zero_many", 205),
-        (("explanation", "R", "language"), ("feedback", "R", "explanation_id"), "one", "zero_many", 196),
-        (("lab_test", "L", "id"), ("trend_insight", "R", "test_id"), "one", "zero_many", 213),
+        (("lab_test", "B", None), ("unit_conversion", "T", None), "one", "zero_many", None),
+        (("lab_test", "L", "id"), ("reference_range", "L", "test_id"), "one", "zero_many", LEFT),
+        (("lab_test", "L", "id"), ("critical_limit", "L", "test_id"), "one", "zero_one", LEFT),
+        (("lab_test", "R", "code"), ("population_percentile", "L", "test_id"), "one", "zero_many", GAP1),
+        (("lab_test", "R", "code"), ("kb_chunk", "L", "test_id"), "zero_one", "zero_many", GAP1),
+        (("lab_test", "R", "code"), ("trend_insight", "L", "test_id"), "one", "zero_many", GAP1),
+        (("kb_document", "B", None), ("kb_chunk", "T", None), "one", "one_many", None),
+        (("kb_chunk", "B", None), ("explanation_citation", "T", None), "one", "zero_many", None),
+        (("explanation", "L", "language"), ("explanation_citation", "R", "explanation_id"), "one", "zero_many",
+         GAP2),
+        (("explanation", "B", None), ("feedback", "T", None), "one", "zero_many", None),
     ]
-    return _er(700, place, rels, [
-        "explanation.report_id → report, trend_insight.profile_id → profile and feedback.user_id → app_user",
-        "are shown in part (a). Legend: PK primary key · FK foreign key · UQ unique.",
+    return _er(712, place, rels, [
+        "Also: explanation.report_id, report_question.report_id → report; trend_insight.profile_id → profile;",
+        "feedback.user_id and safety_review.reviewer_id → app_user (part a). Legend: PK · FK · UQ unique.",
     ])
 
 
@@ -684,25 +801,28 @@ def _cls(d, x, y, w, name, attrs, methods, role, stereo=None) -> tuple[float, fl
 
 
 def class_a() -> Diagram:
-    d = page(PW, 520)
+    """Requests, storage and the job queue."""
+    d = page(PW, 500)
     W = 180
-    X = [8, 211, 414]
+    X = [10, 211, 412]
     B = {}
-    B["router"] = _cls(d, X[0], 6, W, "ReportsRouter", ["- service"], ["+ upload(profile, file)", "+ confirm(id, edits)",
-                                                                       "+ insights(id)"], "cyan", "FastAPI router")
-    B["service"] = _cls(d, X[1], 6, W, "ReportService", ["- repo", "- storage", "- queue"],
-                        ["+ create(): Report", "+ confirm(): Report", "+ delete(): None"], "blue")
-    B["repo"] = _cls(d, X[2], 6, W, "ReportRepository", ["- session"], ["+ get(id): Report", "+ save(report)",
-                                                                         "+ history(profile, test)"], "blue")
-    B["storage"] = _cls(d, X[0], 200, W, "StorageBackend", [], ["+ put(key, data)", "+ get(key): bytes",
-                                                                 "+ delete(key)"], "green", "interface")
-    B["queue"] = _cls(d, X[1], 200, W, "JobQueue", [], ["+ enqueue(id, stage)", "+ claim(): Job | None",
-                                                        "+ fail(job, error)"], "green", "interface")
-    B["worker"] = _cls(d, X[2], 200, W, "Worker", ["- queue", "- handlers"], ["+ run_forever()", "+ process(job)"],
-                       "slate")
-    B["local"] = _cls(d, X[0], 372, W, "LocalVolumeStorage", ["- root: Path"], ["+ put / get / delete"], "green")
-    B["pgq"] = _cls(d, X[1], 372, W, "PgJobQueue", ["- engine"], ["+ claim(): SKIP LOCKED"], "green")
-    B["handler"] = _cls(d, X[2], 372, W, "StageHandler", ["+ stage: Stage"], ["+ handle(job)"], "slate", "interface")
+    B["router"] = _cls(d, X[0], 6, W, "reports", [], ["+ upload_report()", "+ confirm_report()",
+                                                      "+ delete_report()"], "cyan", "FastAPI router")
+    B["ingest"] = _cls(d, X[1], 6, W, "services.ingest", [], ["+ sniff_mime(data)", "+ has_consent()",
+                                                              "+ ingest_report()"], "blue", "module")
+    B["queue"] = _cls(d, X[2], 6, W, "worker.queue", [], ["+ enqueue(report, stage)", "+ claim(): Job | None",
+                                                          "+ fail(job, error)"], "green", "module")
+    B["deps"] = _cls(d, X[0], 176, W, "api.deps", [], ["+ current_user()", "+ require_roles()",
+                                                       "+ owned_report()"], "cyan", "module")
+    B["storage"] = _cls(d, X[1], 176, W, "StorageBackend", [], ["+ put(key, data)", "+ get(key): bytes",
+                                                                "+ delete(key)"], "green", "interface")
+    B["worker"] = _cls(d, X[2], 176, W, "Worker", ["- sessions", "- handlers"], ["+ run_once(): bool",
+                                                                             "+ run_forever(stop)"], "slate")
+    B["live"] = _cls(d, X[0], 346, W, "LiveCatalogue", ["- revision", "- interpreter"],
+                     ["+ get(session)"], "green")
+    B["local"] = _cls(d, X[1], 346, W, "LocalVolumeStorage", ["- root: Path"], ["+ put / get / delete"], "green")
+    B["handler"] = _cls(d, X[2], 346, W, "StageHandler", ["+ stage: JobStage"], ["+ handle(job, session)"],
+                        "slate", "interface")
 
     def L(k, f=0.5):
         x, y, w, h = B[k]; return (x, y + h * f)
@@ -718,87 +838,88 @@ def class_a() -> Diagram:
 
     assoc = dict(color=INK_2, sw=1.2, head="open")
     real = dict(color=INK_2, sw=1.1, head="triangle", dash="5 3")
-    d.arrow([R("router", 0.4), L("service", 0.4)], **assoc)
-    d.arrow([R("service", 0.4), L("repo", 0.4)], **assoc)
-    d.arrow([Bo("service", 0.5), T("queue", 0.5)], **assoc)
-    sb = Bo("service", 0.2)
-    d.arrow([sb, (sb[0], sb[1] + 14), (T("storage")[0], sb[1] + 14), T("storage")], **assoc)
-    d.arrow([L("worker", 0.4), R("queue", 0.4)], **assoc)
+    d.arrow([R("router", 0.62), L("ingest", 0.62)], **assoc)
+    d.arrow([R("ingest", 0.62), L("queue", 0.62)], **assoc)
+    d.arrow([Bo("router"), T("deps")], **assoc)
+    d.arrow([L("router", 0.3), (3, L("router", 0.3)[1]), (3, L("live", 0.3)[1]), L("live", 0.3)], **assoc)
+    d.arrow([Bo("ingest"), T("storage")], **assoc)
+    d.arrow([T("worker"), Bo("queue")], **assoc)
     d.arrow([Bo("worker"), T("handler")], color=INK_2, sw=1.2, head="open", tail="diamond")
     d.text(Bo("worker")[0] + 8, (Bo("worker")[1] + T("handler")[1]) / 2 + 4, "1..*", 9.5, 600, MUTED)
     d.arrow([T("local"), Bo("storage")], **real)
-    d.arrow([T("pgq"), Bo("queue")], **real)
-    d.legend(8, 500, [("line", INK_2, "association"), ("dash", INK_2, "realisation")])
-    d.raw(f'<path d="M300,500 h22" stroke="{INK_2}" stroke-width="1.2" '
+    d.legend(10, 480, [("line", INK_2, "association"), ("dash", INK_2, "realisation")])
+    d.raw(f'<path d="M300,480 h22" stroke="{INK_2}" stroke-width="1.2" '
           f'marker-start="url(#{d._marker(INK_2, "diamond")})"/>')
-    d.text(330, 504, "composition", 11, 400, INK_2)
+    d.text(330, 484, "composition", 11, 400, INK_2)
     return d
 
 
 def class_b() -> Diagram:
-    d = page(PW, 640)
-    pw, pad = 144, 6
+    """The pipeline stages and what each one uses."""
+    d = page(PW, 690)
+    pw, pad, gap = 144, 6, 18
     W = pw - 2 * pad
     xs = [3, 153, 303, 453]
+    top = 112
     B = {}
     B["handler"] = _cls(d, 226, 4, 150, "StageHandler", [], ["+ handle(job)"], "slate", "interface")
     pk = [
-        ("extraction", "teal", [
+        ("extraction", "teal", True, [
             ("extract", "ExtractionStage", [], ["+ handle(job)"], "slate", None),
+            ("interp", "Interpreter", ["- matcher", "- converter"], ["+ interpret(row)"], "teal", None),
+            ("matcher", "CatalogueMatcher", [], ["+ match(name)"], "teal", None),
+            ("conf", "ConfidenceModel", [], ["+ predict(features)"], "teal", None),
             ("ocr", "OCREngine", [], ["+ read(image)"], "teal", "interface"),
-            ("paddle", "RapidOCREngine", [], ["+ read(image)"], "teal", None),
-            ("matcher", "CatalogMatcher", [], ["+ match(row)"], "teal", None),
-            ("conf", "ConfidenceModel", [], ["+ score(features)"], "teal", None),
+            ("rapid", "RapidOCREngine", [], ["+ read(image)"], "teal", None),
         ]),
-        ("analysis", "cyan", [
+        ("analysis", "cyan", True, [
             ("analyse", "AnalysisStage", [], ["+ handle(job)"], "slate", None),
-            ("change", "ChangeDetector", [], ["+ significant(a, b)"], "cyan", None),
-            ("trend", "TrendAnalyzer", [], ["+ slope(series)"], "cyan", None),
-            ("critical", "CriticalRules", [], ["+ check(obs)"], "red", None),
+            ("svc_an", "services.analysis", [], ["+ analyse_profile()"], "cyan", "module"),
+            ("status", "analysis.status", [], ["+ classify()"], "cyan", "module"),
+            ("change", "analysis.change", [], ["+ rcv() · compare()"], "cyan", "module"),
+            ("trend", "analysis.trend", [], ["+ theil_sen()", "+ mann_kendall()"], "cyan", "module"),
         ]),
-        ("explanation", "purple", [
+        ("explanation", "purple", True, [
             ("explain", "ExplanationStage", [], ["+ handle(job)"], "slate", None),
-            ("retriever", "KnowledgeRetriever", [], ["+ top_k(tests, k)"], "purple", None),
-            ("validator", "SafetyValidator", [], ["+ validate(text)"], "red", None),
-            ("llm", "LLMProvider", [], ["+ complete(prompt)"], "purple", "interface"),
-            ("anthropic", "GroqProvider", [], ["+ complete(prompt)"], "purple", None),
-            ("ollama", "OllamaProvider", [], ["+ complete(prompt)"], "purple", None),
+            ("svc_ex", "services.explanation", [], ["+ explain_report()"], "purple", "module"),
+            ("emb", "Embedder", [], ["+ embed(texts)"], "purple", "interface"),
+            ("e5", "E5Embedder", [], ["+ embed(texts)"], "purple", None),
+            ("llm", "LLMProvider", [], ["+ complete_json()"], "purple", "interface"),
+            ("groq", "GroqProvider", [], ["+ complete_json()"], "purple", None),
+            ("valid", "explain.validator", [], ["+ validate()"], "red", "module"),
         ]),
-        ("narration", "orange", [
-            ("narrate", "NarrationStage", [], ["+ handle(job)"], "slate", None),
-            ("tts", "TTSProvider", [], ["+ speak(text, lang)"], "orange", "interface"),
+        ("on request (API)", "orange", False, [
+            ("ask", "services.ask", [], ["+ answer_question()"], "orange", "module"),
+            ("rules", "explain.ask", [], ["+ understand()"], "red", "module"),
+            ("tts", "TTSProvider", [], ["+ synthesize()"], "orange", "interface"),
+            ("eleven", "ElevenLabsProvider", [], ["+ synthesize()"], "orange", None),
         ]),
     ]
-    top = 96
-    for (pname, role, classes), x in zip(pk, xs):
-        d.rect(x, top, pw, 530, fill=EDGE[role], stroke=EDGE[role], sw=1.2, rx=4, opacity=0.07)
+    for (pname, role, _, classes), x in zip(pk, xs):
+        d.rect(x, top, pw, 556, fill=EDGE[role], stroke=EDGE[role], sw=1.2, rx=4, opacity=0.07)
         d.rect(x, top - 16, text_width(pname, 10.5, 700) + 16, 16, fill=TILE[role], stroke="none", rx=2)
         d.text(x + 8, top - 4, pname, 10.5, 700, PAPER)
         y = top + 12
         for key, name, attrs, methods, crole, stereo in classes:
             B[key] = _cls(d, x + pad, y, W, name, attrs, methods, crole, stereo)
-            y += B[key][3] + 26
+            y += B[key][3] + gap
     real = dict(color=INK_2, sw=1.1, head="triangle", dash="5 3")
     use = dict(color=INK_2, sw=1.1, head="open", dash="4 3")
     hx, hy, hw, hh = B["handler"]
-    bus = hy + hh + 22
-    for k in ("extract", "analyse", "explain", "narrate"):
-        x, y, w, h = B[k]
-        d.arrow([(x + w / 2, y), (x + w / 2, bus)], color=INK_2, sw=1.1, head=None, dash="5 3")
-    d.arrow([(B["extract"][0] + W / 2, bus), (B["narrate"][0] + W / 2, bus)], color=INK_2, sw=1.1, head=None, dash="5 3")
+    bus = hy + hh + 15
+    stages = [("extract", xs[0]), ("analyse", xs[1]), ("explain", xs[2])]
+    tap = {k: x + pw * 0.8 for k, x in stages}            # right of each package tab
+    for k, _ in stages:
+        d.arrow([(tap[k], B[k][1]), (tap[k], bus)], color=INK_2, sw=1.1, head=None, dash="5 3")
+    d.arrow([(tap["extract"], bus), (tap["explain"], bus)], color=INK_2, sw=1.1, head=None, dash="5 3")
     d.arrow([(hx + hw / 2, bus), (hx + hw / 2, hy + hh)], **real)
-    # uses: stage → first collaborator; implementations → interfaces
-    for s, c in (("extract", "ocr"), ("analyse", "change"), ("explain", "retriever"), ("narrate", "tts")):
+    for s, c in (("extract", "interp"), ("analyse", "svc_an"), ("explain", "svc_ex"), ("ask", "rules")):
         x, y, w, h = B[s]
         d.arrow([(x + w / 2, y + h), (x + w / 2, B[c][1])], **use)
-    for impl, iface in (("paddle", "ocr"), ("anthropic", "llm")):
+    for impl, iface in (("rapid", "ocr"), ("e5", "emb"), ("groq", "llm"), ("eleven", "tts")):
         x, y, w, h = B[impl]
         d.arrow([(x + w / 2, y), (x + w / 2, B[iface][1] + B[iface][3])], **real)
-    ox, oy, ow, oh = B["ollama"]
-    lx, ly, lw_, lh = B["llm"]
-    d.arrow([(ox + ow, oy + oh / 2), (ox + ow + 5, oy + oh / 2), (ox + ow + 5, ly + lh / 2), (lx + lw_, ly + lh / 2)],
-            **real)
-    d.text(3, 636, "Each stage uses the classes in its package; dashed triangles mark implementations.",
+    d.text(3, 684, "Each stage uses the classes in its package; dashed triangles mark implementations.",
            9.5, 400, MUTED)
     return d
 
@@ -848,7 +969,11 @@ def gantt() -> Diagram:
         if r["kind"] == "milestone":
             cx = X(r["e"]) + px / 2
             d.raw(f'<path d="M{cx},{y + 2} l6,6 -6,6 -6,-6 z" fill="{TILE["orange"]}"/>')
-            d.text(cx + 9, y + 11.5, f"{r['e']:%d %b}", 9.5, 700, TILE["orange"])
+            label = f"{r['e']:%d %b}"
+            if cx + 9 + text_width(label, 9.5, 700) > LW:
+                d.text(cx - 9, y + 11.5, label, 9.5, 700, TILE["orange"], "end")
+            else:
+                d.text(cx + 9, y + 11.5, label, 9.5, 700, TILE["orange"])
             d.text(318, y + 11.5, "gate", 9.5, 700, TILE["orange"])
             continue
         d.text(318, y + 11.5, r["owner"], 9, 700, TILE[role])
@@ -873,13 +998,15 @@ def lifecycle() -> Diagram:
     phases = [
         ("Inception", "1 – 9 Aug", "slate", ["Problem & persona validation", "Charter, SRS, architecture",
                                                   "Risk register, test plan", "Repo + Docker scaffold"], "M0 · docs baseline"),
-        ("Elaboration", "10 – 16 Aug", "cyan", ["Test catalogue (60 tests)", "Synthetic report generator",
-                                               "3D anatomy spike", "Knowledge sources + licences"], "risks retired"),
+        ("Elaboration", "10 – 16 Aug", "cyan", ["Test catalogue (70 tests)", "Synthetic report generator",
+                                               "3D body spike (procedural)", "Knowledge sources + licences"],
+         "risks retired"),
         ("Construction", "17 Aug – 20 Sep", "blue", ["S2–S3 extraction + review", "S4 analytics engine",
                                                       "S5 grounded explanations", "S6 body map + accounts"],
          "M1 30 Aug · M2 20 Sep"),
-        ("Transition", "21 – 30 Sep", "green", ["S7 evaluation + hardening", "User tests + doctor review",
-                                                    "Report, poster, rehearsal", "Offline demo mode"], "M3 · demo ready"),
+        ("Transition", "21 – 30 Sep", "green", ["S7 sharing, care, Ask Nabz", "Console + offline mode",
+                                                    "Usability plan, review packet", "Report, slides, rehearsal"],
+         "M3 · demo ready"),
     ]
     w, tip = 142, 10
     for i, (name, when, role, acts, gate) in enumerate(phases):
@@ -938,14 +1065,14 @@ def journey() -> Diagram:
         d.text(12, y, head, 11, 700, INK)
         y = d.lines(12, y + 16, body, 10, 400, INK_2) + 12
     rows = {
-        "Doing": (48, 62, [["PDF arrives on", "WhatsApp"], ["Shares the PDF", "to Nabz"], ["Fixes one OCR", "error"],
-                           ["Taps glowing liver;", "plays Odia audio"], ["Books follow-up;", "shares summary"],
-                           ["Scrubs the", "timeline"]]),
+        "Doing": (48, 62, [["PDF arrives on", "WhatsApp"], ["Uploads the PDF", "to Nabz"], ["Fixes one misread", "value"],
+                           ["Taps the liver;", "plays Odia audio"], ["Shares with the", "doctor; asks"],
+                           ["Replays the", "story"]]),
         "Pain points": (262, 54, [["20+ unfamiliar", "abbreviations"], ["skewed, shadowed", "photos"],
-                                  ["OCR errors would", "mislead"], ["alarming, generic", "search results"],
+                                  ["misread values", "would mislead"], ["alarming, generic", "search results"],
                                   ["5-minute visit;", "forgets questions"], ["different labs,", "different units"]]),
-        "How Nabz helps": (324, 54, [["body map shows", "what matters"], ["quality check", "+ retake tips"],
-                                     ["human review of", "weak rows"], ["grounded, cited,", "in Odia"],
+        "How Nabz helps": (324, 54, [["body map shows", "what matters"], ["text layer or", "OCR, then review"],
+                                     ["human review of", "weak rows"], ["grounded, checked,", "in Odia"],
                                      ["doctor questions", "+ share link"], ["trends + change", "significance"]]),
     }
     for i, s in enumerate(stages):
@@ -962,7 +1089,6 @@ def journey() -> Diagram:
             else:
                 d.rect(x, y, cw - 6, h, fill=EDGE["green"], stroke="none", rx=6, opacity=0.2)
             d.lines(x + 9, y + 20, lines_, 10, 600 if label == "How Nabz helps" else 400, INK, leading=1.35)
-    # feeling curve
     fy, fh = 118, 134
     d.rect(x0, fy, 6 * cw - 6, fh, fill=PAPER, stroke=LINE, rx=6)
     base, amp = fy + fh / 2 + 4, 42

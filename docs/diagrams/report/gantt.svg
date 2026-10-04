@@ -78,7 +78,7 @@
 <text x="40.0" y="160.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Elaboration · Sprint 1</text>
 <path d="M440.1,160.5 V153.5 H505.5 V160.5" fill="none" stroke="#2E3440" stroke-width="2.4"/>
 <text x="6.0" y="175.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.1</text>
-<text x="40.0" y="175.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Test catalogue: 60 tests, LOINC, units, organ map</text>
+<text x="40.0" y="175.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Test catalogue: 70 tests, LOINC, units, organ map</text>
 <text x="318.0" y="175.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="440.1" y="167.5" width="46.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="191.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.2</text>
@@ -86,7 +86,7 @@
 <text x="318.0" y="191.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="449.4" y="183.0" width="56.1" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="206.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.3</text>
-<text x="40.0" y="206.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">3D anatomy spike (Z-Anatomy → GLB → R3F)</text>
+<text x="40.0" y="206.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">3D body spike: procedural model in React Three Fiber</text>
 <text x="318.0" y="206.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="440.1" y="198.5" width="18.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="222.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T1.4</text>
@@ -119,7 +119,7 @@
 <text x="318.0" y="315.0" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="636.3" y="307.0" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="330.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.4</text>
-<text x="40.0" y="330.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S5 · RAG · explanations · safety validator · voice</text>
+<text x="40.0" y="330.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S5 · Retrieval · explanations · safety checks · voice</text>
 <text x="318.0" y="330.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="701.7" y="322.5" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="346.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.5</text>
@@ -127,7 +127,7 @@
 <text x="318.0" y="346.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
 <rect x="636.3" y="338.0" width="112.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="361.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.6</text>
-<text x="40.0" y="361.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S6 · 3D body map · timeline · accounts · export</text>
+<text x="40.0" y="361.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S6 · 3D body map · accounts · export · records</text>
 <text x="318.0" y="361.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="767.1" y="353.5" width="65.4" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="377.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T2.7</text>
@@ -144,11 +144,11 @@
 <text x="40.0" y="408.0" font-size="10.5" font-weight="700" fill="#2E3440" text-anchor="start">Transition · Sprint 7</text>
 <path d="M832.6,408.5 V401.5 H926.0 V408.5" fill="none" stroke="#2E3440" stroke-width="2.4"/>
 <text x="6.0" y="423.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.1</text>
-<text x="40.0" y="423.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S7 · Hardening: evaluation · performance · offline mode</text>
+<text x="40.0" y="423.5" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">S7 · Sharing · care · Ask Nabz · console · offline mode</text>
 <text x="318.0" y="423.5" font-size="9" font-weight="700" fill="#5E81AC" text-anchor="start">DEV</text>
 <rect x="832.6" y="415.5" width="46.7" height="9.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="439.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.2</text>
-<text x="40.0" y="439.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">User testing (10 people) · doctor review (20 e…</text>
+<text x="40.0" y="439.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Usability test plan · clinical review packet</text>
 <text x="318.0" y="439.0" font-size="9" font-weight="700" fill="#8E6D95" text-anchor="start">TEAM</text>
 <rect x="832.6" y="431.0" width="56.1" height="9.0" rx="3" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="454.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.3</text>
@@ -156,13 +156,13 @@
 <text x="318.0" y="454.5" font-size="9" font-weight="700" fill="#6E9A5B" text-anchor="start">ALL</text>
 <rect x="841.9" y="446.5" width="74.8" height="9.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="470.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.4</text>
-<text x="40.0" y="470.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Demo rehearsals × 3</text>
+<text x="40.0" y="470.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Demo rehearsals (online and offline)</text>
 <text x="318.0" y="470.0" font-size="9" font-weight="700" fill="#6E9A5B" text-anchor="start">ALL</text>
 <rect x="869.9" y="462.0" width="37.4" height="9.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <text x="6.0" y="485.5" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">M3</text>
 <text x="40.0" y="485.5" font-size="10" font-weight="600" fill="#2E3440" text-anchor="start">Demo ready</text>
 <path d="M902.639344262295,476.0 l6,6 -6,6 -6,-6 z" fill="#C06B47"/>
-<text x="911.6" y="485.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">28 Sep</text>
+<text x="893.6" y="485.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="end">28 Sep</text>
 <text x="318.0" y="485.5" font-size="9.5" font-weight="700" fill="#C06B47" text-anchor="start">gate</text>
 <text x="6.0" y="501.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">T3.5</text>
 <text x="40.0" y="501.0" font-size="10" font-weight="400" fill="#2E3440" text-anchor="start">Contingency buffer</text>

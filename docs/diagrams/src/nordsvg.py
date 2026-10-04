@@ -115,6 +115,7 @@ ICONS: dict[str, str] = {
     "folder": '<path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/>',
     "calendar": '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     "rule": '<path d="M4 6h10M4 12h16M4 18h7"/><path d="M17 4l3 3-3 3"/>',
+    "mail": '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.8 7l8.2 6.2L20.2 7"/>',
 }
 
 

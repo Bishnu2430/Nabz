@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="15.93cm" height="16.93cm" viewBox="0 0 602 640" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="15.93cm" height="18.26cm" viewBox="0 0 602 690" role="img">
 <defs><marker id="m-triangle-4C566A" viewBox="0 0 13 13" refX="12" refY="6.5" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1,1 L12,6.5 L1,12 z" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/></marker><marker id="m-open-4C566A" viewBox="0 0 11 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#4C566A" stroke-width="1.4"/></marker></defs>
 <g font-family="Inter, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
-<rect width="602" height="640" fill="#FFFFFF"/>
+<rect width="602" height="690" fill="#FFFFFF"/>
 <rect x="226.0" y="4.0" width="150.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
 <rect x="226.0" y="4.0" width="150.0" height="36.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
 <rect x="226.0" y="4.0" width="150.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
@@ -10,153 +10,200 @@
 <line x1="226.0" y1="40.0" x2="376.0" y2="40.0" stroke="#4C566A" stroke-width="1"/>
 <line x1="226.0" y1="46.0" x2="376.0" y2="46.0" stroke="#4C566A" stroke-width="1"/>
 <text x="233.0" y="59.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
-<rect x="3.0" y="96.0" width="144.0" height="530.0" rx="4" fill="#8FBCBB" fill-opacity="0.07" stroke="#8FBCBB" stroke-width="1.2"/>
-<rect x="3.0" y="80.0" width="75.5" height="16.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="11.0" y="92.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">extraction</text>
-<rect x="9.0" y="108.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
-<rect x="9.0" y="108.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="9.0" y="108.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="125.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ExtractionStage</text>
-<line x1="9.0" y1="132.0" x2="141.0" y2="132.0" stroke="#4C566A" stroke-width="1"/>
-<line x1="9.0" y1="138.0" x2="141.0" y2="138.0" stroke="#4C566A" stroke-width="1"/>
-<text x="16.0" y="151.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
-<rect x="9.0" y="185.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
-<rect x="9.0" y="185.0" width="132.0" height="36.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="9.0" y="185.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="200.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
-<text x="75.0" y="214.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">OCREngine</text>
-<line x1="9.0" y1="221.0" x2="141.0" y2="221.0" stroke="#8FBCBB" stroke-width="1"/>
-<line x1="9.0" y1="227.0" x2="141.0" y2="227.0" stroke="#8FBCBB" stroke-width="1"/>
-<text x="16.0" y="240.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image)</text>
-<rect x="9.0" y="274.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
-<rect x="9.0" y="274.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="9.0" y="274.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="291.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">RapidOCREngine</text>
-<line x1="9.0" y1="298.0" x2="141.0" y2="298.0" stroke="#8FBCBB" stroke-width="1"/>
-<line x1="9.0" y1="304.0" x2="141.0" y2="304.0" stroke="#8FBCBB" stroke-width="1"/>
-<text x="16.0" y="317.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image)</text>
-<rect x="9.0" y="351.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
-<rect x="9.0" y="351.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="9.0" y="351.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="368.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">CatalogMatcher</text>
-<line x1="9.0" y1="375.0" x2="141.0" y2="375.0" stroke="#8FBCBB" stroke-width="1"/>
-<line x1="9.0" y1="381.0" x2="141.0" y2="381.0" stroke="#8FBCBB" stroke-width="1"/>
-<text x="16.0" y="394.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ match(row)</text>
-<rect x="9.0" y="428.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
-<rect x="9.0" y="428.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="3.0" y="112.0" width="144.0" height="556.0" rx="4" fill="#8FBCBB" fill-opacity="0.07" stroke="#8FBCBB" stroke-width="1.2"/>
+<rect x="3.0" y="96.0" width="75.5" height="16.0" rx="2" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="11.0" y="108.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">extraction</text>
+<rect x="9.0" y="124.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
+<rect x="9.0" y="124.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="9.0" y="124.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="75.0" y="141.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ExtractionStage</text>
+<line x1="9.0" y1="148.0" x2="141.0" y2="148.0" stroke="#4C566A" stroke-width="1"/>
+<line x1="9.0" y1="154.0" x2="141.0" y2="154.0" stroke="#4C566A" stroke-width="1"/>
+<text x="16.0" y="167.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
+<rect x="9.0" y="193.0" width="132.0" height="79.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
+<rect x="9.0" y="193.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="9.0" y="193.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="75.0" y="210.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">Interpreter</text>
+<line x1="9.0" y1="217.0" x2="141.0" y2="217.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="230.0" font-size="9.5" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- matcher</text>
+<text x="16.0" y="243.0" font-size="9.5" font-weight="400" fill="#4C566A" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">- converter</text>
+<line x1="9.0" y1="251.0" x2="141.0" y2="251.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="264.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ interpret(row)</text>
+<rect x="9.0" y="290.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
+<rect x="9.0" y="290.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="9.0" y="290.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="75.0" y="307.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">CatalogueMatcher</text>
+<line x1="9.0" y1="314.0" x2="141.0" y2="314.0" stroke="#8FBCBB" stroke-width="1"/>
+<line x1="9.0" y1="320.0" x2="141.0" y2="320.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="333.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ match(name)</text>
+<rect x="9.0" y="359.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
+<rect x="9.0" y="359.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="9.0" y="359.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="75.0" y="376.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ConfidenceModel</text>
+<line x1="9.0" y1="383.0" x2="141.0" y2="383.0" stroke="#8FBCBB" stroke-width="1"/>
+<line x1="9.0" y1="389.0" x2="141.0" y2="389.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="402.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ predict(features)</text>
+<rect x="9.0" y="428.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
+<rect x="9.0" y="428.0" width="132.0" height="36.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
 <rect x="9.0" y="428.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
-<text x="75.0" y="445.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ConfidenceModel</text>
-<line x1="9.0" y1="452.0" x2="141.0" y2="452.0" stroke="#8FBCBB" stroke-width="1"/>
-<line x1="9.0" y1="458.0" x2="141.0" y2="458.0" stroke="#8FBCBB" stroke-width="1"/>
-<text x="16.0" y="471.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ score(features)</text>
-<rect x="153.0" y="96.0" width="144.0" height="530.0" rx="4" fill="#88C0D0" fill-opacity="0.07" stroke="#88C0D0" stroke-width="1.2"/>
-<rect x="153.0" y="80.0" width="59.5" height="16.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
-<text x="161.0" y="92.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">analysis</text>
-<rect x="159.0" y="108.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
-<rect x="159.0" y="108.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="159.0" y="108.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
-<text x="225.0" y="125.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">AnalysisStage</text>
-<line x1="159.0" y1="132.0" x2="291.0" y2="132.0" stroke="#4C566A" stroke-width="1"/>
-<line x1="159.0" y1="138.0" x2="291.0" y2="138.0" stroke="#4C566A" stroke-width="1"/>
-<text x="166.0" y="151.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
-<rect x="159.0" y="185.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
-<rect x="159.0" y="185.0" width="132.0" height="24.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="159.0" y="185.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
-<text x="225.0" y="202.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ChangeDetector</text>
-<line x1="159.0" y1="209.0" x2="291.0" y2="209.0" stroke="#88C0D0" stroke-width="1"/>
-<line x1="159.0" y1="215.0" x2="291.0" y2="215.0" stroke="#88C0D0" stroke-width="1"/>
-<text x="166.0" y="228.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ significant(a, b)</text>
-<rect x="159.0" y="262.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
-<rect x="159.0" y="262.0" width="132.0" height="24.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="159.0" y="262.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
-<text x="225.0" y="279.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">TrendAnalyzer</text>
-<line x1="159.0" y1="286.0" x2="291.0" y2="286.0" stroke="#88C0D0" stroke-width="1"/>
-<line x1="159.0" y1="292.0" x2="291.0" y2="292.0" stroke="#88C0D0" stroke-width="1"/>
-<text x="166.0" y="305.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ slope(series)</text>
-<rect x="159.0" y="339.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.3"/>
-<rect x="159.0" y="339.0" width="132.0" height="24.0" rx="3" fill="#BF616A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="159.0" y="339.0" width="132.0" height="3.0" rx="1.5" fill="#BF616A" stroke="none" stroke-width="1.2"/>
-<text x="225.0" y="356.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">CriticalRules</text>
-<line x1="159.0" y1="363.0" x2="291.0" y2="363.0" stroke="#BF616A" stroke-width="1"/>
-<line x1="159.0" y1="369.0" x2="291.0" y2="369.0" stroke="#BF616A" stroke-width="1"/>
-<text x="166.0" y="382.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ check(obs)</text>
-<rect x="303.0" y="96.0" width="144.0" height="530.0" rx="4" fill="#B48EAD" fill-opacity="0.07" stroke="#B48EAD" stroke-width="1.2"/>
-<rect x="303.0" y="80.0" width="78.4" height="16.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="311.0" y="92.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">explanation</text>
-<rect x="309.0" y="108.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
-<rect x="309.0" y="108.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="309.0" y="108.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="125.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ExplanationStage</text>
-<line x1="309.0" y1="132.0" x2="441.0" y2="132.0" stroke="#4C566A" stroke-width="1"/>
-<line x1="309.0" y1="138.0" x2="441.0" y2="138.0" stroke="#4C566A" stroke-width="1"/>
-<text x="316.0" y="151.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
-<rect x="309.0" y="185.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
-<rect x="309.0" y="185.0" width="132.0" height="24.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="309.0" y="185.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="202.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">KnowledgeRetriever</text>
-<line x1="309.0" y1="209.0" x2="441.0" y2="209.0" stroke="#B48EAD" stroke-width="1"/>
-<line x1="309.0" y1="215.0" x2="441.0" y2="215.0" stroke="#B48EAD" stroke-width="1"/>
-<text x="316.0" y="228.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ top_k(tests, k)</text>
-<rect x="309.0" y="262.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.3"/>
-<rect x="309.0" y="262.0" width="132.0" height="24.0" rx="3" fill="#BF616A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="309.0" y="262.0" width="132.0" height="3.0" rx="1.5" fill="#BF616A" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="279.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">SafetyValidator</text>
-<line x1="309.0" y1="286.0" x2="441.0" y2="286.0" stroke="#BF616A" stroke-width="1"/>
-<line x1="309.0" y1="292.0" x2="441.0" y2="292.0" stroke="#BF616A" stroke-width="1"/>
-<text x="316.0" y="305.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ validate(text)</text>
-<rect x="309.0" y="339.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
-<rect x="309.0" y="339.0" width="132.0" height="36.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="309.0" y="339.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="354.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
-<text x="375.0" y="368.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">LLMProvider</text>
-<line x1="309.0" y1="375.0" x2="441.0" y2="375.0" stroke="#B48EAD" stroke-width="1"/>
-<line x1="309.0" y1="381.0" x2="441.0" y2="381.0" stroke="#B48EAD" stroke-width="1"/>
-<text x="316.0" y="394.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt)</text>
-<rect x="309.0" y="428.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
-<rect x="309.0" y="428.0" width="132.0" height="24.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="309.0" y="428.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="445.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">GroqProvider</text>
-<line x1="309.0" y1="452.0" x2="441.0" y2="452.0" stroke="#B48EAD" stroke-width="1"/>
-<line x1="309.0" y1="458.0" x2="441.0" y2="458.0" stroke="#B48EAD" stroke-width="1"/>
-<text x="316.0" y="471.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt)</text>
+<text x="75.0" y="443.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="75.0" y="457.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">OCREngine</text>
+<line x1="9.0" y1="464.0" x2="141.0" y2="464.0" stroke="#8FBCBB" stroke-width="1"/>
+<line x1="9.0" y1="470.0" x2="141.0" y2="470.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="483.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image)</text>
+<rect x="9.0" y="509.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#8FBCBB" stroke-width="1.3"/>
+<rect x="9.0" y="509.0" width="132.0" height="24.0" rx="3" fill="#8FBCBB" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="9.0" y="509.0" width="132.0" height="3.0" rx="1.5" fill="#5E9C9A" stroke="none" stroke-width="1.2"/>
+<text x="75.0" y="526.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">RapidOCREngine</text>
+<line x1="9.0" y1="533.0" x2="141.0" y2="533.0" stroke="#8FBCBB" stroke-width="1"/>
+<line x1="9.0" y1="539.0" x2="141.0" y2="539.0" stroke="#8FBCBB" stroke-width="1"/>
+<text x="16.0" y="552.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ read(image)</text>
+<rect x="153.0" y="112.0" width="144.0" height="556.0" rx="4" fill="#88C0D0" fill-opacity="0.07" stroke="#88C0D0" stroke-width="1.2"/>
+<rect x="153.0" y="96.0" width="59.5" height="16.0" rx="2" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="161.0" y="108.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">analysis</text>
+<rect x="159.0" y="124.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
+<rect x="159.0" y="124.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="159.0" y="124.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="225.0" y="141.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">AnalysisStage</text>
+<line x1="159.0" y1="148.0" x2="291.0" y2="148.0" stroke="#4C566A" stroke-width="1"/>
+<line x1="159.0" y1="154.0" x2="291.0" y2="154.0" stroke="#4C566A" stroke-width="1"/>
+<text x="166.0" y="167.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
+<rect x="159.0" y="193.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
+<rect x="159.0" y="193.0" width="132.0" height="36.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="159.0" y="193.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="225.0" y="208.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="225.0" y="222.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">services.analysis</text>
+<line x1="159.0" y1="229.0" x2="291.0" y2="229.0" stroke="#88C0D0" stroke-width="1"/>
+<line x1="159.0" y1="235.0" x2="291.0" y2="235.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="166.0" y="248.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ analyse_profile()</text>
+<rect x="159.0" y="274.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
+<rect x="159.0" y="274.0" width="132.0" height="36.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="159.0" y="274.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="225.0" y="289.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="225.0" y="303.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">analysis.status</text>
+<line x1="159.0" y1="310.0" x2="291.0" y2="310.0" stroke="#88C0D0" stroke-width="1"/>
+<line x1="159.0" y1="316.0" x2="291.0" y2="316.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="166.0" y="329.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ classify()</text>
+<rect x="159.0" y="355.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
+<rect x="159.0" y="355.0" width="132.0" height="36.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="159.0" y="355.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="225.0" y="370.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="225.0" y="384.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">analysis.change</text>
+<line x1="159.0" y1="391.0" x2="291.0" y2="391.0" stroke="#88C0D0" stroke-width="1"/>
+<line x1="159.0" y1="397.0" x2="291.0" y2="397.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="166.0" y="410.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ rcv() · compare()</text>
+<rect x="159.0" y="436.0" width="132.0" height="76.0" rx="3" fill="#FFFFFF" stroke="#88C0D0" stroke-width="1.3"/>
+<rect x="159.0" y="436.0" width="132.0" height="36.0" rx="3" fill="#88C0D0" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="159.0" y="436.0" width="132.0" height="3.0" rx="1.5" fill="#4F97AE" stroke="none" stroke-width="1.2"/>
+<text x="225.0" y="451.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="225.0" y="465.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">analysis.trend</text>
+<line x1="159.0" y1="472.0" x2="291.0" y2="472.0" stroke="#88C0D0" stroke-width="1"/>
+<line x1="159.0" y1="478.0" x2="291.0" y2="478.0" stroke="#88C0D0" stroke-width="1"/>
+<text x="166.0" y="491.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ theil_sen()</text>
+<text x="166.0" y="504.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ mann_kendall()</text>
+<rect x="303.0" y="112.0" width="144.0" height="556.0" rx="4" fill="#B48EAD" fill-opacity="0.07" stroke="#B48EAD" stroke-width="1.2"/>
+<rect x="303.0" y="96.0" width="78.4" height="16.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="311.0" y="108.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">explanation</text>
+<rect x="309.0" y="124.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
+<rect x="309.0" y="124.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="124.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="141.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ExplanationStage</text>
+<line x1="309.0" y1="148.0" x2="441.0" y2="148.0" stroke="#4C566A" stroke-width="1"/>
+<line x1="309.0" y1="154.0" x2="441.0" y2="154.0" stroke="#4C566A" stroke-width="1"/>
+<text x="316.0" y="167.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
+<rect x="309.0" y="193.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="309.0" y="193.0" width="132.0" height="36.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="193.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="208.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="375.0" y="222.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">services.explanation</text>
+<line x1="309.0" y1="229.0" x2="441.0" y2="229.0" stroke="#B48EAD" stroke-width="1"/>
+<line x1="309.0" y1="235.0" x2="441.0" y2="235.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="316.0" y="248.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ explain_report()</text>
+<rect x="309.0" y="274.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="309.0" y="274.0" width="132.0" height="36.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="274.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="289.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="375.0" y="303.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">Embedder</text>
+<line x1="309.0" y1="310.0" x2="441.0" y2="310.0" stroke="#B48EAD" stroke-width="1"/>
+<line x1="309.0" y1="316.0" x2="441.0" y2="316.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="316.0" y="329.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ embed(texts)</text>
+<rect x="309.0" y="355.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="309.0" y="355.0" width="132.0" height="24.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="355.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="372.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">E5Embedder</text>
+<line x1="309.0" y1="379.0" x2="441.0" y2="379.0" stroke="#B48EAD" stroke-width="1"/>
+<line x1="309.0" y1="385.0" x2="441.0" y2="385.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="316.0" y="398.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ embed(texts)</text>
+<rect x="309.0" y="424.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
+<rect x="309.0" y="424.0" width="132.0" height="36.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="424.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="439.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="375.0" y="453.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">LLMProvider</text>
+<line x1="309.0" y1="460.0" x2="441.0" y2="460.0" stroke="#B48EAD" stroke-width="1"/>
+<line x1="309.0" y1="466.0" x2="441.0" y2="466.0" stroke="#B48EAD" stroke-width="1"/>
+<text x="316.0" y="479.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete_json()</text>
 <rect x="309.0" y="505.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#B48EAD" stroke-width="1.3"/>
 <rect x="309.0" y="505.0" width="132.0" height="24.0" rx="3" fill="#B48EAD" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
 <rect x="309.0" y="505.0" width="132.0" height="3.0" rx="1.5" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
-<text x="375.0" y="522.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">OllamaProvider</text>
+<text x="375.0" y="522.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">GroqProvider</text>
 <line x1="309.0" y1="529.0" x2="441.0" y2="529.0" stroke="#B48EAD" stroke-width="1"/>
 <line x1="309.0" y1="535.0" x2="441.0" y2="535.0" stroke="#B48EAD" stroke-width="1"/>
-<text x="316.0" y="548.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete(prompt)</text>
-<rect x="453.0" y="96.0" width="144.0" height="530.0" rx="4" fill="#D08770" fill-opacity="0.07" stroke="#D08770" stroke-width="1.2"/>
-<rect x="453.0" y="80.0" width="69.2" height="16.0" rx="2" fill="#C06B47" stroke="none" stroke-width="1.2"/>
-<text x="461.0" y="92.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">narration</text>
-<rect x="459.0" y="108.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#4C566A" stroke-width="1.3"/>
-<rect x="459.0" y="108.0" width="132.0" height="24.0" rx="3" fill="#4C566A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="459.0" y="108.0" width="132.0" height="3.0" rx="1.5" fill="#4C566A" stroke="none" stroke-width="1.2"/>
-<text x="525.0" y="125.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">NarrationStage</text>
-<line x1="459.0" y1="132.0" x2="591.0" y2="132.0" stroke="#4C566A" stroke-width="1"/>
-<line x1="459.0" y1="138.0" x2="591.0" y2="138.0" stroke="#4C566A" stroke-width="1"/>
-<text x="466.0" y="151.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ handle(job)</text>
-<rect x="459.0" y="185.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#D08770" stroke-width="1.3"/>
-<rect x="459.0" y="185.0" width="132.0" height="36.0" rx="3" fill="#D08770" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
-<rect x="459.0" y="185.0" width="132.0" height="3.0" rx="1.5" fill="#C06B47" stroke="none" stroke-width="1.2"/>
-<text x="525.0" y="200.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
-<text x="525.0" y="214.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">TTSProvider</text>
-<line x1="459.0" y1="221.0" x2="591.0" y2="221.0" stroke="#D08770" stroke-width="1"/>
-<line x1="459.0" y1="227.0" x2="591.0" y2="227.0" stroke="#D08770" stroke-width="1"/>
-<text x="466.0" y="240.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ speak(text, lang)</text>
-<path d="M75.0,108.0 L75.0,89.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
-<path d="M225.0,108.0 L225.0,89.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
-<path d="M375.0,108.0 L375.0,89.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
-<path d="M525.0,108.0 L525.0,89.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
-<path d="M75.0,89.0 L525.0,89.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
-<path d="M301.0,89.0 L301.0,67.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
-<path d="M75.0,159.0 L75.0,185.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
-<path d="M225.0,159.0 L225.0,185.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
-<path d="M375.0,159.0 L375.0,185.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
-<path d="M525.0,159.0 L525.0,185.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
-<path d="M75.0,274.0 L75.0,248.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
-<path d="M375.0,428.0 L375.0,402.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
-<path d="M441.0,530.5 L443.5,530.5 Q446.0,530.5 446.0,528.0 L446.0,373.0 Q446.0,370.5 443.5,370.5 L441.0,370.5" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
-<text x="3.0" y="636.0" font-size="9.5" font-weight="400" fill="#6B7385" text-anchor="start">Each stage uses the classes in its package; dashed triangles mark implementations.</text>
+<text x="316.0" y="548.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ complete_json()</text>
+<rect x="309.0" y="574.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.3"/>
+<rect x="309.0" y="574.0" width="132.0" height="36.0" rx="3" fill="#BF616A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="309.0" y="574.0" width="132.0" height="3.0" rx="1.5" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<text x="375.0" y="589.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="375.0" y="603.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">explain.validator</text>
+<line x1="309.0" y1="610.0" x2="441.0" y2="610.0" stroke="#BF616A" stroke-width="1"/>
+<line x1="309.0" y1="616.0" x2="441.0" y2="616.0" stroke="#BF616A" stroke-width="1"/>
+<text x="316.0" y="629.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ validate()</text>
+<rect x="453.0" y="112.0" width="144.0" height="556.0" rx="4" fill="#D08770" fill-opacity="0.07" stroke="#D08770" stroke-width="1.2"/>
+<rect x="453.0" y="96.0" width="102.9" height="16.0" rx="2" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<text x="461.0" y="108.0" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="start">on request (API)</text>
+<rect x="459.0" y="124.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#D08770" stroke-width="1.3"/>
+<rect x="459.0" y="124.0" width="132.0" height="36.0" rx="3" fill="#D08770" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="459.0" y="124.0" width="132.0" height="3.0" rx="1.5" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<text x="525.0" y="139.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="525.0" y="153.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">services.ask</text>
+<line x1="459.0" y1="160.0" x2="591.0" y2="160.0" stroke="#D08770" stroke-width="1"/>
+<line x1="459.0" y1="166.0" x2="591.0" y2="166.0" stroke="#D08770" stroke-width="1"/>
+<text x="466.0" y="179.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ answer_question()</text>
+<rect x="459.0" y="205.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#BF616A" stroke-width="1.3"/>
+<rect x="459.0" y="205.0" width="132.0" height="36.0" rx="3" fill="#BF616A" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="459.0" y="205.0" width="132.0" height="3.0" rx="1.5" fill="#BF616A" stroke="none" stroke-width="1.2"/>
+<text x="525.0" y="220.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«module»</text>
+<text x="525.0" y="234.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">explain.ask</text>
+<line x1="459.0" y1="241.0" x2="591.0" y2="241.0" stroke="#BF616A" stroke-width="1"/>
+<line x1="459.0" y1="247.0" x2="591.0" y2="247.0" stroke="#BF616A" stroke-width="1"/>
+<text x="466.0" y="260.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ understand()</text>
+<rect x="459.0" y="286.0" width="132.0" height="63.0" rx="3" fill="#FFFFFF" stroke="#D08770" stroke-width="1.3"/>
+<rect x="459.0" y="286.0" width="132.0" height="36.0" rx="3" fill="#D08770" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="459.0" y="286.0" width="132.0" height="3.0" rx="1.5" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<text x="525.0" y="301.0" font-size="9" font-weight="500" fill="#6B7385" text-anchor="middle">«interface»</text>
+<text x="525.0" y="315.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle" font-style="italic">TTSProvider</text>
+<line x1="459.0" y1="322.0" x2="591.0" y2="322.0" stroke="#D08770" stroke-width="1"/>
+<line x1="459.0" y1="328.0" x2="591.0" y2="328.0" stroke="#D08770" stroke-width="1"/>
+<text x="466.0" y="341.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ synthesize()</text>
+<rect x="459.0" y="367.0" width="132.0" height="51.0" rx="3" fill="#FFFFFF" stroke="#D08770" stroke-width="1.3"/>
+<rect x="459.0" y="367.0" width="132.0" height="24.0" rx="3" fill="#D08770" fill-opacity="0.2" stroke="none" stroke-width="1.2"/>
+<rect x="459.0" y="367.0" width="132.0" height="3.0" rx="1.5" fill="#C06B47" stroke="none" stroke-width="1.2"/>
+<text x="525.0" y="384.0" font-size="11" font-weight="700" fill="#2E3440" text-anchor="middle">ElevenLabsProvider</text>
+<line x1="459.0" y1="391.0" x2="591.0" y2="391.0" stroke="#D08770" stroke-width="1"/>
+<line x1="459.0" y1="397.0" x2="591.0" y2="397.0" stroke="#D08770" stroke-width="1"/>
+<text x="466.0" y="410.0" font-size="9.5" font-weight="400" fill="#2E3440" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">+ synthesize()</text>
+<path d="M118.2,124.0 L118.2,82.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
+<path d="M268.2,124.0 L268.2,82.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
+<path d="M418.2,124.0 L418.2,82.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
+<path d="M118.2,82.0 L418.2,82.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3"/>
+<path d="M301.0,82.0 L301.0,67.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M75.0,175.0 L75.0,193.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
+<path d="M225.0,175.0 L225.0,193.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
+<path d="M375.0,175.0 L375.0,193.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
+<path d="M525.0,187.0 L525.0,205.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#m-open-4C566A)"/>
+<path d="M75.0,509.0 L75.0,491.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M375.0,355.0 L375.0,337.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M375.0,505.0 L375.0,487.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
+<path d="M525.0,367.0 L525.0,349.0" fill="none" stroke="#4C566A" stroke-width="1.1" stroke-linejoin="round" stroke-dasharray="5 3" marker-end="url(#m-triangle-4C566A)"/>
+<text x="3.0" y="684.0" font-size="9.5" font-weight="400" fill="#6B7385" text-anchor="start">Each stage uses the classes in its package; dashed triangles mark implementations.</text>
 </g>
 </svg>
