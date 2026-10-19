@@ -47,6 +47,8 @@ T = {
         "q_repeat": "Should any of these tests be repeated, and when?",
         "q_history": "Is there anything in my health history that changes how these results are read?",
         "list_join": ", ",
+        "word_usual": "{test} is {answer}, as is usual.",
+        "word_other": "{test} is {answer}; usually it is {usual}.",
     },
     "hi": {
         "summary_intro": "ये परिणाम लैब की सीमा से बाहर हैं:",
@@ -82,6 +84,8 @@ T = {
         "q_repeat": "क्या इनमें से कोई जाँच दोबारा करानी चाहिए, और कब?",
         "q_history": "क्या मेरे स्वास्थ्य इतिहास में कुछ ऐसा है जिससे इन परिणामों को पढ़ने का तरीका बदलता है?",
         "list_join": ", ",
+        "word_usual": "{test}: {answer}, जैसा आमतौर पर होता है।",
+        "word_other": "{test}: {answer}; आमतौर पर यह {usual} होता है।",
     },
     "or": {
         "summary_intro": "ଏହି ଫଳାଫଳଗୁଡ଼ିକ ଲ୍ୟାବର ସୀମା ବାହାରେ ଅଛି:",
@@ -117,8 +121,37 @@ T = {
         "q_repeat": "ଏହି ପରୀକ୍ଷାଗୁଡ଼ିକ ମଧ୍ୟରୁ କୌଣସିଟି ପୁଣି କରିବା ଉଚିତ କି, ଏବଂ କେବେ?",
         "q_history": "ମୋ ସ୍ୱାସ୍ଥ୍ୟ ଇତିହାସରେ ଏପରି କିଛି ଅଛି କି ଯାହା ଏହି ଫଳାଫଳକୁ ପଢ଼ିବାର ଢଙ୍ଗ ବଦଳାଏ?",
         "list_join": ", ",
+        "word_usual": "{test}: {answer}, ଯେପରି ସାଧାରଣତଃ ହୁଏ।",
+        "word_other": "{test}: {answer}; ସାଧାରଣତଃ ଏହା {usual} ହୁଏ।",
     },
 }
+
+# Answers for tests reported in words (app/catalogue/qualitative.py), as said in a sentence. Hindi and Odia are drafts.
+ANSWERS = {
+    "en": {"absent": "absent", "trace": "present in a very small amount (trace)", "present": "present",
+           "plus1": "present (+)", "plus2": "present (++)", "plus3": "present (+++)", "plus4": "present (++++)",
+           "normal": "normal", "increased": "increased", "colourless": "colourless", "pale_yellow": "pale yellow",
+           "yellow": "yellow", "dark_yellow": "dark yellow", "amber": "amber", "red": "red", "brown": "brown",
+           "other": "an unusual colour", "clear": "clear", "slightly_turbid": "slightly cloudy", "turbid": "cloudy"},
+    "hi": {"absent": "नहीं मिला", "trace": "बहुत थोड़ी मात्रा में मिला (ट्रेस)", "present": "मिला",
+           "plus1": "मिला (+)", "plus2": "मिला (++)", "plus3": "मिला (+++)", "plus4": "मिला (++++)",
+           "normal": "सामान्य", "increased": "बढ़ा हुआ", "colourless": "रंगहीन", "pale_yellow": "हल्का पीला",
+           "yellow": "पीला", "dark_yellow": "गहरा पीला", "amber": "गहरा नारंगी-पीला", "red": "लाल", "brown": "भूरा",
+           "other": "असामान्य रंग", "clear": "साफ़", "slightly_turbid": "थोड़ा धुंधला", "turbid": "धुंधला"},
+    "or": {"absent": "ମିଳିଲା ନାହିଁ", "trace": "ଅତି ଅଳ୍ପ ପରିମାଣରେ ମିଳିଲା (ଟ୍ରେସ)", "present": "ମିଳିଲା",
+           "plus1": "ମିଳିଲା (+)", "plus2": "ମିଳିଲା (++)", "plus3": "ମିଳିଲା (+++)", "plus4": "ମିଳିଲା (++++)",
+           "normal": "ସାଧାରଣ", "increased": "ବଢ଼ିଛି", "colourless": "ରଙ୍ଗହୀନ", "pale_yellow": "ହାଲୁକା ହଳଦିଆ",
+           "yellow": "ହଳଦିଆ", "dark_yellow": "ଗାଢ଼ ହଳଦିଆ", "amber": "ଗାଢ଼ କମଳା-ହଳଦିଆ", "red": "ଲାଲ", "brown": "ବାଦାମୀ",
+           "other": "ଅସାଧାରଣ ରଙ୍ଗ", "clear": "ସଫା", "slightly_turbid": "ସାମାନ୍ୟ ଘୋଳିଆ", "turbid": "ଘୋଳିଆ"},
+}
+
+
+def _word(t: TestItem, s: dict[str, str], language: str) -> str:
+    """A test reported in words: "Urine protein is present (++); usually it is absent." """
+    words = ANSWERS.get(language, ANSWERS["en"])
+    answer = words.get(t.answer or "", t.answer or "")
+    key = "word_usual" if t.answer == t.usual or t.status == "normal" else "word_other"
+    return s[key].format(test=t.test, answer=answer, usual=words.get(t.usual or "", t.usual or ""))
 
 
 def fmt(v: float | int | None) -> str:
@@ -143,6 +176,8 @@ def _months(n: int, s: dict[str, str]) -> str:
 
 
 def _sentence(t: TestItem, s: dict[str, str]) -> str:
+    if t.answer is not None:
+        return _word(t, s, next((lang for lang, table in T.items() if table is s), "en"))
     value = f"{fmt(t.value)} {t.unit or ''}".strip()
     kind = s["kind_lab" if t.range_source == "lab" else "kind_typical"]
     text = s[t.status].format(test=t.test, value=value, kind=kind, range=_range(t, s))
@@ -162,6 +197,8 @@ def _join(items: list[str], s: dict[str, str]) -> str:
 
 def _line(t: TestItem, s: dict[str, str], language: str) -> tuple[str, bool]:
     """One summary line for an out-of-range result, and whether it names symptoms."""
+    if t.answer is not None:
+        return _word(t, s, language), False
     value = f"{fmt(t.value)} {t.unit or ''}".strip()
     text = s["line_lab" if t.range_source == "lab" else "line_typical"].format(test=t.test, value=value,
                                                                               range=_range(t, s))

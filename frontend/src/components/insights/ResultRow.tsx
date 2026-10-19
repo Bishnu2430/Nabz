@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import type { Result } from "../../api/types";
 import {
-  ageBand, formatDate, formatPercent, formatRange, formatUnit, formatValue, ordinal, spanYears,
+  ageBand, answerText, formatDate, formatPercent, formatRange, formatResultValue, formatUnit, ordinal, spanYears,
 } from "../../lib/format";
 import { RangeBar } from "./RangeBar";
 import { StatusMark } from "./StatusMark";
@@ -24,7 +24,7 @@ export function ResultRow({ result, profileId }: { result: Result; profileId: st
   const lang = i18n.resolvedLanguage ?? "en";
   const span = useSpan();
   const r = result;
-  const range = formatRange(r.ref_low, r.ref_high);
+  const range = r.answer ? "" : formatRange(r.ref_low, r.ref_high);
   const unit = formatUnit(r.unit);
 
   return (
@@ -37,11 +37,15 @@ export function ResultRow({ result, profileId }: { result: Result; profileId: st
       </div>
       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1">
         <p className="tabular text-xl font-medium">
-          {formatValue(r.value, r.decimals)} <span className="text-sm font-normal text-muted">{unit}</span>
+          {formatResultValue(r)} <span className="text-sm font-normal text-muted">{unit}</span>
         </p>
-        <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
-          high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
-        {range && (
+        {r.answer ? (
+          r.usual && <p className="text-sm text-muted">{t("insights.usual_answer", { answer: answerText(r.usual) })}</p>
+        ) : (
+          <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
+            high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
+        )}
+        {range && !r.answer && (
           <p className="text-sm text-muted">
             <span className="tabular">{range}</span>{" "}
             ({r.ref_source === "report" ? t("insights.range_report") : t("insights.range_typical")})
@@ -58,6 +62,8 @@ export function ResultRow({ result, profileId }: { result: Result; profileId: st
               </span></>
             )}
           </li>
+        ) : r.answer && r.previous?.answer ? (
+          <li>{t("insights.previous_answer", { answer: answerText(r.previous.answer), date: formatDate(r.previous.date, lang) })}</li>
         ) : (
           <li>{t("insights.first_result")}</li>
         )}

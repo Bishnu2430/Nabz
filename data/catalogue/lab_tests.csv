@@ -1,7 +1,7 @@
 code,loinc,name,short,panel,organ,unit,decimals,plausible_min,plausible_max,cv_i,cv_a,aliases
 hb,718-7,Haemoglobin,Hb,cbc,blood,g/dL,1,2,25,2.7,1.0,Haemoglobin|Hemoglobin|Hb|Hgb|HGB
 hct,4544-3,Haematocrit (PCV),Hct,cbc,blood,%,1,8,75,2.8,1.0,Haematocrit|Hematocrit|PCV|Packed Cell Volume|HCT
-rbc,789-8,Red blood cell count,RBC,cbc,blood,10^6/µL,2,0.5,9,3.2,1.0,RBC Count|Total RBC Count|Red Blood Cell Count|RBC|Erythrocyte Count|R.B.C. Count
+rbc,789-8,Red blood cell count,RBC,cbc,blood,10^6/µL,2,0.5,9,3.2,1.0,RBC Count|Total RBC Count|Red Blood Cell Count|RBC|Erythrocyte Count|R.B.C. Count|Total RBC
 wbc,6690-2,White blood cell count,WBC,cbc,blood,10^3/µL,2,0.1,200,11.1,2.0,Total Leucocyte Count|TLC|Total WBC Count|WBC Count|WBC|Leukocyte Count|Total Leukocyte Count
 plt,777-3,Platelet count,Platelets,cbc,blood,10^3/µL,0,1,2000,7.4,3.0,Platelet Count|Platelets|PLT|Platelet
 mcv,787-2,Mean corpuscular volume,MCV,cbc,blood,fL,1,40,150,1.3,0.7,MCV|Mean Corpuscular Volume|Mean Cell Volume
@@ -18,14 +18,14 @@ glucose_fasting,1558-6,Fasting blood glucose,Glucose (fasting),diabetes,pancreas
 glucose_pp,1521-4,Post-prandial blood glucose,Glucose (PP),diabetes,pancreas,mg/dL,0,10,1500,5.0,2.0,Post Prandial Blood Sugar|PPBS|Glucose PP|Blood Sugar PP|Glucose Post Prandial|Plasma Glucose PP|Glucose (PP)|PP Blood Sugar
 glucose_random,2345-7,Random blood glucose,Glucose (random),diabetes,pancreas,mg/dL,0,10,1500,5.0,2.0,Random Blood Sugar|RBS|Glucose Random|Blood Sugar Random|Plasma Glucose Random|Glucose (R)
 hba1c,4548-4,Glycated haemoglobin (HbA1c),HbA1c,diabetes,pancreas,%,1,3,20,1.6,1.5,HbA1c|Glycated Haemoglobin|Glycated Hemoglobin|Glycosylated Haemoglobin|Glycosylated Hemoglobin|GHb|A1C
-eag,27353-2,Estimated average glucose,eAG,diabetes,pancreas,mg/dL,0,40,600,,,Estimated Average Glucose|eAG|Mean Plasma Glucose|Average Blood Glucose
+eag,27353-2,Estimated average glucose,eAG,diabetes,pancreas,mg/dL,0,40,600,,,Estimated Average Glucose|eAG|Mean Plasma Glucose|Average Blood Glucose|ABG|Average Blood Glucose (ABG)
 chol_total,2093-3,Total cholesterol,Cholesterol,lipid,heart,mg/dL,0,40,1000,5.3,1.5,Total Cholesterol|Cholesterol Total|Serum Cholesterol|S. Cholesterol|Cholesterol|CHOL
-hdl,2085-9,HDL cholesterol,HDL,lipid,heart,mg/dL,0,5,200,5.6,2.0,HDL Cholesterol|HDL-C|HDL|HDL Cholesterol Direct|High Density Lipoprotein
-ldl,13457-7,LDL cholesterol (calculated),LDL,lipid,heart,mg/dL,0,5,600,7.8,2.0,LDL Cholesterol|LDL-C|LDL|LDL Cholesterol Calculated|Low Density Lipoprotein|LDL (Calculated)
+hdl,2085-9,HDL cholesterol,HDL,lipid,heart,mg/dL,0,5,200,5.6,2.0,HDL Cholesterol|HDL-C|HDL|HDL Cholesterol Direct|High Density Lipoprotein|HDL Cholesterol - Direct|Direct HDL
+ldl,13457-7,LDL cholesterol (calculated),LDL,lipid,heart,mg/dL,0,5,600,7.8,2.0,LDL Cholesterol|LDL-C|LDL|LDL Cholesterol Calculated|Low Density Lipoprotein|LDL (Calculated)|LDL Cholesterol Direct|LDL Cholesterol - Direct|Direct LDL|LDL Direct
 tg,2571-8,Triglycerides,Triglycerides,lipid,heart,mg/dL,0,10,5000,19.9,2.0,Triglycerides|TG|S. Triglycerides|Triglyceride|TRIG
 vldl,13458-5,VLDL cholesterol (calculated),VLDL,lipid,heart,mg/dL,0,1,1000,,,VLDL Cholesterol|VLDL|VLDL-C|Very Low Density Lipoprotein
 non_hdl,43396-1,Non-HDL cholesterol,Non-HDL,lipid,heart,mg/dL,0,10,1000,,,Non-HDL Cholesterol|Non HDL Cholesterol|Non-HDL-C|Non HDL
-chol_hdl_ratio,9830-1,Total cholesterol / HDL ratio,TC/HDL,lipid,heart,ratio,1,0.5,30,,,Total Cholesterol/HDL Ratio|TC/HDL Ratio|CHOL/HDL Ratio|Cholesterol/HDL Ratio|Chol/HDL Ratio
+chol_hdl_ratio,9830-1,Total cholesterol / HDL ratio,TC/HDL,lipid,heart,ratio,1,0.5,30,,,Total Cholesterol/HDL Ratio|TC/HDL Ratio|CHOL/HDL Ratio|Cholesterol/HDL Ratio|Chol/HDL Ratio|TC/HDL Cholesterol Ratio|Total Cholesterol/HDL Cholesterol Ratio
 creatinine,2160-0,Creatinine,Creatinine,kidney,kidney,mg/dL,2,0.1,30,4.5,2.5,Creatinine|Serum Creatinine|S. Creatinine|S.Creatinine|Creatinine Serum|CREA
 urea,3091-6,Urea,Urea,kidney,kidney,mg/dL,0,2,500,13.9,3.0,Urea|Blood Urea|Serum Urea|S. Urea|Urea Serum
 bun,3094-0,Blood urea nitrogen,BUN,kidney,kidney,mg/dL,0,1,250,13.9,3.0,Blood Urea Nitrogen|BUN|Urea Nitrogen
@@ -48,7 +48,7 @@ ggt,2324-2,Gamma-glutamyl transferase,GGT,liver,liver,U/L,0,0,3000,8.9,3.0,GGT|G
 protein_total,2885-2,Total protein,Total protein,liver,liver,g/dL,1,2,15,2.6,1.5,Total Protein|Protein Total|S. Total Protein|Serum Protein|Total Proteins
 albumin,1751-7,Albumin,Albumin,liver,liver,g/dL,1,0.5,7,2.5,1.5,Albumin|S. Albumin|Serum Albumin|ALB
 globulin,10834-0,Globulin,Globulin,liver,liver,g/dL,1,0.5,10,,,Globulin|S. Globulin|Serum Globulin
-ag_ratio,1759-0,Albumin / globulin ratio,A/G ratio,liver,liver,ratio,2,0.1,5,,,A/G Ratio|Albumin/Globulin Ratio|A:G Ratio|AG Ratio
+ag_ratio,1759-0,Albumin / globulin ratio,A/G ratio,liver,liver,ratio,2,0.1,5,,,A/G Ratio|Albumin/Globulin Ratio|A:G Ratio|AG Ratio|Serum Albumin/Globulin Ratio|Alb/Globulin Ratio
 tsh,3016-3,Thyroid-stimulating hormone,TSH,thyroid,thyroid,µIU/mL,2,0.001,200,17.7,3.0,TSH|Thyroid Stimulating Hormone|TSH (Ultrasensitive)|Ultrasensitive TSH|TSH 3rd Generation
 ft4,3024-7,Free thyroxine (FT4),Free T4,thyroid,thyroid,ng/dL,2,0.1,10,5.7,3.0,Free T4|FT4|Free Thyroxine|F.T4
 ft3,3051-0,Free triiodothyronine (FT3),Free T3,thyroid,thyroid,pg/mL,2,0.5,30,,,Free T3|FT3|Free Triiodothyronine|F.T3
@@ -66,6 +66,44 @@ hs_crp,30522-7,High-sensitivity CRP,hs-CRP,inflammation,heart,mg/L,2,0,100,,,hs-
 urine_ph,5803-2,Urine pH,pH (urine),urine,urinary,ratio,1,4,9,,,Urine pH|pH|Reaction|Reaction (pH)
 urine_sg,5811-5,Urine specific gravity,Specific gravity,urine,urinary,ratio,3,1.0,1.05,,,Specific Gravity|Sp. Gravity|Urine Specific Gravity|SG
 urine_rbc,13945-1,Urine red blood cells,RBC (urine),urine,urinary,/hpf,0,0,500,,,Urine RBC|RBC (Urine)|Red Blood Cells|RBCs|Red Cells
-urine_pus,5821-4,Urine pus cells (WBC),Pus cells,urine,urinary,/hpf,0,0,500,,,Pus Cells|Pus Cells (WBC)|WBC/Pus Cells|Urine WBC|Leukocytes (Urine)
+urine_pus,5821-4,Urine pus cells (WBC),Pus cells,urine,urinary,/hpf,0,0,500,,,Pus Cells|Pus Cells (WBC)|WBC/Pus Cells|Urine WBC|Leukocytes (Urine)|Urinary Leucocytes|Urinary Leucocytes (Pus Cells)|Pus Cells (Urine)
 urine_acr,9318-7,Urine albumin / creatinine ratio,UACR,urine,kidney,mg/g,1,0,5000,,,Urine Albumin/Creatinine Ratio|UACR|ACR|Microalbumin/Creatinine Ratio|Albumin Creatinine Ratio
 psa,2857-1,Prostate-specific antigen (total),PSA,prostate,prostate,ng/mL,2,0,1000,,,PSA|Total PSA|Prostate Specific Antigen|PSA Total|T-PSA
+rdw_sd,115742-9,Red cell distribution width (SD),RDW-SD,cbc,blood,fL,1,20,150,,,RDW-SD|RDW SD|Red Cell Distribution Width - SD|Red Cell Distribution Width SD|Red Cell Distribution Width (SD)
+neut_abs,751-8,Neutrophils (absolute count),Neutrophils #,cbc,blood,10^3/µL,2,0,100,,,Neutrophils - Absolute Count|Absolute Neutrophil Count|ANC|Neutrophils Absolute|Absolute Neutrophils|Neutrophils Absolute Count|Neutrophils #|Neutrophils Abs|Abs Neutrophils|Neutrophil Count
+lymph_abs,731-0,Lymphocytes (absolute count),Lymphocytes #,cbc,blood,10^3/µL,2,0,100,,,Lymphocytes - Absolute Count|Absolute Lymphocyte Count|ALC|Lymphocytes Absolute|Absolute Lymphocytes|Lymphocytes Absolute Count|Lymphocytes #|Lymphocytes Abs|Abs Lymphocytes|Lymphocyte Count
+mono_abs,742-7,Monocytes (absolute count),Monocytes #,cbc,blood,10^3/µL,2,0,50,,,Monocytes - Absolute Count|Absolute Monocyte Count|Monocytes Absolute|Absolute Monocytes|Monocytes Absolute Count|Monocytes #|Monocytes Abs|Abs Monocytes|Monocyte Count
+eos_abs,711-2,Eosinophils (absolute count),Eosinophils #,cbc,blood,10^3/µL,2,0,50,,,Eosinophils - Absolute Count|Absolute Eosinophil Count|AEC|Eosinophils Absolute|Absolute Eosinophils|Eosinophils Absolute Count|Eosinophils #|Eosinophils Abs|Abs Eosinophils|Eosinophil Count
+baso_abs,704-7,Basophils (absolute count),Basophils #,cbc,blood,10^3/µL,2,0,10,,,Basophils - Absolute Count|Absolute Basophil Count|Basophils Absolute|Absolute Basophils|Basophils Absolute Count|Basophils #|Basophils Abs|Abs Basophils|Basophil Count
+ig_abs,53115-2,Immature granulocytes (absolute count),IG #,cbc,blood,10^3/µL,2,0,50,,,Immature Granulocytes|Immature Granulocytes - Absolute Count|Immature Granulocytes Absolute|Immature Granulocyte Count|IG Count|IG#|IG
+ig_pct,71695-1,Immature granulocytes (%),IG %,cbc,blood,%,1,0,100,,,Immature Granulocyte Percentage|Immature Granulocytes Percentage|Immature Granulocytes %|Immature Granulocyte %|IG%|IG %
+nrbc_abs,771-6,Nucleated red blood cells (absolute count),NRBC #,cbc,blood,10^3/µL,2,0,50,,,Nucleated Red Blood Cells|Nucleated RBC|Nucleated Red Blood Cells - Absolute Count|NRBC|NRBC Count|NRBC#
+nrbc_pct,58413-6,Nucleated red blood cells per 100 white cells,NRBC %,cbc,blood,%,2,0,100,,,Nucleated Red Blood Cells %|Nucleated Red Blood Cells Percentage|Nucleated RBC %|NRBC%|NRBC %|NRBC per 100 WBC
+mpv,32623-1,Mean platelet volume,MPV,cbc,blood,fL,1,3,25,,,Mean Platelet Volume|MPV|Mean Platelet Vol
+pdw,32207-3,Platelet distribution width,PDW,cbc,blood,fL,1,3,40,,,Platelet Distribution Width|PDW
+plcr,48386-7,Platelet large cell ratio,P-LCR,cbc,blood,%,1,0,100,,,Platelet to Large Cell Ratio|Platelet Large Cell Ratio|Large Platelet Cell Ratio|P-LCR|PLCR
+pct,51637-7,Plateletcrit,PCT,cbc,blood,%,2,0,3,,,Plateletcrit|Thrombocrit|PCT
+ldl_hdl_ratio,11054-4,LDL / HDL ratio,LDL/HDL,lipid,heart,ratio,1,0.1,30,,,LDL/HDL Ratio|LDL HDL Ratio|LDL:HDL Ratio|LDL/HDL Cholesterol Ratio|LDL-C/HDL-C Ratio|LDL Cholesterol/HDL Cholesterol Ratio
+hdl_ldl_ratio,16616-5,HDL / LDL ratio,HDL/LDL,lipid,heart,ratio,2,0.01,10,,,HDL/LDL Ratio|HDL LDL Ratio|HDL:LDL Ratio|HDL/LDL Cholesterol Ratio|HDL-C/LDL-C Ratio|HDL Cholesterol/LDL Cholesterol Ratio
+tg_hdl_ratio,44733-4,Triglycerides / HDL ratio,TG/HDL,lipid,heart,ratio,2,0.05,60,,,TG/HDL Ratio|Trig/HDL Ratio|TG:HDL Ratio|Triglyceride/HDL Ratio|Triglycerides/HDL Ratio|Triglyceride/HDL Cholesterol Ratio|Triglycerides/HDL Cholesterol Ratio
+ast_alt_ratio,1916-6,AST / ALT ratio (SGOT/SGPT),AST/ALT,liver,liver,ratio,2,0.05,20,,,SGOT/SGPT Ratio|AST/ALT Ratio|SGOT:SGPT Ratio|AST:ALT Ratio|De Ritis Ratio
+bun_creat_ratio,3097-3,BUN / creatinine ratio,BUN/Cr,kidney,kidney,ratio,1,1,200,,,BUN/Creatinine Ratio|BUN / SR.Creatinine Ratio|BUN/Sr. Creatinine Ratio|BUN:Creatinine Ratio|BUN/Creat Ratio|BUN Creatinine Ratio|Urea Nitrogen/Creatinine Ratio
+urea_creat_ratio,56997-0,Urea / creatinine ratio,Urea/Cr,kidney,kidney,ratio,1,1,400,,,Urea/Creatinine Ratio|Urea / SR.Creatinine Ratio|Urea/Sr. Creatinine Ratio|Urea:Creatinine Ratio|Urea/Creat Ratio|Urea Creatinine Ratio
+urine_epi,5787-7,Urine epithelial cells,Epithelial cells,urine,urinary,/hpf,0,0,500,,,Epithelial Cells|Urine Epithelial Cells|Epithelial Cells (Urine)|Squamous Epithelial Cells|Epi Cells
+urine_colour,5778-6,Urine colour,Colour,urine,urinary,ratio,0,0,4,,,Colour|Color|Urine Colour|Urine Color|Colour (Urine)
+urine_appearance,5767-9,Urine appearance,Appearance,urine,urinary,ratio,0,0,4,,,Appearance|Clarity|Transparency|Turbidity|Urine Appearance
+urine_protein,20454-5,Urine protein,Protein (urine),urine,urinary,ratio,0,0,4,,,Urinary Protein|Urine Protein|Protein (Urine)|Albumin (Urine)|Protein
+urine_glucose,25428-4,Urine glucose (sugar),Glucose (urine),urine,urinary,ratio,0,0,4,,,Urinary Glucose|Urine Glucose|Urine Sugar|Glucose (Urine)|Sugar (Urine)|Sugar|Glucose
+urine_ketones,2514-8,Urine ketones,Ketones,urine,urinary,ratio,0,0,4,,,Urine Ketone|Urine Ketones|Ketones|Ketone|Ketone Bodies|Acetone
+urine_bilirubin,5770-3,Urine bilirubin (bile pigment),Bilirubin (urine),urine,urinary,ratio,0,0,4,,,Urinary Bilirubin|Urine Bilirubin|Bilirubin (Urine)|Bile Pigment|Bile Pigments|Bilirubin
+urine_urobilinogen,5818-0,Urine urobilinogen,Urobilinogen,urine,urinary,ratio,0,0,4,,,Urobilinogen|Urine Urobilinogen
+urine_blood,5794-3,Urine blood,Blood (urine),urine,urinary,ratio,0,0,4,,,Urine Blood|Blood (Urine)|Occult Blood|Hemoglobin (Urine)|Haemoglobin (Urine)|Blood
+urine_nitrite,5802-4,Urine nitrite,Nitrite,urine,urinary,ratio,0,0,4,,,Nitrite|Nitrites|Urine Nitrite
+urine_le,5799-2,Urine leucocyte esterase,Leucocyte esterase,urine,urinary,ratio,0,0,4,,,Leucocyte Esterase|Leukocyte Esterase|Leucocytes Esterase|Urine Leucocyte Esterase
+urine_bile_salts,43889-5,Urine bile salts,Bile salts,urine,urinary,ratio,0,0,4,,,Bile Salt|Bile Salts|Bile Acids (Urine)
+urine_mucus,8247-9,Urine mucus,Mucus,urine,urinary,ratio,0,0,4,,,Mucus|Mucus Threads
+urine_casts,24124-0,Urine casts,Casts,urine,urinary,ratio,0,0,4,,,Casts|Cast
+urine_crystals,49755-2,Urine crystals,Crystals,urine,urinary,ratio,0,0,4,,,Crystals|Crystal
+urine_bacteria,25145-4,Urine bacteria,Bacteria,urine,urinary,ratio,0,0,4,,,Bacteria
+urine_yeast,32356-8,Urine yeast cells,Yeast,urine,urinary,ratio,0,0,4,,,Yeast|Yeast Cells|Budding Yeast
+urine_parasites,33017-5,Urine parasites,Parasites,urine,urinary,ratio,0,0,4,,,Parasite|Parasites

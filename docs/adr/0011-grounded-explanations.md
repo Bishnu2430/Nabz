@@ -19,7 +19,7 @@ Live runs in this sprint answered most of these. The first drafts named diseases
    - The source is NLM's web service, queried by each catalogue test's LOINC code. No pages are scraped.
    - For lab tests it returns the whole NLM lab-test page. The sections about what the test is, what it is used for and what results mean are kept; procedure, preparation, risks and references are dropped.
    - Pages with licensed A.D.A.M. content are rejected. The rest is public domain.
-   - Result: 46 documents and 436 passages covering all 70 catalogue tests (urea and urine pus cells borrow the BUN and urinalysis pages). They're committed as `data/knowledge/chunks.jsonl`, with `manifest.csv`, so the base can be rebuilt offline.
+   - Result: 46 documents and 436 passages covering all 70 catalogue tests (urea and urine pus cells borrow the BUN and urinalysis pages). Since 2026-10-18: 58 documents and 609 passages for 108 tests; RDW-SD, the BUN and urea ratios and some urine findings borrow the RDW, BUN and urinalysis pages. They're committed as `data/knowledge/chunks.jsonl`, with `manifest.csv`, so the base can be rebuilt offline.
 2. **Retrieval.**
    - Embeddings come from `intfloat/multilingual-e5-small` as an int8 ONNX export on ONNX Runtime (already in the image for OCR), so no PyTorch is needed.
    - Vectors live in pgvector. Retrieval is filtered by test and ranked by cosine distance.

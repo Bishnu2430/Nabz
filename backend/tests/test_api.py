@@ -177,7 +177,7 @@ def test_events_page_image_and_delete(client: TestClient, sessions, storage, cat
 
 def test_catalogue_is_public(client: TestClient) -> None:
     tests = client.get("/v1/catalogue/tests").json()
-    assert len(tests) == 70 and {"code": "hba1c", "organ": "pancreas"}.items() <= next(
+    assert len(tests) == 108 and {"code": "hba1c", "organ": "pancreas"}.items() <= next(
         t for t in tests if t["code"] == "hba1c").items()
 
 

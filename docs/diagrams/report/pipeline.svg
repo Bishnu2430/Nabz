@@ -10,22 +10,22 @@
 <circle cx="24.0" cy="76.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="24.0" y="80.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
 <text x="41.0" y="80.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Upload &amp; validate</text>
-<text x="16.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">type · size · quality score</text>
-<text x="16.0" y="112.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FastAPI · OpenCV</text>
+<text x="16.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">type · size · consent</text>
+<text x="16.0" y="112.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">FastAPI</text>
 <path d="M99.0,121.0 L99.0,133.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="4.0" y="134.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="4.0" y="134.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <circle cx="24.0" cy="152.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="24.0" y="156.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
-<text x="41.0" y="156.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Pre-process</text>
-<text x="16.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">deskew · denoise · crop</text>
+<text x="41.0" y="156.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Clean the image</text>
+<text x="16.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">deskew · contrast (photos)</text>
 <text x="16.0" y="188.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">OpenCV</text>
 <path d="M99.0,197.0 L99.0,209.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="4.0" y="210.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="4.0" y="210.0" width="4.0" height="62.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <circle cx="24.0" cy="228.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="24.0" y="232.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
-<text x="41.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">OCR</text>
+<text x="41.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Read the text</text>
 <text x="16.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">text layer, else OCR</text>
 <text x="16.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">pypdfium2 · RapidOCR</text>
 <path d="M99.0,273.0 L99.0,285.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
@@ -42,25 +42,25 @@
 <circle cx="24.0" cy="380.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="24.0" y="384.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
 <text x="41.0" y="384.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Map to catalogue</text>
-<text x="16.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">aliases → LOINC codes</text>
-<text x="16.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">pg_trgm · Qwen3-4B</text>
+<text x="16.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">aliases + fuzzy match</text>
+<text x="16.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">RapidFuzz · 70 tests</text>
 <path d="M99.0,425.0 L99.0,437.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="4.0" y="438.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="4.0" y="438.0" width="4.0" height="62.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <circle cx="24.0" cy="456.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="24.0" y="460.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
-<text x="41.0" y="460.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Normalise &amp; score</text>
-<text x="16.0" y="478.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">units · plausibility</text>
-<text x="16.0" y="492.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">scikit-learn</text>
+<text x="41.0" y="460.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Convert &amp; score</text>
+<text x="16.0" y="478.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">units · row confidence</text>
+<text x="16.0" y="492.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">logistic model</text>
 <polygon points="204,4 394,4 402,22 394,40 204,40" fill="#4C566A"/>
 <text x="214.0" y="21.0" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="start">B · Verify &amp; analyse</text>
-<text x="214.0" y="34.0" font-size="9.5" font-weight="400" fill="#E5E9F0" text-anchor="start">user confirms first</text>
+<text x="214.0" y="34.0" font-size="9.5" font-weight="400" fill="#E5E9F0" text-anchor="start">the person confirms first</text>
 <rect x="204.0" y="58.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="204.0" y="58.0" width="4.0" height="62.0" rx="2" fill="#C06B47" stroke="none" stroke-width="1.2"/>
 <circle cx="224.0" cy="76.0" r="11" fill="#C06B47" stroke="none" stroke-width="1"/>
 <text x="224.0" y="80.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
 <text x="241.0" y="80.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Human review</text>
-<text x="216.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">low confidence first</text>
+<text x="216.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">weak rows first, by the page</text>
 <text x="216.0" y="112.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">web app</text>
 <path d="M299.0,121.0 L299.0,133.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="204.0" y="134.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
@@ -68,15 +68,15 @@
 <circle cx="224.0" cy="152.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="224.0" y="156.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">8</text>
 <text x="241.0" y="156.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Classify</text>
-<text x="216.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">low · normal · high</text>
+<text x="216.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">lab&#x27;s range, else typical</text>
 <text x="216.0" y="188.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">Python rules</text>
 <path d="M299.0,197.0 L299.0,209.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="204.0" y="210.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="204.0" y="210.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <circle cx="224.0" cy="228.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="224.0" y="232.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">9</text>
-<text x="241.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Critical values</text>
-<text x="216.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">fixed urgent message</text>
+<text x="241.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Critical limits</text>
+<text x="216.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">fixed &#x27;see a doctor today&#x27;</text>
 <text x="216.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">reviewed table</text>
 <path d="M299.0,273.0 L299.0,285.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="204.0" y="286.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
@@ -84,25 +84,25 @@
 <circle cx="224.0" cy="304.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="224.0" y="308.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">10</text>
 <text x="241.0" y="308.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Change &amp; trend</text>
-<text x="216.0" y="326.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">RCV · Theil–Sen slope</text>
-<text x="216.0" y="340.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">SciPy · statsmodels</text>
+<text x="216.0" y="326.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">RCV · Theil–Sen · M–K</text>
+<text x="216.0" y="340.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">NumPy</text>
 <path d="M299.0,349.0 L299.0,361.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="204.0" y="362.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="204.0" y="362.0" width="4.0" height="62.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <circle cx="224.0" cy="380.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="224.0" y="384.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">11</text>
 <text x="241.0" y="384.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Percentile</text>
-<text x="216.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">vs age band and sex</text>
-<text x="216.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">NHANES tables</text>
+<text x="216.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">same age band and sex</text>
+<text x="216.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">NHANES 2017–20</text>
 <polygon points="404,4 594,4 602,22 594,40 404,40" fill="#4C566A"/>
 <text x="414.0" y="21.0" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="start">C · Explain &amp; present</text>
-<text x="414.0" y="34.0" font-size="9.5" font-weight="400" fill="#E5E9F0" text-anchor="start">grounded · validated</text>
+<text x="414.0" y="34.0" font-size="9.5" font-weight="400" fill="#E5E9F0" text-anchor="start">grounded · checked</text>
 <rect x="404.0" y="58.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="404.0" y="58.0" width="4.0" height="62.0" rx="2" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>
 <circle cx="424.0" cy="76.0" r="11" fill="#6E9A5B" stroke="none" stroke-width="1"/>
 <text x="424.0" y="80.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">12</text>
 <text x="441.0" y="80.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Retrieve</text>
-<text x="416.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">top-k cited passages</text>
+<text x="416.0" y="98.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">cited MedlinePlus passages</text>
 <text x="416.0" y="112.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">pgvector · e5-small</text>
 <path d="M499.0,121.0 L499.0,133.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="404.0" y="134.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
@@ -110,34 +110,34 @@
 <circle cx="424.0" cy="152.0" r="11" fill="#8E6D95" stroke="none" stroke-width="1"/>
 <text x="424.0" y="156.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">13</text>
 <text x="441.0" y="156.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Explain</text>
-<text x="416.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">summary + doctor questions</text>
+<text x="416.0" y="174.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">summary · results · questions</text>
 <text x="416.0" y="188.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">gpt-oss-120b · Groq</text>
 <path d="M499.0,197.0 L499.0,209.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="404.0" y="210.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="404.0" y="210.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <circle cx="424.0" cy="228.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="424.0" y="232.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">14</text>
-<text x="441.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Safety check</text>
-<text x="416.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">no diagnosis · numbers match</text>
-<text x="416.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">validator + judge</text>
+<text x="441.0" y="232.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Safety checks</text>
+<text x="416.0" y="250.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">rules + judge, else template</text>
+<text x="416.0" y="264.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">validator</text>
 <path d="M499.0,273.0 L499.0,285.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="404.0" y="286.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="404.0" y="286.0" width="4.0" height="62.0" rx="2" fill="#8E6D95" stroke="none" stroke-width="1.2"/>
 <circle cx="424.0" cy="304.0" r="11" fill="#8E6D95" stroke="none" stroke-width="1"/>
 <text x="424.0" y="308.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">15</text>
 <text x="441.0" y="308.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Narrate</text>
-<text x="416.0" y="326.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">English · Hindi · Odia</text>
-<text x="416.0" y="340.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">TTS API</text>
+<text x="416.0" y="326.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">on first play · EN HI OR</text>
+<text x="416.0" y="340.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">ElevenLabs</text>
 <path d="M499.0,349.0 L499.0,361.0" fill="none" stroke="#4C566A" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#m-arrow-4C566A)"/>
 <rect x="404.0" y="362.0" width="190.0" height="62.0" rx="6" fill="#FFFFFF" stroke="#D8DEE9" stroke-width="1.2"/>
 <rect x="404.0" y="362.0" width="4.0" height="62.0" rx="2" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <circle cx="424.0" cy="380.0" r="11" fill="#5E81AC" stroke="none" stroke-width="1"/>
 <text x="424.0" y="384.0" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">16</text>
-<text x="441.0" y="384.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Render</text>
-<text x="416.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">3D organ status · timeline</text>
-<text x="416.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">React Three Fiber</text>
-<rect x="91.2" y="509.0" width="419.7" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
-<text x="301.0" y="521.7" font-size="10" font-weight="500" fill="#4C566A" text-anchor="middle">rows with confidence &lt; τ are reviewed first · only de-identified values leave the host</text>
+<text x="441.0" y="384.0" font-size="11.5" font-weight="650" fill="#2E3440" text-anchor="start">Present</text>
+<text x="416.0" y="402.0" font-size="10" font-weight="400" fill="#4C566A" text-anchor="start">body map · story · Ask Nabz</text>
+<text x="416.0" y="416.0" font-size="9.5" font-weight="500" fill="#6B7385" text-anchor="start" font-family="'JetBrains Mono', Consolas, 'Courier New', monospace">React · three.js</text>
+<rect x="99.0" y="509.0" width="404.0" height="18.0" rx="9" fill="#FFFFFF" stroke="none" stroke-width="1.2"/>
+<text x="301.0" y="521.7" font-size="10" font-weight="500" fill="#4C566A" text-anchor="middle">nothing is analysed before the values are confirmed · the model never sees a name</text>
 <rect x="10.0" y="541.0" width="26.0" height="14.0" rx="3" fill="#5E81AC" stroke="none" stroke-width="1.2"/>
 <text x="44.0" y="552.0" font-size="11" font-weight="400" fill="#4C566A" text-anchor="start">deterministic code</text>
 <rect x="167.3" y="541.0" width="26.0" height="14.0" rx="3" fill="#6E9A5B" stroke="none" stroke-width="1.2"/>

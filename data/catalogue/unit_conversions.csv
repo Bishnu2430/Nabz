@@ -49,3 +49,10 @@ ferritin,ug/l,1,0
 crp,mg/dl,10,0
 hs_crp,mg/dl,10,0
 urine_acr,mg/mmol,8.84,0
+neut_abs,/ul,0.001,0
+lymph_abs,/ul,0.001,0
+mono_abs,/ul,0.001,0
+eos_abs,/ul,0.001,0
+baso_abs,/ul,0.001,0
+ig_abs,/ul,0.001,0
+nrbc_abs,/ul,0.001,0

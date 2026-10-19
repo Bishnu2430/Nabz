@@ -33,7 +33,11 @@ SOURCE = "US National Library of Medicine, MedlinePlus"
 KEEP = re.compile(r"^(what is (a|an|the)?\b|what is it used for|what do the results mean|is there anything else)", re.I)
 MAX_WORDS = 180
 # Tests whose LOINC code returns nothing, or a poor match, borrow another test's documents.
-BORROW = {"urea": "bun", "urine_pus": "urine_rbc"}
+BORROW = {
+    "urea": "bun", "urine_pus": "urine_rbc", "rdw_sd": "rdw", "bun_creat_ratio": "bun", "urea_creat_ratio": "bun",
+    "urine_blood": "urine_le",  # 5799-2 returns the "Blood in Urine" page; leucocyte esterase reads urinalysis
+    "urine_le": "urine_ph", "urine_bile_salts": "urine_ph", "urine_parasites": "urine_ph",
+}
 
 
 def raw_dir() -> Path:
@@ -106,9 +110,19 @@ def chunk(text: str, max_words: int = MAX_WORDS) -> list[str]:
     return chunks
 
 
+def _earlier_dates(out: Path) -> dict[tuple[str, str], str]:
+    """When each unchanged page was first retrieved, from the manifest already built (url, sha256 → date)."""
+    path = out / "manifest.csv"
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as f:
+        return {(r["url"], r["sha256"]): r["retrieved_at"] for r in csv.DictReader(f)}
+
+
 def build(directory: Path, codes: dict[str, str], out: Path, retrieved: str) -> tuple[list[dict], list[dict]]:
     chunks: list[dict] = []
     manifest: dict[str, dict] = {}
+    earlier = _earlier_dates(out)
     for test_code in codes:
         path = directory / f"{codes[BORROW.get(test_code, test_code)]}.json"
         if not path.exists():
@@ -123,7 +137,8 @@ def build(directory: Path, codes: dict[str, str], out: Path, retrieved: str) -> 
                 continue  # licensed third-party content
             title = e["title"]["_value"]
             digest = hashlib.sha256(summary.encode("utf-8")).hexdigest()
-            doc = manifest.setdefault(url, {"url": url, "title": title, "license": LICENSE, "retrieved_at": retrieved,
+            when = earlier.get((url, digest), retrieved)
+            doc = manifest.setdefault(url, {"url": url, "title": title, "license": LICENSE, "retrieved_at": when,
                                             "sha256": digest, "tests": []})
             doc["tests"].append(test_code)
             for heading, text in sections(summary):
@@ -132,7 +147,7 @@ def build(directory: Path, codes: dict[str, str], out: Path, retrieved: str) -> 
                 for piece in chunk(text):
                     chunks.append({"test_code": test_code, "url": url, "title": title, "section": heading,
                                    "text": piece, "source_org": SOURCE, "license": LICENSE, "language": "en",
-                                   "retrieved_at": retrieved, "sha256": digest})
+                                   "retrieved_at": when, "sha256": digest})
     out.mkdir(parents=True, exist_ok=True)
     with (out / "chunks.jsonl").open("w", encoding="utf-8", newline="\n") as f:
         for c in chunks:

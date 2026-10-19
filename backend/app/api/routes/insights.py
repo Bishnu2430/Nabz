@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from app.analysis.change import rcv
 from app.analysis.status import CRITICAL, SEVERITY, worst
 from app.api.deps import current_user, get_session, owned_profile, owned_report
+from app.catalogue.qualitative import answer_code, usual_answer
 from app.models import AppUser, LabTest, Observation, OrganSystem, Profile, Report, TrendInsight
 from app.models.enums import ReportStatus
 from app.schemas import (
@@ -57,7 +58,8 @@ def _result(obs: Observation, report: Report, cat: _Catalogue) -> ResultOut:
     return ResultOut(
         observation_id=obs.id, report_id=report.id, date=result_date(report), test_code=test.code,
         test_name=test.canonical_name, short_name=test.short_name, organ=cat.organ_code(test), value=obs.value_num,
-        unit=obs.unit, decimals=test.decimals, ref_low=obs.ref_low, ref_high=obs.ref_high, ref_source=obs.ref_source,
+        answer=answer_code(test.code, obs.raw_value), usual=usual_answer(test.code), unit=obs.unit,
+        decimals=test.decimals, ref_low=obs.ref_low, ref_high=obs.ref_high, ref_source=obs.ref_source,
         status=obs.status, critical=obs.status in CRITICAL, flag_disagrees=a.get("flag_disagrees", False),
         previous=a.get("previous"), change=a.get("change"), trend=a.get("trend"), percentile=a.get("percentile"),
     )

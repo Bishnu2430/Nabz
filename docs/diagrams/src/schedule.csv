@@ -7,9 +7,9 @@ T0.4,Inception & documentation,Project plan · risk register · test plan,2026-0
 T0.5,Inception & documentation,Market research and problem validation,2026-08-03,2026-08-14,TEAM,task
 M0,Inception & documentation,Documentation baseline approved,2026-08-07,2026-08-07,ALL,milestone
 P1,Elaboration · Sprint 1,,2026-08-10,2026-08-16,,phase
-T1.1,Elaboration · Sprint 1,"Test catalogue: 60 tests, LOINC, units, organ map",2026-08-10,2026-08-14,DEV,task
+T1.1,Elaboration · Sprint 1,"Test catalogue: 70 tests, LOINC, units, organ map",2026-08-10,2026-08-14,DEV,task
 T1.2,Elaboration · Sprint 1,Synthetic report generator + ground truth,2026-08-11,2026-08-16,DEV,task
-T1.3,Elaboration · Sprint 1,3D anatomy spike (Z-Anatomy → GLB → R3F),2026-08-10,2026-08-11,DEV,task
+T1.3,Elaboration · Sprint 1,3D body spike: procedural model in React Three Fiber,2026-08-10,2026-08-11,DEV,task
 T1.4,Elaboration · Sprint 1,Knowledge-base sources and licence check,2026-08-10,2026-08-21,TEAM,task
 T1.5,Elaboration · Sprint 1,Collect consented sample reports (redacted),2026-08-10,2026-08-28,TEAM,task
 P2,Construction · Sprints 2–6,,2026-08-17,2026-09-20,,phase
@@ -17,15 +17,15 @@ T2.1,Construction · Sprints 2–6,S2 · OCR · row parser · worker and job que
 T2.2,Construction · Sprints 2–6,S3 · Mapping · normalisation · confidence · review UI,2026-08-24,2026-08-30,DEV,task
 M1,Construction · Sprints 2–6,Extraction MVP,2026-08-30,2026-08-30,ALL,milestone
 T2.3,Construction · Sprints 2–6,S4 · Analytics: ranges · critical · RCV · trends,2026-08-31,2026-09-06,DEV,task
-T2.4,Construction · Sprints 2–6,S5 · RAG · explanations · safety validator · voice,2026-09-07,2026-09-13,DEV,task
+T2.4,Construction · Sprints 2–6,S5 · Retrieval · explanations · safety checks · voice,2026-09-07,2026-09-13,DEV,task
 T2.5,Construction · Sprints 2–6,Hindi / Odia glossary and translation review,2026-08-31,2026-09-11,TEAM,task
-T2.6,Construction · Sprints 2–6,S6 · 3D body map · timeline · accounts · export,2026-09-14,2026-09-20,DEV,task
+T2.6,Construction · Sprints 2–6,S6 · 3D body map · accounts · export · records,2026-09-14,2026-09-20,DEV,task
 T2.7,Construction · Sprints 2–6,Pitch deck and poster drafts,2026-09-07,2026-09-18,TEAM,task
 M2,Construction · Sprints 2–6,Feature complete,2026-09-20,2026-09-20,ALL,milestone
 P3,Transition · Sprint 7,,2026-09-21,2026-09-30,,phase
-T3.1,Transition · Sprint 7,S7 · Hardening: evaluation · performance · offline mode,2026-09-21,2026-09-25,DEV,task
-T3.2,Transition · Sprint 7,User testing (10 people) · doctor review (20 explanations),2026-09-21,2026-09-26,TEAM,task
+T3.1,Transition · Sprint 7,S7 · Sharing · care · Ask Nabz · console · offline mode,2026-09-21,2026-09-25,DEV,task
+T3.2,Transition · Sprint 7,Usability test plan · clinical review packet,2026-09-21,2026-09-26,TEAM,task
 T3.3,Transition · Sprint 7,Project report (college format) · screenshots,2026-09-22,2026-09-29,ALL,task
-T3.4,Transition · Sprint 7,Demo rehearsals × 3,2026-09-25,2026-09-28,ALL,task
+T3.4,Transition · Sprint 7,Demo rehearsals (online and offline),2026-09-25,2026-09-28,ALL,task
 M3,Transition · Sprint 7,Demo ready,2026-09-28,2026-09-28,ALL,milestone
 T3.5,Transition · Sprint 7,Contingency buffer,2026-09-29,2026-09-30,ALL,buffer

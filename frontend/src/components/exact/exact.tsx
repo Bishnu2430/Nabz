@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import type { ObsStatus } from "../../api/types";
-import { deviation, formatRange, formatShare, formatWithUnit, type ValueLike } from "../../lib/format";
+import { answerText, deviation, formatRange, formatShare, formatWithUnit, type ValueLike } from "../../lib/format";
 import { STATUS_COLOR, StatusIcon, isAbnormal } from "../insights/StatusMark";
 
 /**
@@ -14,6 +14,10 @@ export function useExact() {
   const { t } = useTranslation();
   /** "42 % above the upper limit 1.30", or "within 0.60 – 1.30". */
   const describe = (v: ValueLike): string => {
+    if (v.answer) {
+      return v.status === "normal" || v.answer === v.usual
+        ? t("exact.usual_answer") : t("exact.not_usual", { usual: answerText(v.usual ?? "absent") });
+    }
     const d = deviation(v);
     if (d) return t(`exact.${d.side}`, { pct: formatShare(d.fraction), bound: d.bound });
     const range = formatRange(v.ref_low, v.ref_high);

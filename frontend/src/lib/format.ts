@@ -1,5 +1,7 @@
 /** Formatting helpers. Decimals arrive from the API as strings. */
 
+import i18next from "i18next";
+
 /** "4.8030" -> "4.803", "140.00" -> "140". Keeps the string form so no float rounding creeps in. */
 export function trimDecimal(value: string | null | undefined): string {
   if (value == null) return "";
@@ -98,6 +100,22 @@ export function formatValue(value: string | number, decimals: number): string {
   return Number.isFinite(n) ? n.toFixed(decimals) : String(value);
 }
 
+/** A test reported in words: its answer in the reader's language ("Absent", "नहीं मिला"). */
+export function answerText(code: string): string {
+  return i18next.t(`answers.${code}`, { defaultValue: code.replace(/_/g, " ") });
+}
+
+/** A result as shown: the answer for a test reported in words, else the number at the test's precision. */
+export function formatResultValue(v: { value: string | number; decimals: number; answer?: string | null }): string {
+  return v.answer ? answerText(v.answer) : formatValue(v.value, v.decimals);
+}
+
+/** The range column of a result: the printed or typical range, or for a test reported in words the usual answer. */
+export function formatRangeFor(v: { ref_low: string | null; ref_high: string | null; answer?: string | null;
+  usual?: string | null }): string {
+  return v.answer ? answerText(v.usual ?? "absent") : formatRange(v.ref_low, v.ref_high);
+}
+
 /** A change as a signed percentage: +12 %, −4.5 %. */
 export function formatPercent(fraction: number): string {
   const pct = fraction * 100;
@@ -140,10 +158,14 @@ export interface ValueLike {
   status: string;
   ref_low: string | null;
   ref_high: string | null;
+  /** For a test reported in words (urine dipstick, microscopy): the answer's code, and the usual one. */
+  answer?: string | null;
+  usual?: string | null;
 }
 
 /** How far a value is outside its range, as a fraction of the bound it crossed; null when inside or no range. */
 export function deviation(v: ValueLike): { side: "above" | "below"; fraction: number; bound: string } | null {
+  if (v.answer) return null;  // an answer in words has no distance from a bound
   const value = Number(v.value);
   if (v.ref_high != null && value > Number(v.ref_high)) {
     const hi = Number(v.ref_high);
@@ -157,7 +179,8 @@ export function deviation(v: ValueLike): { side: "above" | "below"; fraction: nu
 }
 
 /** A value with its unit at the test's precision: "1.62 mg/dL". */
-export function formatWithUnit(v: Pick<ValueLike, "value" | "decimals" | "unit">): string {
+export function formatWithUnit(v: Pick<ValueLike, "value" | "decimals" | "unit" | "answer">): string {
+  if (v.answer) return answerText(v.answer);
   const unit = formatUnit(v.unit);
   return unit ? `${formatValue(v.value, v.decimals)} ${unit}` : formatValue(v.value, v.decimals);
 }

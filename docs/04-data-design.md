@@ -231,7 +231,7 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 ## 7. Migrations and seed data
 
 - Alembic revision per change, named `YYYYMMDD_short_description`.
-- Seed data comes from CSV files in [`data/catalogue/`](../data/catalogue/README.md) (10 organ systems, 70 tests, unit conversions, default ranges, critical limits, population percentiles). It is validated on load (LOINC check digits, units, bounds) and loaded by an idempotent command: `python -m app.cli seed-catalogue`. The catalogue CSV is reviewed like code.
+- Seed data comes from CSV files in [`data/catalogue/`](../data/catalogue/README.md) (10 organ systems, 108 tests, unit conversions, default ranges, critical limits, population percentiles). It is validated on load (LOINC check digits, units, bounds) and loaded by an idempotent command: `python -m app.cli seed-catalogue`. The catalogue CSV is reviewed like code.
 - The knowledge base is loaded by an ingestion command that records licence and checksum in `kb_document`, chunks the text (about 300 tokens with 15 % overlap), embeds it and writes to `kb_chunk`.
 
 ## Revision history
@@ -246,3 +246,4 @@ Partial index: `(run_after) WHERE status = 'queued'`.
 | 0.7 | 2026-10-03 | `reminder`, `home_reading`, `report_question`, `safety_review`; `profile.emergency` and `reading_targets`; `share_link` label and views; `reading_kind`; §5.8; retention of the new data |
 | 0.5 | 2026-09-30 | §5.7 accounts and sessions: `user_session`, `auth_token`, `app_user` columns, `user_role` and `token_purpose` values; §6 hard deletion as built |
 | 0.8 | 2026-10-03 | `profile.guardian_confirmed_at`; `clinician`, `report_grant`, `clinician_note`; `critical_limit` proposals; `catalogue_revision`; §5.9 and the catalogue read from the database at run time; retention of shares with doctors |
+| 0.9 | 2026-10-19 | Catalogue 108 tests; a urine finding reported in words is stored as a score in `observation.value_num` (the usual answer is 0) and shown as its answer; knowledge base 58 documents, 609 passages |

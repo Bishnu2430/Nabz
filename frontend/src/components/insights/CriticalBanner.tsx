@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import type { Result } from "../../api/types";
-import { formatUnit, formatValue } from "../../lib/format";
+import { formatResultValue, formatUnit } from "../../lib/format";
 import { StatusIcon } from "./StatusMark";
 
 /**
@@ -24,7 +24,7 @@ export function CriticalBanner({ results }: { results: Result[] }) {
             {results.map((r) => (
               <li key={r.observation_id} className="flex flex-wrap gap-x-2">
                 <span className="font-medium">{r.test_name}</span>
-                <span className="tabular">{formatValue(r.value, r.decimals)} {formatUnit(r.unit)}</span>
+                <span className="tabular">{formatResultValue(r)} {formatUnit(r.unit)}</span>
                 <span className="text-critical">{t(`result_status.${r.status}`)}</span>
               </li>
             ))}

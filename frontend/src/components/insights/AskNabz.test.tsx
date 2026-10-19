@@ -40,7 +40,9 @@ describe("Ask Nabz", () => {
             answer: "Nabz can't tell you whether you have a condition.\nWhat the report shows:\n• Creatinine is 1.46 mg/dL, above the lab's range (0.7–1.28)." })
           : reply({ question, test_codes: ["creatinine"], answer: "Creatinine is 1.46 mg/dL, above the lab's range (0.7–1.28).",
             sources: [{ label: "P1", title: "Creatinine Test", url: "https://medlineplus.gov/lab-tests/creatinine-test/",
-              organisation: "MedlinePlus", license: "Public domain" }] });
+              organisation: "MedlinePlus", license: "Public domain" },
+            { label: "P2", title: "Creatinine Test", url: "https://medlineplus.gov/lab-tests/creatinine-test/",
+              organisation: "MedlinePlus", license: "Public domain" }] });  // two passages, one page: named once
       },
     });
     show();

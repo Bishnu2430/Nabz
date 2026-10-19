@@ -13,7 +13,7 @@ KNOWN_UNIT_KEYS = {
 
 
 def test_catalogue_loads(catalogue: CatalogueData) -> None:
-    assert len(catalogue.tests) == 70
+    assert len(catalogue.tests) == 108
     assert len(catalogue.organs) == 10
 
 

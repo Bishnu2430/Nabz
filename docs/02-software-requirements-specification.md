@@ -115,7 +115,7 @@ Reports are mostly printed in English. An LLM API with vision and good Indian-la
 
 | ID | Requirement | Priority | Use case |
 |---|---|---|---|
-| FR-06 | The system shall accept JPG, PNG, HEIC and PDF files up to 10 MB and 10 pages. | M | UC-04 |
+| FR-06 | The system shall accept JPG, PNG, HEIC and PDF files up to 10 MB and 20 pages. | M | UC-04 |
 | FR-07 | The system shall score image quality (blur, skew, glare, resolution) and show retake tips when the score is below threshold. | S | UC-04 |
 | FR-08 | The system shall extract, for each result row, the test name, value, unit, reference range and any flag, plus the collection date and lab name. | M | UC-04 |
 | FR-09 | The system shall map each extracted test to a catalogue entry (LOINC code) and flag unmapped rows as "not recognised" rather than guessing. | M | UC-04 |

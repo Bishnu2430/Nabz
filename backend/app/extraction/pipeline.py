@@ -8,7 +8,7 @@ from app.extraction.dates import find_collection_date
 from app.extraction.document import load_pages
 from app.extraction.layout import group_lines
 from app.extraction.ocr import OCREngine, default_engine
-from app.extraction.parser import detect_section, parse_line
+from app.extraction.parser import Columns, detect_columns, detect_section, parse_line, starts_summary
 from app.extraction.types import ExtractionResult, ParsedRow
 
 
@@ -29,16 +29,25 @@ def extract(data: bytes, mime: str, catalogue: CatalogueData, ocr: OCREngine | N
     section: str | None = None
     header: list[str] = []
     for page in pages:
+        columns: Columns | None = None  # each page prints its own table header
+        summary = False  # a page that only repeats out-of-range results from later pages
         for line in group_lines(page.tokens):
             if page.number == 0:
                 header.append(line.text)
             if lab_name is None and page.number == 0 and line.tokens and line.text.strip():
                 lab_name = line.text.strip()
+            if starts_summary(line):
+                summary = True
+            if summary:
+                continue
+            if (found_columns := detect_columns(line)) is not None:
+                columns = found_columns
+                continue
             found = detect_section(line)
             if found:
                 section = found
                 continue
-            row = parse_line(line, page.number, section, units)
+            row = parse_line(line, page.number, section, units, columns)
             if row is not None:
                 rows.append(row)
     return ExtractionResult(pages, rows, lab_name, find_collection_date(header))

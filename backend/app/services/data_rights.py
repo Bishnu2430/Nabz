@@ -16,6 +16,7 @@ from typing import Any
 from sqlalchemy import ColumnElement, select, union
 from sqlalchemy.orm import Session
 
+from app.catalogue.qualitative import answer_code
 from app.models import (
     Clinician,
     ClinicianNote,
@@ -101,6 +102,7 @@ def export_profile(session: Session, profile: Profile) -> dict[str, Any]:
                 "as_printed": {"name": o.raw_name, "value": o.raw_value, "unit": o.raw_unit, "range": o.raw_range,
                                "flag": o.raw_flag},
                 "value": _num(o.value_num),
+                "answer": answer_code(code, o.raw_value),  # for a test reported in words; value is its score
                 "unit": o.unit,
                 "ref_low": _num(o.ref_low),
                 "ref_high": _num(o.ref_high),

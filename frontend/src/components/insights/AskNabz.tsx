@@ -125,7 +125,9 @@ function Exchange({ q, reportId }: { q: Question; reportId: string }) {
         {q.sources.length > 0 && (
           <p className="mt-2 text-sm text-muted">
             {t("explain.sources")}:{" "}
-            {q.sources.map((s, i) => (
+            {/* two passages from one page are one source to the reader */}
+            {q.sources.filter((s, i, all) => all.findIndex((x) => (x.url ?? x.title) === (s.url ?? s.title)) === i)
+              .map((s, i) => (
               <span key={s.label}>
                 {i > 0 && ", "}
                 {s.url ? <a href={s.url} target="_blank" rel="noreferrer" className="text-link">{s.title}</a> : s.title}

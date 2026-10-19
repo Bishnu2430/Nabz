@@ -55,8 +55,8 @@ docker compose exec api python -m tools.knowledge build
 docker compose exec api python -m app.cli load-knowledge
 ```
 
-- **fetch:** queries `https://connect.medlineplus.gov/service` once per catalogue LOINC code, at one request a second (Connect allows 100 a minute). Raw JSON responses go to `data/external/medlineplus/<loinc>.json`; 70 responses were retrieved on 2026-09-29.
-- **build:** writes `data/knowledge/chunks.jsonl` (436 passages) and `data/knowledge/manifest.csv` (46 documents, each with its URL, the tests it serves, its licence and the SHA-256 of its content). Both files are committed.
+- **fetch:** queries `https://connect.medlineplus.gov/service` once per catalogue LOINC code, at one request a second (Connect allows 100 a minute). Raw JSON responses go to `data/external/medlineplus/<loinc>.json`; responses for the first 70 tests were retrieved on 2026-09-29, and for the 38 tests added after a real lab report on 2026-10-18. A rebuild keeps a page's retrieval date while its content is unchanged.
+- **build:** writes `data/knowledge/chunks.jsonl` (609 passages) and `data/knowledge/manifest.csv` (58 documents, each with its URL, the tests it serves, its licence and the SHA-256 of its content). Both files are committed.
 - **load-knowledge:** embeds the passages and loads them into `kb_document` and `kb_chunk`.
 
 ## multilingual-e5-small (embedding model)

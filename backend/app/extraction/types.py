@@ -40,7 +40,7 @@ class Page:
 class ParsedRow:
     raw_name: str
     raw_value: str
-    value: Decimal
+    value: Decimal | None  # None when the result is a word ("Absent"); raw_value holds it
     raw_unit: str | None
     raw_range: str | None
     range_low: Decimal | None  # in printed units

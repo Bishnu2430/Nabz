@@ -48,3 +48,6 @@ Thumbs.db
 # --- Caches -----------------------------------------------------------------
 .cache/
 *.tsbuildinfo
+
+# --- Report, slides and script (contain the college logos; kept locally) ----
+/deliverables/

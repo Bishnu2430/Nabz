@@ -18,7 +18,7 @@ import { StatusMark } from "../components/insights/StatusMark";
 import { PrivacyChoices } from "../components/PrivacyChoices";
 import { Icon, type IconName } from "../components/icons";
 import { BrushRule, Card, EmptyState, ErrorNote, Loading, PageTitle, PersonSeal, SectionTitle } from "../components/ui";
-import { formatDate, formatPercent, formatUnit, formatValue } from "../lib/format";
+import { formatDate, formatPercent, formatResultValue, formatUnit } from "../lib/format";
 import NotFound from "./NotFound";
 
 export default function Person() {
@@ -145,7 +145,7 @@ function WatchList({ profileId }: { profileId: string }) {
                   <StatusMark status={w.latest.status} />
                 </div>
                 <p className="tabular mt-1 text-lg">
-                  {formatValue(w.latest.value, w.latest.decimals)} <span className="text-sm text-muted">{formatUnit(w.latest.unit)}</span>
+                  {formatResultValue(w.latest)} <span className="text-sm text-muted">{formatUnit(w.latest.unit)}</span>
                 </p>
                 <p className="text-sm text-muted">
                   {w.confirmed && w.latest.trend

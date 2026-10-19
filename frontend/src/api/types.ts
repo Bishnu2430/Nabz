@@ -51,6 +51,10 @@ export interface Observation {
   test_code: string | null;
   test_name: string | null;
   value: string | null;
+  /** For a test reported in words: the answer's code ("absent", "plus2"); value is then only a score. */
+  answer?: string | null;
+  /** For a test reported in words: the usual answer's code. */
+  usual?: string | null;
   unit: string | null;
   ref_low: string | null;
   ref_high: string | null;
@@ -97,6 +101,10 @@ export interface ResultBrief {
   test_name: string;
   short_name: string;
   value: string;
+  /** For a test reported in words: the answer's code ("absent", "plus2"); value is then only a score. */
+  answer?: string | null;
+  /** For a test reported in words: the usual answer's code. */
+  usual?: string | null;
   unit: string | null;
   decimals: number;
   status: ObsStatus;
@@ -120,7 +128,7 @@ export interface ObservationPatch {
 
 export type ObsStatus = "low" | "normal" | "high" | "critical_low" | "critical_high" | "unknown";
 
-export interface Previous { value: number; date: string; report_id: string }
+export interface Previous { value: number; date: string; report_id: string; answer?: string | null }
 
 export interface Change {
   fraction: number | null;
@@ -161,6 +169,10 @@ export interface Result {
   short_name: string;
   organ: string;
   value: string;
+  /** For a test reported in words: the answer's code ("absent", "plus2"); value is then only a score. */
+  answer?: string | null;
+  /** For a test reported in words: the usual answer's code. */
+  usual?: string | null;
   unit: string | null;
   decimals: number;
   ref_low: string | null;

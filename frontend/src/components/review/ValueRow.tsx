@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useDeleteObservation, useEditObservation } from "../../api/hooks";
 import type { Observation, ObservationPatch } from "../../api/types";
-import { formatComputed, formatRange, formatUnit, position } from "../../lib/format";
+import { answerText, formatComputed, formatRangeFor, formatUnit, position } from "../../lib/format";
 import { AttentionMark, PositionMark } from "../Badges";
 import { Button, ErrorNote, fieldClass } from "../ui";
 import { TestPicker } from "./TestPicker";
@@ -14,7 +14,8 @@ import { TestPicker } from "./TestPicker";
  * precision is information). When it was converted (4,803 /cumm -> 4.803 ×10³/µL), the canonical value is shown
  * and the printed one appears beside it so the person can check it against the page.
  */
-export function displayValue(row: Pick<Observation, "value" | "raw_value">): { value: string; converted: boolean } {
+export function displayValue(row: Pick<Observation, "value" | "raw_value" | "answer">): { value: string; converted: boolean } {
+  if (row.answer) return { value: answerText(row.answer), converted: false };  // reported in words
   const raw = row.raw_value?.replace(/,/g, "").trim() ?? "";
   if (row.value == null) return { value: raw || "—", converted: false };
   if (raw && Number(raw) === Number(row.value)) return { value: raw, converted: false };
@@ -34,7 +35,7 @@ export function ValueRow({ row, reportId, editable, active, onSelect }: {
   const edit = useEditObservation(reportId);
   const remove = useDeleteObservation(reportId);
 
-  const range = formatRange(row.ref_low, row.ref_high);
+  const range = formatRangeFor(row);
   const { value, converted } = displayValue(row);
   const unit = row.unit ? formatUnit(row.unit) : (row.raw_unit ?? "");
   const printed = `${row.raw_value ?? ""} ${row.raw_unit ?? ""}`.trim();
@@ -78,7 +79,9 @@ export function ValueRow({ row, reportId, editable, active, onSelect }: {
           </div>
           <p className="mt-1 text-sm text-muted">
             {converted && <>{t("review.printed")}: <span className="tabular">{printed}</span> · </>}
-            {range ? (
+            {row.answer && row.usual ? (
+              t("insights.usual_answer", { answer: answerText(row.usual) })
+            ) : range ? (
               <>
                 <span className="tabular">{range}</span>{" "}
                 ({row.ref_source === "report" ? t("review.from_report") : t("review.typical")})
@@ -147,7 +150,7 @@ function EditForm({ row, reportId, onDone }: { row: Observation; reportId: strin
   return (
     <form onSubmit={submit} className="mt-4 space-y-4 border-t border-hairline pt-4">
       <div className="grid gap-3 sm:grid-cols-3">
-        <Field label={t("review.value")} value={rawValue} onChange={setRawValue} inputMode="decimal" required />
+        <Field label={t("review.value")} value={rawValue} onChange={setRawValue} inputMode={row.answer ? "text" : "decimal"} required />
         <Field label={t("review.unit")} value={rawUnit} onChange={setRawUnit} />
         <Field label={t("review.range")} value={rawRange} onChange={setRawRange} placeholder="13.0 - 17.0" />
       </div>

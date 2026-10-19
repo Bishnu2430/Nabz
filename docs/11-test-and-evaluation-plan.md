@@ -113,6 +113,8 @@ Written in the college report format. *Status* is filled in when each case is ex
 | TC-26 | Knowledge document | Admin adds a passage text for HbA1c | Chunked by section and embedded; duplicates refused; re-embedded; deleted | 2 passages; 409 `kb_duplicate`; audited | Pass (`test_catalogue_admin.py::test_knowledge_documents_are_chunked_embedded_and_removed`) |
 | TC-27 | Public pages in three languages | Open `/help`, `/about`, `/terms` signed out; switch to Odia | Pages render; sign-up links the terms | Answers open on demand; licences and the LOINC notice shown | Pass (`Pages.test.tsx`) |
 | TC-28 | Security baseline | Any API request; sign up with a common password; sign in twice | Headers on every response; password refused; old session ended | ASVS 5.0 Level 1 (§16) | Pass (`test_auth.py`) |
+| TC-29 | A real lab report's layout | A PDF with a method column between test and value, reference tables, a summary page repeating results, and urine findings in words | Columns read from the table header; method, reference categories and summary skipped; words read as answers | Every result read once, under the right test, with its answer or value (§17) | Pass (`test_lab_layouts.py`; the real 14-page report: 87 of 87) |
+| TC-30 | The report in plain words | A report with results outside their range, in EN, HI and OR | A summary above the results: what each test is, what it does and which way it is off | No digits in any language; a count and its percentage said once; a critical result first (§17) | Pass (`PlainSummary.test.tsx`) |
 
 ## 7. Entry and exit criteria
 
@@ -259,7 +261,8 @@ Mapping meets the ≥ 97 % target in every mode. The canonical value is only as 
 | explain-v4 | not measured | — | — |
 | explain-v5 | 24 (8 reports × EN, HI, OR) | 4 (17 %) | diagnosis rule 6 · judge 6 · Odia script 4 · invented number 3 · treatment rule 1 · provider 1 |
 | explain-v6 | 9 (3 reports × 3 languages; the daily token limit ended the run) | 4 (44 %); the same 9 under v5: 1 | diagnosis rule 1 · judge 1 · treatment rule 1 · Odia script 1 · provider 1 |
-| explain-v7 (current) | not measured: v6 without the cause example the model copied (§16) | — | — |
+| explain-v7 | not measured: v6 without the cause example the model copied (§16) | — | — |
+| explain-v8 (current) | not measured: v7 with a rule for results reported in words (§17) | — | — |
 
 **What the runs showed, and what changed:**
 - **Invented numbers.**
@@ -445,7 +448,30 @@ docker compose exec api python -m tools.eval.questions --profile "Ramesh Mohanty
 - the native-speaker review of Hindi and Odia (T2.5);
 - usability sessions ([plan](review/usability-test-plan.md));
 - two more offline rehearsals;
-- a complete explain-v7 run and the model half of the Ask evaluation, after the daily limit refills.
+- a complete explain-v8 run and the model half of the Ask evaluation, after the daily limit refills.
+
+## 17. A real lab report and the report in plain words
+
+**Automated tests:** backend 531, web app 111.
+
+**A real report.** A family uploaded a real 14-page PDF from a large Indian lab chain. Before the changes, results were missing and a few method names and limits were read as tests:
+- each table prints the testing method (for example "Photometry" or "H.P.L.C") between the test and its value, so the method was read as part of the name;
+- a summary page repeats the results outside their range, so they were read twice;
+- the categories of reference tables ("Desirable", "Borderline high", "Children") were read as results;
+- 38 tests on the report were not in the catalogue: cholesterol ratios, absolute white-cell counts, RDW-SD, immature granulocytes, the BUN and urea ratios, and urine findings reported in words.
+
+| Change | Where | Tests |
+|---|---|---|
+| Columns read from the table header; the method column, reference-table categories and summary pages skipped | `extraction/parser.py`, `pipeline.py` | `test_parser.py`, `test_lab_layouts.py` |
+| Catalogue from 70 to 108 tests, each LOINC code checked against the NLM LOINC search; aliases for the report's spellings | `data/catalogue/` | `test_catalogue.py`, `test_matcher.py` |
+| Look-alikes told apart: HDL or LDL, ratio, absolute or %, direct or indirect bilirubin | `catalogue/matcher.py` | `test_matcher.py` |
+| Urine findings in words: a score stands for the answer (the usual answer is 0); the answer and the usual answer are shown, never a number, and no change or trend is computed | `catalogue/qualitative.py`, `extraction/interpret.py`, `services/analysis.py` | `test_qualitative.py` |
+| A result read on more than one page is kept once | `worker/stages.py` | `test_lab_layouts.py` |
+| explain-v8: an answer in words is said as the answer, with no range | `explain/prompt.py`, `template.py` | `test_qualitative.py` |
+
+**Result (TC-29):** all 87 results on the report were read once and matched to the right test. Three printed values are left out on purpose: RDWI and the Mentzer index (indices worked out from other results, not lab tests) and the urine volume.
+
+**The report in plain words (TC-30).** People asked for the report without numbers. Above the results, a short summary names each area of the body with something outside the usual range and, for each result, says in plain words what the test is, what it does in the body and which way it is off. It also says which areas are fine, what has changed and what is trending. It is built by rules from the analysis, not by the model, so it cannot name a disease, reassure or misquote a value. It has 94 plain names and roles, in English, Hindi and Odia.
 
 ## Revision history
 
@@ -461,3 +487,4 @@ docker compose exec api python -m tools.eval.questions --profile "Ramesh Mohanty
 | 0.8 | 2026-09-30 | §14 sample family, records, imaging viewer and exact values |
 | 0.9 | 2026-10-03 | §15 sharing, story, care, walkthrough, questions, the safety review and system pages, languages |
 | 1.0 | 2026-10-03 | TC-02 – TC-21 status; TC-22 – TC-28; §12 explain-v5 to v7 runs; §16 doctors, catalogue, pages, security, offline rehearsal, frame rate, live runs and what is left |
+| 1.1 | 2026-10-19 | TC-29, TC-30; explain-v8; §17 a real lab report and the report in plain words |
