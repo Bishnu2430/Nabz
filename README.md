@@ -34,7 +34,7 @@ See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 | PostgreSQL 17 + pgvector | ✅ running in Docker |
 | API (FastAPI) | ✅ profiles, upload, review and confirm (Sprint 3) |
 | Database schema (22 tables, Alembic) | ✅ Sprint 1 |
-| Test catalogue (70 tests) + synthetic report generator | ✅ Sprint 1 |
+| Test catalogue (108 tests) + synthetic report generator | ✅ Sprint 1, extended for a real lab report |
 | Worker + job queue, PDF/OCR extraction and row parser | ✅ Sprint 2 |
 | Catalogue matching, unit normalisation, row-confidence model | ✅ Sprint 3 |
 | Web app: family, upload with live progress, review and confirm | ✅ Sprint 3 |
@@ -44,6 +44,7 @@ See the [project plan](docs/07-project-plan.md) (1 Aug – 30 Sep 2026).
 | Other records with an imaging viewer; doctor summary; compare; all tests; sample family | ✅ after Sprint 6 |
 | Story mode; sharing; reminders, home readings, emergency card; walkthrough; questions; safety review and system pages; full Hindi and Odia | ✅ after Sprint 6 |
 | Guardians; offline mode; doctors on Nabz; catalogue and knowledge administration; terms, about and help; security hardening | ✅ finishing the requirements |
+| Real lab reports (method columns, summary pages, urine results in words); the report in plain words, without numbers | ✅ after the requirements |
 
 ## Quick start
 
