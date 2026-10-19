@@ -8,7 +8,7 @@ import { ORGAN_ORDER } from "../components/body/organs";
 import { StatusIcon, isAbnormal } from "../components/insights/StatusMark";
 import { Icon, organIcon } from "../components/icons";
 import { Card, ErrorNote, fieldClass, Loading, PageTitle } from "../components/ui";
-import { formatDate, formatPercent, formatRange, formatUnit, formatValue } from "../lib/format";
+import { formatDate, formatPercent, formatRangeFor, formatResultValue, formatUnit } from "../lib/format";
 import { frameResults } from "../lib/series";
 
 /** Two reports side by side: every test in either, both values, the change and what moved in or out of range. */
@@ -101,7 +101,7 @@ function Cell({ r }: { r?: ResultBrief }) {
     <td className={clsx("tabular px-4 py-2", out ? "font-medium text-abnormal" : "")}>
       <span className="inline-flex items-center gap-1">
         {out && <StatusIcon status={r.status} />}
-        {formatValue(r.value, r.decimals)} <span className="text-sm font-normal text-muted">{formatUnit(r.unit)}</span>
+        {formatResultValue(r)} <span className="text-sm font-normal text-muted">{formatUnit(r.unit)}</span>
       </span>
     </td>
   );
@@ -110,7 +110,7 @@ function Cell({ r }: { r?: ResultBrief }) {
 function CompareRow({ x, y, profileId }: { x?: ResultBrief; y?: ResultBrief; profileId: string }) {
   const { t } = useTranslation();
   const r = (y ?? x)!;
-  const fraction = x && y && Number(x.value) ? Number(y.value) / Number(x.value) - 1 : null;
+  const fraction = x && y && !r.answer && Number(x.value) ? Number(y.value) / Number(x.value) - 1 : null;
   const movedIn = x && y && isAbnormal(x.status) && !isAbnormal(y.status);
   const movedOut = x && y && !isAbnormal(x.status) && isAbnormal(y.status);
   return (
@@ -125,7 +125,7 @@ function CompareRow({ x, y, profileId }: { x?: ResultBrief; y?: ResultBrief; pro
         {movedIn && <span className="ml-2 text-normal">{t("compare.back_in")}</span>}
         {movedOut && <span className="ml-2 text-abnormal">{t("compare.went_out")}</span>}
       </td>
-      <td className="tabular px-4 py-2 text-sm text-muted">{formatRange(r.ref_low, r.ref_high)}</td>
+      <td className="tabular px-4 py-2 text-sm text-muted">{formatRangeFor(r)}</td>
     </tr>
   );
 }

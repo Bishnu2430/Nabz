@@ -11,7 +11,7 @@ import { useExact, ValueChips } from "../components/exact/exact";
 import { StatusIcon } from "../components/insights/StatusMark";
 import { IconSeal } from "../components/icons";
 import { Button, ErrorNote, Loading } from "../components/ui";
-import { formatDate, formatRange, formatWithUnit } from "../lib/format";
+import { formatDate, formatRangeFor, formatWithUnit } from "../lib/format";
 import { buildStory, chapterMs, type Chapter, type StoryEvent } from "../lib/story";
 
 const SPEEDS = [1, 1.5, 2] as const;
@@ -223,7 +223,7 @@ function useCaptions() {
   const { describe } = useExact();
   return (e: StoryEvent): Caption => {
     const v = (r: ResultBrief) => formatWithUnit(r);
-    const base = (r: ResultBrief) => ({ test: r.test_name, value: v(r), range: formatRange(r.ref_low, r.ref_high) || "—",
+    const base = (r: ResultBrief) => ({ test: r.test_name, value: v(r), range: formatRangeFor(r) || "—",
       how: describe(r) });
     switch (e.kind) {
       case "first":

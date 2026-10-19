@@ -98,3 +98,70 @@ def test_unknown_unit_and_manual_mapping(interp: Interpreter) -> None:
     assert not it.unit_ok and it.ref_source == "none"
     forced = interp.interpret(_row("Blood Glucose", "101", "mg/dL", "70 - 100"), test_code="glucose_fasting")
     assert (forced.test_code, forced.match.method) == ("glucose_fasting", "manual")
+
+
+@pytest.mark.parametrize(
+    ("name", "section", "unit", "code"),
+    [
+        # names as a real report from a large Indian lab chain prints them
+        ("LDL CHOLESTEROL - DIRECT", "lipid", "mg/dL", "ldl"),
+        ("HDL CHOLESTEROL - DIRECT", "lipid", "mg/dL", "hdl"),
+        ("TC/ HDL CHOLESTEROL RATIO", "lipid", "", "chol_hdl_ratio"),
+        ("TRIG / HDL RATIO", "lipid", "", "tg_hdl_ratio"),
+        ("LDL / HDL RATIO", "lipid", "", "ldl_hdl_ratio"),
+        ("HDL / LDL RATIO", "lipid", "", "hdl_ldl_ratio"),
+        ("SG OT / SGPT RATIO", "liver", "", "ast_alt_ratio"),  # a PDF text layer splits words
+        ("BUN / SR.CREATININE RATIO", "kidney", "", "bun_creat_ratio"),
+        ("UREA / SR.CREATININE RATIO", "kidney", "", "urea_creat_ratio"),
+        ("ALBUMIN - SERUM", "liver", "gm/dL", "albumin"),
+        ("SERUM ALB/G LOBULIN RATIO", "liver", "", "ag_ratio"),
+        ("Mean Corp.Hemo. Conc (MCHC)", "cbc", "g/dL", "mchc"),
+        ("Hematocrit (PCV)", "cbc", "%", "hct"),
+        ("ALANINE TRAN SAMINASE (SGPT)", "liver", "U/L", "alt"),
+        ("BILIRUBIN (INDIRECT)", "liver", "mg/dL", "bili_indirect"),
+        ("BILIRUBIN -DIRECT", "liver", "mg/dL", "bili_direct"),
+        ("Neutrophils Percentage", "cbc", "%", "neut_pct"),
+        ("Neutrophils - Absolute Count", "cbc", "X 10³ / µL", "neut_abs"),
+        ("Neutrophils", "cbc", "X 10³ / µL", "neut_abs"),  # the unit tells the count from the percentage
+        ("Red Cell Distribution Width - SD (RDW-SD)", "cbc", "fL", "rdw_sd"),
+        ("Platelet to Large Cell Ratio (PLCR)", "cbc", "%", "plcr"),
+        ("UREA (CALCULATED)", "kidney", "mg/dL", "urea"),
+        ("EST. G LOMERULAR FILTRATION RATE (eGFR)", "kidney", "mL/min/1.73 m2", "egfr"),
+    ],
+)
+def test_report_spellings(matcher: CatalogueMatcher, name: str, section: str, unit: str, code: str) -> None:
+    assert matcher.match(name, section, unit).test_code == code
+
+
+@pytest.mark.parametrize(
+    ("name", "unit", "not_code"),
+    [
+        ("LDL Cholesterol Direct Measured", "mg/dL", "hdl"),
+        ("Trig/HDL Cholesterol Ratio", "", "chol_hdl_ratio"),
+        ("LDL/HDL Cholesterol Index Ratio", "", "hdl_ldl_ratio"),
+        ("Lymphocytes (Absolute)", "%", "lymph_pct"),
+        ("SGOT/SGPT Ratio Calc", "", "ast"),
+        ("Free T3 Serum", "pg/mL", "t3"),
+    ],
+)
+def test_lookalike_names_are_not_confused(matcher: CatalogueMatcher, name: str, unit: str, not_code: str) -> None:
+    assert matcher.match(name, None, unit).test_code != not_code
+
+
+def test_word_answers_only_match_tests_reported_in_words(matcher: CatalogueMatcher) -> None:
+    assert matcher.match("Glucose", "urine", None, in_words=True).test_code == "urine_glucose"
+    assert matcher.match("Blood", "urine", None, in_words=True).test_code == "urine_blood"
+    assert matcher.match("Blood Glucose", "diabetes", "mg/dL").test_code != "urine_glucose"
+    assert matcher.match("Bilirubin", "liver", "mg/dL", in_words=False).test_code != "urine_bilirubin"
+
+
+def test_word_answers_are_scored(interp: Interpreter) -> None:
+    absent = interp.interpret(RawRow("URINARY PROTEIN", "ABSENT", None, "Absent", None, "urine"))
+    assert (absent.test_code, absent.value_num, absent.ref_high, absent.plausible) == (
+        "urine_protein", Decimal(0), Decimal(0), True)
+    trace = interp.interpret(RawRow("Sugar", "++", None, None, None, "urine"))
+    assert (trace.test_code, trace.value_num) == ("urine_glucose", Decimal(2))
+    colour = interp.interpret(RawRow("Colour", "Pale Yellow", None, None, None, "urine"))
+    assert (colour.test_code, colour.value_num) == ("urine_colour", Decimal(0))
+    unknown = interp.interpret(RawRow("Ketones", "Smells sweet", None, None, None, "urine"))
+    assert unknown.value_num is None

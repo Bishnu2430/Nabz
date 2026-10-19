@@ -70,10 +70,12 @@ export default function AllTests() {
                   <span className="text-sm">
                     <StatusMark status={s.latest.status} /> <span className="text-muted">{describe(s.latest)}</span>
                   </span>
-                  <Sparkline width={110} height={30}
-                    points={s.results.map((r) => ({ date: r.date, value: Number(r.value), status: r.status }))}
-                    low={s.latest.ref_low == null ? null : Number(s.latest.ref_low)}
-                    high={s.latest.ref_high == null ? null : Number(s.latest.ref_high)} />
+                  {s.latest.answer ? <span /> : (
+                    <Sparkline width={110} height={30}
+                      points={s.results.map((r) => ({ date: r.date, value: Number(r.value), status: r.status }))}
+                      low={s.latest.ref_low == null ? null : Number(s.latest.ref_low)}
+                      high={s.latest.ref_high == null ? null : Number(s.latest.ref_high)} />
+                  )}
                 </Link>
               ))}
             </Card>

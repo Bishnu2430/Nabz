@@ -25,6 +25,7 @@ from app.analysis.change import Change, compare, rcv
 from app.analysis.percentile import Placement, age_band, place
 from app.analysis.status import classify, flag_disagrees
 from app.analysis.trend import Point, Trend, trend
+from app.catalogue.qualitative import answer_code, is_qualitative
 from app.models import CriticalLimit, LabTest, Observation, PopulationPercentile, Profile, Report, TrendInsight
 from app.services.interpretation import age_on
 
@@ -126,9 +127,10 @@ def analyse_profile(session: Session, profile_id: uuid.UUID, test_ids: set[int] 
             r.obs.status = classify(value, low, high, f.critical_low, f.critical_high)
 
             previous = next((x for x in reversed(results[:i]) if x.when < r.when), None)
-            change = compare(float(previous.obs.value_num), value, limits) if previous else None
+            in_words = is_qualitative(f.code)  # "absent" then "trace": no percentage change or trend line
+            change = compare(float(previous.obs.value_num), value, limits) if previous and not in_words else None
             points = [Point(x.when, float(x.obs.value_num)) for x in results if x.when <= r.when]
-            tr = trend(points, limits, low, high)
+            tr = None if in_words else trend(points, limits, low, high)
             found = population.lookup(test_id, profile.sex.value, age_on(profile, r.when), value)
 
             r.obs.analysis = {
@@ -138,6 +140,7 @@ def analyse_profile(session: Session, profile_id: uuid.UUID, test_ids: set[int] 
                 "previous": None if previous is None else {
                     "value": float(previous.obs.value_num), "date": previous.when.isoformat(),
                     "report_id": str(previous.report.id),
+                    "answer": answer_code(f.code, previous.obs.raw_value),
                 },
                 "change": None if change is None else _change_json(change),
                 "trend": None if tr is None else _trend_json(tr),

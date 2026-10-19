@@ -7,7 +7,7 @@ import { ORGAN_ORDER } from "../components/body/organs";
 import { useExact } from "../components/exact/exact";
 import { StatusIcon, isAbnormal } from "../components/insights/StatusMark";
 import { Button, ErrorNote, Loading } from "../components/ui";
-import { formatDate, formatPercent, formatRange, formatWithUnit } from "../lib/format";
+import { formatDate, formatPercent, formatRangeFor, formatWithUnit } from "../lib/format";
 import { seriesByTest } from "../lib/series";
 
 /**
@@ -115,7 +115,7 @@ export default function Summary() {
                       <td className={`tabular whitespace-nowrap py-1 pr-3 ${out ? "font-semibold text-abnormal" : ""}`}>
                         {out && <StatusIcon status={s.latest.status} />} {formatWithUnit(s.latest)}
                       </td>
-                      <td className="tabular whitespace-nowrap py-1 pr-3 text-muted">{formatRange(s.latest.ref_low, s.latest.ref_high)}</td>
+                      <td className="tabular whitespace-nowrap py-1 pr-3 text-muted">{formatRangeFor(s.latest)}</td>
                       <td className="whitespace-nowrap py-1 pr-3 text-muted">{formatDate(s.latest.date, lang)}</td>
                       <td className="tabular py-1 text-muted">
                         {prev ? `${formatWithUnit(prev)} (${formatDate(prev.date, lang)})` : "—"}

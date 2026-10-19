@@ -11,6 +11,7 @@ from pathlib import Path
 from app.catalogue.convert import UnitConverter
 from app.catalogue.data import CatalogueData, RangeRow
 from app.catalogue.matcher import CatalogueMatcher, Match
+from app.catalogue.qualitative import is_qualitative, read_answer
 from app.catalogue.units import normalize_unit
 from app.extraction.parser import parse_range, to_decimal
 
@@ -97,14 +98,21 @@ class Interpreter:
     def interpret(self, row: RawRow, sex: str | None = None, age: int | None = None,
                   test_code: str | None = None) -> Interpreted:
         """`test_code` forces the mapping (a user's correction); otherwise the matcher decides."""
-        match = (Match(test_code, 1.0, "manual") if test_code
-                 else self.matcher.match(row.raw_name, row.section, row.raw_unit))
-        out = Interpreted(match)
         value = to_decimal(row.raw_value) if row.raw_value else None
+        in_words = None if not row.raw_value else value is None
+        match = (Match(test_code, 1.0, "manual") if test_code
+                 else self.matcher.match(row.raw_name, row.section, row.raw_unit, in_words))
+        out = Interpreted(match)
         printed = parse_range(row.raw_range) if row.raw_range else None
         code = match.test_code
 
-        if code is not None and value is not None:
+        if code is not None and is_qualitative(code):
+            # reported in words: the score stands in for the answer, and the usual answer scores 0
+            answer = read_answer(code, row.raw_value)
+            out.value_num = answer.score if answer else None
+            out.unit_ok, out.plausible = True, answer is not None
+            out.ref_low, out.ref_high, out.ref_source = None, Decimal(0), "catalogue"
+        elif code is not None and value is not None:
             test = self.tests[code]
             unit = row.raw_unit or ""
             unitless = normalize_unit(test.unit) == ""

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { useOrganHistory } from "../../api/hooks";
 import type { Result } from "../../api/types";
-import { deviation, formatDate, formatPercent, formatRange, formatWithUnit } from "../../lib/format";
+import { deviation, formatDate, formatPercent, formatRangeFor, formatWithUnit } from "../../lib/format";
 import { useExact } from "../exact/exact";
 import { Sparkline } from "../exact/Sparkline";
 import { useSpan } from "../insights/ResultRow";
@@ -127,11 +127,13 @@ function ChartCard({ line, profileId }: { line: Line; profileId: string }) {
           <p className="tabular text-2xl font-semibold">{formatWithUnit(r)}</p>
           <p className={clsx("text-sm", critical ? "font-medium text-critical" : "text-abnormal")}>{describe(r)}</p>
           <p className="text-sm text-muted">
-            {t("organ.range", { range: formatRange(r.ref_low, r.ref_high) || "—" })}
+            {t("organ.range", { range: formatRangeFor(r) || "—" })}
           </p>
         </div>
-        <Sparkline points={line.series.map((s) => ({ date: s.date, value: Number(s.value), status: s.status }))}
-          low={r.ref_low == null ? null : Number(r.ref_low)} high={r.ref_high == null ? null : Number(r.ref_high)} />
+        {!r.answer && (
+          <Sparkline points={line.series.map((s) => ({ date: s.date, value: Number(s.value), status: s.status }))}
+            low={r.ref_low == null ? null : Number(r.ref_low)} high={r.ref_high == null ? null : Number(r.ref_high)} />
+        )}
       </div>
       <ul className="mt-2 space-y-0.5 text-sm text-muted">
         {r.previous && r.change?.fraction != null && (
@@ -167,12 +169,14 @@ function CompactRow({ line, profileId }: { line: Line; profileId: string }) {
       className="flex items-center gap-3 py-2 text-ink no-underline hover:bg-sunken/60">
       <span className="min-w-0 flex-1">
         <span className="block truncate">{r.test_name}</span>
-        <span className="tabular block text-sm text-muted">{formatRange(r.ref_low, r.ref_high)}</span>
+        <span className="tabular block text-sm text-muted">{formatRangeFor(r)}</span>
       </span>
       <span className="tabular font-medium">{formatWithUnit(r)}</span>
-      <Sparkline width={72} height={24}
-        points={line.series.map((s) => ({ date: s.date, value: Number(s.value), status: s.status }))}
-        low={r.ref_low == null ? null : Number(r.ref_low)} high={r.ref_high == null ? null : Number(r.ref_high)} />
+      {r.answer ? <span className="w-[72px]" /> : (
+        <Sparkline width={72} height={24}
+          points={line.series.map((s) => ({ date: s.date, value: Number(s.value), status: s.status }))}
+          low={r.ref_low == null ? null : Number(r.ref_low)} high={r.ref_high == null ? null : Number(r.ref_high)} />
+      )}
     </Link>
   );
 }

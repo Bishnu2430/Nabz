@@ -12,7 +12,9 @@ import { StatusMark } from "../components/insights/StatusMark";
 import { TrendChart } from "../components/insights/TrendChart";
 import { IconSeal, organIcon } from "../components/icons";
 import { Button, Card, EmptyState, ErrorNote, Loading, SectionTitle } from "../components/ui";
-import { ageBand, formatDate, formatMonth, formatPercent, formatRange, formatUnit, formatValue, ordinal } from "../lib/format";
+import {
+  ageBand, formatDate, formatMonth, formatPercent, formatRangeFor, formatResultValue, formatUnit, formatValue, ordinal,
+} from "../lib/format";
 import NotFound from "./NotFound";
 
 export default function TestHistory() {
@@ -50,7 +52,8 @@ export default function TestHistory() {
             <div>
               <p className="text-sm text-muted">{t("history.latest")} · {formatDate(latest.date, lang)}</p>
               <p className="text-4xl font-semibold">
-                {formatValue(latest.value, test.decimals)} <span className="text-lg font-normal text-muted">{formatUnit(test.unit)}</span>
+                {formatResultValue({ ...latest, decimals: test.decimals })}{" "}
+                <span className="text-lg font-normal text-muted">{formatUnit(test.unit)}</span>
               </p>
             </div>
             <StatusMark status={latest.status} className="text-base" />
@@ -62,7 +65,7 @@ export default function TestHistory() {
           </div>
 
           <Card className="mt-6 p-4">
-            <TrendChart results={results} test={test} />
+            {!latest.answer && <TrendChart results={results} test={test} />}
           </Card>
 
           <Card className="mt-6 space-y-3 p-6">
@@ -94,8 +97,8 @@ export default function TestHistory() {
                   {[...results].reverse().map((r) => (
                     <tr key={r.observation_id}>
                       <td className="px-4 py-2 whitespace-nowrap">{formatDate(r.date, lang)}</td>
-                      <td className="tabular px-4 py-2 whitespace-nowrap">{formatValue(r.value, r.decimals)} {formatUnit(r.unit)}</td>
-                      <td className="tabular px-4 py-2 whitespace-nowrap text-muted">{formatRange(r.ref_low, r.ref_high)}</td>
+                      <td className="tabular px-4 py-2 whitespace-nowrap">{formatResultValue(r)} {formatUnit(r.unit)}</td>
+                      <td className="tabular px-4 py-2 whitespace-nowrap text-muted">{formatRangeFor(r)}</td>
                       <td className="px-4 py-2"><StatusMark status={r.status} /></td>
                       <td className="px-4 py-2"><Link to={`/r/${r.report_id}`} className="text-link">{t("history.open")}</Link></td>
                     </tr>

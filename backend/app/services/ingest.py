@@ -15,7 +15,7 @@ from app.storage import StorageBackend
 from app.worker import queue
 
 MAX_BYTES = 10 * 1024 * 1024
-MAX_PAGES = 10
+MAX_PAGES = 20
 EXTENSIONS = {"application/pdf": ".pdf", "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
 
 

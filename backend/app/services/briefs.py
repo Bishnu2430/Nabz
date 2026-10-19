@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from app.analysis.status import SEVERITY
+from app.catalogue.qualitative import answer_code, usual_answer
 from app.models import LabTest, Observation, Report
 from app.schemas import ResultBrief
 from app.services.analysis import result_date
@@ -10,8 +11,10 @@ from app.services.analysis import result_date
 
 def brief(obs: Observation, test: LabTest, report: Report) -> ResultBrief:
     return ResultBrief(test_code=test.code, test_name=test.canonical_name, short_name=test.short_name,
-                       value=obs.value_num, unit=obs.unit, decimals=test.decimals, status=obs.status,
-                       ref_low=obs.ref_low, ref_high=obs.ref_high, date=result_date(report), report_id=report.id)
+                       value=obs.value_num, answer=answer_code(test.code, obs.raw_value),
+                       usual=usual_answer(test.code), unit=obs.unit,
+                       decimals=test.decimals, status=obs.status, ref_low=obs.ref_low, ref_high=obs.ref_high,
+                       date=result_date(report), report_id=report.id)
 
 
 def worst_first(items: list[ResultBrief]) -> list[ResultBrief]:

@@ -59,6 +59,7 @@ class ExtractionStage:
         for f in files:
             session.execute(delete(ReportPage).where(ReportPage.report_file_id == f.id))
 
+        seen: set[tuple[str, object]] = set()
         for f in files:
             result = extract(self.storage.get(f.storage_key), f.mime_type, catalogue, ocr=self.ocr)
             if report.lab_name is None and result.lab_name:
@@ -81,6 +82,16 @@ class ExtractionStage:
             f.quality_score = min(ocr_quality) if ocr_quality else 1.0
             sources = {p.number: p.source for p in result.pages}
             for row in result.rows:
+                raw = RawRow(row.raw_name, row.raw_value, row.raw_unit, row.raw_range, row.flag, row.section,
+                             row.confidence, sources.get(row.page, "ocr"))
+                it = interpreter.interpret(raw, sex, age)
+                if row.value is None and it.test_code is None:
+                    continue  # a word that isn't a result we know ("Remarks: Normal")
+                if it.test_code is not None and it.value_num is not None:
+                    seen_key = (it.test_code, it.value_num)
+                    if seen_key in seen:
+                        continue  # the same result printed twice (a summary table, a repeated page)
+                    seen.add(seen_key)
                 obs = Observation(
                     report_id=report.id, report_page_id=page_ids.get(row.page), raw_name=row.raw_name,
                     raw_value=row.raw_value, raw_unit=row.raw_unit, raw_range=row.raw_range, raw_flag=row.flag,
@@ -88,9 +99,7 @@ class ExtractionStage:
                     bbox={"page": row.page, "x0": round(row.bbox[0], 1), "top": round(row.bbox[1], 1),
                           "x1": round(row.bbox[2], 1), "bottom": round(row.bbox[3], 1)},
                 )
-                raw = RawRow(row.raw_name, row.raw_value, row.raw_unit, row.raw_range, row.flag, row.section,
-                             row.confidence, sources.get(row.page, "ocr"))
-                apply(obs, interpreter.interpret(raw, sex, age), ids)
+                apply(obs, it, ids)
                 session.add(obs)
         report.status = ReportStatus.NEEDS_REVIEW
 

@@ -49,6 +49,9 @@ class ResultBrief(BaseModel):
     test_name: str
     short_name: str
     value: Decimal
+    answer: str | None = Field(default=None, description="For a test reported in words, the answer's code "
+                               "(\"absent\", \"trace\", \"pale_yellow\"); value is then only its score")
+    usual: str | None = Field(default=None, description="For a test reported in words, the usual answer's code")
     unit: str | None
     decimals: int
     status: ObsStatus
@@ -95,6 +98,9 @@ class ObservationOut(BaseModel):
     test_code: str | None
     test_name: str | None
     value: Decimal | None = Field(description="Value in the test's canonical unit")
+    answer: str | None = Field(default=None, description="For a test reported in words, the answer's code "
+                               "(\"absent\", \"trace\", \"pale_yellow\"); value is then only its score")
+    usual: str | None = Field(default=None, description="For a test reported in words, the usual answer's code")
     unit: str | None
     ref_low: Decimal | None
     ref_high: Decimal | None
@@ -181,6 +187,7 @@ class PreviousOut(BaseModel):
     value: float
     date: date
     report_id: uuid.UUID
+    answer: str | None = None
 
 
 class ChangeOut(BaseModel):
@@ -234,6 +241,9 @@ class ResultOut(BaseModel):
     short_name: str
     organ: str
     value: Decimal
+    answer: str | None = Field(default=None, description="For a test reported in words, the answer's code "
+                               "(\"absent\", \"trace\", \"pale_yellow\"); value is then only its score")
+    usual: str | None = Field(default=None, description="For a test reported in words, the usual answer's code")
     unit: str | None
     decimals: int
     ref_low: Decimal | None

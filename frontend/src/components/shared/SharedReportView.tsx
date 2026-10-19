@@ -57,10 +57,12 @@ export function SharedReportView({ d }: { d: SharedReport }) {
                   <span className={`tabular text-lg ${isAbnormal(r.status) ? "font-semibold text-abnormal" : ""}`}>
                     {formatWithUnit(r)}
                   </span>
-                  <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
-                    high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
+                  {r.answer ? <span /> : (
+                    <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
+                      high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
+                  )}
                   <span className="text-sm text-muted">
-                    {isAbnormal(r.status) ? describe(r) : formatRange(r.ref_low, r.ref_high)}
+                    {isAbnormal(r.status) || r.answer ? describe(r) : formatRange(r.ref_low, r.ref_high)}
                     {r.previous && r.change?.fraction != null && (
                       <> · {t("insights.change_since", { change: formatPercent(r.change.fraction), date: formatDate(r.previous.date, lang) })}</>
                     )}

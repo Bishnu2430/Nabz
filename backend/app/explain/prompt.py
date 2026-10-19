@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 from app.explain.payload import Payload
 
-PROMPT_VERSION = "explain-v7"
+PROMPT_VERSION = "explain-v8"
 DISCLAIMER_KEY = "not_a_diagnosis_v1"
 LANGUAGE_NAMES = {"en": "English", "hi": "Hindi", "or": "Odia"}
 STATUSES = ["low", "normal", "high", "critical_low", "critical_high", "unknown"]
@@ -66,6 +66,10 @@ sentences. Use a warm, calm, respectful tone.
 symptoms, never others, and always as things such a result can go along with, never as something the reader has. \
 If "kind" is "often_none", say it often causes no symptoms at first. If "kind" is "none", say such a result \
 usually doesn't cause symptoms.
+
+11. Some urine tests are reported in words. Instead of a value and a range they have "answer" (such as "absent", \
+"trace", "plus2" for "++", "pale_yellow") and "usual", the answer most people have. Say the answer in everyday \
+words and whether it is the usual one. Never turn an answer into a number.
 
 Output JSON only, following the schema:
 - summary: if any test in DATA.focus is out of range, start with one short line saying these results are outside \

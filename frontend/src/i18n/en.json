@@ -220,7 +220,9 @@
     "months_one": "{{count}} month",
     "doctor_notes_one": "Doctor's note",
     "doctor_notes_other": "Doctor's notes ({{count}})",
-    "doctor_removed": "A doctor no longer on Nabz"
+    "doctor_removed": "A doctor no longer on Nabz",
+    "usual_answer": "Usually: {{answer}}",
+    "previous_answer": "Last time ({{date}}): {{answer}}"
   },
   "history": {
     "latest": "Latest result",
@@ -541,7 +543,9 @@
     "and_more_out_one": "· {{count}} more outside the range",
     "and_more_out_other": "· {{count}} more outside the range",
     "all_in_range_one": "In range: {{values}}",
-    "all_in_range_other": "All {{count}} in range: {{values}} …"
+    "all_in_range_other": "All {{count}} in range: {{values}} …",
+    "usual_answer": "the usual result",
+    "not_usual": "usually {{usual}}"
   },
   "organ": {
     "back": "All organ systems",
@@ -1425,5 +1429,445 @@
     "a_private": "Your family's data stays on the Nabz server. Nothing goes to an AI service unless you allow it for that person, and even then never a name, a date or the report image.",
     "q_delete": "How do I delete our data?",
     "a_delete": "Delete a report from its page, a person from their page, or your whole account in Settings. If you want a copy, download everything for a person from Settings first."
+  },
+  "answers": {
+    "absent": "Absent",
+    "trace": "Trace",
+    "present": "Present",
+    "plus1": "Present (+)",
+    "plus2": "Present (++)",
+    "plus3": "Present (+++)",
+    "plus4": "Present (++++)",
+    "normal": "Normal",
+    "increased": "Increased",
+    "colourless": "Colourless",
+    "pale_yellow": "Pale yellow",
+    "yellow": "Yellow",
+    "dark_yellow": "Dark yellow",
+    "amber": "Amber",
+    "red": "Red",
+    "brown": "Brown",
+    "other": "Unusual colour",
+    "clear": "Clear",
+    "slightly_turbid": "Slightly cloudy",
+    "turbid": "Cloudy"
+  },
+  "plain": {
+    "title": "In short",
+    "not_a_diagnosis": "This summary only says where your results sit compared with the usual range. Your doctor can tell you what they mean for you.",
+    "list_join": ", ",
+    "list_last": " and ",
+    "area": {
+      "blood": "your blood count",
+      "heart": "your cholesterol and blood fats",
+      "liver": "your liver tests",
+      "kidney": "your kidney tests",
+      "urinary": "your urine test",
+      "pancreas": "your blood sugar",
+      "thyroid": "your thyroid test",
+      "bone": "your bone and mineral tests",
+      "immune": "your tests for inflammation",
+      "prostate": "your prostate test"
+    },
+    "head_critical": "Something in this report needs attention today. Please contact a doctor today.",
+    "head_all_in": "All your results are in the usual range.",
+    "head_mostly_in": "Most of this report is in the usual range. This is what is outside it:",
+    "head_several_out": "Several results in this report are outside the usual range. This is what they are:",
+    "head_no_ranges": "This report gives no ranges to compare your results with. Your doctor can tell you what they mean for you.",
+    "say": "{{Name}} {{dir}}.",
+    "say_role": "{{Name}}, {{role}}, {{dir}}.",
+    "say_word": "{{Name}}: {{answer}}. Usually: {{usual}}.",
+    "say_word_role": "{{Name}} ({{role}}): {{answer}}. Usually: {{usual}}.",
+    "dir_high": "is higher than usual",
+    "dir_high_slightly": "is slightly higher than usual",
+    "dir_far_high": "is far higher than usual",
+    "dir_low": "is lower than usual",
+    "dir_low_slightly": "is slightly lower than usual",
+    "dir_far_low": "is far lower than usual",
+    "more_here": "Some other results here are also outside the usual range.",
+    "areas_fine": "{{Areas}}: all in the usual range.",
+    "changed": "Since your last report, {{names}} changed more than the usual day-to-day ups and downs.",
+    "trending": "Across your reports, {{names}} kept moving in the same direction.",
+    "ask_about": "When you see your doctor, ask about {{areas}}.",
+    "close_more": "Each result is explained in more detail further down.",
+    "close_all_in": "Keep this report with your health records. Ranges are a guide; your doctor reads them together with your health history."
+  },
+  "lay": {
+    "hb": {
+      "name": "your haemoglobin",
+      "role": "which carries oxygen around your body"
+    },
+    "hct": {
+      "name": "the share of your blood made up of red cells (haematocrit)",
+      "role": ""
+    },
+    "rbc": {
+      "name": "your red blood cell count",
+      "role": "the cells that carry oxygen"
+    },
+    "wbc": {
+      "name": "your white blood cell count",
+      "role": "the cells that fight infection"
+    },
+    "plt": {
+      "name": "your platelet count",
+      "role": "the cells that help blood clot"
+    },
+    "mcv": {
+      "name": "the size of your red blood cells (MCV)",
+      "role": ""
+    },
+    "mch": {
+      "name": "the amount of haemoglobin in each red cell (MCH)",
+      "role": ""
+    },
+    "mchc": {
+      "name": "how packed with haemoglobin your red cells are (MCHC)",
+      "role": ""
+    },
+    "rdw": {
+      "name": "how much your red cells vary in size (RDW)",
+      "role": ""
+    },
+    "neut": {
+      "name": "your neutrophil count",
+      "role": "white blood cells that fight germs"
+    },
+    "lymph": {
+      "name": "your lymphocyte count",
+      "role": "white blood cells that help fight infections"
+    },
+    "mono": {
+      "name": "your monocyte count",
+      "role": "white blood cells that clear away germs and worn-out cells"
+    },
+    "eos": {
+      "name": "your eosinophil count",
+      "role": "white blood cells involved in allergies"
+    },
+    "baso": {
+      "name": "your basophil count",
+      "role": "white blood cells involved in allergic reactions"
+    },
+    "ig": {
+      "name": "your count of immature white blood cells (immature granulocytes)",
+      "role": "which are usually few in the blood"
+    },
+    "nrbc": {
+      "name": "your count of immature red blood cells (nucleated red cells)",
+      "role": "which are usually not seen in adult blood"
+    },
+    "mpv": {
+      "name": "the size of your platelets (MPV)",
+      "role": ""
+    },
+    "pdw": {
+      "name": "how much your platelets vary in size (PDW)",
+      "role": ""
+    },
+    "plcr": {
+      "name": "the share of large platelets (P-LCR)",
+      "role": ""
+    },
+    "pct": {
+      "name": "the share of your blood made up of platelets (plateletcrit)",
+      "role": ""
+    },
+    "esr": {
+      "name": "your ESR",
+      "role": "a general sign of inflammation in the body"
+    },
+    "glucose_fasting": {
+      "name": "your blood sugar after fasting",
+      "role": ""
+    },
+    "glucose_pp": {
+      "name": "your blood sugar after a meal",
+      "role": ""
+    },
+    "glucose_random": {
+      "name": "your blood sugar",
+      "role": ""
+    },
+    "hba1c": {
+      "name": "your average blood sugar over the past few months (HbA1c)",
+      "role": ""
+    },
+    "chol_total": {
+      "name": "your total cholesterol",
+      "role": "a fat-like substance in the blood"
+    },
+    "hdl": {
+      "name": "your “good” cholesterol (HDL)",
+      "role": "which helps carry cholesterol away"
+    },
+    "ldl": {
+      "name": "your “bad” cholesterol (LDL)",
+      "role": "which can build up in the walls of blood vessels"
+    },
+    "tg": {
+      "name": "your triglyceride level",
+      "role": "another kind of fat in the blood"
+    },
+    "vldl": {
+      "name": "your VLDL cholesterol",
+      "role": "the kind that carries triglycerides"
+    },
+    "non_hdl": {
+      "name": "your non-HDL cholesterol",
+      "role": "all the cholesterol except the “good” kind"
+    },
+    "chol_hdl_ratio": {
+      "name": "the balance of total to “good” cholesterol",
+      "role": ""
+    },
+    "ldl_hdl_ratio": {
+      "name": "the balance of “bad” to “good” cholesterol",
+      "role": ""
+    },
+    "hdl_ldl_ratio": {
+      "name": "the balance of “good” to “bad” cholesterol",
+      "role": ""
+    },
+    "tg_hdl_ratio": {
+      "name": "the balance of triglycerides to “good” cholesterol",
+      "role": ""
+    },
+    "creatinine": {
+      "name": "your creatinine",
+      "role": "a waste product the kidneys clear from the blood"
+    },
+    "urea": {
+      "name": "your urea",
+      "role": "a waste product the kidneys clear from the blood"
+    },
+    "uric_acid": {
+      "name": "your uric acid",
+      "role": "a waste product from the breakdown of food and cells"
+    },
+    "egfr": {
+      "name": "your kidney filtering rate (eGFR)",
+      "role": "how well the kidneys clean the blood"
+    },
+    "urea_creat": {
+      "name": "the balance of urea to creatinine",
+      "role": ""
+    },
+    "sodium": {
+      "name": "your sodium",
+      "role": "a salt that keeps the body's water in balance"
+    },
+    "potassium": {
+      "name": "your potassium",
+      "role": "a salt that helps the heart and muscles work"
+    },
+    "chloride": {
+      "name": "your chloride",
+      "role": "a salt that keeps the body's fluids in balance"
+    },
+    "bicarbonate": {
+      "name": "your bicarbonate",
+      "role": "which keeps the blood from becoming too acidic"
+    },
+    "calcium": {
+      "name": "your calcium",
+      "role": "a mineral for strong bones, muscles and nerves"
+    },
+    "phosphorus": {
+      "name": "your phosphorus",
+      "role": "a mineral that works with calcium for strong bones"
+    },
+    "magnesium": {
+      "name": "your magnesium",
+      "role": "a mineral that helps muscles and nerves work"
+    },
+    "bili_total": {
+      "name": "your bilirubin",
+      "role": "a yellow substance made when old red cells break down, cleared by the liver"
+    },
+    "bili_direct": {
+      "name": "your direct bilirubin",
+      "role": "the part of bilirubin the liver has already processed"
+    },
+    "bili_indirect": {
+      "name": "your indirect bilirubin",
+      "role": "the part of bilirubin the liver has not yet processed"
+    },
+    "alt": {
+      "name": "your ALT (SGPT)",
+      "role": "an enzyme found mostly in the liver"
+    },
+    "ast": {
+      "name": "your AST (SGOT)",
+      "role": "an enzyme found in the liver, heart and muscles"
+    },
+    "alp": {
+      "name": "your alkaline phosphatase",
+      "role": "an enzyme that comes from the liver and bones"
+    },
+    "ggt": {
+      "name": "your GGT",
+      "role": "an enzyme found mostly in the liver"
+    },
+    "protein_total": {
+      "name": "your total protein",
+      "role": "all the protein in your blood"
+    },
+    "albumin": {
+      "name": "your albumin",
+      "role": "the main protein in the blood, made by the liver"
+    },
+    "globulin": {
+      "name": "your globulin",
+      "role": "proteins that include the body's antibodies"
+    },
+    "ag_ratio": {
+      "name": "the balance of albumin to globulin",
+      "role": ""
+    },
+    "ast_alt_ratio": {
+      "name": "the balance of AST to ALT",
+      "role": ""
+    },
+    "tsh": {
+      "name": "your TSH",
+      "role": "the signal that tells the thyroid how hard to work"
+    },
+    "t4": {
+      "name": "your thyroid hormone T4",
+      "role": ""
+    },
+    "t3": {
+      "name": "your thyroid hormone T3",
+      "role": ""
+    },
+    "vitamin_d": {
+      "name": "your vitamin D",
+      "role": "which helps keep bones strong"
+    },
+    "vitamin_b12": {
+      "name": "your vitamin B12",
+      "role": "which helps make red blood cells and keeps nerves healthy"
+    },
+    "folate": {
+      "name": "your folate",
+      "role": "a B vitamin that helps make new cells"
+    },
+    "iron": {
+      "name": "your iron",
+      "role": "which the body uses to make haemoglobin"
+    },
+    "tibc": {
+      "name": "your iron-binding capacity (TIBC)",
+      "role": "how much iron your blood can carry"
+    },
+    "ferritin": {
+      "name": "your ferritin",
+      "role": "which shows how much iron your body has stored"
+    },
+    "tsat": {
+      "name": "your iron saturation",
+      "role": "how full the blood's iron carrier is"
+    },
+    "crp": {
+      "name": "your CRP",
+      "role": "a protein that rises when there is inflammation in the body"
+    },
+    "psa": {
+      "name": "your PSA",
+      "role": "a protein made by the prostate"
+    },
+    "urine_ph": {
+      "name": "how acidic your urine is (pH)",
+      "role": ""
+    },
+    "urine_sg": {
+      "name": "how concentrated your urine is (specific gravity)",
+      "role": ""
+    },
+    "urine_rbc": {
+      "name": "the number of red blood cells in your urine",
+      "role": ""
+    },
+    "urine_pus": {
+      "name": "the number of white blood cells (pus cells) in your urine",
+      "role": ""
+    },
+    "urine_epi": {
+      "name": "the number of lining cells (epithelial cells) in your urine",
+      "role": ""
+    },
+    "urine_acr": {
+      "name": "the amount of albumin, a protein, in your urine",
+      "role": ""
+    },
+    "urine_colour": {
+      "name": "your urine colour",
+      "role": ""
+    },
+    "urine_appearance": {
+      "name": "how clear your urine is",
+      "role": ""
+    },
+    "urine_protein": {
+      "name": "protein in your urine",
+      "role": ""
+    },
+    "urine_glucose": {
+      "name": "sugar in your urine",
+      "role": ""
+    },
+    "urine_ketones": {
+      "name": "ketones in your urine",
+      "role": "made when the body burns fat for energy"
+    },
+    "urine_bilirubin": {
+      "name": "bilirubin in your urine",
+      "role": ""
+    },
+    "urine_urobilinogen": {
+      "name": "urobilinogen in your urine",
+      "role": ""
+    },
+    "urine_blood": {
+      "name": "blood in your urine",
+      "role": ""
+    },
+    "urine_nitrite": {
+      "name": "nitrite in your urine",
+      "role": "which some germs make"
+    },
+    "urine_le": {
+      "name": "leucocyte esterase in your urine",
+      "role": "a sign of white blood cells"
+    },
+    "urine_bile_salts": {
+      "name": "bile salts in your urine",
+      "role": ""
+    },
+    "urine_mucus": {
+      "name": "mucus in your urine",
+      "role": ""
+    },
+    "urine_casts": {
+      "name": "casts in your urine",
+      "role": "tiny tube-shaped particles"
+    },
+    "urine_crystals": {
+      "name": "crystals in your urine",
+      "role": ""
+    },
+    "urine_bacteria": {
+      "name": "bacteria in your urine",
+      "role": ""
+    },
+    "urine_yeast": {
+      "name": "yeast in your urine",
+      "role": ""
+    },
+    "urine_parasites": {
+      "name": "parasites in your urine",
+      "role": ""
+    }
   }
 }

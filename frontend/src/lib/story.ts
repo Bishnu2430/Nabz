@@ -63,7 +63,7 @@ export function buildStory(frames: BodyMapFrame[], records: HealthRecord[], repo
         if (isCritical(result)) events.push({ kind: "critical", result });
         else if (isOut(result) && (!previous || !isOut(previous))) events.push({ kind: "out", result, previous });
         else if (!isOut(result) && previous && isOut(previous)) events.push({ kind: "back", result, previous });
-        else if (isOut(result) && previous && isOut(previous)) {
+        else if (isOut(result) && previous && isOut(previous) && !result.answer) {  // no "highest" for words
           const value = Number(result.value);
           const earlier = past.map((p) => Number(p.value));
           const high = result.status === "high";

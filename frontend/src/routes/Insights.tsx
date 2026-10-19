@@ -17,6 +17,7 @@ import { DoctorNotes } from "../components/insights/DoctorShare";
 import { ExplanationCard } from "../components/insights/ExplanationCard";
 import { OrganCard } from "../components/insights/OrganCard";
 import { OriginalReport } from "../components/insights/OriginalReport";
+import { PlainSummary } from "../components/insights/PlainSummary";
 import { ReportNote } from "../components/insights/ReportNote";
 import { ShareDialog } from "../components/insights/ShareDialog";
 import { isAbnormal } from "../components/insights/StatusMark";
@@ -88,6 +89,7 @@ export default function Insights() {
       <DoctorNotes reportId={id} />
 
       <CriticalBanner results={data.critical} />
+      <PlainSummary organs={data.organs} />
 
       <div className="mb-6">
         <p className="flex items-center gap-2 text-lg">

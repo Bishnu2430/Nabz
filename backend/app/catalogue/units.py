@@ -23,7 +23,7 @@ _ALIASES: dict[str, str] = {
     "miu/l": "uiu/ml", "mu/l": "uiu/ml", "uu/ml": "uiu/ml", "microiu/ml": "uiu/ml", "miu/ml": "uiu/ml",
     # haematology
     "femtolitre": "fl", "femtoliter": "fl", "cu.micron": "fl", "cumicron": "fl", "um^3": "fl", "um3": "fl",
-    "picogram": "pg", "pg/cell": "pg",
+    "picogram": "pg", "pg/cell": "pg", "pq": "pg",  # "pq": a misprint seen on a real lab report
     "mm/hr": "mm/h", "mm/1sthr": "mm/h", "mm/1sthour": "mm/h", "mminfirsthour": "mm/h", "mm/1hr": "mm/h",
     "mm/hour": "mm/h", "mm/1sth": "mm/h",
     "x10^3/ul": "10^3/ul", "10*3/ul": "10^3/ul", "10e3/ul": "10^3/ul", "thou/ul": "10^3/ul",

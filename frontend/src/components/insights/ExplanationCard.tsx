@@ -203,7 +203,7 @@ function ResultExplained({ result: r, notice, detail, profileId, labelIndex, act
   const { describe } = useExact();
   const [open, setOpen] = useState(defaultOpen);
   const ref = useRef<HTMLDivElement>(null);
-  const range = formatRange(r.ref_low, r.ref_high);
+  const range = r.answer ? "" : formatRange(r.ref_low, r.ref_high);
   const hasDetail = Boolean(detail && (detail.what_it_measures || detail.what_this_result_means));
 
   // chosen on the report page beside the card: bring the card into view
@@ -230,10 +230,12 @@ function ResultExplained({ result: r, notice, detail, profileId, labelIndex, act
           </div>
 
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-            <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
-              high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
+            {!r.answer && (
+              <RangeBar value={Number(r.value)} low={r.ref_low == null ? null : Number(r.ref_low)}
+                high={r.ref_high == null ? null : Number(r.ref_high)} status={r.status} />
+            )}
             <span className={clsx("font-medium", isAbnormal(r.status) ? "text-abnormal" : "text-normal")}>{describe(r)}</span>
-            {range && <span className="tabular text-muted">{t("organ.range", { range })}</span>}
+            {range && !r.answer && <span className="tabular text-muted">{t("organ.range", { range })}</span>}
           </div>
 
           {notice && (

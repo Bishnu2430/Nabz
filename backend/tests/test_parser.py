@@ -111,3 +111,66 @@ def test_unitless_row_needs_a_range(units: set[str]) -> None:
 )
 def test_detect_section(text: str, code: str | None) -> None:
     assert detect_section(_line((text, 44, 300))) == code
+
+
+def _row_line(*cells: tuple[str, float]):
+    """One table row; each cell is (text, x0) and about 6 pt wide per character."""
+    tokens = [Token(text, x0, 100, x0 + 6 * len(text), 110) for text, x0 in cells]
+    return group_lines(tokens)[0]
+
+
+@pytest.fixture(scope="module")
+def columns():
+    from app.extraction.parser import detect_columns
+    header = _row_line(("TEST NAME", 45), ("METHODOLOGY", 241), ("VALUE", 362), ("UNITS", 427),
+                       ("Bio. Ref. Interval.", 483))
+    found = detect_columns(header)
+    assert found is not None
+    return found
+
+
+def test_method_column_is_not_part_of_the_name(units: set[str], columns) -> None:
+    row = parse_line(_row_line(("Neutrophils", 44), ("Percentage", 120), ("Flow Cytometry", 243), ("47.2", 362),
+                               ("%", 425), ("40-80", 483)), 0, "cbc", units, columns)
+    assert row is not None and row.raw_name == "Neutrophils Percentage" and row.value == Decimal("47.2")
+    row = parse_line(_line(("Platelet to Large Cell", 44, 121), ("Ratio (PLCR)", 125, 170), ("Calculated", 242, 280),
+                           ("27.6", 363, 379), ("%", 425, 432), ("19.7-42.4", 484, 517)), 0, "cbc", units, columns)
+    assert row is not None and row.raw_name == "Platelet to Large Cell Ratio (PLCR)"
+
+
+def test_method_word_without_a_header_is_dropped(units: set[str]) -> None:
+    row = parse_line(_line(("TOTAL CHOLESTEROL", 45, 134), ("PH OTOMETRY", 264, 314), ("204", 374, 389),
+                           ("mg/dL", 436, 463), ("< 200", 493, 516)), 0, "lipid", units)
+    assert row is not None and row.raw_name == "TOTAL CHOLESTEROL"
+
+
+@pytest.mark.parametrize(
+    "cells",
+    [
+        [("DESIRABLE", 49, 100), ("<200", 150, 170), ("<100", 299, 320), ("NORMAL", 340, 380), ("<150", 400, 420)],
+        [("BORDERLINE HIGH", 49, 120), ("200-239", 150, 190), ("HIGH", 209, 230), (">60", 250, 270)],
+        [("Children: <=10 mm/hr", 44, 160)],
+        [("Deficiency : <=20 ng/ml", 44, 160), ("Insufficiency : 21-29 ng/ml", 200, 330)],
+    ],
+)
+def test_reference_table_rows_are_not_results(units: set[str], cells) -> None:
+    assert parse_line(_line(*cells), 0, None, units) is None
+
+
+def test_ranges_with_a_label_or_as_proportions(units: set[str]) -> None:
+    assert parse_range("Adult : 17-43") == (Decimal("17"), Decimal("43"))
+    assert parse_range("9:1-23:1") == (Decimal("9"), Decimal("23"))
+
+
+def test_word_answer_row(units: set[str], columns) -> None:
+    row = parse_line(_row_line(("URINA RY PROTEIN", 44), ("PEI", 242), ("ABSENT", 362), ("mg/dL", 425),
+                               ("Absent", 483)), 0, "urine", units, columns)
+    assert row is not None
+    assert (row.raw_name, row.raw_value, row.value, row.raw_range) == ("URINA RY PROTEIN", "ABSENT", None, "Absent")
+
+
+def test_test_lists_and_summaries_are_recognised() -> None:
+    from app.extraction.parser import starts_summary
+    assert detect_section(_line(("Tests Done : KIDPRO,LIPID PROFILE, LIVER FUNCTION TESTS", 44, 400))) is None
+    assert starts_summary(_line(("Tests Outside Reference Range", 44, 200)))
+    assert not starts_summary(_line(("Bio. Ref. Interval.", 44, 120)))

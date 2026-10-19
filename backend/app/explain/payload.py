@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 
 from app.analysis.percentile import age_band
 from app.analysis.status import CRITICAL, SEVERITY
+from app.catalogue.qualitative import answer_code, is_qualitative, usual_answer
 from app.catalogue.symptoms import symptoms_for
 from app.models import LabTest, Observation, OrganSystem, Profile, Report
 from app.models.enums import ObsStatus
@@ -33,7 +34,7 @@ class TestItem:
     test_code: str
     test: str
     organ: str
-    value: float
+    value: float | None  # None for a test reported in words; see answer
     unit: str | None
     range_low: float | None
     range_high: float | None
@@ -44,6 +45,9 @@ class TestItem:
     percentile: dict[str, Any] | None = None
     # For out-of-range results: {"kind": symptoms|often_none|none, "can_go_along_with": [...]} (MedlinePlus)
     symptoms: dict[str, Any] | None = None
+    # For a test reported in words: the answer ("absent", "trace", "plus2", "pale_yellow") and the usual one
+    answer: str | None = None
+    usual: str | None = None
 
     @property
     def out_of_range(self) -> bool:
@@ -109,6 +113,9 @@ def build_items(session: Session, report: Report) -> tuple[list[TestItem], Profi
             value=_f(o.value_num, t.decimals), unit=o.unit, range_low=_f(o.ref_low), range_high=_f(o.ref_high),
             range_source="lab" if o.ref_source == "report" else "typical", status=o.status.value,
         )
+        if is_qualitative(t.code):  # the words, never the score that stands in for them
+            item.value = item.range_low = item.range_high = None
+            item.answer, item.usual = answer_code(t.code, o.raw_value), usual_answer(t.code)
         if (ch := a.get("change")) and ch.get("fraction") is not None and (prev := a.get("previous")):
             item.change = {
                 "percent": round(ch["fraction"] * 100), "direction": ch["direction"],

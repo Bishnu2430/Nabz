@@ -12,6 +12,7 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.api.deps import current_user, get_session, get_sessionmaker, get_storage, owned_profile, owned_report
+from app.catalogue.qualitative import answer_code, usual_answer
 from app.core.config import settings
 from app.extraction.interpret import Interpreter
 from app.models import AppUser, LabTest, Observation, Profile, Report, ReportFile, ReportPage
@@ -58,7 +59,9 @@ def _obs_out(o: Observation, tests: dict[int, LabTest], names: dict[str, str], t
     return ObservationOut(
         id=o.id, raw_name=o.raw_name, raw_value=o.raw_value, raw_unit=o.raw_unit, raw_range=o.raw_range,
         raw_flag=o.raw_flag, section=o.section, test_code=test.code if test else None,
-        test_name=test.canonical_name if test else None, value=o.value_num, unit=o.unit, ref_low=o.ref_low,
+        test_name=test.canonical_name if test else None, value=o.value_num,
+        answer=answer_code(test.code, o.raw_value) if test else None,
+        usual=usual_answer(test.code) if test else None, unit=o.unit, ref_low=o.ref_low,
         ref_high=o.ref_high, ref_source=o.ref_source, confidence=o.confidence,
         needs_attention=_blocks_confirm(o) or o.confidence < threshold, match_method=o.match_method,
         candidates=[(c, names.get(c, c), s) for c, s in (o.match_candidates or [])],
