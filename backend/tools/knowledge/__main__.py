@@ -7,6 +7,9 @@ content (A.D.A.M.) are rejected. Connect asks for at most 100 requests a minute;
 
 Kept sections: what the test is, what it is used for, what the results mean, anything else to know. Dropped:
 why you need it, what happens during it, preparation, risks, references (procedure, not interpretation).
+
+`model` downloads the embedding model the passages are embedded with, pinned and checked against SHA-256; a fresh
+clone needs only `model` and `python -m app.cli load-knowledge`, because the passages are committed.
 """
 
 from __future__ import annotations
@@ -26,6 +29,7 @@ from pathlib import Path
 
 from app.catalogue import read_catalogue
 from app.core.config import settings
+from app.knowledge.embed import MODEL_DIR
 
 CONNECT = "https://connect.medlineplus.gov/service"
 LICENSE = "Public domain (US National Library of Medicine, MedlinePlus); no A.D.A.M. content"
@@ -38,6 +42,46 @@ BORROW = {
     "urine_blood": "urine_le",  # 5799-2 returns the "Blood in Urine" page; leucocyte esterase reads urinalysis
     "urine_le": "urine_ph", "urine_bile_salts": "urine_ph", "urine_parasites": "urine_ph",
 }
+
+
+# The embedding model (data/external.md): the int8 ONNX export of intfloat/multilingual-e5-small, pinned to a commit
+# and checked against SHA-256, so a fresh clone gets exactly the files the committed passages were embedded with.
+XENOVA = "https://huggingface.co/Xenova/multilingual-e5-small/resolve/761b726dd34fb83930e26aab4e9ac3899aa1fa78"
+INTFLOAT = "https://huggingface.co/intfloat/multilingual-e5-small/resolve/614241f622f53c4eeff9890bdc4f31cfecc418b3"
+MODEL_FILES = [
+    ("tokenizer.json", f"{XENOVA}/tokenizer.json", "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"),
+    ("onnx/model_quantized.onnx", f"{XENOVA}/onnx/model_quantized.onnx",
+     "f80102d3f2a1229f387d3c81909990d8945513e347b0eab049f7de3c6f98c193"),
+    ("MODEL_CARD.md", f"{INTFLOAT}/README.md", "0038de97aee16258cecbad7ffda4b4febd6953e747a00e0ddbc8e6ed241e9c1c"),
+]
+
+
+def sha256_of(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        while block := f.read(1 << 20):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def download_model(directory: Path, files: list[tuple[str, str, str]] = MODEL_FILES) -> None:
+    """Downloads each file once; a file whose checksum differs is never put in place."""
+    for name, url, expected in files:
+        path = directory / name
+        if path.exists() and sha256_of(path) == expected:
+            print(f"{name:28} already there")
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        partial = path.with_name(path.name + ".part")
+        req = urllib.request.Request(url, headers={"User-Agent": "Nabz academic prototype"})  # noqa: S310 - fixed URLs
+        with urllib.request.urlopen(req, timeout=60) as r, partial.open("wb") as f:  # noqa: S310 - fixed URLs
+            while block := r.read(1 << 20):
+                f.write(block)
+        if sha256_of(partial) != expected:
+            partial.unlink()
+            raise SystemExit(f"{name}: the download does not match its SHA-256 in data/external.md; nothing installed")
+        partial.replace(path)
+        print(f"{name:28} {path.stat().st_size:>12,} bytes, checksum OK")
 
 
 def raw_dir() -> Path:
@@ -163,10 +207,13 @@ def build(directory: Path, codes: dict[str, str], out: Path, retrieved: str) -> 
 
 def main() -> None:
     ap = argparse.ArgumentParser(prog="python -m tools.knowledge")
-    ap.add_argument("command", choices=["fetch", "build"])
+    ap.add_argument("command", choices=["fetch", "build", "model"])
     ap.add_argument("--raw", default=str(raw_dir()))
     ap.add_argument("--out", default=str(out_dir()))
     a = ap.parse_args()
+    if a.command == "model":
+        download_model(Path(settings.data_dir) / MODEL_DIR)
+        return
     catalogue = read_catalogue(Path(settings.data_dir) / "catalogue")
     codes = {t.code: t.loinc for t in catalogue.tests}
     if a.command == "fetch":
