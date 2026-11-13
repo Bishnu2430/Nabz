@@ -63,7 +63,7 @@ docker compose exec api python -m app.cli load-knowledge
 
 `intfloat/multilingual-e5-small`, **MIT licence**, as the int8 ONNX export published by Xenova on Hugging Face. It's used for retrieval only, on ONNX Runtime.
 
-Location: `data/external/models/multilingual-e5-small/`, downloaded 2026-09-29.
+Location: `data/external/models/multilingual-e5-small/`, downloaded 2026-09-29. `python -m tools.knowledge model` downloads the same files again: the Xenova files at commit `761b726d`, the model card at commit `614241f6`, each checked against the SHA-256 below (the model card's: `0038de97aee16258cecbad7ffda4b4febd6953e747a00e0ddbc8e6ed241e9c1c`).
 
 | File | Source | Bytes | SHA-256 |
 |---|---|---|---|
