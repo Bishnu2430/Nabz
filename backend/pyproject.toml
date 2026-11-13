@@ -22,12 +22,12 @@ dependencies = [
     "pyotp>=2.9",
     "segno>=1.6",
     "cryptography>=43",
+    "httpx>=0.27",  # the model and narration APIs
 ]
 
 [dependency-groups]
 dev = [
     "pytest>=8.3",
-    "httpx>=0.27",
     "ruff>=0.6",
     "mypy>=1.11",
     "reportlab>=4.2",

@@ -8,6 +8,8 @@ Nabz reads a photo or PDF of a blood-test report and asks you to confirm the val
 
 ## Status
 
+**Complete.** Nabz was built as a B.Tech major project (Gandhi Institute of Excellent Technocrats, Bhubaneswar), presented on 13 November 2026 with its project report. Version [v1.0.0](https://github.com/Bishnu2430/Nabz/releases/tag/v1.0.0) is the submitted system. To run it again, or host it, see [Setting up and hosting](docs/14-setup-and-hosting.md).
+
 Sprint 6 is done: accounts with two-step sign-in for staff; data export and deletion; and a 3D body map whose organ panels give each result's exact value, range and history. Since then:
 - other records (X-ray and scan reports with an image viewer, prescriptions);
 - a printable summary for the doctor;
@@ -54,7 +56,7 @@ Requirements: Docker Desktop (Compose v2). No local Python or Node needed.
 cp .env.example .env
 ```
 
-Set `POSTGRES_PASSWORD` in `.env` (and `GROQ_API_KEY` and `ELEVENLABS_API_KEY` once explanations and narration land), then start the stack:
+Set `POSTGRES_PASSWORD` in `.env`. Add `GROQ_API_KEY` for explanations written by the model and `ELEVENLABS_API_KEY` for narration; without them, explanations use the safe template. Then start the stack:
 
 ```bash
 docker compose up --build -d
@@ -64,7 +66,7 @@ docker compose up --build -d
 curl http://localhost:8000/health/ready
 ```
 
-Create the schema, load the test catalogue and run the tests:
+Create the schema, load the test catalogue, download the embedding model (135 MB, checked against its SHA-256), load the knowledge base and run the tests:
 
 ```bash
 docker compose exec api alembic upgrade head
@@ -72,6 +74,14 @@ docker compose exec api alembic upgrade head
 
 ```bash
 docker compose exec api python -m app.cli seed-catalogue
+```
+
+```bash
+docker compose exec api python -m tools.knowledge model
+```
+
+```bash
+docker compose exec api python -m app.cli load-knowledge
 ```
 
 ```bash
@@ -162,7 +172,7 @@ docker compose exec api python -m tools.nhanes fetch
 docker compose exec api python -m tools.nhanes build
 ```
 
-Build the knowledge base for explanations (MedlinePlus Connect → passages → embeddings; sources and checksums in [`data/external.md`](data/external.md)). The passages are committed, so after a fresh clone only the embedding model and the last command are needed:
+Rebuild the knowledge base for explanations (MedlinePlus Connect → passages → embeddings; sources and checksums in [`data/external.md`](data/external.md)). The passages are committed, so a fresh clone needs only `tools.knowledge model` and `load-knowledge` (above):
 
 ```bash
 docker compose exec api python -m tools.knowledge fetch
@@ -218,9 +228,13 @@ The optional local small LLM (row structuring) starts with:
 docker compose --profile local-llm up -d
 ```
 
+## Hosting
+
+[`compose.prod.yaml`](compose.prod.yaml) runs Nabz on one server: Caddy serves the built web app with automatic HTTPS and forwards `/v1` to the API, and the API and worker run without development packages. Settings go in `.env` from [`.env.production.example`](.env.production.example), with a real mail service for the sign-up emails. Step by step, with backups and updates: [docs/14](docs/14-setup-and-hosting.md).
+
 ## Documentation
 
-Everything lives in [`docs/`](docs/README.md): charter, requirements, architecture, data design, workflows, detailed design, project plan with Gantt chart, risk register, data sources and licensing, safety and privacy, test plan, security self-assessment, and architecture decision records; plus a [clinical review packet](docs/review/clinical-review-packet.md) and a [usability test plan](docs/review/usability-test-plan.md).
+Everything lives in [`docs/`](docs/README.md): charter, requirements, architecture, data design, workflows, detailed design, project plan with Gantt chart, risk register, data sources and licensing, safety and privacy, test plan, security self-assessment, setting up and hosting, and architecture decision records; plus a [clinical review packet](docs/review/clinical-review-packet.md) and a [usability test plan](docs/review/usability-test-plan.md).
 
 Diagrams are generated from source. To rebuild them:
 
@@ -233,10 +247,11 @@ python docs/diagrams/src/build.py
 ```text
 backend/     FastAPI API and worker (Python 3.12, uv)
 frontend/    React + TypeScript web app (Vite, Tailwind, TanStack Query, i18next)
-infra/       database initialisation
+infra/       database initialisation, Caddy configuration for hosting
 data/        test catalogue, synthetic reports, trained model coefficients
 docs/        documentation and diagram sources
-compose.yaml all services
+compose.yaml       all services, for development
+compose.prod.yaml  the same system for a server, with HTTPS
 ```
 
 ## Disclaimer

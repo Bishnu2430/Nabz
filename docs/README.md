@@ -6,8 +6,8 @@ Nabz turns a photo or PDF of a blood-test report into a verified, plain-language
 
 | | |
 |---|---|
-| **Baseline** | v0.1 · M0 documentation baseline (draft) |
-| **Status** | Draft for review by the project guide |
+| **Baseline** | v1.0 · the submitted system (November 2026) |
+| **Status** | Complete: presented on 13 November 2026 |
 | **Owner** | Lead developer |
 
 ## Document map
@@ -27,6 +27,7 @@ Nabz turns a photo or PDF of a blood-test report into a verified, plain-language
 | 11 | [Test & evaluation plan](11-test-and-evaluation-plan.md) | How do we prove it works? | Test cases |
 | 12 | [UX & access design](12-ux-and-access-design.md) | Roles, sign-in, visual theme and pages | Palette, page map |
 | 13 | [Security self-assessment](13-security-assessment.md) | Does Nabz meet OWASP ASVS 5.0 Level 1, and what is left? | 70 requirements |
+| 14 | [Setting up and hosting](14-setup-and-hosting.md) | How do I run it again from a fresh clone, or host it on a server? | — |
 | — | [Clinical review packet](review/clinical-review-packet.md) | What must a clinician check and sign off? | Critical limits, sign-off form |
 | — | [Usability test plan](review/usability-test-plan.md) | How do we test Nabz with families and doctors? | Tasks in EN, HI, OR; SUS |
 | — | [Architecture decision records](adr/README.md) | Why did we choose X over Y? | — |
