@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import smtplib
+import ssl
 from email.message import EmailMessage
 
 from app.core.config import settings
@@ -22,10 +23,29 @@ def send(to: str, subject: str, body: str) -> None:
         outbox.append(msg)
         return
     try:
-        with smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=10) as smtp:
+        with _connect() as smtp:
             smtp.send_message(msg)
-    except OSError as exc:  # a mail outage must not break sign-up; the user can ask for the email again
+    except (OSError, smtplib.SMTPException) as exc:  # a mail outage must not break sign-up; ask for it again
         log.warning("email to a user could not be sent: %s", type(exc).__name__)
+
+
+def _connect() -> smtplib.SMTP:
+    """Mailpit in development; a mail service over TLS, with its login, when hosted."""
+    security = settings.smtp_security.lower()
+    if security == "ssl":
+        smtp: smtplib.SMTP = smtplib.SMTP_SSL(settings.smtp_host, settings.smtp_port, timeout=10,
+                                              context=ssl.create_default_context())
+    else:
+        smtp = smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=10)
+    try:
+        if security == "starttls":
+            smtp.starttls(context=ssl.create_default_context())
+        if settings.smtp_username:
+            smtp.login(settings.smtp_username, settings.smtp_password)
+    except BaseException:
+        smtp.close()
+        raise
+    return smtp
 
 
 TEXT = {

@@ -535,6 +535,7 @@ dependencies = [
     { name = "argon2-cffi" },
     { name = "cryptography" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "opencv-python-headless" },
     { name = "pgvector" },
     { name = "pillow" },
@@ -554,7 +555,6 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "faker" },
-    { name = "httpx" },
     { name = "mypy" },
     { name = "pandas" },
     { name = "pypdf" },
@@ -570,6 +570,7 @@ requires-dist = [
     { name = "argon2-cffi", specifier = ">=23.1" },
     { name = "cryptography", specifier = ">=43" },
     { name = "fastapi", specifier = ">=0.115" },
+    { name = "httpx", specifier = ">=0.27" },
     { name = "opencv-python-headless", specifier = ">=5.0.0.93" },
     { name = "pgvector", specifier = ">=0.3" },
     { name = "pillow", specifier = ">=12.3.0" },
@@ -589,7 +590,6 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "faker", specifier = ">=30.0" },
-    { name = "httpx", specifier = ">=0.27" },
     { name = "mypy", specifier = ">=1.11" },
     { name = "pandas", specifier = ">=2.3" },
     { name = "pypdf", specifier = ">=5.0" },

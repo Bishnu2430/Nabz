@@ -1,0 +1,34 @@
+# The web server for hosting (compose.prod.yaml, docs/14-setup-and-hosting.md).
+# SITE_ADDRESS is the domain, e.g. nabz.example.org: Caddy then gets and renews the HTTPS certificate itself.
+# ":80" serves plain HTTP, for a trial on your own computer.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# The API: same address as the pages, because the session cookie is SameSite=Strict.
+	# Live report progress (Server-Sent Events) is passed through as it comes.
+	handle /v1/* {
+		request_body {
+			max_size 25MB
+		}
+		reverse_proxy api:8000
+	}
+
+	# The pages: never framed or sniffed, and no referrer, so a share link's token is not sent to another site
+	# (the same headers as vite.config.ts; the API adds its own).
+	handle {
+		root * /srv
+		header {
+			X-Content-Type-Options nosniff
+			X-Frame-Options DENY
+			Referrer-Policy no-referrer
+			Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+			# browsers ignore it over plain HTTP, so the trial on ":80" is not affected
+			Strict-Transport-Security "max-age=31536000; includeSubDomains"
+			-Server
+		}
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		try_files {path} /index.html
+		file_server
+	}
+}

@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     mail_backend: str = "smtp"  # smtp | memory (tests)
     smtp_host: str = "mailpit"
     smtp_port: int = 1025
+    # A real mail service when hosted (docs/14): "starttls" on port 587 or "ssl" on 465, with its login.
+    smtp_security: str = "none"  # none | starttls | ssl
+    smtp_username: str = ""
+    smtp_password: str = ""
     mail_from: str = "Nabz <no-reply@nabz.local>"
 
     # Explanations and safety judge (ADR-0007). gpt-oss-120b is text-only, so the
